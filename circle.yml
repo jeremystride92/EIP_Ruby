@@ -1,0 +1,15 @@
+machine:
+  environment:
+    site_name: EIPiD
+    site_email: code@quickleft.com
+    secret_token: 4f7964620236e0812735de76ec0d88a2d286add2fc66a8dba583bc144157d6337e67258aec650ab7518b5aad975dcfa27dc69268a8b25381b4c21040b75a7163
+    session_store_key: _eipid_session
+    basic_auth: 'false'
+    action_mailer_host: localhost
+
+deployment:
+  staging:
+    branch: master
+    commands:
+      - git push git@heroku.com:eipid-daily.git $CIRCLE_SHA1:master
+      - heroku run rake db:migrate --app eipid-daily
