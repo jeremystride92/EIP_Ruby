@@ -23,7 +23,7 @@ FactoryGirl.define do
   end
 
   factory :card_level do
-    name { %w{Silver Gold Platinum Black}.sample }
+    sequence(:name) { |i| %w{Silver Gold Platinum Black}.sample + i.to_s }
     venue
   end
 
