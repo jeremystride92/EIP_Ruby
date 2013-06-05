@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130604222059) do
+ActiveRecord::Schema.define(:version => 20130605152132) do
+
+  create_table "card_levels", :force => true do |t|
+    t.string   "name"
+    t.integer  "venue_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"
 
   create_table "cardholders", :force => true do |t|
     t.string   "phone_number"
@@ -24,12 +33,29 @@ ActiveRecord::Schema.define(:version => 20130604222059) do
 
   add_index "cardholders", ["phone_number"], :name => "index_cardholders_on_phone_number"
 
+  create_table "cards", :force => true do |t|
+    t.integer  "card_level_id"
+    t.integer  "cardholder_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "cards", ["card_level_id"], :name => "index_cards_on_card_level_id"
+  add_index "cards", ["cardholder_id"], :name => "index_cards_on_cardholder_id"
+
   create_table "users", :force => true do |t|
     t.string   "email"
     t.string   "password_digest"
     t.string   "auth_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "venues", :force => true do |t|
+    t.string   "name"
+    t.string   "logo"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

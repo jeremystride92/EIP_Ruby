@@ -16,4 +16,19 @@ FactoryGirl.define do
     last_name { Faker::Name.last_name }
     photo "photo.jpg"
   end
+
+  factory :venue do
+    name { Faker::Company.name }
+    logo "logo.png"
+  end
+
+  factory :card_level do
+    name { %w{Silver Gold Platinum Black}.sample }
+    venue
+  end
+
+  factory :card do
+    card_level
+    cardholder
+  end
 end
