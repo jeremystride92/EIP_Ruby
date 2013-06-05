@@ -9,4 +9,11 @@ FactoryGirl.define do
     password 'secret'
     password_confirmation { |u| u.password }
   end
+
+  factory :cardholder do
+    phone_number { Faker::PhoneNumber.short_phone_number }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+    photo "photo.jpg"
+  end
 end
