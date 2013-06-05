@@ -15,6 +15,7 @@ gem 'strong_parameters'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'rack-cors', require: 'rack/cors'
 gem 'rabl-rails'
 
 # Gems used only for assets and not required
