@@ -85,7 +85,7 @@ module EIPiD
         asset_path.starts_with? *asset_paths
       end
     }
-    config.assets.precompile += ['jquery.js']
+    config.assets.precompile += ['jquery.js', 'venue_signup.js']
 
     # Customize generators
     config.generators do |g|
