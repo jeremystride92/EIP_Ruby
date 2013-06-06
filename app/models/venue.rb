@@ -15,4 +15,8 @@ class Venue < ActiveRecord::Base
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil
   end
+
+  def logo_path
+    logo.cached? ? "/carrierwave/#{logo.cache_name}" : logo.url
+  end
 end

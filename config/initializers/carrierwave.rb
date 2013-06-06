@@ -10,7 +10,7 @@ CarrierWave.configure do |config|
   config.permissions    = 0666
 
   # Needed for Heroku
-  config.root = File.dirname(__FILE__) + '/tmp'
+  config.root = Rails.root.join 'tmp'
   config.cache_dir = 'carrierwave'
 
   if Rails.env.test?
