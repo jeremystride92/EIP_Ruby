@@ -9,7 +9,9 @@ class Card < ActiveRecord::Base
   private
 
   def unique_card_per_cardholder_and_venue
-    conflict = Card.joins(:card_level).where(cardholder_id: cardholder_id, card_levels: { venue_id: venue.id }).exists?
+    similar_cards = Card.joins(:card_level).where(cardholder_id: cardholder_id, card_levels: { venue_id: venue.id })
+    similar_cards = similar_cards.where('cards.id != ?', id) if id
+    conflict = similar_cards.exists?
 
     if conflict
       errors.add :base, 'User has a card for that venue.'
