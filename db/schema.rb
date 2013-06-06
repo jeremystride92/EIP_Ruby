@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130605152132) do
+ActiveRecord::Schema.define(:version => 20130606142705) do
 
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "benefits"
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"

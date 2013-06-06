@@ -3,4 +3,6 @@ class CardLevel < ActiveRecord::Base
   has_many :cards
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
+
+  serialize :benefits, JSON
 end

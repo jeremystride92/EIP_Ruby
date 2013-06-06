@@ -25,6 +25,7 @@ FactoryGirl.define do
   factory :card_level do
     sequence(:name) { |i| %w{Silver Gold Platinum Black}.sample + i.to_s }
     venue
+    benefits { ['Free drinks!', 'Private table for 12!'] }
   end
 
   factory :card do
