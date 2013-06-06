@@ -18,6 +18,10 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rabl-rails'
 
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

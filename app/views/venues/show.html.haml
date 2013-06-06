@@ -19,6 +19,15 @@
         %br
         = @venue.address2
     %tr
+      %th Logo (full)
+      %td= image_tag @venue.logo.url
+    %tr
+      %th Logo (mobile large)
+      %td= image_tag @venue.logo.mobile_large.url
+    %tr
+      %th Logo (mobile small)
+      %td= image_tag @venue.logo.mobile_small.url
+    %tr
       %th Website
       %td= link_to @venue.website, @venue.website
     %tr
