@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Venue do
+  it { should belong_to :owner }
   it { should have_many :card_levels }
   it { should have_many(:cards).through(:card_levels) }
   it { should have_many(:cardholders).through(:cards) }

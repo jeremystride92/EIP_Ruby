@@ -1,4 +1,5 @@
 class Venue < ActiveRecord::Base
+  belongs_to :owner, class_name: 'User'
   has_many :card_levels
   has_many :cards, through: :card_levels
   has_many :cardholders, through: :cards

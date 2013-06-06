@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20130606142705) do
     t.string   "address2"
     t.string   "website"
     t.string   "vanity_slug"
+    t.integer  "owner_id"
   end
 
 end
