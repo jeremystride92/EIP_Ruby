@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Skeletor::Application.load_tasks
+EIPiD::Application.load_tasks

@@ -1,4 +1,4 @@
-Skeletor::Application.routes.draw do
+EIPiD::Application.routes.draw do
   root :to => 'pages#index'
 
   get 'login', to: 'sessions#new', as: 'login'
