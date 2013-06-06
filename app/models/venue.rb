@@ -4,6 +4,8 @@ class Venue < ActiveRecord::Base
   has_many :cards, through: :card_levels
   has_many :cardholders, through: :cards
 
+  mount_uploader :logo, ImageUploader
+
   validates :name, presence: true
   validates :phone, presence: true
   validates :location, presence: true
@@ -11,6 +13,10 @@ class Venue < ActiveRecord::Base
   validates :vanity_slug, uniqueness: { allow_nil: true }
 
   def vanity_url
-    vanity_slug ? ('https://www.EIPid.com/' + vanity_slug) : nil
+    vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil
+  end
+
+  def logo_path
+    logo.cached? ? "/carrierwave/#{logo.cache_name}" : logo.url
   end
 end

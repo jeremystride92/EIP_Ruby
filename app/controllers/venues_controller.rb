@@ -21,6 +21,6 @@ class VenuesController < ApplicationController
 
   private
   def venue_params
-    params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug)
+    params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
   end
 end

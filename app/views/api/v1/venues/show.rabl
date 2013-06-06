@@ -1,2 +1,5 @@
 object :@venue
-attributes :name, :logo
+attributes :name
+node :logo do |venue|
+  venue.logo.url
+end
