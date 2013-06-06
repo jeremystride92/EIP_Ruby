@@ -1,4 +1,6 @@
 class VenuesController < ApplicationController
+  before_filter :authenticate
+
   def new
     @venue = Venue.new
   end
