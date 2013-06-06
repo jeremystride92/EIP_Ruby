@@ -1,0 +1,26 @@
+%header.page-header
+  %h1 Venue Information
+
+%table.table.table-striped.table-bordered
+  %tbody
+    %tr
+      %th Name
+      %td= @venue.name
+    %tr
+      %th Phone
+      %td= @venue.phone
+    %tr
+      %th Location
+      %td= @venue.location
+    %tr
+      %th Address
+      %td
+        = @venue.address1
+        %br
+        = @venue.address2
+    %tr
+      %th Website
+      %td= link_to @venue.website, @venue.website
+    %tr
+      %th Vanity URL
+      %td= link_to @venue.vanity_url, @venue.vanity_url
