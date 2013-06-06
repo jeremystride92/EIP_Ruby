@@ -4,4 +4,12 @@ class Venue < ActiveRecord::Base
   has_many :cardholders, through: :cards
 
   validates :name, presence: true
+  validates :phone, presence: true
+  validates :location, presence: true
+  validates :address1, presence: true
+  validates :vanity_slug, uniqueness: { allow_nil: true }
+
+  def vanity_url
+    vanity_slug ? ('https://www.EIPid.com/' + vanity_slug) : nil
+  end
 end

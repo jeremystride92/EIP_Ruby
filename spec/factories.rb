@@ -20,6 +20,12 @@ FactoryGirl.define do
   factory :venue do
     name { Faker::Company.name }
     logo "logo.png"
+    phone { Faker::PhoneNumber.short_phone_number }
+    location { Faker::Address.neighborhood }
+    address1 { Faker::Address.street_address }
+    address2 { rand(3).zero? ? Faker::Address.secondary_address : nil }
+    website { Faker::Internet.http_url }
+    vanity_slug { rand(1).zero? ? name.parameterize : nil }
   end
 
   factory :card_level do

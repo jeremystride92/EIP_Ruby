@@ -20,6 +20,10 @@ Skeletor::Application.routes.draw do
     end
   end
 
+  resources :venues, only: [:new, :create, :show] do
+    get :signup, to: "venues#new", as: :signup, on: :collection
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

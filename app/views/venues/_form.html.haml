@@ -1,0 +1,13 @@
+= simple_form_for @venue do |f|
+  = f.input :name, autofocus: true
+  = f.input :phone
+  = f.input :location
+  = f.input :address1
+  = f.input :address2
+  = f.input :website
+  = f.input :vanity_slug, wrapper: :prepend do
+    .add-on https://www.EIPiD.com/
+    = f.input_field :vanity_slug
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary btn-large'
