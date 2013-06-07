@@ -37,5 +37,6 @@ FactoryGirl.define do
   factory :card do
     card_level
     cardholder
+    guest_count { 3 }
   end
 end

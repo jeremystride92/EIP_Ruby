@@ -4,6 +4,10 @@ class Card < ActiveRecord::Base
 
   has_one :venue, through: :card_level
 
+  validates :guest_count,
+    presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
   validate :unique_card_per_cardholder_and_venue
 
   private
