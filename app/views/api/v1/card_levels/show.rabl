@@ -1,2 +1,2 @@
 object :@card_level
-attributes :name
+attributes :name, :benefits
