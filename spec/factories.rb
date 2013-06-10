@@ -8,6 +8,18 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     password 'secret'
     password_confirmation { |u| u.password }
+
+    factory :admin do
+      roles { [:admin] }
+    end
+
+    factory :venue_owner do
+      roles { [:venue_owner, :venue_manager] }
+    end
+
+    factory :venue_manager do
+      roles { [:venue_manager] }
+    end
   end
 
   factory :cardholder do

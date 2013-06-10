@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20130611172917) do
     t.string   "auth_token"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.integer  "roles_mask"
   end
 
   create_table "venues", :force => true do |t|

@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
                        length: { in: 6..255 },
                        on: :create
 
+  include RoleModel
+  roles_attribute :roles_mask
+  roles :admin, :venue_owner, :venue_manager
+
   before_create { generate_token(:auth_token) }
 
   private
