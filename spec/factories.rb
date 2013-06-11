@@ -14,7 +14,7 @@ FactoryGirl.define do
     end
 
     factory :venue_owner do
-      roles { [:venue_owner, :venue_manager] }
+      roles { [:venue_owner] }
     end
 
     factory :venue_manager do

@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20130611172917) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "roles_mask"
+    t.integer  "venue_id"
   end
 
   create_table "venues", :force => true do |t|
@@ -66,7 +67,6 @@ ActiveRecord::Schema.define(:version => 20130611172917) do
     t.string   "address2"
     t.string   "website"
     t.string   "vanity_slug"
-    t.integer  "owner_id"
   end
 
 end

@@ -3,7 +3,7 @@ require 'email_validator'
 class User < ActiveRecord::Base
   has_secure_password
 
-  has_one :venue, foreign_key: :owner_id
+  belongs_to :venue
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },

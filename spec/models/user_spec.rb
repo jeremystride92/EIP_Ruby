@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe User do
+  it { should belong_to :venue }
+
   describe "Validations" do
     subject { create :user }
 
