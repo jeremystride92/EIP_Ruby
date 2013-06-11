@@ -1,0 +1,7 @@
+=simple_form_for [:venue, card_level] do |f|
+  =f.input :name
+  - card_level.benefits = (card_level.benefits || []).join("\n")
+  =f.input :benefits, as: :text
+
+  .form-actions
+    =f.button :submit

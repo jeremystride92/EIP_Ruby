@@ -22,7 +22,7 @@ EIPiD::Application.routes.draw do
 
   resource :venue, only: [:new, :create, :show] do
     get :signup, to: "venues#new", as: :signup, on: :collection
-    resources :card_level
+    resources :card_levels
   end
 
   resources :users, only: [:new, :create]

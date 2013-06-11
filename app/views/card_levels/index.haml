@@ -1,0 +1,15 @@
+%h1 Card Levels
+
+.card-levels-list
+  - @card_levels.each do |card_level|
+    .card-level-listing
+      .info
+        %h2= card_level.name
+        %ul
+          - card_level.benefits.each do |benefit|
+            %li= benefit
+      .actions
+        =link_to 'Edit', edit_venue_card_level_path(card_level), class: 'btn btn-mini'
+
+.actions
+  =link_to 'New Card Level', new_venue_card_level_path(), class: 'btn'
