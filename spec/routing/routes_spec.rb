@@ -17,8 +17,8 @@ describe "Routing" do
 
   describe 'Venue' do
     it 'should route properly' do
-      { get: '/venues/signup' }.should route_to( controller: 'venues', action: 'new' )
-      { get: '/venues/1' }.should route_to( controller: 'venues', action: 'show', id: '1')
+      { get: '/venue/signup' }.should route_to( controller: 'venues', action: 'new' )
+      { get: '/venue' }.should route_to( controller: 'venues', action: 'show' )
     end
   end
 end
