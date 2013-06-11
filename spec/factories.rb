@@ -29,9 +29,11 @@ FactoryGirl.define do
   end
 
   factory :card_level do
-    sequence(:name) { |i| %w{Silver Gold Platinum Black}.sample + i.to_s }
+    theme { CardLevel::THEMES.sample }
+    sequence(:name) { |i| theme.titleize + i.to_s }
     venue
     benefits { ['Free drinks!', 'Private table for 12!'] }
+
   end
 
   factory :card do

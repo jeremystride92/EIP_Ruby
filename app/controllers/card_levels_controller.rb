@@ -50,6 +50,6 @@ class CardLevelsController < ApplicationController
   end
 
   def card_level_params
-    params.require(:card_level).permit(:name, :benefits)
+    params.require(:card_level).permit(:name, :benefits, :theme)
   end
 end
