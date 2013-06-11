@@ -23,9 +23,14 @@ EIPiD::Application.routes.draw do
   resource :venue, only: [:new, :create, :show] do
     get :signup, to: "venues#new", as: :signup, on: :collection
     resources :card_levels
+    resources :users
   end
 
-  resources :users, only: [:new, :create]
+  resource :user, only: [:signup] do
+    get :signup
+    post :signup, action: :complete_signup
+    #post :complete_signup
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

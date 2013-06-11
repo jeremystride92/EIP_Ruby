@@ -8,6 +8,8 @@ class Ability
     if user.venue_manager? || user.venue_owner?
       can :read, Venue, id: user.venue_id
       can :manage, CardLevel, venue_id: user.venue_id
+
+      can :read, User, venue_id: user.venue_id
     end
 
     if user.venue_owner?

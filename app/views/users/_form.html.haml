@@ -1,7 +1,5 @@
-= simple_form_for @user do |f|
+= simple_form_for [@venue, @user] do |f|
   = f.input :email, autofocus: true
-  = f.input :password
-  = f.input :password_confirmation, label: 'Confirm Password', as: :password
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large'

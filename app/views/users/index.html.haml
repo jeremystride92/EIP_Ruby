@@ -1,0 +1,9 @@
+%h1.page-header Venue Users
+
+%ol
+  - @users.each do |user|
+    %li.user
+      .email= user.email
+      .roles= user.roles.to_a
+
+= link_to 'Add User', new_venue_user_path, class: 'btn btn-primary'
