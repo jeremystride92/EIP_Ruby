@@ -1,14 +1,16 @@
-%h1 Card Levels
+%h1.page-header Card Levels
 
-.card-levels-list
+%ul.unstyled.card-levels-list
   - @card_levels.each do |card_level|
-    .card-level-listing
-      .info
+    %li.card-level-listing.clearfix{ 'class' => "theme-#{card_level.theme}" }
+      .card-preview.pull-left
+      .info.pull-left
         %h2= card_level.name
-        %ul
+        %h3 Benefits
+        %ul.unstyled
           - card_level.benefits.each do |benefit|
             %li= benefit
-      .actions
+      .actions.pull-left
         =link_to 'Edit', edit_venue_card_level_path(card_level), class: 'btn btn-mini'
 
 .actions
