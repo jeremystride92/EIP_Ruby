@@ -5,12 +5,13 @@ class Ability
 
     user ||= User.new
 
-    if user.venue_owner?
-      can :manage, Venue, id: user.venue_id
+    if user.venue_manager? || user.venue_owner?
+      can :read, Venue, id: user.venue_id
+      can :manage, CardLevel, venue_id: user.venue_id
     end
 
-    if user.venue_manager?
-      can :read, Venue, id: user.venue_id
+    if user.venue_owner?
+      can :manage, Venue, id: user.venue_id
     end
 
     if user.admin?

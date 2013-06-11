@@ -14,9 +14,9 @@ class SessionsController < ApplicationController
       url = if user.admin?
               admin_url
             elsif user.has_any_role? :venue_owner, :venue_manager
-              venue_url user.venue_id
+              venue_url
             else
-              url = root_url
+              root_url
             end
 
       redirect_to url, notice: 'You are now logged in'

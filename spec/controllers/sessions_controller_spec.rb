@@ -49,7 +49,7 @@ describe SessionsController do
 
           it "should redirect to Venues#show" do
             post :create, session: { email: user.email, password: 'password' }
-            response.should redirect_to venue_url(venue)
+            response.should redirect_to venue_url
           end
         end
 
@@ -58,7 +58,7 @@ describe SessionsController do
 
           it "should redirect to Venues#show" do
             post :create, session: { email: user.email, password: 'password' }
-            response.should redirect_to venue_url(venue)
+            response.should redirect_to venue_url
           end
         end
       end
