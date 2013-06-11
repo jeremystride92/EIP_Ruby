@@ -1,5 +1,6 @@
 class VenuesController < ApplicationController
   before_filter :authenticate
+  before_filter :find_venue, only: [:show]
 
   def new
     @venue = Venue.new
@@ -16,11 +17,14 @@ class VenuesController < ApplicationController
   end
 
   def show
-    @venue = Venue.find(params[:id])
   end
 
   private
   def venue_params
     params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
+  end
+
+  def find_venue
+    @venue = current_user.venue
   end
 end

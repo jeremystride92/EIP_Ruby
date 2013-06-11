@@ -1,0 +1,32 @@
+.card-preview-block(@color) {
+  display: block;
+  margin-bottom: auto;
+  .border-radius(7px);
+  #gradient > .vertical(@color, darken(@color, 10%));
+  border-top: 10px solid darken(@color, 10%);
+  width: 100px;
+  height: 75px;
+}
+
+.controller-card_levels {
+
+  .theme-black > .card-preview {
+    .card-preview-block(#444);
+  }
+
+  .theme-gold > .card-preview {
+    .card-preview-block(#993);
+  }
+
+  .theme-platinum > .card-preview {
+    .card-preview-block(#ccc);
+  }
+
+  .theme-purple > .card-preview {
+    .card-preview-block(#939);
+  }
+
+  .info {
+    margin-left: 25px;
+  }
+}

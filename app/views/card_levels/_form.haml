@@ -1,0 +1,10 @@
+= simple_form_for [:venue, card_level] do |f|
+  = f.input :name
+  = f.input :theme, collection: CardLevel::THEMES
+
+  - card_level.benefits = (card_level.benefits || []).join("\n")
+  = f.input :benefits, as: :text
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    = link_to 'Cancel', venue_card_levels_path, class: 'btn'
