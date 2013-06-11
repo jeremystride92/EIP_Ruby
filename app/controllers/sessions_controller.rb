@@ -10,7 +10,16 @@ class SessionsController < ApplicationController
       else
         cookies[:auth_token] = user.auth_token
       end
-      redirect_to admin_url, notice: 'You are now logged in'
+
+      url = if user.admin?
+              admin_url
+            elsif user.has_any_role? :venue_owner, :venue_manager
+              venue_url user.venue_id
+            else
+              url = root_url
+            end
+
+      redirect_to url, notice: 'You are now logged in'
     else
       flash.now[:alert] = 'Email or password invalid'
       render :new

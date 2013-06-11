@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Admin::PagesController do
-  let(:user) { create :user }
 
   describe "Visitor" do
     it "should be denied access" do
@@ -12,6 +11,8 @@ describe Admin::PagesController do
   end
 
   describe "Authenticated User" do
+    let(:user) { create :admin }
+
     it "should be granted access" do
       visit login_path
       fill_in "session_email", with: user.email

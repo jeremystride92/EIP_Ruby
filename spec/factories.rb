@@ -15,10 +15,12 @@ FactoryGirl.define do
 
     factory :venue_owner do
       roles { [:venue_owner] }
+      venue
     end
 
     factory :venue_manager do
       roles { [:venue_manager] }
+      venue
     end
   end
 

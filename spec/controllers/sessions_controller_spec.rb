@@ -25,9 +25,42 @@ describe SessionsController do
       it "should create a new session for a valid user" do
         logout
         post :create, session: { email: user.email, password: 'password' }
-        response.should redirect_to admin_url
         flash[:notice].should == "You are now logged in"
         cookies[:auth_token].should == user.auth_token
+      end
+
+      context "when user is an admin" do
+        before do
+          user.roles << :admin
+          user.save
+        end
+
+        it "should redirect to /admin" do
+          post :create, session: { email: user.email, password: 'password' }
+          response.should redirect_to admin_url
+        end
+      end
+
+      context "when user is a venue user" do
+        let(:venue) { create :venue }
+
+        context "when user is a venue owner" do
+          let(:user) { create :venue_owner, venue: venue, password: 'password', password_confirmation: 'password' }
+
+          it "should redirect to Venues#show" do
+            post :create, session: { email: user.email, password: 'password' }
+            response.should redirect_to venue_url(venue)
+          end
+        end
+
+        context "when user is a venue manager" do
+          let(:user) { create :venue_manager, venue: venue, password: 'password', password_confirmation: 'password' }
+
+          it "should redirect to Venues#show" do
+            post :create, session: { email: user.email, password: 'password' }
+            response.should redirect_to venue_url(venue)
+          end
+        end
       end
 
       describe "remember me" do
