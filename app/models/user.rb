@@ -3,7 +3,7 @@ require 'email_validator'
 class User < ActiveRecord::Base
   has_secure_password
 
-  has_one :venue, foreign_key: :owner_id
+  belongs_to :venue
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
@@ -11,6 +11,10 @@ class User < ActiveRecord::Base
   validates :password, presence: true,
                        length: { in: 6..255 },
                        on: :create
+
+  include RoleModel
+  roles_attribute :roles_mask
+  roles :admin, :venue_owner, :venue_manager
 
   before_create { generate_token(:auth_token) }
 

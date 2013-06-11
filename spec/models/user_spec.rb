@@ -1,11 +1,24 @@
 require 'spec_helper'
 
 describe User do
+  it { should belong_to :venue }
+
   describe "Validations" do
     subject { create :user }
 
     it { should validate_presence_of :email }
     it { should validate_uniqueness_of :email }
+  end
+
+  describe "roles" do
+    subject { create :user }
+
+    it { should respond_to :roles }
+
+    it 'should accept only valid roles' do
+      subject.roles = [:admin, :venue_owner, :venue_manager, :clown]
+      subject.roles.to_a.should =~ [:admin, :venue_owner, :venue_manager]
+    end
   end
 
   describe "authentication" do

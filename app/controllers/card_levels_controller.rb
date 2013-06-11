@@ -38,7 +38,7 @@ class CardLevelsController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.where(owner_id: current_user.id).includes(:card_levels).first
+    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
   end
 
   def find_venue_card_levels

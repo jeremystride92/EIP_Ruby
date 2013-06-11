@@ -17,6 +17,7 @@ class VenuesController < ApplicationController
   end
 
   def show
+    authorize! :read, @venue
   end
 
   private

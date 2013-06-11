@@ -1,5 +1,5 @@
 class Venue < ActiveRecord::Base
-  belongs_to :owner, class_name: 'User'
+  has_many :users
   has_many :card_levels
   has_many :cards, through: :card_levels
   has_many :cardholders, through: :cards
@@ -18,5 +18,13 @@ class Venue < ActiveRecord::Base
 
   def logo_path
     logo.cached? ? "/carrierwave/#{logo.cache_name}" : logo.url
+  end
+
+  def owners
+    User.where(venue_id: id).select(&:venue_owner?)
+  end
+
+  def managers
+    User.where(venue_id: id).select(&:venue_manager?)
   end
 end
