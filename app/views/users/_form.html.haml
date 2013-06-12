@@ -1,7 +1,6 @@
-= simple_form_for @user do |f|
+= simple_form_for [@venue, @user] do |f|
   = f.input :email, autofocus: true
-  = f.input :password
-  = f.input :password_confirmation, label: 'Confirm Password', as: :password
+  = f.input :roles, collection: User.valid_roles - [:admin], as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role'
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large'

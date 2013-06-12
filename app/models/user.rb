@@ -8,15 +8,28 @@ class User < ActiveRecord::Base
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
                     email: true
-  validates :password, presence: true,
-                       length: { in: 6..255 },
-                       on: :create
+  validates :password, length: { in: 6..255 }, allow_nil: true
 
   include RoleModel
   roles_attribute :roles_mask
   roles :admin, :venue_owner, :venue_manager
 
   before_create { generate_token(:auth_token) }
+
+
+  def generate_unusable_password!
+    self.password = self.password_confirmation = SecureRandom.random_bytes(16)
+    generate_reset_token
+  end
+
+  def generate_reset_token
+    generate_token(:reset_token)
+    self.reset_token_date = Time.current
+  end
+
+  def send_activation_email
+    PasswordResetMailer.password_reset_email(self).deliver
+  end
 
   private
 

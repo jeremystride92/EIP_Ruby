@@ -1,4 +1,4 @@
-= simple_form_for @venue do |f|
+= simple_form_for @venue, url: venue_path do |f|
   = f.input :name, autofocus: true
   = f.input :phone
   = f.input :location

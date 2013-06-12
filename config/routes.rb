@@ -23,9 +23,15 @@ EIPiD::Application.routes.draw do
   resource :venue, only: [:new, :create, :show] do
     get :signup, to: "venues#new", as: :signup, on: :collection
     resources :card_levels
+    resources :users
   end
 
-  resources :users, only: [:new, :create]
+  resource :user, only: [:signup] do
+    get :signup
+    post :signup, action: :complete_signup
+    match 'reset_password/:reset_token', action: :reset_password_form, on: :collection, via: :get, as: :reset_password
+    match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
