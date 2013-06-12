@@ -7,11 +7,23 @@ module ApplicationHelper
     format "controller-%s action-%s", controller.controller_path.parameterize, controller.action_name
   end
 
-  def nav_link(content, path, *args)
+  def nav_link(*args, &block)
     options = args.extract_options!
+    if block
+      path = args.first
+    else
+      content, path = *args
+    end
+
     css_class = current_page?(path) ? 'active' : nil
     content_tag :li, class: css_class do
-      link_to content, path, options
+      if block
+        link_to path, options do
+          yield block
+        end
+      else
+        link_to content, path, options
+      end
     end
   end
 
