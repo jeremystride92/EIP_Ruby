@@ -6,14 +6,6 @@ EIPiD::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
-  get 'admin', to: 'admin/pages#index'
-
-  namespace :admin do
-    resources :users, only: [:index, :new, :edit, :update, :create, :delete, :destroy ] do
-      member { get :delete }
-    end
-  end
-
   namespace :api do
     namespace :v1 do
       resources :cardholders, only: [:show]

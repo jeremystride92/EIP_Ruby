@@ -11,9 +11,7 @@ class SessionsController < ApplicationController
         cookies[:auth_token] = user.auth_token
       end
 
-      url = if user.admin?
-              admin_url
-            elsif user.has_any_role? :venue_owner, :venue_manager
+      url = if user.has_any_role? :venue_owner, :venue_manager
               venue_url
             else
               root_url

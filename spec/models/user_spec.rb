@@ -49,8 +49,8 @@ describe User do
     it { should respond_to :roles }
 
     it 'should accept only valid roles' do
-      subject.roles = [:admin, :venue_owner, :venue_manager, :clown]
-      subject.roles.to_a.should =~ [:admin, :venue_owner, :venue_manager]
+      subject.roles = [:venue_owner, :venue_manager, :clown]
+      subject.roles.to_a.should =~ [:venue_owner, :venue_manager]
     end
   end
 
