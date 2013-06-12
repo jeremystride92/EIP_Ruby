@@ -1,35 +1,16 @@
-%header.page-header
-  %h1 Venue Information
+.row-fluid
+  .venue-sub-block.span7
+    %h2.block-title Activity
+    .block-info
+      - @venue.card_levels.each_slice(4) do |slice|
+        .row-fluid.card-level-row
+          - slice.each do |card_level|
+            .span3{ :class => "theme-#{card_level.theme}" } Some #{card_level.name} Cards
+      .row-fluid
+        .span12 Promotions stuff
 
-%table.table.table-striped.table-bordered
-  %tbody
-    %tr
-      %th Name
-      %td= @venue.name
-    %tr
-      %th Phone
-      %td= @venue.phone
-    %tr
-      %th Location
-      %td= @venue.location
-    %tr
-      %th Address
-      %td
-        = @venue.address1
-        %br
-        = @venue.address2
-    %tr
-      %th Logo (full)
-      %td= image_tag @venue.logo.url
-    %tr
-      %th Logo (mobile large)
-      %td= image_tag @venue.logo.mobile_large.url
-    %tr
-      %th Logo (mobile small)
-      %td= image_tag @venue.logo.mobile_small.url
-    %tr
-      %th Website
-      %td= link_to @venue.website, @venue.website
-    %tr
-      %th Vanity URL
-      %td= link_to @venue.vanity_url, @venue.vanity_url
+
+
+
+  .venue-sub-block.span5
+    %h2.block-title Actions

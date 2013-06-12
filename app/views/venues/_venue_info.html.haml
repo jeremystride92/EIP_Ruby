@@ -1,0 +1,18 @@
+.venue-block.venue-info.clearfix
+  = image_tag @venue.logo, class: 'venue-logo pull-left'
+  .venue-name.pull-left= @venue.name
+  .venue-location.pull-left
+    %i.icon-marker
+    %address
+      = @venue.address1
+      - unless @venue.address2.blank?
+        %br/
+        = @venue.address2
+      - unless @venue.location.blank?
+        %br/
+        = @venue.location
+    - unless @venue.website.blank?
+      %br/
+      = @venue.website
+
+  = link_to 'Edit Account', '#', class: 'btn pull-left'

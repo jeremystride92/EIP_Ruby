@@ -2,6 +2,8 @@ class VenuesController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue, only: [:show]
 
+  layout 'venue'
+
   def new
     @venue = Venue.new
   end
