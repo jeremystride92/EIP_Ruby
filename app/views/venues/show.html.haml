@@ -5,12 +5,8 @@
       - @venue.card_levels.each_slice(4) do |slice|
         .row-fluid.card-level-row
           - slice.each do |card_level|
-            .span3{ :class => "theme-#{card_level.theme}" } Some #{card_level.name} Cards
-      .row-fluid
-        .span12 Promotions stuff
-
-
-
-
+            .span3.card-level{ :class => "theme-#{card_level.theme}" }
+              .card-count #{card_level.cards.size}
+              #{card_level.name} Cards
   .venue-sub-block.span5
     %h2.block-title Actions

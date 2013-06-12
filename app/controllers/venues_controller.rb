@@ -28,6 +28,6 @@ class VenuesController < ApplicationController
   end
 
   def find_venue
-    @venue = current_user.venue
+    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
   end
 end
