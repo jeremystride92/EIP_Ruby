@@ -1,4 +1,6 @@
 class CardLevelsController < ApplicationController
+  layout 'venue'
+
   before_filter :find_venue
   before_filter :find_venue_card_levels, only: [:index]
   before_filter :find_card_level, only: [:edit, :update]

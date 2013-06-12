@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  layout 'venue', except: [:signup, :complete_signup, :reset_password_form, :reset_password]
+
   before_filter :find_venue, except: [:signup, :complete_signup, :reset_password, :reset_password_form]
   before_filter :find_user_by_token, only: [:reset_password, :reset_password_form]
 
@@ -19,6 +21,20 @@ class UsersController < ApplicationController
     end
   end
 
+  # Reset password actions
+  def reset_password_form
+  end
+
+  def reset_password
+    @user.assign_attributes(params_for_reset)
+    @user.password ||= ''
+    if @user.save
+      @user.update_attributes(reset_token: nil, reset_token_date: nil)
+      redirect_to login_path, notice: 'Password set'
+    else
+      render :reset_password_form
+    end
+  end
   # Remaining actions are used only on venue/users routes
 
   def index
@@ -41,20 +57,6 @@ class UsersController < ApplicationController
       redirect_to venue_users_path, notice: 'User created'
     else
       render :new
-    end
-  end
-
-  def reset_password_form
-  end
-
-  def reset_password
-    @user.assign_attributes(params_for_reset)
-    @user.password ||= ''
-    if @user.save
-      @user.update_attributes(reset_token: nil, reset_token_date: nil)
-      redirect_to login_path, notice: 'Password set'
-    else
-      render :reset_password_form
     end
   end
 
