@@ -29,18 +29,6 @@ describe SessionsController do
         cookies[:auth_token].should == user.auth_token
       end
 
-      context "when user is an admin" do
-        before do
-          user.roles << :admin
-          user.save
-        end
-
-        it "should redirect to /admin" do
-          post :create, session: { email: user.email, password: 'password' }
-          response.should redirect_to admin_url
-        end
-      end
-
       context "when user is a venue user" do
         let(:venue) { create :venue }
 

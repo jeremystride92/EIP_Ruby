@@ -9,10 +9,6 @@ FactoryGirl.define do
     password 'secret'
     password_confirmation { |u| u.password }
 
-    factory :admin do
-      roles { [:admin] }
-    end
-
     factory :venue_owner do
       roles { [:venue_owner] }
       venue
