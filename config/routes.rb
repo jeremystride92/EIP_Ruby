@@ -29,7 +29,8 @@ EIPiD::Application.routes.draw do
   resource :user, only: [:signup] do
     get :signup
     post :signup, action: :complete_signup
-    #post :complete_signup
+    match 'reset_password/:reset_token', action: :reset_password_form, on: :collection, via: :get, as: :reset_password
+    match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
   # The priority is based upon order of creation:
