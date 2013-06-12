@@ -3,8 +3,8 @@ class AddCardsCountToCardLevel < ActiveRecord::Migration
     add_column :card_levels, :cards_count, :integer, default: 0
 
     CardLevel.reset_column_information
-    CardLevel.all.each do |card_level|
-      card_level.update_attribute :cards_count, card_level.cards.length
+    CardLevel.find_each do |card_level|
+      CardLevel.reset_counters card_level.id, :cards
     end
   end
 
