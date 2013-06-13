@@ -8,6 +8,8 @@ class Card < ActiveRecord::Base
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
+  after_initialize :set_default_guest_count
+
   validate :unique_card_per_cardholder_and_venue
 
   private
@@ -20,5 +22,9 @@ class Card < ActiveRecord::Base
     if conflict
       errors.add :base, 'User has a card for that venue.'
     end
+  end
+
+  def set_default_guest_count
+    self.guest_count ||= 0
   end
 end
