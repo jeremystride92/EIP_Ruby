@@ -3,6 +3,7 @@
   = f.input :last_name
   = f.input :phone_number
   = f.simple_fields_for :cards, @cardholder.cards.build do |cf|
+    = cf.hidden_field :issuer_id, value: current_user.id
     = cf.input :card_level_id, collection: @venue.card_levels, label: 'Member Tier'
 
   .form-actions

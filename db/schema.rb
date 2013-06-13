@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20130613164407) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.integer  "guest_count",   :default => 0
+    t.integer  "issuer_id"
   end
 
   add_index "cards", ["card_level_id"], :name => "index_cards_on_card_level_id"

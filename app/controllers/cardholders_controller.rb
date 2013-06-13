@@ -37,6 +37,6 @@ class CardholdersController < ApplicationController
   end
 
   def params_for_cardholder
-    params.require(:cardholder).permit(:first_name, :last_name, :phone_number, cards_attributes: [:card_level_id])
+    params.require(:cardholder).permit(:first_name, :last_name, :phone_number, cards_attributes: [:card_level_id, :issuer_id])
   end
 end

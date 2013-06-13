@@ -1,12 +1,13 @@
 %h1 Cardholders
 
 - @cards_by_level.each do |card_level, cards|
-  %h2= card_level.name
+  %h2 #{card_level.name} Cardholders
   %table.table.table-striped.table-bordered
     %thead
       %tr
         %th Name
         %th Phone
+        %th Issued by
     %tbody
       - cards.each do |card|
         %tr
@@ -15,4 +16,5 @@
             %span.last_name= card.cardholder.last_name
 
           %td= card.cardholder.phone_number
+          %td= card.issuer.name
 

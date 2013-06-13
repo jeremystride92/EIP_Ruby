@@ -1,12 +1,15 @@
 class Card < ActiveRecord::Base
   belongs_to :card_level, counter_cache: true
   belongs_to :cardholder
+  belongs_to :issuer, class_name: User
 
   has_one :venue, through: :card_level
 
   validates :guest_count,
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  validates :issuer_id, presence: true
 
   after_initialize :set_default_guest_count
 
