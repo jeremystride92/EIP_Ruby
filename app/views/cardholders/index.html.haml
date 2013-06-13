@@ -37,8 +37,9 @@
                   .pull-left Issue Benefits
                   %i.icon-caret-right.pull-right
               .row-fluid
-                = simple_form_for card, url: venue_cardholders_path do |f|
-                  = f.input :card_level_id, collection: @card_levels, label: false, input_html: { class: 'span6' }
+                = simple_form_for card, url: venue_card_path(card), remote: true do |f|
+                  = f.input :card_level_id, collection: @card_levels, label: false, input_html: { class: 'span4' }
+                  = f.button :submit, value: 'Change', class: 'span2'
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders
