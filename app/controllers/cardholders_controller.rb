@@ -17,7 +17,12 @@ class CardholdersController < ApplicationController
   end
 
   def create
-    @cardholder = Cardholder.new params_for_cardholder
+    if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
+      @cardholder.cards.build params_for_cardholder[:cards_attributes]['0']
+    else
+      @cardholder = Cardholder.new params_for_cardholder # accepts nested attributes for the new card
+    end
+
 
     if @cardholder.save
       redirect_to venue_cardholders_path, notice: 'Card issued'
