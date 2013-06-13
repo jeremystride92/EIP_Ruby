@@ -3,7 +3,7 @@
     %h2.block-title Activity
     .block-info
       - @venue.card_levels.each_slice(4) do |slice|
-        .row-fluid.card-level-row
+        .row-fluid
           - slice.each do |card_level|
             .span3.card-level{ :class => "theme-#{card_level.theme}" }
               .card-count #{card_level.cards.size}
@@ -11,11 +11,13 @@
   .venue-sub-block.span5.actions-block
     %h2.block-title Actions
     .block-info
-      = link_to '#', class: 'action clearfix' do
-        %i.icon-credit-card
-        Issue Cards
-        %i.icon-caret-right.pull-right
-      = link_to '#', class: 'action clearfix' do
-        %i.icon-plus
-        Issue Benefits
-        %i.icon-caret-right.pull-right
+      .row-fluid
+        = link_to '#', class: 'btn btn-large span12 clearfix' do
+          %i.icon-credit-card.pull-left
+          .pull-left Issue Cards
+          %i.icon-caret-right.pull-right
+      .row-fluid
+        = link_to '#', class: 'btn btn-large span12 clearfix' do
+          %i.icon-plus.pull-left
+          .pull-left Issue Benefits
+          %i.icon-caret-right.pull-right
