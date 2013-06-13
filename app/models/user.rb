@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false },
                     email: true
   validates :password, length: { in: 6..255 }, allow_nil: true
+  validates :name, presence: true
 
   include RoleModel
   roles_attribute :roles_mask

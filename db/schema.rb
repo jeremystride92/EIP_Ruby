@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613152858) do
+ActiveRecord::Schema.define(:version => 20130613164407) do
 
   create_table "card_levels", :force => true do |t|
     t.string   "name"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20130613152858) do
     t.integer  "venue_id"
     t.string   "reset_token"
     t.datetime "reset_token_date"
+    t.string   "name"
   end
 
   create_table "venues", :force => true do |t|
