@@ -1,20 +1,20 @@
-%h1 Cardholders
 
 - @cards_by_level.each do |card_level, cards|
-  %h2 #{card_level.name} Cardholders
-  %table.table.table-striped.table-bordered
+  %table.table.table-striped
     %thead
       %tr
-        %th Name
-        %th Phone
+        %th #{card_level.name} Cardholders
         %th Issued by
+        %th
+          %form.form-search.form-inline
+            %input.search-query{ type: :text }
+        %th= link_to 'Issue Card', new_venue_cardholder_path, class: 'btn'
     %tbody
       - cards.each do |card|
         %tr
           %td
             %span.first_name= card.cardholder.first_name
             %span.last_name= card.cardholder.last_name
-
-          %td= card.cardholder.phone_number
           %td= card.issuer.name
+          %td{ colspan: 2 }
 
