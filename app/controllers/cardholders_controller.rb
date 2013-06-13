@@ -1,15 +1,23 @@
 class CardholdersController < ApplicationController
   layout 'venue'
 
-  before_filter :find_venue, except: :index
-  before_filter :find_venue_with_cardholders, only: :index
+  before_filter :find_venue
 
   def index
-    @cards_by_level = @venue.card_levels.reduce({}) do |memo, level|
-      memo[level] = level.cards
-      memo
+    @card_levels = @venue.card_levels
+
+    @cards = Card.for_venue(@venue.id).joins(:cardholder).order('cardholders.last_name ASC')
+
+    if params[:card_level_id].present?
+      @cards = @cards.where(card_level_id: params[:card_level_id])
+      @card_level_id = params[:card_level_id]
     end
-    @cards = @venue.card_levels.map(&:cards).flatten
+
+    if params[:filter].present?
+      search_string = "%#{params[:filter]}%"
+      @cards = @cards.where('cardholders.last_name LIKE ?', search_string)
+      @filter_string = params[:filter]
+    end
   end
 
   def new
@@ -35,10 +43,6 @@ class CardholdersController < ApplicationController
 
   def find_venue
     @venue = Venue.includes(:card_levels).find(current_user.venue_id)
-  end
-
-  def find_venue_with_cardholders
-    @venue = Venue.includes(card_levels: { cards: :cardholder }).find(current_user.venue_id)
   end
 
   def params_for_cardholder

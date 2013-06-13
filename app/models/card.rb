@@ -15,6 +15,11 @@ class Card < ActiveRecord::Base
 
   validate :unique_card_per_cardholder_and_venue
 
+  scope :for_venue, lambda { |venue_id|
+    joins(:card_level)
+    .where(card_levels: { venue_id: venue_id })
+  }
+
   private
 
   def unique_card_per_cardholder_and_venue

@@ -1,20 +1,26 @@
-
-- @cards_by_level.each do |card_level, cards|
-  %table.table.table-striped
-    %thead
+%table.table.table-striped
+  %thead
+    %tr
+      %th Cardholders
+      %th Issued by
+      %th{ colspan: 2 }
+        %form#card_level_form.form-search.form-inline{action: venue_cardholders_path, method: :get}
+          = select_tag :card_level_id, options_from_collection_for_select(@card_levels, 'id', 'name', @card_level_id), prompt: 'Card Level'
+          .input-append
+            %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Search Last Name' }
+            = button_tag class: 'btn' do
+              %i.icon-search
+      %th= link_to 'Issue Cards', new_venue_cardholder_path, class: 'btn'
+  %tbody
+    - @cards.each do |card|
       %tr
-        %th #{card_level.name} Cardholders
-        %th Issued by
-        %th
-          %form.form-search.form-inline
-            %input.search-query{ type: :text }
-        %th= link_to 'Issue Card', new_venue_cardholder_path, class: 'btn'
-    %tbody
-      - cards.each do |card|
-        %tr
-          %td
-            %span.first_name= card.cardholder.first_name
-            %span.last_name= card.cardholder.last_name
-          %td= card.issuer.name
-          %td{ colspan: 2 }
+        %td
+          %span.first_name= card.cardholder.first_name
+          %span.last_name= card.cardholder.last_name
+        %td= card.issuer.name
+        %td= card.card_level.name
+        %td
+        %td
 
+= content_for :javascripts do
+  = javascript_include_tag :cardholders
