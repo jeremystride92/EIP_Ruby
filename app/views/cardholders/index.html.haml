@@ -1,0 +1,18 @@
+%h1 Cardholders
+
+- @cards_by_level.each do |card_level, cards|
+  %h2= card_level.name
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th Name
+        %th Phone
+    %tbody
+      - cards.each do |card|
+        %tr
+          %td
+            %span.first_name= card.cardholder.first_name
+            %span.last_name= card.cardholder.last_name
+
+          %td= card.cardholder.phone_number
+
