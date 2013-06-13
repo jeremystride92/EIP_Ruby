@@ -2,6 +2,8 @@ class VenuesController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue, only: [:show]
 
+  layout 'venue'
+
   def new
     @venue = Venue.new
   end
@@ -26,6 +28,6 @@ class VenuesController < ApplicationController
   end
 
   def find_venue
-    @venue = current_user.venue
+    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
   end
 end

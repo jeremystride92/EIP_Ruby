@@ -2,8 +2,8 @@
 
 %ul.unstyled.card-levels-list
   - @card_levels.each do |card_level|
-    %li.card-level-listing.clearfix{ 'class' => "theme-#{card_level.theme}" }
-      .card-preview.pull-left
+    %li.card-level-listing.clearfix
+      .card-preview.pull-left{ 'class' => "theme-#{card_level.theme}" }
       .info.pull-left
         %h2= card_level.name
         %h3 Benefits

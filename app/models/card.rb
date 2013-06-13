@@ -1,5 +1,5 @@
 class Card < ActiveRecord::Base
-  belongs_to :card_level
+  belongs_to :card_level, counter_cache: true
   belongs_to :cardholder
 
   has_one :venue, through: :card_level

@@ -5,6 +5,13 @@
 =link_to ENV['site_name'], root_url, class: 'brand'
 .nav-collapse.collapse
   %ul.nav
-    = nav_link 'Home', root_url
-    = nav_link 'Page1', '#page1'
-    = nav_link 'Page2', '#page2'
+    - if current_user
+      = nav_link venue_path do
+        %i.icon-dashboard
+        Dashboard
+      = nav_link venue_card_levels_path do
+        %i.icon-tasks
+        Card Levels
+      = nav_link venue_users_path do
+        %i.icon-group
+        Managers

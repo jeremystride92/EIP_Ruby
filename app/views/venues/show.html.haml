@@ -1,35 +1,23 @@
-%header.page-header
-  %h1 Venue Information
-
-%table.table.table-striped.table-bordered
-  %tbody
-    %tr
-      %th Name
-      %td= @venue.name
-    %tr
-      %th Phone
-      %td= @venue.phone
-    %tr
-      %th Location
-      %td= @venue.location
-    %tr
-      %th Address
-      %td
-        = @venue.address1
-        %br
-        = @venue.address2
-    %tr
-      %th Logo (full)
-      %td= image_tag @venue.logo.url
-    %tr
-      %th Logo (mobile large)
-      %td= image_tag @venue.logo.mobile_large.url
-    %tr
-      %th Logo (mobile small)
-      %td= image_tag @venue.logo.mobile_small.url
-    %tr
-      %th Website
-      %td= link_to @venue.website, @venue.website
-    %tr
-      %th Vanity URL
-      %td= link_to @venue.vanity_url, @venue.vanity_url
+.row-fluid
+  .venue-sub-block.span7
+    %h2.block-title Activity
+    .block-info
+      - @venue.card_levels.each_slice(4) do |slice|
+        .row-fluid
+          - slice.each do |card_level|
+            .span3.card-level{ :class => "theme-#{card_level.theme}" }
+              .card-count #{card_level.cards.size}
+              #{card_level.name} Cards
+  .venue-sub-block.span5.actions-block
+    %h2.block-title Actions
+    .block-info
+      .row-fluid
+        = link_to '#', class: 'btn btn-large span12 clearfix' do
+          %i.icon-credit-card.pull-left
+          .pull-left Issue Cards
+          %i.icon-caret-right.pull-right
+      .row-fluid
+        = link_to '#', class: 'btn btn-large span12 clearfix' do
+          %i.icon-plus.pull-left
+          .pull-left Issue Benefits
+          %i.icon-caret-right.pull-right

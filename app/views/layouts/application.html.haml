@@ -19,7 +19,7 @@
           .row
             .span12
               = bootstrap_flash
-              = yield
+              = content_for?(:content) ? yield(:content) : yield
 
     = render 'footer'
     = render 'javascripts'

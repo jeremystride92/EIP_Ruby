@@ -4,3 +4,62 @@
     max-width: 100px;
   }
 }
+
+.venue-block {
+  padding: 32px;
+  margin-bottom: 32px;
+
+  .box-shadow(0 0 5px 0 rgba(0, 0, 0, 0.25));
+}
+
+.venue-sub-block {
+  border: 2px solid #ccc;
+  .border-radius(5px);
+  overflow: hidden;
+
+  .block-title {
+    padding: 10px;
+    margin: 0;
+    font-size: 18px;
+    #gradient > .vertical(#fff, #eee);
+    border-bottom: 2px solid #ccc;
+    .box-shadow(0 0 5px 0 rgba(0, 0, 0, 0.25));
+  }
+}
+
+.block-info {
+  padding: 16px;
+}
+
+.block-info {
+  .row-fluid + .row-fluid {
+    padding-top: 16px;
+  }
+}
+
+.card-level {
+  text-align: center;
+  font-weight: bold;
+  padding: 16px 32px;
+
+  .card-count {
+    font-size: 36px;
+    line-height: 36px;
+  }
+}
+
+.venue-info {
+  .venue-logo {
+    height: 64px;
+    width: 64px;
+  }
+
+  .venue-name {
+    font-size: 64px;
+    line-height: 64px;
+  }
+
+  & > * {
+    margin-right: 20px;
+  }
+}

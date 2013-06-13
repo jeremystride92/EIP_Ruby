@@ -1,31 +1,35 @@
-.card-preview-block(@color) {
-  display: block;
-  margin-bottom: auto;
+.card-theme(@color) {
   .border-radius(7px);
   #gradient > .vertical(@color, darken(@color, 10%));
-  border-top: 10px solid darken(@color, 10%);
+}
+.card-preview {
+  border-top: 10px solid fade(black, 10%);
   width: 100px;
   height: 75px;
+  display: block;
+}
+
+.theme-black {
+  .card-theme(#444);
+  color: #fff;
+}
+
+.theme-gold{
+  .card-theme(#eab92a);
+  color: #fff;
+}
+
+.theme-platinum {
+  .card-theme(#eee);
+  color: #000;
+}
+
+.theme-purple {
+  .card-theme(#822f8d);
+  color: #fff;
 }
 
 .controller-card_levels {
-
-  .theme-black > .card-preview {
-    .card-preview-block(#444);
-  }
-
-  .theme-gold > .card-preview {
-    .card-preview-block(#993);
-  }
-
-  .theme-platinum > .card-preview {
-    .card-preview-block(#ccc);
-  }
-
-  .theme-purple > .card-preview {
-    .card-preview-block(#939);
-  }
-
   .info {
     margin-left: 25px;
   }
