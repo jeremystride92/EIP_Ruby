@@ -1,4 +1,4 @@
-%table.table.table-striped
+%table.table.table-pair-striped
   %thead
     %tr
       %th Cardholders
@@ -13,14 +13,32 @@
       %th= link_to 'Issue Cards', new_venue_cardholder_path, class: 'btn'
   %tbody
     - @cards.each do |card|
-      %tr
+      %tr.accordion-header
         %td
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
         %td= card.issuer.name
         %td= card.card_level.name
-        %td
-        %td
+        %td{ colspan: 2 }
+      %tr.accordion-body.hidden
+        %td{ colspan: 5 }
+          .row-fluid
+            .span5
+              .card-preview{ class: "theme-#{card.card_level.theme}" }
+                .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
+                .card-level= card.card_level.name
+                .card-number
+                  EIP#
+                  = card.cardholder.phone_number
+            .actions.span7
+              .row-fluid
+                = link_to '#', class: 'btn btn-large clearfix span6' do
+                  %i.icon-plus.pull-left
+                  .pull-left Issue Benefits
+                  %i.icon-caret-right.pull-right
+              .row-fluid
+                = simple_form_for card, url: venue_cardholders_path do |f|
+                  = f.input :card_level_id, collection: @card_levels, label: false, input_html: { class: 'span6' }
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders

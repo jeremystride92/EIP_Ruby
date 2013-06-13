@@ -6,4 +6,39 @@
   form {
     margin: 0;
   }
+
+  .card-preview {
+    height: 100px;
+    width: 175px;
+  }
+}
+
+.table-pair-striped {
+  tbody {
+    > tr:nth-child(4n+1) > td,
+    > tr:nth-child(4n+1) > th,
+    > tr:nth-child(4n+2) > td,
+    > tr:nth-child(4n+2) > th {
+      background-color: @tableBackgroundAccent;
+    }
+
+    tr {
+      &.success > td {
+        background-color: @successBackground;
+      }
+      &.error > td {
+        background-color: @errorBackground;
+      }
+      &.warning > td {
+        background-color: @warningBackground;
+      }
+      &.info > td {
+        background-color: @infoBackground;
+      }
+    }
+  }
+}
+
+.accordion-header {
+  cursor: pointer;
 }
