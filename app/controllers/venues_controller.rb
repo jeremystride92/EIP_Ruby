@@ -12,7 +12,8 @@ class VenuesController < ApplicationController
     @venue = Venue.new venue_params
 
     if @venue.save
-      redirect_to @venue, notice: 'Venue created!'
+      redirect_to venue_path, notice: 'Venue created!'
+      current_user.update_attributes venue_id: @venue.id
     else
       render :new
     end
