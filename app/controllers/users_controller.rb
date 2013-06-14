@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
-  layout 'venue', except: [:signup, :complete_signup, :reset_password_form, :reset_password]
+  SIGNUP_ACTIONS = [:signup, :complete_signup].freeze
+  UNKNOWN_PASSWORD_ACTIONS = [:reset_password_form, :reset_password, :forgot_password, :send_password_reset].freeze
 
-  before_filter :find_venue, except: [:signup, :complete_signup, :reset_password, :reset_password_form]
+  layout 'venue', except: SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS
+
+  before_filter :find_venue, except: SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS
   before_filter :find_user_by_token, only: [:reset_password, :reset_password_form]
 
   # Signup actions are used for /user/signup (new VenueOwner flow)
@@ -35,6 +38,17 @@ class UsersController < ApplicationController
       render :reset_password_form
     end
   end
+
+  # Forgotten password actions
+  def forgot_password
+  end
+
+  def send_password_reset
+    @user = User.find_by_email(@email = params[:email])
+    @user.send_password_reset_email! if @user
+    @user = nil # security measure so form and layouts don't accidentaly get user info
+  end
+
   # Remaining actions are used only on venue/users routes
 
   def index

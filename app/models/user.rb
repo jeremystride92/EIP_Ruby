@@ -32,6 +32,16 @@ class User < ActiveRecord::Base
     PasswordResetMailer.password_reset_email(self).deliver
   end
 
+  def send_password_reset_email!
+    generate_reset_token
+    save
+    send_password_reset_email
+  end
+
+  def send_password_reset_email
+    PasswordResetMailer.password_reset_email(self).deliver
+  end
+
   private
 
   def generate_token(column)
