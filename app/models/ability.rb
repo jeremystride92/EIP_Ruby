@@ -10,6 +10,10 @@ class Ability
       can :manage, CardLevel, venue_id: user.venue_id
 
       can :read, User, venue_id: user.venue_id
+
+      can :manage, Card do |card|
+        card.venue.id == user.venue_id
+      end
     end
 
     if user.venue_owner?

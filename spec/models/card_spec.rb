@@ -5,6 +5,12 @@ describe Card do
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
 
+  describe 'default guest count' do
+    subject { Card.new }
+    its(:guest_count) { should_not be_nil }
+    its(:guest_count) { should == 0 }
+  end
+
   describe 'Complex Validations' do
     subject { build :card }
 

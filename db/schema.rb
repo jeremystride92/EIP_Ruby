@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612202602) do
+ActiveRecord::Schema.define(:version => 20130613164407) do
 
   create_table "card_levels", :force => true do |t|
     t.string   "name"
@@ -39,9 +39,10 @@ ActiveRecord::Schema.define(:version => 20130612202602) do
   create_table "cards", :force => true do |t|
     t.integer  "card_level_id"
     t.integer  "cardholder_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.integer  "guest_count"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.integer  "guest_count",   :default => 0
+    t.integer  "issuer_id"
   end
 
   add_index "cards", ["card_level_id"], :name => "index_cards_on_card_level_id"
@@ -57,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20130612202602) do
     t.integer  "venue_id"
     t.string   "reset_token"
     t.datetime "reset_token_date"
+    t.string   "name"
   end
 
   create_table "venues", :force => true do |t|

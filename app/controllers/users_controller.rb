@@ -72,11 +72,11 @@ class UsersController < ApplicationController
   end
 
   def params_for_venue_owner
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
   def params_for_user
-    params.require(:user).permit(:email)
+    params.require(:user).permit(:name, :email)
   end
 
   def params_for_reset
