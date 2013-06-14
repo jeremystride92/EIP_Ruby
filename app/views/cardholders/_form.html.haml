@@ -1,4 +1,4 @@
-= simple_form_for @cardholder, url: venue_cardholders_path do |f|
+= simple_form_for [:venue, @cardholder] do |f|
   = f.input :first_name
   = f.input :last_name
   = f.input :phone_number
@@ -7,5 +7,6 @@
     = cf.input :card_level_id, collection: @venue.card_levels, label: 'Member Tier'
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary btn-large'
+    = f.button :submit, value: 'Create Card', class: 'btn btn-primary btn-large'
+    = f.button :submit, value: 'Create and Continue', class: 'btn btn-large'
     = link_to 'Cancel', venue_path, class: 'btn btn-large'

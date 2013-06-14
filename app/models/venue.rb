@@ -10,7 +10,7 @@ class Venue < ActiveRecord::Base
   validates :phone, presence: true
   validates :location, presence: true
   validates :address1, presence: true
-  validates :vanity_slug, uniqueness: { allow_nil: true }
+  validates :vanity_slug, uniqueness: { allow_blank: true }
 
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil
