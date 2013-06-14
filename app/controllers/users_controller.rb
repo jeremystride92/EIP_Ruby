@@ -44,7 +44,8 @@ class UsersController < ApplicationController
   end
 
   def send_password_reset
-    @user = User.find_by_email(@email = params[:email])
+    @email = params[:email]
+    @user = User.find_by_email(@email)
     @user.send_password_reset_email! if @user
     @user = nil # security measure so form and layouts don't accidentaly get user info
   end
