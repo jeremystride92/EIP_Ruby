@@ -1,9 +1,16 @@
 %h1.page-header Venue Users
 
-%ol
-  - @users.each do |user|
-    %li.user
-      .email= user.email
-      .roles= user.roles.to_a
+%table.table.table-striped
+  %thead
+    %th Name
+    %th Email
+    %th Role
+    %th= link_to 'Add User', new_venue_user_path, class: 'btn pull-right'
+  %tbody
+    - @users.each do |user|
+      %tr.user
+        %td.name= user.name
+        %td.email= user.email
+        %td.roles{ colspan: '2' }= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
 
-= link_to 'Add User', new_venue_user_path, class: 'btn btn-primary'
+

@@ -2,7 +2,7 @@ class VenuesController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue, only: [:show]
 
-  layout 'venue'
+  layout 'venue', except: [:new, :create]
 
   def new
     @venue = Venue.new
@@ -12,7 +12,7 @@ class VenuesController < ApplicationController
     @venue = Venue.new venue_params
 
     if @venue.save
-      redirect_to venue_path, notice: 'Venue created!'
+      redirect_to new_venue_card_level_path, notice: 'Venue created! Now set up some card levels.'
       current_user.update_attributes venue_id: @venue.id
     else
       render :new

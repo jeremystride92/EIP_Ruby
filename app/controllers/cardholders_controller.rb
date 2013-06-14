@@ -33,7 +33,12 @@ class CardholdersController < ApplicationController
 
 
     if @cardholder.save
-      redirect_to venue_cardholders_path, notice: 'Card issued'
+      case params[:commit]
+      when /continue/i
+        redirect_to new_venue_cardholder_path, notice: "Card issued for #{@cardholder.phone_number}"
+      else
+        redirect_to venue_cardholders_path, notice: 'Card issued'
+      end
     else
       render :new
     end

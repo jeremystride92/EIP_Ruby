@@ -1,8 +1,8 @@
 = simple_form_for @user, url: signup_user_path do |f|
-  = f.input :name, autofocus: true
-  = f.input :email
+  = f.input :name, label: 'Your name', autofocus: true
+  = f.input :email, as: :email
   = f.input :password
   = f.input :password_confirmation, label: 'Confirm Password', as: :password
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary btn-large'
+    = f.button :submit, value: 'Signup', class: 'btn btn-primary btn-large'
