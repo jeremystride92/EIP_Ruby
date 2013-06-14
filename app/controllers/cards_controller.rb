@@ -5,7 +5,7 @@ class CardsController < ApplicationController
     authorize! :update, @card
 
     if @card.update_attributes params_for_card
-      head :no_content
+      respond_to :json
     else
       head :unprocessable_entity
     end
