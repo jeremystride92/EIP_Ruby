@@ -9,7 +9,7 @@ class VenuesController < ApplicationController
   end
 
   def create
-    @venue = Venue.new venue_params.merge(owner: current_user)
+    @venue = Venue.new venue_params
 
     if @venue.save
       redirect_to @venue, notice: 'Venue created!'
