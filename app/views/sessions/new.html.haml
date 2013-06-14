@@ -3,4 +3,6 @@
   = f.input :password, required: true
   = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
 
-  = f.button :submit, 'Log In', class: 'btn btn-primary'
+  .form-actions
+    = f.button :submit, 'Log In', class: 'btn btn-primary'
+    = link_to 'Forgot Password', forgot_password_user_path, class: 'btn'

@@ -23,6 +23,8 @@ EIPiD::Application.routes.draw do
   resource :user, only: [:signup] do
     get :signup
     post :signup, action: :complete_signup
+    get :forgot_password
+    post :forgot_password, action: :send_password_reset
     match 'reset_password/:reset_token', action: :reset_password_form, on: :collection, via: :get, as: :reset_password
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
