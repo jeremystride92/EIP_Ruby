@@ -2,9 +2,6 @@
 
 FactoryGirl.define do
   factory :user do
-    #first_name { Faker::Name.first_name }
-    #last_name { Faker::Name.last_name }
-    #email { "#{first_name}.#{last_name}@#{Faker::Internet.domain_name}".downcase }
     email { Faker::Internet.email }
     name { Faker::Name.name }
     password 'secret'
@@ -22,7 +19,7 @@ FactoryGirl.define do
   end
 
   factory :cardholder do
-    phone_number { Faker::PhoneNumber.short_phone_number }
+    phone_number { Faker.numerify('#' * 10) }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     photo "photo.jpg"
@@ -31,7 +28,7 @@ FactoryGirl.define do
   factory :venue do
     name { Faker::Company.name }
     logo "logo.png"
-    phone { Faker::PhoneNumber.short_phone_number }
+    phone { Faker.numerify('#' * 10) }
     location { Faker::Address.neighborhood }
     address1 { Faker::Address.street_address }
     address2 { rand(3).zero? ? Faker::Address.secondary_address : nil }

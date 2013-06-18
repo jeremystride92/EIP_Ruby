@@ -7,10 +7,25 @@ describe Venue do
   it { should have_many(:cardholders).through(:cards) }
 
   it { should validate_presence_of :name }
-  it { should validate_presence_of :phone }
   it { should validate_presence_of :location }
   it { should validate_presence_of :address1 }
   it { should validate_uniqueness_of :vanity_slug }
+
+  it { should validate_presence_of :phone }
+  it { should validate_numericality_of :phone }
+
+  it "should validate length of phone" do
+    venue = build :venue
+
+    venue.phone = '123456789'
+    venue.should_not be_valid
+
+    venue.phone = '1234567890'
+    venue.should be_valid
+
+    venue.phone = '12345678901'
+    venue.should_not be_valid
+  end
 
   describe "User finders" do
     let(:venue)     { create :venue }
