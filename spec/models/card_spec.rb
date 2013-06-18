@@ -11,10 +11,11 @@ describe Card do
     its(:guest_count) { should == 0 }
   end
 
-  describe 'Complex Validations' do
+  describe 'Validations' do
     subject { build :card }
 
     it { should validate_presence_of :guest_count }
+    it { should validate_presence_of :card_level }
     it { should validate_numericality_of(:guest_count).only_integer }
 
     it 'should only allow positive integer guest_count' do
@@ -22,7 +23,7 @@ describe Card do
       subject.should_not be_valid
     end
 
-    context 'when another card for the same cardholder, venue exists' do
+    context 'when another card for the same cardholder & venue exists' do
       let(:old_card) { create :card }
       let(:new_card_level) { create :card_level, venue: old_card.venue }
       subject { build :card, cardholder: old_card.cardholder, card_level: new_card_level }

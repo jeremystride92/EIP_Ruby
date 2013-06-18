@@ -24,7 +24,7 @@ class Card < ActiveRecord::Base
   private
 
   def unique_card_per_cardholder_and_venue
-    return unless cardholder_id
+    return unless card_level_id
 
     similar_cards = Card.joins(:card_level).where(cardholder_id: cardholder_id, card_levels: { venue_id: venue.id })
     similar_cards = similar_cards.where('cards.id != ?', id) if id

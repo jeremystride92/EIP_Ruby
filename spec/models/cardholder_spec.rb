@@ -7,6 +7,16 @@ describe Cardholder do
     it { should validate_uniqueness_of :phone_number }
 
     it { should be_valid }
+
+    it 'should be invalid with dashes in the phone number' do
+      subject.phone_number = '123-456-7890'
+      subject.should_not be_valid
+    end
+
+    it 'should be invalid with other characters in the phone number' do
+      subject.phone_number = 'one two 3'
+      subject.should_not be_valid
+    end
   end
 
   context 'validations on update' do
