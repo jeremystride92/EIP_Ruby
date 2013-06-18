@@ -7,7 +7,11 @@ class Venue < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
 
   validates :name, presence: true
-  validates :phone, presence: true
+  validates :phone,
+    presence: true,
+    numericality: true,
+    length: { is: 10 }
+
   validates :location, presence: true
   validates :address1, presence: true
   validates :vanity_slug, uniqueness: { allow_blank: true }

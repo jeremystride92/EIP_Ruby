@@ -9,5 +9,6 @@ class Cardholder < ActiveRecord::Base
   validates :phone_number,
     presence: true,
     uniqueness: true,
-    format: { with: /\A\d{10}\Z/, message: 'Please enter a 10-digit phone number, digits only.' }
+    numericality: true,
+    length: { is: 10 }
 end
