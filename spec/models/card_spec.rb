@@ -23,6 +23,19 @@ describe Card do
       subject.should_not be_valid
     end
 
+    it { should validate_presence_of :status }
+
+    it 'should only allow valid card statuses' do
+      subject.status = 'active'
+      subject.should be_valid
+
+      subject.status = 'inactive'
+      subject.should be_valid
+
+      subject.status = 'pretty'
+      subject.should_not be_valid
+    end
+
     context 'when another card for the same cardholder & venue exists' do
       let(:old_card) { create :card }
       let(:new_card_level) { create :card_level, venue: old_card.venue }

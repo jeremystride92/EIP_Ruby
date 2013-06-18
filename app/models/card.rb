@@ -1,4 +1,6 @@
 class Card < ActiveRecord::Base
+  STATUSES = %w(active inactive)
+
   belongs_to :card_level, counter_cache: true
   belongs_to :cardholder
   belongs_to :issuer, class_name: User
@@ -11,15 +13,30 @@ class Card < ActiveRecord::Base
 
   validates :issuer_id, presence: true
 
-  after_initialize :set_default_guest_count
+  validates :status,
+    presence: true,
+    inclusion: STATUSES
 
   validates :card_level, presence: true
   validate :unique_card_per_cardholder_and_venue
+
+  after_initialize :set_default_guest_count
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
     .where(card_levels: { venue_id: venue_id })
   }
+
+  scope :active, where(status: 'active')
+  scope :inactive, where(status: 'inactive')
+
+  def active?
+    self.status == 'active'
+  end
+
+  def inactive?
+    !active?
+  end
 
   private
 
