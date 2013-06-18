@@ -13,6 +13,7 @@ class Card < ActiveRecord::Base
 
   after_initialize :set_default_guest_count
 
+  validates :card_level, presence: true
   validate :unique_card_per_cardholder_and_venue
 
   scope :for_venue, lambda { |venue_id|
@@ -23,6 +24,8 @@ class Card < ActiveRecord::Base
   private
 
   def unique_card_per_cardholder_and_venue
+    return unless cardholder_id
+
     similar_cards = Card.joins(:card_level).where(cardholder_id: cardholder_id, card_levels: { venue_id: venue.id })
     similar_cards = similar_cards.where('cards.id != ?', id) if id
     conflict = similar_cards.exists?

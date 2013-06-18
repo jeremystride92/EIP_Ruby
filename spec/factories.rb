@@ -22,7 +22,7 @@ FactoryGirl.define do
   end
 
   factory :cardholder do
-    phone_number { Faker::PhoneNumber.short_phone_number }
+    phone_number { Faker::PhoneNumber.short_phone_number.gsub(/\D/, '') }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     photo "photo.jpg"
@@ -31,7 +31,7 @@ FactoryGirl.define do
   factory :venue do
     name { Faker::Company.name }
     logo "logo.png"
-    phone { Faker::PhoneNumber.short_phone_number }
+    phone { Faker::PhoneNumber.short_phone_number.gsub(/\D/, '') }
     location { Faker::Address.neighborhood }
     address1 { Faker::Address.street_address }
     address2 { rand(3).zero? ? Faker::Address.secondary_address : nil }

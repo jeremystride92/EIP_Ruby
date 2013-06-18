@@ -6,5 +6,8 @@ class Cardholder < ActiveRecord::Base
 
   validates :first_name, presence: true, on: :update
   validates :last_name, presence: true, on: :update
-  validates :phone_number, presence: true, uniqueness: true
+  validates :phone_number,
+    presence: true,
+    uniqueness: true,
+    format: { with: /\A\d{10}\Z/, message: 'Please enter a 10-digit phone number, digits only.' }
 end

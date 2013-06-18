@@ -25,6 +25,7 @@ class CardholdersController < ApplicationController
   end
 
   def create
+    binding.pry
     if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
       @cardholder.cards.build params_for_cardholder[:cards_attributes]['0']
     else

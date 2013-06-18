@@ -1,7 +1,7 @@
 = simple_form_for [:venue, @cardholder] do |f|
   = f.input :first_name
   = f.input :last_name
-  = f.input :phone_number
+  = f.input :phone_number, input_html: { pattern: '\d{10}' }, hint: '10-digit number, digits only'
   = f.simple_fields_for :cards, @cardholder.cards.build do |cf|
     = cf.hidden_field :issuer_id, value: current_user.id
     = cf.input :card_level_id, collection: @venue.card_levels, label: 'Member Tier'
@@ -10,3 +10,6 @@
     = f.button :submit, value: 'Create Card', class: 'btn btn-primary btn-large'
     = f.button :submit, value: 'Create and Continue', class: 'btn btn-large'
     = link_to 'Cancel', venue_path, class: 'btn btn-large'
+
+= content_for :javascripts do
+  = javascript_include_tag :phone_format
