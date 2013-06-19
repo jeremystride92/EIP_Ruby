@@ -49,5 +49,10 @@ FactoryGirl.define do
     cardholder
     guest_count { 3 }
     issuer { create :venue_manager }
+    status 'active'
+
+    factory :inactive_card do
+      status 'inactive'
+    end
   end
 end

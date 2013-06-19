@@ -5,10 +5,12 @@ describe Card do
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
 
-  describe 'default guest count' do
+  describe 'defaults' do
     subject { Card.new }
-    its(:guest_count) { should_not be_nil }
+
     its(:guest_count) { should == 0 }
+
+    its(:status) { should == 'active' }
   end
 
   describe 'Validations' do
@@ -20,6 +22,19 @@ describe Card do
 
     it 'should only allow positive integer guest_count' do
       subject.guest_count = -3
+      subject.should_not be_valid
+    end
+
+    it { should validate_presence_of :status }
+
+    it 'should only allow valid card statuses' do
+      subject.status = 'active'
+      subject.should be_valid
+
+      subject.status = 'inactive'
+      subject.should be_valid
+
+      subject.status = 'pretty'
       subject.should_not be_valid
     end
 

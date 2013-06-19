@@ -1,5 +1,5 @@
 class Cardholder < ActiveRecord::Base
-  has_many :cards
+  has_many :cards, order: :status
   accepts_nested_attributes_for :cards
 
   has_many :venues, through: :cards

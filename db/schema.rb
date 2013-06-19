@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613164407) do
+ActiveRecord::Schema.define(:version => 20130618222605) do
 
   create_table "card_levels", :force => true do |t|
     t.string   "name"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130613164407) do
     t.datetime "updated_at",                   :null => false
     t.integer  "guest_count",   :default => 0
     t.integer  "issuer_id"
+    t.string   "status"
   end
 
   add_index "cards", ["card_level_id"], :name => "index_cards_on_card_level_id"

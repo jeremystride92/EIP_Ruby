@@ -1,0 +1,21 @@
+.row-fluid
+  .span5
+    .card-preview{ class: "theme-#{card.card_level.theme}" }
+      .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
+      .card-level= card.card_level.name
+      .card-number
+        EIP#
+        = card.cardholder.phone_number
+  .actions.span7
+    .row-fluid
+      = link_to '#', class: 'btn btn-large clearfix span6' do
+        %i.icon-plus.pull-left
+        .pull-left Issue Benefits
+        %i.icon-caret-right.pull-right
+    .row-fluid
+      = simple_form_for card, url: venue_card_path(card), remote: true, html: { class: 'change-card-level' } do |f|
+        = f.input :card_level_id, collection: @card_levels, label: false, wrapper_html: { class: 'span6' }
+        = f.button :submit, value: 'Change', class: 'btn span2'
+    .row-fluid
+      = simple_form_for card, url: venue_card_path(card), remote: true, html: { class: 'change-card-status' } do |f|
+        = f.button :submit, value: ( card.active? ? 'Deactivate' : 'Activate'), class: "span4 btn btn-#{card.active? ? 'warning' : 'success'}"
