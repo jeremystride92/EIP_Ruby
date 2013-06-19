@@ -20,7 +20,7 @@ class Card < ActiveRecord::Base
   validates :card_level, presence: true
   validate :unique_card_per_cardholder_and_venue
 
-  after_initialize :set_default_guest_count
+  after_initialize :set_defaults
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -52,7 +52,8 @@ class Card < ActiveRecord::Base
     end
   end
 
-  def set_default_guest_count
+  def set_defaults
     self.guest_count ||= 0
+    self.status ||= 'active'
   end
 end

@@ -14,6 +14,7 @@ end
 
 # Bootstrap a user
 User.where(email: ENV['bootstrap_user_email']).first_or_create!(
+  name: 'Quick Left',
   password: ENV['bootstrap_user_password'],
   password_confirmation: ENV['bootstrap_user_password']
 )
