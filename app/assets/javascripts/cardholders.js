@@ -23,7 +23,7 @@ $('form.change-card-level select').change(function(e) {
 
 $('form.change-card-level').bind("ajax:success", function(xhr, data) {
   var $body = $(xhr.currentTarget).parents('.accordion-body');
-  var h$eader = body.prev('.accordion-header');
+  var $header = body.prev('.accordion-header');
 
   $body.removeClass('warning').addClass('success');
   $header.removeClass('warning');
