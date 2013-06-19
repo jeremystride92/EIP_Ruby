@@ -40,19 +40,30 @@ FactoryGirl.define do
     theme { CardLevel::THEMES.sample }
     sequence(:name) { |i| theme.titleize + i.to_s }
     venue
-    benefits { ['Free drinks!', 'Private table for 12!'] }
 
+    factory :card_level_with_benefits do
+      after :create do |card_level, evaluator|
+        FactoryGirl.create_list(:benefit, 3, beneficary: card_level)
+      end
+    end
   end
 
   factory :card do
     card_level
     cardholder
-    guest_count { 3 }
-    issuer { create :venue_manager }
     status 'active'
+    guest_count 3
+    association :issuer, factory: :venue_manager
 
     factory :inactive_card do
       status 'inactive'
     end
+  end
+
+  factory :benefit do
+    description "Get free stuff"
+    start_date nil
+    end_date nil
+    association :beneficiary, factory: :card_level
   end
 end

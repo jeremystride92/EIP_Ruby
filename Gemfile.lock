@@ -50,6 +50,7 @@ GEM
       activesupport (>= 3.2.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    cocoon (1.1.2)
     coderay (1.0.9)
     columnize (0.3.6)
     commonjs (0.2.6)
@@ -269,6 +270,7 @@ DEPENDENCIES
   cancan
   capybara
   carrierwave
+  cocoon
   database_cleaner
   debugger
   email_spec

@@ -2,8 +2,13 @@
   = f.input :name
   = f.input :theme, collection: CardLevel::THEMES
 
-  - card_level.benefits = (card_level.benefits || []).join("\n")
-  = f.input :benefits, as: :text
+  %fieldset
+    %legend Benefits
+    = f.simple_fields_for :benefits do |bf|
+      = render 'benefit_fields', f: bf
+
+    .links
+      = link_to_add_association 'Add Benefit', f, :benefits, :render_options => {:wrapper => 'bootstrap' }
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary'

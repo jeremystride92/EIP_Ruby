@@ -9,7 +9,7 @@
         %h3 Benefits
         %ul.unstyled
           - card_level.benefits.each do |benefit|
-            %li= benefit
+            %li= benefit.description
       .actions.pull-left
         =link_to 'Edit', edit_venue_card_level_path(card_level), class: 'btn btn-mini'
 

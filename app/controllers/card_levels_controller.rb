@@ -11,13 +11,13 @@ class CardLevelsController < ApplicationController
 
   def new
     @card_level = @venue.card_levels.build
+    3.times{ @card_level.benefits.build }
   end
 
   def create
     @card_level = @venue.card_levels.build card_level_params
-    @card_level.benefits = @card_level.benefits.split("\n").map(&:strip)
 
-    if @card_level.save
+    if @card_level.save!
       redirect_to venue_card_levels_path, notice: 'Card level created.'
     else
       render :new
@@ -29,8 +29,7 @@ class CardLevelsController < ApplicationController
 
   def update
     card_level_attributes = card_level_params
-    card_level_attributes[:benefits] = card_level_attributes[:benefits].split("\n").map(&:strip)
-    if @card_level.update_attributes(card_level_attributes)
+    if @card_level.update_attributes(card_level_params)
       redirect_to venue_card_levels_path, notice: 'Card level updated.'
     else
       render :edit
@@ -52,6 +51,6 @@ class CardLevelsController < ApplicationController
   end
 
   def card_level_params
-    params.require(:card_level).permit(:name, :benefits, :theme)
+    params.require(:card_level).permit(:name, :theme, benefits_attributes: [:id, :description, :_destroy])
   end
 end
