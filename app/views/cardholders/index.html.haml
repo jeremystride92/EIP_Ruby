@@ -13,7 +13,7 @@
       %th= link_to 'Issue Cards', new_venue_cardholder_path, class: 'btn'
   %tbody
     - @cards.each do |card|
-      %tr.accordion-header
+      %tr.accordion-header{ class: "status-#{card.status}" }
         %td.cardholder
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
@@ -22,24 +22,7 @@
         %td{ colspan: 2 }
       %tr.accordion-body.hidden
         %td{ colspan: 5 }
-          .row-fluid
-            .span5
-              .card-preview{ class: "theme-#{card.card_level.theme}" }
-                .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
-                .card-level= card.card_level.name
-                .card-number
-                  EIP#
-                  = card.cardholder.phone_number
-            .actions.span7
-              .row-fluid
-                = link_to '#', class: 'btn btn-large clearfix span6' do
-                  %i.icon-plus.pull-left
-                  .pull-left Issue Benefits
-                  %i.icon-caret-right.pull-right
-              .row-fluid
-                = simple_form_for card, url: venue_card_path(card), remote: true do |f|
-                  = f.input :card_level_id, collection: @card_levels, label: false, input_html: { class: 'span4' }
-                  = f.button :submit, value: 'Change', class: 'span2'
+          = render partial: 'card_row', locals: { card: card }
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders
