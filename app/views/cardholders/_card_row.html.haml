@@ -1,14 +1,19 @@
 .row-fluid
-  .span5
+  .span3
     .card-preview{ class: "theme-#{card.card_level.theme}" }
       .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
       .card-level= card.card_level.name
       .card-number
         EIP#
         = card.cardholder.phone_number
-  .actions.span7
+  .span3
+    %strong Individual Benefits
+    %ul
+      - card.benefits.each do |benefit|
+        %li= benefit.description
+  .actions.span6
     .row-fluid
-      = link_to '#', class: 'btn btn-large clearfix span6' do
+      = link_to edit_venue_card_path(card), class: 'btn btn-large clearfix span6' do
         %i.icon-plus.pull-left
         .pull-left Issue Benefits
         %i.icon-caret-right.pull-right
