@@ -6,6 +6,8 @@ class Card < ActiveRecord::Base
   belongs_to :issuer, class_name: User
 
   has_one :venue, through: :card_level
+  has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
+  accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
   validates :guest_count,
     presence: true,
@@ -50,6 +52,10 @@ class Card < ActiveRecord::Base
     if conflict
       errors.add :base, 'User has a card for that venue.'
     end
+  end
+
+  def ensure_benefits_beneficiary(benefit)
+    benefit.beneficiary ||= self
   end
 
   def set_defaults

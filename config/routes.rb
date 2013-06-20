@@ -17,7 +17,7 @@ EIPiD::Application.routes.draw do
     resources :card_levels
     resources :users
     resources :cardholders
-    resources :cards, only: [:update]
+    resources :cards, only: [:update, :edit]
   end
 
   resource :user, only: [:signup] do

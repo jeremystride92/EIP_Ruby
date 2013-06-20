@@ -9,6 +9,8 @@ class CardLevel < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :theme, presence: true, inclusion: THEMES
 
+  private
+
   def ensure_benefits_beneficiary(benefit)
     benefit.beneficiary ||= self
   end

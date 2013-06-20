@@ -1,6 +1,10 @@
 class CardsController < ApplicationController
   before_filter :find_card
 
+  def edit
+    @card.benefits.build unless @card.benefits.present?
+  end
+
   def update
     authorize! :update, @card
 
@@ -42,14 +46,20 @@ class CardsController < ApplicationController
     authorize! :update, @card
 
     if @card.update_attributes params_for_card
-      respond_to :json
+      respond_to do |format|
+        format.json
+        format.html { redirect_to venue_cardholders_path }
+      end
     else
-      head :unprocessable_entity
+      respond_to do |format|
+        format.json { head :unprocessable_entity }
+        format.html { render 'edit' }
+      end
     end
   end
-
+  
   def params_for_card
-    params.require(:card).permit(:card_level_id)
+    params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end
 
   def find_card
