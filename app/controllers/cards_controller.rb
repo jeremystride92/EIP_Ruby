@@ -19,6 +19,8 @@ class CardsController < ApplicationController
   private
 
   def deactivate_card
+    authorize! :update, @card
+
     if @card.update_attributes(status: 'inactive')
       head :no_content
     else
@@ -27,6 +29,8 @@ class CardsController < ApplicationController
   end
 
   def activate_card
+    authorize! :update, @card
+
     if @card.update_attributes(status: 'active')
       head :no_content
     else
@@ -35,6 +39,8 @@ class CardsController < ApplicationController
   end
 
   def change_card_level
+    authorize! :update, @card
+
     if @card.update_attributes params_for_card
       respond_to :json
     else
