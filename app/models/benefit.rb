@@ -43,7 +43,7 @@ class Benefit < ActiveRecord::Base
   end
 
   def merge_datetime_fields
-    self.start_date = @start_date_field.present?  ? "#{@start_date_field} #{@start_time_field}" : self.start_date = nil if @start_date_field
-    self.end_date = @end_date_field.present? ? "#{@end_date_field} #{@end_time_field}" : self.end_date = nil if @end_date_field
+    self.start_date = @start_date_field.present?  ? "#{@start_date_field} #{@start_time_field}" : nil
+    self.end_date = @end_date_field.present? ? "#{@end_date_field} #{@end_time_field}" : nil
   end
 end
