@@ -9,3 +9,7 @@ node :venue do |card|
 end
 
 attributes :guest_count, :status
+
+child :benefits do
+  extends 'api/v1/benefits/show'
+end

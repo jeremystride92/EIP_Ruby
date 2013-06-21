@@ -1,2 +1,2 @@
 object :@benefit
-attributes :description
+attributes :description, :start_date, :end_date
