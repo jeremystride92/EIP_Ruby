@@ -1,0 +1,17 @@
+%h1 Errors issuing #{@card_level.name} cards
+
+%ul
+  - @problems.each do |cardholder|
+    %li
+      .phone= cardholder.phone_number
+      .name= cardholder.first_name + ' ' + cardholder.last_name
+      %ul.errors
+        - cardholder.errors.messages.each do |field, messages_for_field|
+          - messages_for_field.each do |message|
+            - if field == :"cards.base"
+              %li.error= message
+            - else
+              %li.error= cardholder.errors.full_message field, message
+
+= link_to "Issue more #{@card_level.name} cards", new_batch_venue_cardholders_path(card_level_id: @card_level.id), class: 'btn btn-primary btn-large'
+= link_to "Return to Cardholders listing", venue_cardholders_path, class: 'btn btn-large'

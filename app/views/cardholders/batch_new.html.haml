@@ -1,0 +1,10 @@
+%h1 Issue #{@card_level.name} cards
+
+= simple_form_for :batch do |f|
+  .batch_cardholders
+  .form-actions
+    = f.button :submit, value: 'Issue Cards', class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', venue_cardholders_path, class: 'btn btn-large'
+
+= content_for :javascripts do
+  = javascript_include_tag 'cardholders_batch_new'

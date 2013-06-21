@@ -50,7 +50,7 @@ class Card < ActiveRecord::Base
     conflict = similar_cards.exists?
 
     if conflict
-      errors.add :base, 'User has a card for that venue.'
+      errors.add :base, 'This person already has a card for this venue.'
     end
   end
 

@@ -10,7 +10,14 @@
             %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Search Last Name' }
             = button_tag class: 'btn' do
               %i.icon-search
-      %th= link_to 'Issue Cards', new_venue_cardholder_path, class: 'btn'
+      %th.btn-toolbar
+        .btn-group
+          %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+            Issue Cards
+            %span.caret
+          %ul.dropdown-menu
+            - @card_levels.each do |card_level|
+              %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level_id: card_level.id)
   %tbody
     - @cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }
