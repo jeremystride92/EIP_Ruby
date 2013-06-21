@@ -1,0 +1,2 @@
+object :@benefit
+attributes :description

@@ -4,6 +4,7 @@ describe Card do
   it { should belong_to :card_level }
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
+  it { should have_many :benefits }
 
   describe 'defaults' do
     subject { Card.new }
@@ -50,6 +51,12 @@ describe Card do
       subject { create :card }
 
       it { should be_valid }
+    end
+
+    it "should be valid when created with nested benefits" do
+      benefits = attributes_for_list :benefit, 3
+      nested_card = create :card, benefits_attributes: benefits
+      nested_card.should be_valid
     end
   end
 end
