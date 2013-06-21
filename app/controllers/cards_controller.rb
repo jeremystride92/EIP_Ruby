@@ -15,6 +15,8 @@ class CardsController < ApplicationController
       activate_card
     when 'Change'
       change_card_level
+    when 'Edit Benefits'
+      edit_benefits
     else
       head :unproccessable_entity
     end
@@ -46,6 +48,14 @@ class CardsController < ApplicationController
     authorize! :update, @card
 
     if @card.update_attributes params_for_card
+      respond_to :json
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def edit_benefits
+    if @card.update_attributes params_for_card
       respond_to do |format|
         format.json
         format.html { redirect_to venue_cardholders_path }
@@ -57,7 +67,7 @@ class CardsController < ApplicationController
       end
     end
   end
-  
+
   def params_for_card
     params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end

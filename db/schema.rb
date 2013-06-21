@@ -52,7 +52,6 @@ ActiveRecord::Schema.define(:version => 20130619163854) do
     t.datetime "updated_at",                   :null => false
     t.integer  "guest_count",   :default => 0
     t.integer  "issuer_id"
-    t.text     "benefits"
     t.string   "status"
   end
 
