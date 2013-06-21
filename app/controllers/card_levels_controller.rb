@@ -11,13 +11,13 @@ class CardLevelsController < ApplicationController
 
   def new
     @card_level = @venue.card_levels.build
-    3.times{ @card_level.benefits.build }
+    @card_level.benefits.build
   end
 
   def create
     @card_level = @venue.card_levels.build card_level_params
 
-    if @card_level.save!
+    if @card_level.save
       redirect_to venue_card_levels_path, notice: 'Card level created.'
     else
       render :new

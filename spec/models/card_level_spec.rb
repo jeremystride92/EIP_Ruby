@@ -19,5 +19,11 @@ describe CardLevel do
       card_level.theme = 'black'
       card_level.should be_valid
     end
+
+    it "should be valid when created with nested benefits" do
+      benefits = attributes_for_list :benefit, 3
+      nested_card_level = create :card_level, benefits_attributes: benefits
+      nested_card_level.should be_valid
+    end
   end
 end
