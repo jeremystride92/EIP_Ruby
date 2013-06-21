@@ -31,9 +31,19 @@ describe Cardholder do
     end
 
     context "on a new cardholder" do
-      it "should not be valid without a password" do
+      it "should generate a valid random password if one isn't given" do
         cardholder = build :cardholder, password: nil, password_confirmation: nil
-        cardholder.should_not be_valid
+        cardholder.should be_valid
+        cardholder.password.should_not be_nil
+        other_cardholder = build :cardholder, password: nil, password_confirmation: nil
+        other_cardholder.valid? # run validation in order to trigger callbacks
+        cardholder.password.should_not == other_cardholder.password
+      end
+
+      it "should not generate password if one given" do
+        cardholder = build :cardholder, password: 'short', password_confirmation: 'short'
+        cardholder.valid? # run validation in order to trigger callbacks
+        cardholder.password.should == 'short'
       end
 
       it "should be not be valid with a short password" do
@@ -84,6 +94,28 @@ describe Cardholder do
     it "should not authenticate with incorrect password" do
       cardholder = create :cardholder
       cardholder.authenticate('incorrect').should == false
+    end
+  end
+
+  describe "#generate_unusable_password!" do
+    subject { build :cardholder, password: nil, password_confirmation: nil }
+
+    before {subject.generate_unusable_password!}
+
+    it "should set password" do
+      subject.password.should_not be_nil
+    end
+
+    it "should set password_confirmation to match password" do
+      subject.password_confirmation.should == subject.password
+    end
+
+    it "should generate a long password" do
+      subject.password.length.should be >= 16
+    end
+
+    it "should generate a different password each time" do
+      5.times{ expect{subject.generate_unusable_password!}.to change(subject, :password) }
     end
   end
 end

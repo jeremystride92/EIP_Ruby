@@ -16,6 +16,11 @@ class Cardholder < ActiveRecord::Base
     length: { is: 10 }
 
   before_create { generate_token(:auth_token) }
+  before_validation :generate_unusable_password!, unless: proc { |cardholder| cardholder.password_digest||cardholder.password }
+
+  def generate_unusable_password!
+    self.password = self.password_confirmation = SecureRandom.random_bytes(16)
+  end
 
   private
 
