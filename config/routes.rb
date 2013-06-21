@@ -8,7 +8,8 @@ EIPiD::Application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :cardholders, only: [:show]
+      resource :cardholder, only: [:show]
+      post 'authorize', to: 'sessions#create'
     end
   end
 
