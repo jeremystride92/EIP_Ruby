@@ -33,11 +33,8 @@ describe Cardholder do
     context "on a new cardholder" do
       it "should generate a valid random password if one isn't given" do
         cardholder = build :cardholder, password: nil, password_confirmation: nil
+        cardholder.should_receive(:generate_unusable_password!).and_call_original
         cardholder.should be_valid
-        cardholder.password.should_not be_nil
-        other_cardholder = build :cardholder, password: nil, password_confirmation: nil
-        other_cardholder.valid? # run validation in order to trigger callbacks
-        cardholder.password.should_not == other_cardholder.password
       end
 
       it "should not generate password if one given" do
