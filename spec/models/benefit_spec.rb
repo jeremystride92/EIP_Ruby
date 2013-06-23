@@ -34,4 +34,46 @@ describe Benefit do
       end
     end
   end
+
+  describe "#inactive? and #active?" do
+    context "with no end date, and started yesterday" do
+      let(:benefit) { build :benefit, start_date: 1.day.ago }
+
+      it "should be inactive two days ago" do
+        benefit.should be_inactive 2.days.ago
+      end
+
+      it "should be active two days ago" do
+        benefit.should_not be_active 2.days.ago
+      end
+
+      it "should not be inactive today" do
+        benefit.should_not be_inactive
+      end
+
+      it "should be active today" do
+        benefit.should be_active
+      end
+    end
+
+    context "with no start date, and ended yesterday" do
+      let(:benefit) { build :benefit, end_date: 1.day.ago }
+
+      it "should not be inactive two days ago" do
+        benefit.should_not be_inactive 2.days.ago
+      end
+
+      it "should be active two days ago" do
+        benefit.should be_active 2.days.ago
+      end
+
+      it "should be inactive today" do
+        benefit.should be_inactive
+      end
+
+      it "should not be active today" do
+        benefit.should_not be_active
+      end
+    end
+  end
 end
