@@ -8,7 +8,9 @@ EIPiD::Application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :cardholder, only: [:show]
+      resource :cardholder, only: [:show] do
+        post :checkin, to: 'cardholders#checkin'
+      end
       post 'authorize', to: 'sessions#create'
     end
   end
