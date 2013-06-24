@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619163854) do
+ActiveRecord::Schema.define(:version => 20130620224435) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -39,8 +39,10 @@ ActiveRecord::Schema.define(:version => 20130619163854) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "photo"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "password_digest"
+    t.string   "auth_token"
   end
 
   add_index "cardholders", ["phone_number"], :name => "index_cardholders_on_phone_number"

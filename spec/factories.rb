@@ -23,6 +23,8 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     photo "photo.jpg"
+    password 'secret'
+    password_confirmation { |u| u.password }
   end
 
   factory :venue do
