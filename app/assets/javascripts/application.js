@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery_ujs
+//= require underscore
 //= require twitter/bootstrap
 //= require common
 //= require cocoon

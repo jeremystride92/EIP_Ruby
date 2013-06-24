@@ -1,4 +1,6 @@
 class CardholdersController < ApplicationController
+  include ActionView::Helpers::TextHelper
+
   layout 'venue'
 
   before_filter :find_venue
@@ -20,31 +22,42 @@ class CardholdersController < ApplicationController
     end
   end
 
-  def new
-    @cardholder = Cardholder.new
+  def batch_new
+    @card_level = CardLevel.find(params[:card_level_id])
   end
 
-  def create
-    if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
-      @cardholder.cards.build params_for_cardholder[:cards_attributes]['0']
-    else
-      @cardholder = Cardholder.new params_for_cardholder # accepts nested attributes for the new card
+  def batch_create
+    cardholders = params[:cardholders].map do |index, ch_attr|
+      attrs = ch_attr.merge(cards_attributes: { '0' => { card_level_id: params[:card_level_id], issuer_id: current_user.id } })
+      create_cardholder_or_card attrs
     end
 
+    cardholders.each do |ch|
+      authorize! :create, ch.cards.last
+      ch.save
+    end
 
-    if @cardholder.save
-      case params[:commit]
-      when /continue/i
-        redirect_to new_venue_cardholder_path, notice: "Card issued for #{@cardholder.phone_number}"
-      else
-        redirect_to venue_cardholders_path, notice: 'Card issued'
-      end
+    @problems = cardholders.select &:invalid?
+
+    if @problems.empty?
+      redirect_to venue_cardholders_path, notice: "#{pluralize(cardholders.count, 'card')} issued"
     else
-      render :new
+      @card_level = CardLevel.find params[:card_level_id]
+      render 'redo_batch'
     end
   end
 
   private
+
+  def create_cardholder_or_card(attributes)
+    if cardholder = Cardholder.find_by_phone_number(attributes[:phone_number])
+      cardholder.cards.build attributes[:cards_attributes]['0']
+    else
+      cardholder = Cardholder.new attributes # accepts nested attributes for the new card
+    end
+
+    cardholder
+  end
 
   def find_venue
     @venue = Venue.includes(:card_levels).find(current_user.venue_id)

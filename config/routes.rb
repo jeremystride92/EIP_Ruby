@@ -15,9 +15,15 @@ EIPiD::Application.routes.draw do
 
   resource :venue, only: [:new, :create, :show] do
     get :signup, to: "venues#new", as: :signup, on: :collection
+
     resources :card_levels
     resources :users
-    resources :cardholders
+
+    resources :cardholders, only: [:index] do
+      get 'new_batch/:card_level_id', to: "cardholders#batch_new", on: :collection, as: :new_batch
+      post 'new_batch/:card_level_id', to: "cardholders#batch_create", on: :collection, as: :create_batch
+    end
+
     resources :cards, only: [:update, :edit]
   end
 
