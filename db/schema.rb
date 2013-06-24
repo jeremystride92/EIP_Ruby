@@ -13,12 +13,21 @@
 
 ActiveRecord::Schema.define(:version => 20130620224435) do
 
+  create_table "benefits", :force => true do |t|
+    t.string   "description"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "beneficiary_id"
+    t.string   "beneficiary_type"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
-    t.text     "benefits"
     t.string   "theme"
     t.integer  "cards_count", :default => 0
   end
