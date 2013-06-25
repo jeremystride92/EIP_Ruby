@@ -1,5 +1,6 @@
 class CardsController < ApplicationController
-  before_filter :find_card
+  before_filter :find_card, except: [:request_card_form, :request_card]
+  before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
 
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
@@ -26,6 +27,31 @@ class CardsController < ApplicationController
     else
       head :unproccessable_entity
     end
+  end
+
+  def request_card_form
+    @cardholder = Cardholder.new
+  end
+
+  def request_card
+    @card = @venue.default_signup_card_level.cards.build(status: 'pending')
+    if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
+      if @cardholder.authenticate params[:cardholder][:password]
+        @cardholder.cards << @card
+        @cardholder.save
+      else
+        @cardholder = Cardholder.new(params_for_card_request)
+        @cardholder.errors.add :password, 'Incorrect Password'
+        render 'request_card_form'
+      end
+    else
+      if @cardholder = Cardholder.create(params_for_card_request)
+        @cardholder.cards << @card
+      else
+        render 'request_card_form'
+      end
+    end
+
   end
 
   private
@@ -97,8 +123,16 @@ class CardsController < ApplicationController
     params.permit :start_date, :end_date
   end
 
+  def params_for_card_request
+    params.require(:cardholder).permit(:phone_number, :password, :first_name, :last_name)
+  end
+
   def find_card
     id = params[:id] || params[:card_id]
     @card = Card.find(id)
+  end
+
+  def find_venue_by_slug
+    @venue = Venue.find_by_vanity_slug!(params[:venue_slug])
   end
 end

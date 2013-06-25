@@ -41,6 +41,9 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
+  get ':venue_slug/request_card', to: 'cards#request_card_form', as: 'request_card'
+  post ':venue_slug/request_card', to: 'cards#request_card'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

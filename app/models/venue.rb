@@ -31,4 +31,8 @@ class Venue < ActiveRecord::Base
   def managers
     User.where(venue_id: id).select(&:venue_manager?)
   end
+
+  def default_signup_card_level
+    card_levels.where(default_signup_level: true).first
+  end
 end
