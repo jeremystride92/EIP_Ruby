@@ -1,2 +1,6 @@
+- content_for :javascripts do
+  = javascript_include_tag 'request_card'
+
 %h1 Request a Card for #{@venue.name}
-= render 'request_form'
+.request-card
+  = render 'request_form'

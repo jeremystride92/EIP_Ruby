@@ -47,6 +47,14 @@ class CardholdersController < ApplicationController
     end
   end
 
+  def check_for_cardholder
+    if Cardholder.find_by_phone_number params[:phone_number]
+      render json: { phone_number: params[:phone_number].to_s }
+    else
+      head :not_found
+    end
+  end
+
   private
 
   def create_cardholder_or_card(attributes)

@@ -37,17 +37,25 @@ class CardsController < ApplicationController
     @card = @venue.default_signup_card_level.cards.build(status: 'pending')
     if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
       if @cardholder.authenticate params[:cardholder][:password]
-        @cardholder.cards << @card
-        @cardholder.save
+        if @cardholder.has_card_for_venue?(@venue)
+          render 'card_exists'
+        else
+          @cardholder.cards << @card
+          @cardholder.save
+        end
       else
-        @cardholder = Cardholder.new(params_for_card_request)
+        @cardholder = Cardholder.new(params_for_card_request) # recreate cardholder so that no information leaks to the form
         @cardholder.errors.add :password, 'Incorrect Password'
+        @incorrect_password = true
         render 'request_card_form'
       end
     else
-      if @cardholder = Cardholder.create(params_for_card_request)
+      @cardholder= Cardholder.new(params_for_card_request)
+      if @cardholder.save
         @cardholder.cards << @card
+        @cardholder.save
       else
+        @validation_errors=true
         render 'request_card_form'
       end
     end
@@ -124,7 +132,7 @@ class CardsController < ApplicationController
   end
 
   def params_for_card_request
-    params.require(:cardholder).permit(:phone_number, :password, :first_name, :last_name)
+    params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name)
   end
 
   def find_card

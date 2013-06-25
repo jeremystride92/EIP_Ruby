@@ -1,9 +1,9 @@
 = simple_form_for @cardholder, url: request_card_path(venue_slug: @venue.vanity_slug), method: :post do |f|
-  = @cardholder.errors[:base] if @cardholder.errors
-  = f.input :phone_number
-  = f.input :password, required: true
-  enter the following if you are a new EIPid user.
-  = f.input :password_confirmation
-  = f.input :first_name
-  = f.input :last_name
-  = f.button :submit, value: 'Request Card'
+  = f.input :phone_number, hint: ''
+  .detail-fields{class: @incorrect_password || @validation_errors ? '' : 'hide' }
+    = f.input :password, required: true
+    .new-cardholder-fields{class: @validation_errors ? '' : 'hide' }
+      = f.input :password_confirmation, label: 'Confirm Password', as: :password
+      = f.input :first_name
+      = f.input :last_name
+    = f.button :submit, value: 'Request Card'

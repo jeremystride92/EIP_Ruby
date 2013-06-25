@@ -44,6 +44,8 @@ EIPiD::Application.routes.draw do
   get ':venue_slug/request_card', to: 'cards#request_card_form', as: 'request_card'
   post ':venue_slug/request_card', to: 'cards#request_card'
 
+  get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
