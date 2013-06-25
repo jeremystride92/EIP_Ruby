@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 describe Cardholder do
+  it { should have_many :cards }
+
   describe "Validations" do
-    context 'on create' do
-      subject { build :cardholder, first_name: nil, last_name: nil }
+    context 'always' do
+      subject { build :cardholder }
       it { should validate_presence_of :phone_number }
       it { should validate_uniqueness_of :phone_number }
       it { should validate_numericality_of :phone_number }
@@ -18,16 +20,20 @@ describe Cardholder do
         subject.phone_number = '12345678901'
         subject.should_not be_valid
       end
-
-      it { should be_valid }
     end
 
-    context 'on update' do
-      subject { create :cardholder, first_name: nil, last_name: nil }
+    context 'when pending' do
+      subject { build :pending_cardholder }
+
+      it { should_not validate_presence_of :first_name }
+      it { should_not validate_presence_of :last_name }
+    end
+
+    context 'when active' do
+      subject { build :cardholder }
+
       it { should validate_presence_of :first_name }
       it { should validate_presence_of :last_name }
-
-      it { should_not be_valid }
     end
 
     context "on a new cardholder" do
@@ -73,8 +79,6 @@ describe Cardholder do
     end
   end
 
-  it { should have_many :cards }
-
   describe "authentication" do
     it "should generate auth_token on create" do
       cardholder = build :cardholder
@@ -113,6 +117,47 @@ describe Cardholder do
 
     it "should generate a different password each time" do
       5.times{ expect{subject.generate_unusable_password!}.to change(subject, :password) }
+    end
+  end
+
+  describe "#active? and #pending?" do
+    context "when pending" do
+      subject { build :pending_cardholder }
+
+      it { should_not be_active }
+      it { should be_pending }
+    end
+
+    context "when active" do
+      subject { build :cardholder }
+
+      it { should be_active }
+      it { should_not be_pending }
+    end
+  end
+
+  describe "#activate!" do
+    let(:cardholder) { create :pending_cardholder }
+
+    it "does not work if names are not set" do
+      cardholder.activate!.should be_false
+      cardholder.reload.should be_pending
+    end
+
+    context "when both names are set" do
+      before do
+        cardholder.first_name = "First"
+        cardholder.last_name = "Last"
+      end
+
+      it "succeeds" do
+        cardholder.activate!.should be_true
+      end
+
+      it "sets the status to active" do
+        cardholder.activate!
+        cardholder.should be_active
+      end
     end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620224435) do
+ActiveRecord::Schema.define(:version => 20130624191340) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130620224435) do
     t.datetime "updated_at",      :null => false
     t.string   "password_digest"
     t.string   "auth_token"
+    t.string   "status"
   end
 
   add_index "cardholders", ["phone_number"], :name => "index_cardholders_on_phone_number"

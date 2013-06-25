@@ -12,12 +12,12 @@
     %h2.block-title Actions
     .block-info
       .row-fluid
-        = link_to new_venue_cardholder_path, class: 'btn btn-large span12 clearfix' do
+        = link_to venue_cardholders_path, class: 'btn btn-large span12 clearfix' do
           %i.icon-credit-card.pull-left
-          .pull-left Issue Cards
+          .pull-left Cards
           %i.icon-caret-right.pull-right
       .row-fluid
-        = link_to '#', class: 'btn btn-large span12 clearfix' do
+        = link_to venue_card_levels_path, class: 'btn btn-large span12 clearfix' do
           %i.icon-plus.pull-left
-          .pull-left Issue Benefits
+          .pull-left Card Levels
           %i.icon-caret-right.pull-right

@@ -25,6 +25,13 @@ FactoryGirl.define do
     photo "photo.jpg"
     password 'secret'
     password_confirmation { |u| u.password }
+    status 'active'
+
+    factory :pending_cardholder do
+      status 'pending'
+      first_name nil
+      last_name nil
+    end
   end
 
   factory :venue do
