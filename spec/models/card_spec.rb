@@ -5,6 +5,7 @@ describe Card do
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
   it { should have_many :benefits }
+  it { should have_many :guest_passes }
 
   describe 'defaults' do
     subject { Card.new }

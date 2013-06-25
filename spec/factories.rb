@@ -75,4 +75,10 @@ FactoryGirl.define do
     end_date nil
     association :beneficiary, factory: :card_level
   end
+
+  factory :guest_pass do
+    start_date nil
+    end_date nil
+    card
+  end
 end
