@@ -42,6 +42,39 @@ class Card < ActiveRecord::Base
     !active?
   end
 
+  def total_guest_count
+    active_pass_count = guest_passes.select(&:active?).count
+
+    guest_count + active_pass_count
+  end
+
+  def checkin_guests!(count)
+    if count > total_guest_count
+      raise "Too many guests"
+    end
+
+    if count <= guest_count
+      new_guest_count = count < guest_count
+      count = 0
+    else
+      new_guest_count = 0
+      count -= guest_count
+
+      active_passes = guest_passes.select(&:active?)
+    end
+
+
+    transaction do
+      update_attributes guest_count: new_guest_count
+
+      if count > 0
+        active_passes.take(count).each do |pass|
+          pass.destroy
+        end
+      end
+    end
+  end
+
   private
 
   def unique_card_per_cardholder_and_venue
