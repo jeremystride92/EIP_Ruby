@@ -30,11 +30,10 @@ describe Card do
     it { should validate_presence_of :status }
 
     it 'should only allow valid card statuses' do
-      subject.status = 'active'
-      subject.should be_valid
-
-      subject.status = 'inactive'
-      subject.should be_valid
+      Card::STATUSES.each do |status|
+        subject.status = status
+        subject.should be_valid
+      end
 
       subject.status = 'pretty'
       subject.should_not be_valid
@@ -46,6 +45,24 @@ describe Card do
       subject { build :card, cardholder: old_card.cardholder, card_level: new_card_level }
 
       it { should_not be_valid }
+    end
+
+    describe "pending cards" do
+      context "when card has pending status" do
+        subject { create :card, issuer: nil, status: 'pending' }
+
+        it { should be_valid }
+        it { should_not validate_presence_of :issuer }
+      end
+
+      %w[active inactive].each do |status|
+        context "when card has an #{status} status" do
+          let(:issuer) { build :venue_manager }
+          subject { build :card, issuer: issuer, status: status }
+
+          it { should validate_presence_of :issuer }
+        end
+      end
     end
 
     context 'when this card is saved' do

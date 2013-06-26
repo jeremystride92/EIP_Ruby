@@ -59,3 +59,19 @@ $('form.change-card-status').bind('ajax:error', function(xhr, data) {
   var $body = $(xhr.currentTarget).parents('tr');
   $body.addClass('error');
 });
+
+// Approve Card form ///////////////////////////////////////////////////////////
+
+$('form.approve-card').bind('ajax:success', function(xhr, data){
+  var $form = $(xhr.currentTarget);
+  var $row = $form.parents('.pending-card');
+
+  $row.removeClass('error').addClass('success').fadeOut();
+});
+
+$('form.approve-card').bind('ajax:error', function(xhr, data){
+  var $form = $(xhr.currentTarget);
+  var $row = $form.parents('.pending-card');
+
+  $row.addClass('error');
+});

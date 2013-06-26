@@ -26,4 +26,37 @@ describe CardLevel do
       nested_card_level.should be_valid
     end
   end
+
+  describe "default signup card level per venue" do
+    context "when only card_level in venue" do
+      let(:venue) { create :venue }
+
+      subject { create :card_level, venue: venue }
+
+      it { should be_default_signup_level }
+    end
+
+    context "when other card_levels for venue exist" do
+      let(:venue) { create :venue }
+      let!(:other_card_level) { create :card_level, venue: venue, default_signup_level: true }
+      let!(:other_venue_card_level) { create :card_level, default_signup_level: true }
+
+      subject { create :card_level, venue: venue }
+
+      it { should_not be_default_signup_level }
+
+      it "should change other card_level for same venue to false when set" do
+        lambda do
+          subject.update_attributes default_signup_level: true
+        end.should change{ other_card_level.reload.default_signup_level? }.from(true).to(false)
+      end
+
+      it "should not change other card_level for different venue to false when set" do
+        lambda do
+          subject.update_attributes default_signup_level: true
+        end.should_not change{ other_venue_card_level.reload.default_signup_level? }
+      end
+
+    end
+  end
 end

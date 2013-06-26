@@ -28,6 +28,7 @@ class Cardholder < ActiveRecord::Base
     self.password = self.password_confirmation = SecureRandom.random_bytes(16)
   end
 
+
   STATUSES.each do |status_code|
     define_method("#{status_code}?") do
       self.status == status_code
@@ -36,6 +37,10 @@ class Cardholder < ActiveRecord::Base
 
   def activate!
     update_attributes(status: 'active')
+  end
+
+  def has_card_for_venue?(venue)
+    venues.include? venue
   end
 
   private

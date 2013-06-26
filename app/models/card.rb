@@ -1,5 +1,5 @@
 class Card < ActiveRecord::Base
-  STATUSES = %w(active inactive)
+  STATUSES = %w(active inactive pending)
 
   belongs_to :card_level, counter_cache: true
   belongs_to :cardholder
@@ -16,12 +16,11 @@ class Card < ActiveRecord::Base
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  validates :issuer_id, presence: true
-
   validates :status,
     presence: true,
     inclusion: STATUSES
 
+  validates :issuer, presence: true, unless: :pending?
   validates :card_level, presence: true
   validate :unique_card_per_cardholder_and_venue
 
@@ -33,7 +32,10 @@ class Card < ActiveRecord::Base
   }
 
   scope :active, where(status: 'active')
-  scope :inactive, where(status: 'inactive')
+  scope :inactive, where(status: 'inactive') # this excludes pending cards as well as active cards
+
+  scope :pending, where(status: 'pending')
+  scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
   def active?
     self.status == 'active'
@@ -41,6 +43,10 @@ class Card < ActiveRecord::Base
 
   def inactive?
     !active?
+  end
+
+  def pending?
+    status == 'pending'
   end
 
   def total_guest_count

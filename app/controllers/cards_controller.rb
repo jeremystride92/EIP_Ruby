@@ -1,5 +1,6 @@
 class CardsController < ApplicationController
-  before_filter :find_card
+  before_filter :find_card, except: [:request_card_form, :request_card]
+  before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
 
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
@@ -23,9 +24,46 @@ class CardsController < ApplicationController
       edit_benefits
     when 'Issue Guest Passes'
       issue_guest_passes
+    when /approve/i
+      approve_card
+    when /reject/i
+      reject_card
     else
-      head :unproccessable_entity
+      head :unprocessable_entity
     end
+  end
+
+  def request_card_form
+    @cardholder = Cardholder.new
+  end
+
+  def request_card
+    @card = @venue.default_signup_card_level.cards.build(status: 'pending')
+    if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
+      if @cardholder.authenticate params[:cardholder][:password]
+        if @cardholder.has_card_for_venue?(@venue)
+          render 'card_exists'
+        else
+          @cardholder.cards << @card
+          @cardholder.save
+        end
+      else
+        @cardholder = Cardholder.new(params_for_card_request) # recreate cardholder so that no information leaks to the form
+        @cardholder.errors.add :password, 'Incorrect Password'
+        @incorrect_password = true
+        render 'request_card_form'
+      end
+    else
+      @cardholder= Cardholder.new(params_for_card_request)
+      if @cardholder.save
+        @cardholder.cards << @card
+        @cardholder.save
+      else
+        @validation_errors=true
+        render 'request_card_form'
+      end
+    end
+
   end
 
   private
@@ -89,6 +127,24 @@ class CardsController < ApplicationController
     end
   end
 
+  def approve_card
+    if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)
+      head :no_content
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def reject_card
+    authorize! :delete, @card
+    if @card.pending?
+      @card.destroy
+      head :no_content
+    else
+      head :unprocessable_entity
+    end
+  end
+
   def params_for_card
     params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end
@@ -97,8 +153,16 @@ class CardsController < ApplicationController
     params.permit :start_date, :end_date
   end
 
+  def params_for_card_request
+    params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name)
+  end
+
   def find_card
     id = params[:id] || params[:card_id]
     @card = Card.find(id)
+  end
+
+  def find_venue_by_slug
+    @venue = Venue.find_by_vanity_slug!(params[:venue_slug])
   end
 end

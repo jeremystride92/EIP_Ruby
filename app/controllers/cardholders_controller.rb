@@ -9,15 +9,17 @@ class CardholdersController < ApplicationController
     @card_levels = @venue.card_levels
 
     @cards = Card.for_venue(@venue.id).joins(:cardholder).order('cardholders.last_name ASC')
+    @approved_cards = @cards.approved
+    @pending_cards = @cards.pending
 
     if params[:card_level_id].present?
-      @cards = @cards.where(card_level_id: params[:card_level_id])
+      @approved_cards = @approved_cards.where(card_level_id: params[:card_level_id])
       @card_level_id = params[:card_level_id]
     end
 
     if params[:filter].present?
       search_string = "%#{params[:filter]}%"
-      @cards = @cards.where('cardholders.last_name LIKE ?', search_string)
+      @approved_cards = @approved_cards.where('cardholders.last_name LIKE ?', search_string)
       @filter_string = params[:filter]
     end
   end
@@ -44,6 +46,14 @@ class CardholdersController < ApplicationController
     else
       @card_level = CardLevel.find params[:card_level_id]
       render 'redo_batch'
+    end
+  end
+
+  def check_for_cardholder
+    if Cardholder.find_by_phone_number params[:phone_number]
+      render json: { phone_number: params[:phone_number].to_s }
+    else
+      head :not_found
     end
   end
 

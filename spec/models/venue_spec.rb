@@ -44,4 +44,14 @@ describe Venue do
       it { should =~ [manager1, manager2] }
     end
   end
+
+  describe "#default_signup_card_level" do
+    it "should be the proper card_level" do
+      venue = create :venue
+      default_card_level = create :card_level, venue: venue, default_signup_level: true
+      other_card_levels = create_list :card_level, 3, venue: venue, default_signup_level: false
+
+      venue.default_signup_card_level.should == default_card_level
+    end
+  end
 end
