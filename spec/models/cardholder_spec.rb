@@ -167,16 +167,21 @@ describe Cardholder do
       let(:card_level) { create :card_level, venue: venue }
       let(:cardholder) { create :cardholder }
       let!(:card) { create :card, card_level: card_level, cardholder: cardholder }
+
       it "should have card for venue" do
-        cardholder.has_card_for_venue?(venue).should be_true
+        cardholder.should have_card_for_venue venue
+        # cardholder.has_card_for_venue?(venue).should be_true
       end
     end
+
     context "when card does not exists for given venue" do
       let(:venue) { create :venue }
       let!(:card_level) { create :card_level, venue: venue }
       let(:cardholder) { create :cardholder }
+
       it "should have card for venue" do
-        cardholder.has_card_for_venue?(venue).should be_false
+        cardholder.should_not have_card_for_venue venue
+        # cardholder.has_card_for_venue?(venue).should be_false
       end
     end
   end
