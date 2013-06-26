@@ -13,10 +13,10 @@ class Api::V1::CardholdersController < ApplicationController
     guest_count = params[:guest_count].to_i
 
     if guest_count > card.total_guest_count
-      render json: {error: "This cardholder has fewer passes than guests.", count: card.total_guest_count }, status: :bad_request
+      render json: {error: "This cardholder has fewer passes than guests.", count: card.reload.total_guest_count }, status: :bad_request
     else
       card.checkin_guests! guest_count
-      render json: { success: "Passes accepted", count: card.total_guest_count }
+      render json: { success: "Passes accepted", count: card.reload.total_guest_count }
     end
   end
 
