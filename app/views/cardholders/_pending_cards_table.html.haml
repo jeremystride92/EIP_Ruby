@@ -1,0 +1,13 @@
+%table.table.table-striped.pending-cards
+  %thead
+    %th Phone Number
+    %th Name
+    %th Actions
+  %tbody
+    - @pending_cards.each do |card|
+      %tr
+        %th= card.cardholder.phone_number
+        %td
+          %span.first_name= card.cardholder.first_name
+          %span.last_name= card.cardholder.last_name
+        %td actions

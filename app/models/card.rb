@@ -35,6 +35,7 @@ class Card < ActiveRecord::Base
   scope :inactive, where(status: 'inactive') # this excludes pending cards as well as active cards
 
   scope :pending, where(status: 'pending')
+  scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
   def active?
     self.status == 'active'
