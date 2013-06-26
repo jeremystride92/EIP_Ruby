@@ -5,6 +5,7 @@ describe Card do
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
   it { should have_many :benefits }
+  it { should have_many :guest_passes }
 
   describe 'defaults' do
     subject { Card.new }
@@ -57,6 +58,171 @@ describe Card do
       benefits = attributes_for_list :benefit, 3
       nested_card = create :card, benefits_attributes: benefits
       nested_card.should be_valid
+    end
+  end
+
+  describe '#total_guest_count' do
+    let(:card) { create :card, guest_count: 1 }
+
+    subject { card.total_guest_count }
+
+    context "with an expired pass" do
+      before do
+        card.guest_passes.create end_date: 1.day.ago
+      end
+
+      it { should == 1 }
+    end
+
+    context "with an unstarted pass" do
+      before do
+        card.guest_passes.create start_date: 1.day.from_now
+      end
+
+      it { should == 1 }
+    end
+
+    context "with an active temporary pass" do
+      before do
+        card.guest_passes.create start_date: 1.day.ago, end_date: 1.day.from_now
+      end
+
+      it { should == 2 }
+    end
+
+    context "with an indefinite pass" do
+      before do
+        card.guest_passes.create start_date: nil, end_date: nil
+      end
+
+      it { should == 2 }
+    end
+  end
+
+  describe "#checkin_guests!" do
+    context "without any GuestPasses" do
+      context "without any daily passes" do
+        let(:card) { build :card, guest_count: 0 }
+
+        it "should raise an exception and not expend passes" do
+          lambda {
+            lambda { card.checkin_guests! 1 }.should raise_error 'Too many guests'
+          }.should_not change { card.guest_count }
+        end
+      end
+
+      context "without enough daily passes" do
+        let(:card) { build :card, guest_count: 3 }
+
+        it "should raise an exception and not expend passes" do
+          lambda {
+            lambda { card.checkin_guests! 4 }.should raise_error 'Too many guests'
+          }.should_not change { card.guest_count }
+        end
+      end
+
+      context "with enough daily passes" do
+        let(:card) { build :card, guest_count: 3 }
+
+        it "should subtract the checkins from the pass count" do
+          card.checkin_guests! 2
+          card.guest_count.should == 1
+          card.total_guest_count.should == 1
+        end
+      end
+    end
+
+    context "with GuestPasses" do
+      context "without any daily passes" do
+        context "without enough GuestPasses" do
+          let(:card) { create :card, guest_count: 0 }
+
+          before do
+            3.times do
+              card.guest_passes.create
+            end
+          end
+
+          it "should raise an exception and not expend passes" do
+            lambda {
+              lambda {
+                lambda {card.checkin_guests! 4}.should raise_error "Too many guests"
+              }.should_not change { card.guest_count }
+            }.should_not change { card.guest_passes.count }
+          end
+        end
+
+        context "with enough GuestPasses" do
+          let(:card) { create :card, guest_count: 0 }
+
+          before do
+            3.times do
+              card.guest_passes.create
+            end
+          end
+
+          it "should remove the right number of GuestPasses" do
+            card.checkin_guests! 2
+            card.guest_count.should == 0
+            card.guest_passes.count.should == 1
+            card.reload.total_guest_count.should == 1
+          end
+        end
+      end
+
+      context "without enough daily passes" do
+        context "without enough GuestPasses" do
+          let(:card) { create :card, guest_count: 3 }
+
+          before do
+            3.times do
+              card.guest_passes.create
+            end
+          end
+
+          it "should raise an exception and not expend passes" do
+            lambda {
+              lambda {
+                lambda {card.checkin_guests! 8}.should raise_error "Too many guests"
+              }.should_not change { card.guest_count }
+            }.should_not change { card.guest_passes.count }
+          end
+        end
+
+        context "with enough GuestPasses" do
+          let(:card) { create :card, guest_count: 1 }
+
+          before do
+            3.times do
+              card.guest_passes.create
+            end
+          end
+
+          it "should remove the right number of GuestPasses" do
+            card.checkin_guests! 2
+            card.guest_count.should == 0
+            card.guest_passes.count.should == 2
+            card.reload.total_guest_count.should == 2
+          end
+        end
+      end
+
+      context "with enough daily passes" do
+        let(:card) { create :card, guest_count: 3 }
+
+        before do
+          3.times do
+            card.guest_passes.create
+          end
+        end
+
+        it "should use only daily passes" do
+          card.checkin_guests! 2
+          card.guest_count.should == 1
+          card.guest_passes.count.should == 3
+          card.total_guest_count.should == 4
+        end
+      end
     end
   end
 end

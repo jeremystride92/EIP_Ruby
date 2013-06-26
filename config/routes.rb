@@ -8,7 +8,9 @@ EIPiD::Application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :cardholder, only: [:show]
+      resource :cardholder, only: [:show] do
+        post :checkin, to: 'cardholders#checkin'
+      end
       post 'authorize', to: 'sessions#create'
     end
   end
@@ -24,7 +26,10 @@ EIPiD::Application.routes.draw do
       post 'new_batch/:card_level_id', to: "cardholders#batch_create", on: :collection, as: :create_batch
     end
 
-    resources :cards, only: [:update, :edit]
+    resources :cards, only: [:update] do
+      get :edit_benefits, to: 'cards#edit_benefits'
+      get :edit_guest_passes, to: 'cards#edit_guest_passes'
+    end
   end
 
   resource :user, only: [:signup] do

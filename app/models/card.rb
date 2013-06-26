@@ -9,6 +9,9 @@ class Card < ActiveRecord::Base
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
+  has_many :guest_passes
+  accepts_nested_attributes_for :guest_passes, allow_destroy: true
+
   validates :guest_count,
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -38,6 +41,39 @@ class Card < ActiveRecord::Base
 
   def inactive?
     !active?
+  end
+
+  def total_guest_count
+    active_pass_count = guest_passes.select(&:active?).count
+
+    guest_count + active_pass_count
+  end
+
+  def checkin_guests!(count)
+    if count > total_guest_count
+      raise "Too many guests"
+    end
+
+    if count <= guest_count
+      new_guest_count = count < guest_count
+      count = 0
+    else
+      new_guest_count = 0
+      count -= guest_count
+
+      active_passes = guest_passes.select(&:active?)
+    end
+
+
+    transaction do
+      update_attributes guest_count: new_guest_count
+
+      if count > 0
+        active_passes.take(count).each do |pass|
+          pass.destroy
+        end
+      end
+    end
   end
 
   private
