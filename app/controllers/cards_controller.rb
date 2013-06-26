@@ -24,8 +24,12 @@ class CardsController < ApplicationController
       edit_benefits
     when 'Issue Guest Passes'
       issue_guest_passes
+    when /approve/i
+      approve_card
+    when /reject/i
+      reject_card
     else
-      head :unproccessable_entity
+      head :unprocessable_entity
     end
   end
 
@@ -120,6 +124,24 @@ class CardsController < ApplicationController
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
       render :edit_guest_passes
+    end
+  end
+
+  def approve_card
+    if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)
+      head :no_content
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def reject_card
+    authorize! :delete, @card
+    if @card.pending?
+      @card.destroy
+      head :no_content
+    else
+      head :unprocessable_entity
     end
   end
 

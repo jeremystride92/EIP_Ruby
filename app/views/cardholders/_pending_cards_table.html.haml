@@ -5,9 +5,13 @@
     %th Actions
   %tbody
     - @pending_cards.each do |card|
-      %tr
+      %tr.pending-card
         %th= card.cardholder.phone_number
         %td
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
-        %td actions
+        %td.actions
+          = simple_form_for [:venue, card], html: { class: 'row-fluid inline-form approve-card' }, remote: true do |f|
+            = f.association :card_level, collection: @venue.card_levels, label: false, wrapper_html: {class: 'span8'}, input_html: {class: 'span11'}
+            = f.button :submit, value: 'Approve', class: 'span2 btn-success'
+            = f.button :submit, value: 'Reject', class: 'span2 btn-danger'
