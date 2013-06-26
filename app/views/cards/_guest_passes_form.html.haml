@@ -1,7 +1,11 @@
-= simple_form_for [:venue, card] do |f|
-  = f.simple_fields_for :guest_passes do |gpf|
-    = render 'guest_pass_fields', f: gpf
-  .links
-    = link_to_add_association 'Add Guest Pass', f, :guest_passes, render_options: { wrapper: 'bootstrap' }
+= form_tag venue_card_path(@card), method: :put do
+  = label_tag :guest_count, 'Party size'
+  = number_field_tag :guest_count, 1, min: 1, step: 1
+  = label_tag :start_date, 'Start date'
+  %input#start_date{ name: :start_date, type: :date }
+  = label_tag :end_date, 'End date'
+  %input#end_date{ name: :end_date, type: :date }
+
   .form-actions
-    = f.button :submit, 'Edit Guest Passes'
+    = submit_tag 'Issue Guest Passes', class: 'btn btn-large btn-primary'
+    = link_to 'Cancel', venue_cardholders_path, class: 'btn btn-large'

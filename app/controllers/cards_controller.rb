@@ -21,8 +21,8 @@ class CardsController < ApplicationController
       change_card_level
     when 'Edit Benefits'
       edit_benefits
-    when 'Edit Guests'
-      edit_guests
+    when 'Issue Guest Passes'
+      issue_guest_passes
     else
       head :unproccessable_entity
     end
@@ -74,12 +74,26 @@ class CardsController < ApplicationController
     end
   end
 
-  def edit_guests
-    binding.pry
+  def issue_guest_passes
+    new_pass_count = params[:guest_count].to_i
+
+    new_pass_count.times do
+      @card.guest_passes.build(params_for_guest_pass)
+    end
+
+    if @card.save
+      redirect_to venue_cardholders_path, notice: "#{new_pass_count} passes issued."
+    else
+      render :edit
+    end
   end
 
   def params_for_card
     params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
+  end
+
+  def params_for_guest_pass
+    params.permit :start_date, :end_date
   end
 
   def find_card
