@@ -10,6 +10,7 @@ class Card < ActiveRecord::Base
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
   has_many :guest_passes
+  accepts_nested_attributes_for :guest_passes, allow_destroy: true
 
   validates :guest_count,
     presence: true,

@@ -1,0 +1,7 @@
+%h1 Edit benefits for #{@card.cardholder.phone_number}
+%ul.nav.nav-pills
+  %li.active
+    = link_to 'Benefits', '#'
+  %li
+    = link_to 'Guest List', venue_card_edit_guest_passes_path(@card)
+= render 'benefits_form', card: @card

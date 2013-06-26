@@ -1,0 +1,7 @@
+= simple_form_for [:venue, card] do |f|
+  = f.simple_fields_for :guest_passes do |gpf|
+    = render 'guest_pass_fields', f: gpf
+  .links
+    = link_to_add_association 'Add Guest Pass', f, :guest_passes, render_options: { wrapper: 'bootstrap' }
+  .form-actions
+    = f.button :submit, 'Edit Guest Passes'

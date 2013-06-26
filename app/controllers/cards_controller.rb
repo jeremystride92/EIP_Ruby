@@ -1,8 +1,12 @@
 class CardsController < ApplicationController
   before_filter :find_card
 
-  def edit
+  def edit_benefits
     @card.benefits.build unless @card.benefits.present?
+  end
+
+  def edit_guest_passes
+    @card.guest_passes.build unless @card.guest_passes.present?
   end
 
   def update
@@ -17,6 +21,8 @@ class CardsController < ApplicationController
       change_card_level
     when 'Edit Benefits'
       edit_benefits
+    when 'Edit Guests'
+      edit_guests
     else
       head :unproccessable_entity
     end
@@ -68,11 +74,16 @@ class CardsController < ApplicationController
     end
   end
 
+  def edit_guests
+    binding.pry
+  end
+
   def params_for_card
     params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end
 
   def find_card
-    @card = Card.find(params[:id])
+    id = params[:id] || params[:card_id]
+    @card = Card.find(id)
   end
 end
