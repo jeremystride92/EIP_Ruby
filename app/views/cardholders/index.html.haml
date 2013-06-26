@@ -4,8 +4,8 @@
   %li
     %a{data:{toggle: 'tab', target: '.tab-pane.pending-cards'}} Pending
 .tab-panes.tab-content
-  .approved-cards.tab-pane.active= render 'approved_cards_table'
-  .pending-cards.tab-pane= render 'pending_cards_table'
+  .approved-cards.tab-pane.fade.in.active= render 'approved_cards_table'
+  .pending-cards.tab-pane.fade= render 'pending_cards_table'
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders
