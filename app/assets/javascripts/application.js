@@ -14,4 +14,5 @@
 //= require underscore
 //= require twitter/bootstrap
 //= require common
+//= require phone_format
 //= require cocoon

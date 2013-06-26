@@ -1,9 +1,12 @@
 = simple_form_for @cardholder, url: request_card_path(venue_slug: @venue.vanity_slug), method: :post do |f|
-  = f.input :phone_number, hint: ''
+  = f.input :phone_number, wrapper: :append do
+    = f.input_field :phone_number, pattern: '\d{10}', maxlength: '', type: :tel, placeholder: '1234567890'
+    %a#lookup.add-on.btn{ href: '#'} Verify
+  %p.instructions
   .detail-fields{class: @incorrect_password || @validation_errors ? '' : 'hide' }
     = f.input :password, required: true
     .new-cardholder-fields{class: @validation_errors ? '' : 'hide' }
       = f.input :password_confirmation, label: 'Confirm Password', as: :password
       = f.input :first_name
       = f.input :last_name
-    = f.button :submit, value: 'Request Card'
+    = f.button :submit, value: 'Request Card', class: 'btn-primary'
