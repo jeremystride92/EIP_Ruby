@@ -84,7 +84,8 @@ class CardsController < ApplicationController
     if @card.save
       redirect_to venue_cardholders_path, notice: "#{new_pass_count} passes issued."
     else
-      render :edit
+      flash.now[:error] = 'An unknown error occurred. Please try again later.'
+      render :edit_guest_passes
     end
   end
 
