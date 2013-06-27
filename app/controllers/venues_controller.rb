@@ -29,6 +29,8 @@ class VenuesController < ApplicationController
   end
 
   def find_venue
+    redirect_to :new_venue and return if current_user.venue_id.nil?
+
     @venue = Venue.includes(:card_levels).find(current_user.venue_id)
   end
 end
