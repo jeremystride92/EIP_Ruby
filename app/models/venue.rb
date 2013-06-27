@@ -14,7 +14,14 @@ class Venue < ActiveRecord::Base
 
   validates :location, presence: true
   validates :address1, presence: true
-  validates :vanity_slug, uniqueness: { allow_blank: true }
+  validates :vanity_slug,
+    uniqueness: { allow_blank: true },
+    format: {
+      with: /^(?=.*[a-z])[-\w]*$/i,
+      allow_blank: true,
+      message: "Use only letters, numbers, underscores and dashes. Must contain at least one letter"
+      },
+    length: { maximum: 75 }
 
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil

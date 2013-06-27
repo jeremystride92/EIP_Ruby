@@ -1,6 +1,6 @@
 class VenuesController < ApplicationController
   before_filter :authenticate
-  before_filter :find_venue, only: [:show]
+  before_filter :find_venue, except: [:new, :create]
 
   layout 'venue', except: [:new, :create]
 
@@ -28,9 +28,27 @@ class VenuesController < ApplicationController
     authorize! :read, @venue
   end
 
+  def edit
+    authorize! :update, @venue
+  end
+
+  def update
+    authorize! :update, @venue
+
+    if @venue.update_attributes(venue_params)
+      redirect_to venue_path, notice: "Venue information updated"
+    else
+      render :edit
+    end
+  end
+
   private
   def venue_params
-    params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
+    if @venue && @venue.persisted? && @venue.vanity_slug.present?
+      params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :logo, :logo_cache)
+    else
+      params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
+    end
   end
 
   def find_venue

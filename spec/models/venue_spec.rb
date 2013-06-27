@@ -27,6 +27,37 @@ describe Venue do
     venue.should_not be_valid
   end
 
+  describe "validate format of vanity_slug" do
+    let(:venue) { build :venue }
+
+    it "should allow capital and lowercase letters, underscores, dashes, and numbers" do
+      venue.vanity_slug = '7hat_1ne-Place'
+      venue.should be_valid
+    end
+
+    it "should not allow spaces" do
+      venue.vanity_slug = 'that one place'
+      venue.should_not be_valid
+    end
+
+    it "should not allow special symbols" do
+      %w[! @ # $ % ^ & * + ? . , \\ | ` ~ : ' "].each do |character|
+        venue.vanity_slug = "th#{character}toneplace"
+        venue.should_not be_valid
+      end
+    end
+
+    it "should not allow only numbers" do
+      venue.vanity_slug = '7447161403'
+      venue.should_not be_valid
+    end
+
+    it "should limit length to 75 characters" do
+      venue.vanity_slug = 'a'*76
+      venue.should_not be_valid
+    end
+  end
+
   describe "User finders" do
     let(:venue)     { create :venue }
     let!(:owner1)   { create :venue_owner, venue: venue }
