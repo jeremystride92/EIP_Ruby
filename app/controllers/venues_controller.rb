@@ -5,6 +5,11 @@ class VenuesController < ApplicationController
   layout 'venue', except: [:new, :create]
 
   def new
+    if current_user && current_user.venue_id
+      flash[:error] = 'There is already a venue associated to this account. To create a new venue, please use another account.'
+      redirect_to venue_path
+    end
+
     @venue = Venue.new
   end
 
