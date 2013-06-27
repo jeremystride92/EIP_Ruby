@@ -1,4 +1,6 @@
 class CardsController < ApplicationController
+  before_filter :authenticate, except: [:request_card_form, :request_card]
+
   before_filter :find_card, except: [:request_card_form, :request_card]
   before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
 

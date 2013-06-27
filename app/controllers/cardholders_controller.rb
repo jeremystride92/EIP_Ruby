@@ -3,7 +3,8 @@ class CardholdersController < ApplicationController
 
   layout 'venue'
 
-  before_filter :find_venue
+  before_filter :authenticate, except: [:check_for_cardholder]
+  before_filter :find_venue, except: [:check_for_cardholder]
 
   def index
     @card_levels = @venue.card_levels

@@ -1,10 +1,13 @@
 class UsersController < ApplicationController
   SIGNUP_ACTIONS = [:signup, :complete_signup].freeze
   UNKNOWN_PASSWORD_ACTIONS = [:reset_password_form, :reset_password, :forgot_password, :send_password_reset].freeze
+  PUBLIC_ACTIONS = (SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS).freeze
 
-  layout 'venue', except: SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS
+  layout 'venue', except: PUBLIC_ACTIONS
 
-  before_filter :find_venue, except: SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS
+  before_filter :authenticate, except: PUBLIC_ACTIONS
+
+  before_filter :find_venue, except: PUBLIC_ACTIONS
   before_filter :find_user_by_token, only: [:reset_password, :reset_password_form]
 
   # Signup actions are used for /user/signup (new VenueOwner flow)

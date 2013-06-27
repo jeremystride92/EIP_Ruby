@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   class AccessDenied < ::StandardError; end
 
   rescue_from AccessDenied do |exception|
-    redirect_to root_path, alert: 'Access Denied!'
+    render file: 'public/404', formats: [:html], layout: false, status: 404 and return
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
