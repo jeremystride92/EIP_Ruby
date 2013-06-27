@@ -34,6 +34,8 @@ class VenuesController < ApplicationController
   end
 
   def find_venue
+    redirect_to(:new_venue, notice: "You've signed up for EIPiD, But haven't entered your venue information yet. Fill out the form below to continue.") and return if current_user.venue_id.nil?
+
     @venue = Venue.includes(:card_levels).find(current_user.venue_id)
   end
 end
