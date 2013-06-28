@@ -2,7 +2,9 @@ class CardsController < ApplicationController
   before_filter :authenticate, except: [:request_card_form, :request_card]
 
   before_filter :find_card, except: [:request_card_form, :request_card]
+
   before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
+  before_filter :find_venue, except: [:request_card_form, :request_card]
 
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
@@ -162,6 +164,10 @@ class CardsController < ApplicationController
   def find_card
     id = params[:id] || params[:card_id]
     @card = Card.find(id)
+  end
+
+  def find_venue
+    @venue = current_user.venue
   end
 
   def find_venue_by_slug
