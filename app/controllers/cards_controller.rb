@@ -6,10 +6,16 @@ class CardsController < ApplicationController
 
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
+
+    @card.benefits.each do |benefit|
+      authorize! :manage, benefit
+    end
   end
 
   def edit_guest_passes
     @card.guest_passes.build unless @card.guest_passes.present?
+
+    authorize! :create, @card.guest_passes.last
   end
 
   def update
@@ -23,7 +29,7 @@ class CardsController < ApplicationController
     when 'Change'
       change_card_level
     when 'Edit Benefits'
-      edit_benefits
+      update_benefits
     when 'Issue Guest Passes'
       issue_guest_passes
     when /approve/i
@@ -100,7 +106,7 @@ class CardsController < ApplicationController
     end
   end
 
-  def edit_benefits
+  def update_benefits
     if @card.update_attributes params_for_card
       respond_to do |format|
         format.json
@@ -161,7 +167,7 @@ class CardsController < ApplicationController
 
   def find_card
     id = params[:id] || params[:card_id]
-    @card = Card.find(id)
+    @card = Card.includes(:benefits, :guest_passes).find(id)
   end
 
   def find_venue_by_slug

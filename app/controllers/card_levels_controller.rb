@@ -7,16 +7,24 @@ class CardLevelsController < ApplicationController
   before_filter :find_card_level, only: [:edit, :update]
 
   def index
+    authorize! :read, CardLevel if @card_levels.empty?
+
+    @card_levels.each do |card_level|
+      authorize! :read, card_level
+    end
   end
 
 
   def new
     @card_level = @venue.card_levels.build
+    authorize! :create, @card_level
+
     @card_level.benefits.build
   end
 
   def create
     @card_level = @venue.card_levels.build card_level_params
+    authorize! :create, @card_level
 
     if @card_level.save
       redirect_to venue_card_levels_path, notice: 'Card level created.'
@@ -26,9 +34,12 @@ class CardLevelsController < ApplicationController
   end
 
   def edit
+    authorize! :update, @card_level
   end
 
   def update
+    authorize! :update, @card_level
+
     card_level_attributes = card_level_params
     if @card_level.update_attributes(card_level_params)
       redirect_to venue_card_levels_path, notice: 'Card level updated.'

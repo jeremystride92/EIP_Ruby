@@ -6,10 +6,19 @@ class CardholdersController < ApplicationController
   before_filter :authenticate, except: [:check_for_cardholder]
   before_filter :find_venue, except: [:check_for_cardholder]
 
+  skip_authorization_check only: :check_for_cardholder
+
   def index
     @card_levels = @venue.card_levels
 
     @cards = Card.for_venue(@venue.id).joins(:cardholder).order('cardholders.last_name ASC')
+
+    authorize! :read, Card if @cards.empty?
+
+    @cards.each do |card|
+      authorize! :read, card
+    end
+
     @approved_cards = @cards.approved
     @pending_cards = @cards.pending
 
@@ -27,6 +36,7 @@ class CardholdersController < ApplicationController
 
   def batch_new
     @card_level = CardLevel.find(params[:card_level_id])
+    authorize! :create, @card_level.cards.build
   end
 
   def batch_create

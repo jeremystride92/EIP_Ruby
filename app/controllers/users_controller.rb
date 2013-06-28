@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   before_filter :find_venue, except: PUBLIC_ACTIONS
   before_filter :find_user_by_token, only: [:reset_password, :reset_password_form]
 
+  # #index gets to skip auth since it uses accessible_by
+  skip_authorization_check only: PUBLIC_ACTIONS + [:index]
+
   # Signup actions are used for /user/signup (new VenueOwner flow)
   def signup
     @user = User.new
@@ -18,6 +21,8 @@ class UsersController < ApplicationController
   def complete_signup
     @user = User.new params_for_venue_owner
     @user.roles = [:venue_owner]
+
+    authorize! :create, @user
 
     if @user.save
       cookies[:auth_token] = @user.auth_token
@@ -60,7 +65,8 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    @user = @venue.users.build
+    authorize! :create, @user
   end
 
   def create
@@ -69,6 +75,9 @@ class UsersController < ApplicationController
     @user.roles = [role]
     @user.venue_id = current_user.venue_id
     @user.generate_unusable_password!
+
+    authorize! :create, @user
+
     @user.send_activation_email
 
     if @user.save
