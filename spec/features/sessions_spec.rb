@@ -18,13 +18,13 @@ describe "Sessions" do
   end
 
   describe "valid credentials" do
-    let(:manager) { create :venue_manager }
+    let(:owner) { create :venue_owner }
     context "when user has created venue" do
 
       it "should be authenticated" do
         visit login_path
-        fill_in "session_email", with: manager.email
-        fill_in "Password", with: manager.password
+        fill_in "session_email", with: owner.email
+        fill_in "Password", with: owner.password
         click_button "Log In"
         page.should have_content "You are now logged in"
       end
@@ -32,14 +32,14 @@ describe "Sessions" do
 
     context "when user doesn't have venue" do
       before do
-        manager.venue = nil
-        manager.save!
+        owner.venue = nil
+        owner.save!
       end
 
       it "should ask user to create venue (and be authenticated)" do
         visit login_path
-        fill_in "session_email", with: manager.email
-        fill_in "Password", with: manager.password
+        fill_in "session_email", with: owner.email
+        fill_in "Password", with: owner.password
         click_button "Log In"
         page.should have_content "Venue Sign Up"
         page.should have_content "haven't entered your venue information yet"

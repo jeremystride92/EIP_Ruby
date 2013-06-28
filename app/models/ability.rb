@@ -5,6 +5,13 @@ class Ability
 
     user ||= User.new
 
+    can :manage, user.class, id: user.id # Handle both User and Cardholder
+
+    if user.is_a? Cardholder
+      can :checkin, Card, cardholder_id: user.id
+      return # Cardholder doesn't respond to #venue_manager?, etc.
+    end
+
     if user.venue_manager? || user.venue_owner?
       can :read, Venue, id: user.venue_id
       can :manage, CardLevel, venue_id: user.venue_id
@@ -14,10 +21,23 @@ class Ability
       can :manage, Card do |card|
         card.venue.id == user.venue_id
       end
+
+      can :manage, Benefit do |benefit|
+        benefit.beneficiary.venue.id == user.venue_id
+      end
+
+      can :create, GuestPass do |guest_pass|
+        guest_pass.card.venue.id == user.venue_id
+      end
     end
 
     if user.venue_owner?
       can :manage, Venue, id: user.venue_id
+      can :create, User, venue_id: user.venue_id
+      can [:update, :delete], User do |managed_user|
+        managed_user.venue_id == user.venue_id &&
+          !managed_user.venue_owner?
+      end
     end
 
     # Define abilities for the passed in user here. For example:

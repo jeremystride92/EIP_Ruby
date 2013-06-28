@@ -11,10 +11,12 @@ class VenuesController < ApplicationController
     end
 
     @venue = Venue.new
+    authorize! :create, @venue
   end
 
   def create
     @venue = Venue.new venue_params
+    authorize! :create, @venue
 
     if @venue.save
       redirect_to new_venue_card_level_path, notice: 'Venue created! Now set up some card levels.'
