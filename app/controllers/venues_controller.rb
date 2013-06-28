@@ -2,7 +2,7 @@ class VenuesController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue, except: [:new, :create]
 
-  layout 'venue', except: [:new, :create]
+  public_actions :new, :create
 
   def new
     if current_user && current_user.venue_id

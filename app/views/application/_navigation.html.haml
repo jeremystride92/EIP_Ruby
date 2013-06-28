@@ -18,3 +18,6 @@
       = nav_link venue_users_path do
         %i.icon-group
         Managers
+  %ul.nav.pull-right
+    - if current_user
+      = nav_link 'Logout', logout_path

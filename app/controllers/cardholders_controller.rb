@@ -1,8 +1,6 @@
 class CardholdersController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  layout 'venue'
-
   before_filter :authenticate, except: [:check_for_cardholder]
   before_filter :find_venue, except: [:check_for_cardholder]
 
