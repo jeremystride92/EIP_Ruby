@@ -1,5 +1,4 @@
 class CardLevelsController < ApplicationController
-  layout 'venue'
 
   before_filter :authenticate
   before_filter :find_venue

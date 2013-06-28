@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   UNKNOWN_PASSWORD_ACTIONS = [:reset_password_form, :reset_password, :forgot_password, :send_password_reset].freeze
   PUBLIC_ACTIONS = (SIGNUP_ACTIONS + UNKNOWN_PASSWORD_ACTIONS).freeze
 
-  layout 'venue', except: PUBLIC_ACTIONS
+  public_actions *PUBLIC_ACTIONS
 
   before_filter :authenticate, except: PUBLIC_ACTIONS
 
