@@ -17,26 +17,16 @@ class CardsController < ApplicationController
   def edit_guest_passes
     @card.guest_passes.build unless @card.guest_passes.present?
 
-    authorize! :create, @card.guest_passes.last
+    authorize! :create, GuestPass
   end
 
-  def update
+  def review_card_request
     authorize! :update, @card
 
     case params[:commit]
-    when 'Deactivate'
-      deactivate_card
-    when 'Activate'
-      activate_card
-    when 'Change'
-      change_card_level
-    when 'Edit Benefits'
-      update_benefits
-    when 'Issue Guest Passes'
-      issue_guest_passes
-    when /approve/i
+    when 'Approve'
       approve_card
-    when /reject/i
+    when 'Reject'
       reject_card
     else
       head :unprocessable_entity
@@ -76,8 +66,6 @@ class CardsController < ApplicationController
 
   end
 
-  private
-
   def deactivate_card
     authorize! :update, @card
 
@@ -109,6 +97,8 @@ class CardsController < ApplicationController
   end
 
   def update_benefits
+    authorize! :update, @card
+    authorize! :manage, Benefit
     if @card.update_attributes params_for_card
       respond_to do |format|
         format.json
@@ -123,6 +113,8 @@ class CardsController < ApplicationController
   end
 
   def issue_guest_passes
+    authorize! :update, @card
+    authorize! :create, GuestPass
     new_pass_count = params[:guest_count].to_i
 
     new_pass_count.times do
@@ -136,6 +128,8 @@ class CardsController < ApplicationController
       render :edit_guest_passes
     end
   end
+
+  private
 
   def approve_card
     if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)

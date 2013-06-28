@@ -1,4 +1,4 @@
-= form_tag venue_card_path(@card), method: :put do
+= form_tag venue_card_issue_guest_passes_path(@card), method: :post do
   = label_tag :guest_count, 'Party size'
   = number_field_tag :guest_count, 1, min: 1, step: 1
   = label_tag :start_date, 'Start date'
