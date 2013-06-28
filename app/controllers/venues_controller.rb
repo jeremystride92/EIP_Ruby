@@ -1,6 +1,6 @@
 class VenuesController < ApplicationController
   before_filter :authenticate
-  before_filter :find_venue, only: [:show]
+  before_filter :find_venue, except: [:new, :create]
 
   layout 'venue', except: [:new, :create]
 
@@ -28,10 +28,33 @@ class VenuesController < ApplicationController
     authorize! :read, @venue
   end
 
+  def edit
+    authorize! :update, @venue
+  end
+
+  def update
+    authorize! :update, @venue
+
+    if @venue.update_attributes(venue_params_for_update)
+      redirect_to venue_path, notice: "Venue information updated"
+    else
+      render :edit
+    end
+  end
+
   private
+
   def venue_params
     params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
   end
+
+  def venue_params_for_update
+    attributes = [:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache]
+    attributes -= [:vanity_slug] if @venue.vanity_slug.present?
+
+    params.require(:venue).permit *attributes
+  end
+
 
   def find_venue
     redirect_to(:new_venue, notice: "You've signed up for EIPiD, But haven't entered your venue information yet. Fill out the form below to continue.") and return if current_user.venue_id.nil?

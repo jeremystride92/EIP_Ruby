@@ -15,7 +15,7 @@ EIPiD::Application.routes.draw do
     end
   end
 
-  resource :venue, only: [:new, :create, :show] do
+  resource :venue, only: [:new, :create, :show, :edit, :update] do
     get :signup, to: "venues#new", as: :signup, on: :collection
 
     resources :card_levels
