@@ -1,5 +1,5 @@
 %h1= @promotion.title
-.duration.muted #{l @promotion.start_date, format: :long} - #{l @promotion.end_date, format: :long}
+.duration.muted #{l @promotion.start_date, format: :long if @promotion.start_date} - #{l @promotion.end_date, format: :long if @promotion.end_date}
 = image_tag @promotion.image.url if @promotion.image
 %p.description= @promotion.description
 = link_to "Edit", edit_venue_promotion_path(@promotion), class: 'btn btn-primary' if can? :update, @promotion
