@@ -149,6 +149,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.6.7)
     newrelic_rpm (3.6.5.130)
+    nexmo (1.1.0)
     nokogiri (1.5.9)
     pg (0.15.1)
     polyglot (0.3.3)
@@ -290,6 +291,7 @@ DEPENDENCIES
   meta_request
   mini_magick
   newrelic_rpm
+  nexmo (~> 1.1.0)
   pg
   pry-debugger
   pry-rails
