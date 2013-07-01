@@ -81,4 +81,16 @@ FactoryGirl.define do
     end_date nil
     card
   end
+
+  factory :promotion do
+    title { Faker::DizzleIpsum.words(2) }
+    start_date nil
+    end_date nil
+    image "promotion.png"
+    venue
+
+    trait :description do
+      description { Faker:Lorem.paragraph }
+    end
+  end
 end

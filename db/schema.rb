@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625194619) do
+ActiveRecord::Schema.define(:version => 20130701160845) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -71,6 +71,19 @@ ActiveRecord::Schema.define(:version => 20130625194619) do
   end
 
   add_index "guest_passes", ["card_id"], :name => "index_guest_passes_on_card_id"
+
+  create_table "promotions", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "image"
+    t.integer  "venue_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "promotions", ["venue_id"], :name => "index_promotions_on_venue_id"
 
   create_table "users", :force => true do |t|
     t.string   "email"
