@@ -36,9 +36,15 @@ class PromotionsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @promotion
+    @promotion.destroy
+    head :no_content
+  end
+
   private
   def params_for_promotion
-    params.require(:promotion).permit(:title, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field)
+    params.require(:promotion).permit(:title, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :image, :image_cache)
   end
   def find_venue
     @venue = current_user.venue

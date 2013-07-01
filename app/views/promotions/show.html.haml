@@ -1,4 +1,6 @@
 %h1= @promotion.title
 .duration.muted #{@promotion.start_date} - #{@promotion.end_date}
+= image_tag @promotion.image.url if @promotion.image
 %p.description= @promotion.description
 = link_to "Edit", edit_venue_promotion_path(@promotion), class: 'btn btn-primary' if can? :update, @promotion
+= link_to "Delete", venue_promotion_path(@promotion), class: 'btn btn-danger', method: 'delete', confirm: 'Do you really want to remove this promotion permanently?', remote: true if can? :destroy, @promotion

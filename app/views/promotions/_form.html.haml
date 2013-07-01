@@ -5,6 +5,11 @@
   = f.input :end_date_field, label: 'End date', input_html:{ type: 'date' }
   = f.input :end_time_field, label: 'End time', input_html:{ type: 'time' }
   = f.input :description
+  .well
+    %h3 Upload promotion image
+    = f.input :image, as: :file, label: false
+    = f.hidden_field :image_cache
+    = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
 
   .form-actions
     = f.button :submit, class: 'btn-primary'
