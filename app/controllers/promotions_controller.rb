@@ -12,7 +12,7 @@ class PromotionsController < ApplicationController
     authorize! :create, @promotion
 
     if @promotion.save
-      redirect_to venue_path
+      redirect_to venue_promotion_path(@promotion)
     else
       render 'new'
     end
@@ -30,7 +30,7 @@ class PromotionsController < ApplicationController
     authorize! :update, @promotion
 
     if @promotion.update_attributes(params_for_promotion)
-      redirect_to venue_path
+      redirect_to venue_promotion_path(@promotion)
     else
       render 'edit'
     end

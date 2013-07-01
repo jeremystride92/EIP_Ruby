@@ -13,3 +13,6 @@
 
   .form-actions
     = f.button :submit, class: 'btn-primary'
+
+= content_for :javascripts do
+  = javascript_include_tag :promotions
