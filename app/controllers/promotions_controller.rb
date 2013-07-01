@@ -3,8 +3,8 @@ class PromotionsController < ApplicationController
   before_filter :find_promotions
 
   def new
-    authorize! :create, Promotion
     @promotion = @venue.promotions.build
+    authorize! :create, @promotion
   end
 
   def create
