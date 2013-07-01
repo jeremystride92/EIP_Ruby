@@ -7,7 +7,7 @@
   = f.input :description
   .well
     %h3 Upload promotion image
-    = f.input :image, as: :file, label: false, hint: 'Reccomended size 800 &times; 400 pixels'
+    = f.input :image, as: :file, label: false, hint: 'Recommended size 800 &times; 400 pixels'
     = f.hidden_field :image_cache
     = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
 
