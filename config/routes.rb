@@ -36,6 +36,8 @@ EIPiD::Application.routes.draw do
       put :change_level, action: 'change_card_level'
       put :review_request, action: 'review_card_request'
     end
+
+    resources :promotions, except: [:index]
   end
 
   resource :user, only: [:signup] do

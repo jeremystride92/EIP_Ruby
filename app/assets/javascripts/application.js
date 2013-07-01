@@ -15,4 +15,5 @@
 //= require twitter/bootstrap
 //= require common
 //= require phone_format
+//= require upload_preview
 //= require cocoon
