@@ -19,17 +19,11 @@ class Ability
 
       can :read, User, venue_id: user.venue_id
 
-      can :manage, Card do |card|
-        card.venue.id == user.venue_id
-      end
+      can :manage, Card, venue: { id: user.venue_id }
 
-      can :manage, Benefit do |benefit|
-        benefit.beneficiary.venue.id == user.venue_id
-      end
+      can :manage, Benefit, beneficiary: { venue: { id: user.venue_id } }
 
-      can :create, GuestPass do |guest_pass|
-        guest_pass.card.venue.id == user.venue_id
-      end
+      can :create, GuestPass, card: { venue: { id: user.venue_id } }
     end
 
     if user.venue_owner?
