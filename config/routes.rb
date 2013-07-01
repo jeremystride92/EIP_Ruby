@@ -26,9 +26,15 @@ EIPiD::Application.routes.draw do
       post 'new_batch/:card_level_id', to: "cardholders#batch_create", on: :collection, as: :create_batch
     end
 
-    resources :cards, only: [:update] do
-      get :edit_benefits, to: 'cards#edit_benefits'
-      get :edit_guest_passes, to: 'cards#edit_guest_passes'
+    resources :cards, only: [] do
+      get :edit_benefits, action: 'edit_benefits'
+      put :edit_benefits, action: 'update_benefits'
+      get :edit_guest_passes, action: 'edit_guest_passes'
+      post :issue_guest_passes, action: 'issue_guest_passes'
+      put :activate, action: 'activate_card'
+      put :deactivate, action: 'deactivate_card'
+      put :change_level, action: 'change_card_level'
+      put :review_request, action: 'review_card_request'
     end
   end
 

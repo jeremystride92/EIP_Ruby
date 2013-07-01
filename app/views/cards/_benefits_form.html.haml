@@ -1,4 +1,4 @@
-= simple_form_for [ :venue, card ] do |f|
+= simple_form_for card, url: venue_card_edit_benefits_path(card) do |f|
   = f.simple_fields_for :benefits do |bf|
     = render 'benefit_fields', f: bf
   .links

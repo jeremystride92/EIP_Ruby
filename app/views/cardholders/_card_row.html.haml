@@ -18,9 +18,8 @@
         .pull-left Issue Benefits
         %i.icon-caret-right.pull-right
     .row-fluid
-      = simple_form_for card, url: venue_card_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level" } do |f|
+      = simple_form_for card, url: venue_card_change_level_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level" } do |f|
         = f.input :card_level_id, collection: @card_levels, label: false, wrapper_html: { class: 'span6' }, input_html: { id: "card_#{card.id}_card_level_id"}
         = f.button :submit, value: 'Change', class: 'btn span2'
     .row-fluid
-      = simple_form_for card, url: venue_card_path(card), remote: true, html: { class: 'change-card-status', id: "edit_card_#{card.id}_status" } do |f|
-        = f.button :submit, value: ( card.active? ? 'Deactivate' : 'Activate'), class: "span4 btn btn-#{card.active? ? 'warning' : 'success'}"
+      = card_status_toggle_button card, classes: 'span4', form_class: 'change-card-status'
