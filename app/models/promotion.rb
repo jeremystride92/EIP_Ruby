@@ -3,4 +3,6 @@ class Promotion < ActiveRecord::Base
 
   validates :title, presence: true
   validates :venue, presence: true
+
+  include Expirable
 end

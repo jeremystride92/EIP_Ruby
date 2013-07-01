@@ -1,0 +1,4 @@
+%h1= @promotion.title
+.duration.muted #{@promotion.start_date} - #{@promotion.end_date}
+%p.description= @promotion.description
+= link_to "Edit", edit_venue_promotion_path(@promotion), class: 'btn btn-primary' if can? :update, @promotion

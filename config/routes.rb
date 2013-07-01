@@ -30,6 +30,8 @@ EIPiD::Application.routes.draw do
       get :edit_benefits, to: 'cards#edit_benefits'
       get :edit_guest_passes, to: 'cards#edit_guest_passes'
     end
+
+    resources :promotions, only: [:new, :create, :show, :edit, :update]
   end
 
   resource :user, only: [:signup] do
