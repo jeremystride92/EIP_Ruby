@@ -17,7 +17,7 @@ class CardsController < ApplicationController
   def edit_guest_passes
     @card.guest_passes.build unless @card.guest_passes.present?
 
-    authorize! :create, GuestPass
+    authorize! :create, @card.guest_passes.last
   end
 
   def review_card_request
