@@ -51,7 +51,6 @@ $('form.change-card-status').bind('ajax:success', function(xhr, data) {
       $row = $form.parents('tr').prev('.accordion-header'),
       otherLabels = { "Activate": "Deactivate", "Deactivate": "Activate" },
       route = $form.attr('action'),
-      otherRoutes = { "activate": "deactivate", "deactivate": "activate" };
 
   if (/\/activate/.test(route)) {
     route = route.replace(/\/activate/, '/deactivate');
