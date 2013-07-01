@@ -1,6 +1,6 @@
 module CardsHelper
 
-  def card_status_toggle_button(card, classes:'', form_class:'change-card-status')
+  def card_status_toggle_button(card, classes: '', form_class: 'change-card-status')
     label = card.active? ? 'Deactivate' : 'Activate'
     status_class = card.active? ? 'btn-warning' : 'btn-success'
     path = card.active? ? venue_card_deactivate_path(card) : venue_card_activate_path(card)
