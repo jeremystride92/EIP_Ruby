@@ -1,0 +1,10 @@
+%ul.media-list
+  - promotions.each do |promotion|
+    %li.media{ class: promotion.inactive? ? 'muted inactive' : 'active' }
+      = link_to venue_promotion_path(promotion), class: 'pull-left' do
+        = image_tag promotion.image.url, class: 'media-object'
+      .media-body
+        %h4.media-heading= promotion.title
+        .duration.muted #{l promotion.start_date, format: :long if promotion.start_date} - #{l promotion.end_date, format: :long if promotion.end_date}
+        = link_to "Send Promotion", '#', class: 'btn'
+

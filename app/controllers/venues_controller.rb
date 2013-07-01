@@ -1,6 +1,7 @@
 class VenuesController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue, except: [:new, :create]
+  before_filter :find_promotions, only: [:show]
 
   public_actions :new, :create
 
@@ -28,6 +29,7 @@ class VenuesController < ApplicationController
 
   def show
     authorize! :read, @venue
+    authorize! :read, Promotion
   end
 
   def edit
@@ -61,6 +63,10 @@ class VenuesController < ApplicationController
   def find_venue
     redirect_to(:new_venue, notice: "You've signed up for EIPiD, But haven't entered your venue information yet. Fill out the form below to continue.") and return if current_user.venue_id.nil?
 
-    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
+    @venue = Venue.includes(:card_levels, :promotions).find(current_user.venue_id)
+  end
+
+  def find_promotions
+    @promotions = @venue.promotions.order('start_date DESC')
   end
 end
