@@ -8,7 +8,8 @@ class VenuesController < ApplicationController
   def new
     if current_user && current_user.venue_id
       flash[:error] = 'There is already a venue associated to this account. To create a new venue, please use another account.'
-      redirect_to venue_path
+      authorize! :read, current_user.venue
+      redirect_to venue_path and return
     end
 
     @venue = Venue.new
