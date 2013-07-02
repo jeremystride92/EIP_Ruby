@@ -5,6 +5,13 @@
         = image_tag promotion.image.url, class: 'media-object'
       .media-body
         %h4.media-heading= promotion.title
-        .duration.muted #{l promotion.start_date, format: :long if promotion.start_date} - #{l promotion.end_date, format: :long if promotion.end_date}
+        - if promotion.start_date
+          .start-date
+            Start Date/Time:
+            %strong.datetime=  l promotion.start_date, format: :long
+        -if promotion.end_date
+          .end-date
+            End Date/Time
+            %strong.datetime= l promotion.end_date, format: :long
         = link_to "Send Promotion", '#', class: 'btn'
 
