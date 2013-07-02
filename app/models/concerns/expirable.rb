@@ -34,12 +34,19 @@ module Expirable
     end
 
     def inactive?(now = Time.zone.now)
-      (self.start_date.present? && self.start_date > now) ||
-        (self.end_date.present? && self.end_date < now)
+      future?(now) || past?(now)
     end
 
     def active?(now = Time.zone.now)
       !inactive?(now)
+    end
+
+    def future?(now = Time.zone.now)
+      self.start_date.present? && self.start_date > now
+    end
+
+    def past?(now = Time.zone.now)
+      self.end_date.present? && self.end_date < now
     end
   end
 end

@@ -9,6 +9,7 @@ class Api::V1::CardholdersController < ApplicationController
     @cardholder.cards.each do |card|
       card.benefits.reject! &:inactive?
       card.card_level.benefits.reject! &:inactive?
+      card.venue.promotions.reject! &:past?
     end
   end
 

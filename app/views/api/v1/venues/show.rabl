@@ -8,11 +8,6 @@ node :logos do |venue|
   }
 end
 
-node :promotions do |venue|
-  [{
-    date: Date.current,
-    name: 'Live Music Night',
-    description: '2 for 1 Bottle Service',
-    image: venue.logo.mobile_large.url
-  }]
+child :promotions do
+  extends 'api/v1/promotions/show'
 end
