@@ -1,10 +1,10 @@
 class CardholdersController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :authenticate, except: [:check_for_cardholder]
-  before_filter :find_venue, except: [:check_for_cardholder]
+  before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard]
+  before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard]
 
-  skip_authorization_check only: :check_for_cardholder
+  skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard]
 
   def index
     @card_levels = @venue.card_levels
@@ -66,6 +66,25 @@ class CardholdersController < ApplicationController
     end
   end
 
+  def onboard
+    @cardholder = Cardholder.find_by_onboarding_token params[:token]
+
+    render :not_found and return unless @cardholder.present?
+  end
+
+  def complete_onboard
+    @cardholder = Cardholder.find_by_onboarding_token params[:token]
+
+    render :not_found and return unless @cardholder.present?
+
+    if @cardholder.update_attributes params_for_cardholder_activation
+      @cardholder.update_attributes onboarding_token: nil
+      @cardholder.activate!
+    else
+      render :onboard
+    end
+  end
+
   private
 
   def create_cardholder_or_card(attributes)
@@ -84,5 +103,9 @@ class CardholdersController < ApplicationController
 
   def params_for_cardholder
     params.require(:cardholder).permit(:first_name, :last_name, :phone_number, cards_attributes: [:card_level_id, :issuer_id])
+  end
+
+  def params_for_cardholder_activation
+    params.require(:cardholder).permit(:first_name, :last_name, :phone_number, :password, :password_confirmation, :photo, :photo_cache)
   end
 end

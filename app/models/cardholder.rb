@@ -8,6 +8,8 @@ class Cardholder < ActiveRecord::Base
 
   has_many :venues, through: :cards
 
+  mount_uploader :photo, ImageUploader
+
   validates :first_name, presence: true, unless: :pending?
   validates :last_name, presence: true, unless: :pending?
 
@@ -19,8 +21,12 @@ class Cardholder < ActiveRecord::Base
     numericality: true,
     length: { is: 10 }
 
-  before_create { generate_token(:auth_token) }
-  before_validation :generate_unusable_password!, unless: proc { |cardholder| cardholder.password_digest||cardholder.password }
+  before_create do
+    generate_token(:auth_token)
+    generate_token(:onboarding_token)
+  end
+
+  before_validation :generate_unusable_password!, unless: proc { |cardholder| cardholder.password_digest || cardholder.password }
 
   before_validation :set_default_status
 
@@ -43,6 +49,10 @@ class Cardholder < ActiveRecord::Base
     venues.include? venue
   end
 
+  def photo_path
+    photo.cached? ? "/carrierwave/#{photo.cache_name}" : photo.url
+  end
+
   private
 
   def set_default_status
@@ -52,6 +62,6 @@ class Cardholder < ActiveRecord::Base
   def generate_token(column)
     begin
       self[column] = SecureRandom.urlsafe_base64
-    end while User.exists?(column => self[column])
+    end while Cardholder.exists?(column => self[column])
   end
 end

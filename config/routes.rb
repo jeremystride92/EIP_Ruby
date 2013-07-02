@@ -54,6 +54,9 @@ EIPiD::Application.routes.draw do
 
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 
+  get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard
+  put 'cardholders/onboard/:token', to: 'cardholders#complete_onboard'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
