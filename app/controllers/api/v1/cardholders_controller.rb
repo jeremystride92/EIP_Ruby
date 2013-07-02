@@ -1,6 +1,8 @@
 class Api::V1::CardholdersController < ApplicationController
   before_filter :authorize
 
+  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :venue, :guest_passes, { card_level: [:benefits, :venue] }] }.freeze
+
   def show
     authorize! :read, @cardholder
 
@@ -27,7 +29,7 @@ class Api::V1::CardholdersController < ApplicationController
   private
 
   def authorize
-    if cardholder = authenticate_with_http_token { |token, options| Cardholder.find_by_auth_token(token) }
+    if cardholder = authenticate_with_http_token { |token, options| Cardholder.includes(EAGER_LOAD_ASSOCIATIONS).find_by_auth_token(token) }
       @cardholder = cardholder
     else
       request_http_token_authentication
