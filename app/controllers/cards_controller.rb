@@ -6,7 +6,7 @@ class CardsController < ApplicationController
   before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
   before_filter :find_venue, except: [:request_card_form, :request_card]
 
-  skip_authorization_check only: [:request_card, :request_card_form]
+  skip_authorization_check only: [:request_card_form, :request_card]
 
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
@@ -25,10 +25,9 @@ class CardsController < ApplicationController
   def review_card_request
     authorize! :update, @card
 
-    case params[:commit]
-    when 'Approve'
+    if params[:approve]
       approve_card
-    when 'Reject'
+    elsif params[:reject]
       reject_card
     else
       head :unprocessable_entity

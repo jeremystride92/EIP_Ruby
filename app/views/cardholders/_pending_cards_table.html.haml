@@ -13,5 +13,9 @@
         %td.actions
           = simple_form_for card, url: venue_card_review_request_path(card), method: :put, html: { class: 'row-fluid inline-form approve-card', id: "approve_card_#{card.id}" }, remote: true do |f|
             = f.association :card_level, collection: @venue.card_levels, label: false, wrapper_html: { class: 'span8' }, input_html: { class: 'span11', id: "card_#{card.id}_card_level_id" }
-            = f.button :submit, value: 'Approve', class: 'span2 btn-success'
-            = f.button :submit, value: 'Reject', class: 'span2 btn-danger'
+            = button_tag type: :submit, name: 'approve', class: 'btn-success btn-large' do
+              %i.icon-ok
+              Approve
+            = button_tag type: :submit, name: 'reject', class: 'btn-danger btn-large' do
+              %i.icon-remove
+              Reject

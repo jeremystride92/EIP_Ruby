@@ -24,4 +24,6 @@
           Managers
   %ul.nav.pull-right
     - if current_user
-      = nav_link 'Logout', logout_path
+      = nav_link logout_path do
+        %i.icon-off
+        Logout

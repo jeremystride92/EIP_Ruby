@@ -11,8 +11,8 @@
       - unless @venue.location.blank?
         %br/
         = @venue.location
-    - unless @venue.website.blank?
-      %br/
-      = @venue.website
+      - unless @venue.website.blank?
+        %br/
+        = @venue.website
 
-  = link_to 'Edit Account', edit_venue_path, class: 'btn pull-left' if can? :edit, @venue
+  = link_to 'Edit Account', edit_venue_path, class: 'btn pull-right' if can? :edit, @venue

@@ -1,12 +1,11 @@
 .row-fluid
   .span3
     .card-preview{ class: "theme-#{card.card_level.theme}" }
-      .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
-      .card-level= card.card_level.name
-      .card-number
-        EIP#
-        = card.cardholder.phone_number
+    .card-number
+      EIP#
+      = card.cardholder.phone_number
   .span3
+    .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
     %strong Individual Benefits
     %ul
       - card.benefits.each do |benefit|
@@ -22,4 +21,4 @@
         = f.input :card_level_id, collection: @card_levels, label: false, wrapper_html: { class: 'span6' }, input_html: { id: "card_#{card.id}_card_level_id"}
         = f.button :submit, value: 'Change', class: 'btn span2'
     .row-fluid
-      = card_status_toggle_button card, classes: 'span4', form_class: 'change-card-status'
+      = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'

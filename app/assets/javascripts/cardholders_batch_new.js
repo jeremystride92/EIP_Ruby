@@ -20,7 +20,7 @@
       <div class="controls"><input class="string optional" id="cardholders_<%= index %>_last_name" name="cardholders[<%= index %>][last_name]" size="50" type="text">\
     </div>\
   </div>\
-  <button class="btn btn-large btn-success" id="issue_another" data-index="<%= index %>">\
+  <button class="btn btn-large btn-success pull-right button-add" id="issue_another" data-index="<%= index %>">\
     <i class="icon-plus"></i>\
   </button>\
 </fieldset>');
