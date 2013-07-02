@@ -6,6 +6,8 @@ class CardsController < ApplicationController
   before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
   before_filter :find_venue, except: [:request_card_form, :request_card]
 
+  skip_authorization_check only: [:request_card, :request_card_form]
+
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
 
