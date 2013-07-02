@@ -5,7 +5,8 @@
     %th Name
     %th Email
     %th Role
-    %th= link_to 'Add User', new_venue_user_path, class: 'btn pull-right'
+    %th
+      = link_to 'Add User', new_venue_user_path, class: 'btn pull-right' if can? :create, User.new(venue: @venue)
   %tbody
     - @users.each do |user|
       %tr.user

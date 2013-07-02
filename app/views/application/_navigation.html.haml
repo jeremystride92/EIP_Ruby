@@ -5,19 +5,23 @@
 =link_to ENV['site_name'], root_url, class: 'brand'
 .nav-collapse.collapse
   %ul.nav
-    - if current_user
-      = nav_link venue_path do
-        %i.icon-dashboard
-        Dashboard
-      = nav_link venue_card_levels_path do
-        %i.icon-tasks
-        Card Levels
-      = nav_link venue_cardholders_path do
-        %i.icon-credit-card
-        Cardholders
-      = nav_link venue_users_path do
-        %i.icon-group
-        Managers
+    - if current_user && current_user.venue
+      - if can? :read, Venue
+        = nav_link venue_path do
+          %i.icon-dashboard
+          Dashboard
+      - if can? :read, CardLevel
+        = nav_link venue_card_levels_path do
+          %i.icon-tasks
+          Card Levels
+      - if can? :read, Card
+        = nav_link venue_cardholders_path do
+          %i.icon-credit-card
+          Cardholders
+      - if can? :read, User.new(venue: current_user.venue)
+        = nav_link venue_users_path do
+          %i.icon-group
+          Managers
   %ul.nav.pull-right
     - if current_user
       = nav_link 'Logout', logout_path
