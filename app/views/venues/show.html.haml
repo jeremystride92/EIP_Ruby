@@ -21,3 +21,12 @@
           %i.icon-plus.pull-left
           .pull-left Card Levels
           %i.icon-caret-right.pull-right
+.row-fluid
+  .venue-sub-block.span12
+    %h3.block-title.clearfix
+      Promotions
+      = link_to new_venue_promotion_path, title: "New Promotion", class: 'btn btn-large btn-success pull-right' do
+        %i.icon-plus
+    .block-info
+      .row-fluid
+        .span12= render 'promotions/list', promotions: @promotions
