@@ -78,9 +78,9 @@ class UsersController < ApplicationController
 
     authorize! :create, @user
 
-    @user.send_activation_email
 
     if @user.save
+      @user.send_activation_email
       redirect_to venue_users_path, notice: 'User created'
     else
       render :new
