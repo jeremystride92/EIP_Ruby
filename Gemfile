@@ -39,6 +39,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+group :production, :staging do
+  gem 'newrelic_rpm'
+end
+
 group :development, :test do
   gem 'debugger'
   gem 'pry-rails'

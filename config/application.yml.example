@@ -9,6 +9,13 @@ defaults: &defaults
   action_mailer_host:       # Default host used in mailer URL's
   bootstrap_user_email:     # Email address for bootstrapped admin user
   bootstrap_user_password:  # Password for bootstrapped admin user
+  s3_key:                   # Amazon S3 key
+  s3_secret:                # Amazon S3 secret
+  s3_bucket:                # Amazon S3 upload bucket
+  s3_asset_domain:          # Amazon S3 asset URL domain
+  newrelic_license_key:     # License key for New Relic monitoring
+  SENDGRID_USERNAME:        # Username for Sendgrid (capitalization comes from Heroku)
+  SENDGRID_PASSWORD:        # Password for Sendgrid
 
 development:
   <<: *defaults
