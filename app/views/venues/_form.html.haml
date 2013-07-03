@@ -1,18 +1,19 @@
 = simple_form_for @venue, url: venue_path do |f|
-  = f.input :name, label: 'Venue Name', autofocus: true
-  = f.input :phone, input_html: { pattern: '\d{10}' }, hint: '10-digit number, digits only'
-  = f.input :location, hint: 'i.e. The Bronx, Queens, Lodo, South Beach'
-  = f.input :address1, label: 'Address'
-  = f.input :address2, label: false
-  = f.input :website, placeholder: 'http://example.com'
-  = f.input :vanity_slug, label: 'Vanity URL', hint: 'Once chosen, this cannot be changed. This is required if you wish to allow users to request a card from your venue.', wrapper: :prepend do
-    .add-on https://www.EIPiD.com/
-    = f.input_field :vanity_slug, disabled: @venue.vanity_slug.present?
-  .well
-    %h3 Upload Your Logo
-    = f.input :logo, as: :file, label: false
-    = f.hidden_field :logo_cache
-    = image_tag @venue.logo_path, id: 'logo-img', class: "image-preview #{@venue.logo_path ? '' : 'hidden'}"
+  .form-block
+    = f.input :name, label: 'Venue Name', autofocus: true
+    = f.input :phone, input_html: { pattern: '\d{10}' }, hint: '10-digit number, digits only'
+    = f.input :location, hint: 'i.e. The Bronx, Queens, Lodo, South Beach'
+    = f.input :address1, label: 'Address'
+    = f.input :address2, label: false
+    = f.input :website, placeholder: 'http://example.com'
+    = f.input :vanity_slug, label: 'Vanity URL', hint: 'Once chosen, this cannot be changed. This is required if you wish to allow users to request a card from your venue.', wrapper: :prepend do
+      .add-on https://www.EIPiD.com/
+      = f.input_field :vanity_slug, disabled: @venue.vanity_slug.present?
+    .well
+      %h3 Upload Your Logo
+      = f.input :logo, as: :file, label: false
+      = f.hidden_field :logo_cache
+      = image_tag @venue.logo_path, id: 'logo-img', class: "image-preview #{@venue.logo_path ? '' : 'hidden'}"
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large'

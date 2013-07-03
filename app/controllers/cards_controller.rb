@@ -8,6 +8,8 @@ class CardsController < ApplicationController
 
   skip_authorization_check only: [:request_card_form, :request_card]
 
+  public_actions :request_card_form, :request_card
+
   def edit_benefits
     @card.benefits.build unless @card.benefits.present?
 

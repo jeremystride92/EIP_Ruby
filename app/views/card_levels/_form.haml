@@ -1,14 +1,15 @@
 = simple_form_for [:venue, card_level] do |f|
-  = f.input :name
-  = f.input :theme, collection: CardLevel::THEMES
+  .form-block
+    = f.input :name
+    = f.input :theme, collection: CardLevel::THEMES
 
-  %fieldset
-    %legend Benefits
-    = f.simple_fields_for :benefits do |bf|
-      = render 'benefit_fields', f: bf
+    %fieldset
+      %legend Benefits
+      = f.simple_fields_for :benefits do |bf|
+        = render 'benefit_fields', f: bf
 
-    .links
-      = link_to_add_association 'Add Benefit', f, :benefits, :render_options => {:wrapper => 'bootstrap' }
+      .links
+        = link_to_add_association 'Add Benefit', f, :benefits, :render_options => {:wrapper => 'bootstrap' }
 
   .form-actions.clearfix
     = f.button :submit, class: 'btn btn-large btn-primary pull-left'

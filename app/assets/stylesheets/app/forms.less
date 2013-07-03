@@ -43,3 +43,40 @@ input[type="file"] {
     margin-right: 15px;
   }
 }
+
+.form-block {
+  width: 510px;
+  margin: 0 auto;
+}
+
+.input-append, .input-prepend {
+  .form-block & {
+    max-width: 500px;
+
+    #venue_vanity_slug {
+      width: 232px;
+    }
+  }
+  .add-on, .btn {
+    font-size: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    line-height: 20px;
+  }
+}
+
+.form-search .input-append {
+  .search-query{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 23px;
+    .border-left-radius(20px);
+  }
+
+  .btn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    .border-right-radius(20px);
+  }
+
+}

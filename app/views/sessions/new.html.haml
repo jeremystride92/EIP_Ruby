@@ -1,8 +1,10 @@
+%h1.page-header Log in to Your Account
 = simple_form_for :session, url: sessions_path do |f|
-  = f.input :email, autofocus: true
-  = f.input :password, required: true
-  = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
+  .form-block
+    = f.input :email, autofocus: true
+    = f.input :password, required: true
+    = f.input :remember_me, as: :boolean, label: false, inline_label: 'Remember me'
 
   .form-actions
-    = f.button :submit, 'Log In', class: 'btn btn-primary'
-    = link_to 'Forgot Password', forgot_password_user_path, class: 'btn'
+    = f.button :submit, 'Log In', class: 'btn btn-primary btn-large'
+    = link_to 'Forgot Password', forgot_password_user_path, class: 'btn btn-large'

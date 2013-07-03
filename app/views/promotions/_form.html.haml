@@ -1,18 +1,19 @@
 = simple_form_for [:venue, @promotion] do |f|
-  = f.input :title
-  = f.input :start_date_field, label: 'Start date', input_html:{ type: 'date' }
-  = f.input :start_time_field, label: 'Start time', input_html:{ type: 'time' }
-  = f.input :end_date_field, label: 'End date', input_html:{ type: 'date' }
-  = f.input :end_time_field, label: 'End time', input_html:{ type: 'time' }
-  = f.input :description
-  .well
-    %h3 Upload promotion image
-    = f.input :image, as: :file, label: false, hint: 'Recommended size 800 &times; 400 pixels'
-    = f.hidden_field :image_cache
-    = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
+  .form-block
+    = f.input :title
+    = f.input :start_date_field, label: 'Start date', input_html:{ type: 'date' }
+    = f.input :start_time_field, label: 'Start time', input_html:{ type: 'time' }
+    = f.input :end_date_field, label: 'End date', input_html:{ type: 'date' }
+    = f.input :end_time_field, label: 'End time', input_html:{ type: 'time' }
+    = f.input :description
+    .well
+      %h3 Upload promotion image
+      = f.input :image, as: :file, label: false, hint: 'Recommended size 800 &times; 400 pixels'
+      = f.hidden_field :image_cache
+      = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
 
   .form-actions
-    = f.button :submit, class: 'btn-primary'
+    = f.button :submit, class: 'btn-primary btn-large'
 
 = content_for :javascripts do
   = javascript_include_tag :promotions
