@@ -15,4 +15,6 @@
         %br/
         = @venue.website
 
-  = link_to 'Edit Account', edit_venue_path, class: 'btn pull-right' if can? :edit, @venue
+  - if can? :edit, @venue
+    = link_to edit_venue_path, title: 'Edit Venue information', class: 'btn pull-right' do
+      %i.icon-edit
