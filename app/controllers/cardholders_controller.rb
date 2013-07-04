@@ -6,6 +6,8 @@ class CardholdersController < ApplicationController
 
   skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard]
 
+  public_actions :onboard, :complete_onboard
+
   def index
     @card_levels = @venue.card_levels
 
