@@ -5,7 +5,7 @@ class Venue < ActiveRecord::Base
   has_many :cardholders, through: :cards
   has_many :promotions
 
-  mount_uploader :logo, ImageUploader
+  mount_uploader :logo, LogoImageUploader
 
   validates :name, presence: true
   validates :phone,

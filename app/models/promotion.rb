@@ -4,7 +4,7 @@ class Promotion < ActiveRecord::Base
   validates :title, presence: true
   validates :venue, presence: true
 
-  mount_uploader :image, ImageUploader
+  mount_uploader :image, PromotionImageUploader
 
   include Expirable
 

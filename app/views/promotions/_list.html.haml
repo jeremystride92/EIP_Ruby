@@ -2,7 +2,7 @@
   - promotions.each do |promotion|
     %li.media{ class: promotion.inactive? ? 'muted inactive' : 'active' }
       = link_to venue_promotion_path(promotion), class: 'pull-left' do
-        = image_tag promotion.image.url, class: 'media-object'
+        = image_tag promotion.image.list_thumbnail.url, class: 'media-object'
       .media-body
         %h4.media-heading= promotion.title
         - if promotion.start_date
