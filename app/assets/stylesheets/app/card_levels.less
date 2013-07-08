@@ -1,33 +1,28 @@
-.card-theme(@color) {
-  .border-radius(7px);
-  #gradient > .vertical(@color, darken(@color, 10%));
-}
 .card-preview {
   border-top: 25px solid fade(black, 10%);
   width: 175px;
-  height: 100px;
+  height: 114px;
   display: block;
+  border: none;
   box-sizing: border-box;
+
+  background-repeat: no-repeat;
 }
 
 .theme-black {
-  .card-theme(#444);
-  color: #fff;
+  background: asset-url('card-black.png');
 }
 
 .theme-gold{
-  .card-theme(#eab92a);
-  color: #fff;
+  background: asset-url('card-gold.png');
 }
 
 .theme-platinum {
-  .card-theme(#eee);
-  color: #000;
+  background: asset-url('card-platinum.png');
 }
 
 .theme-purple {
-  .card-theme(#822f8d);
-  color: #fff;
+  background: asset-url('card-purple.png');
 }
 
 .controller-card_levels {
