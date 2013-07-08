@@ -6,8 +6,9 @@
         .row-fluid
           - slice.each do |card_level|
             .span3.card-level{ :class => "theme-#{card_level.theme}" }
+              .gloss
               .card-count #{card_level.cards.size}
-              #{card_level.name} Cards
+              #{card_level.name} #{(card_level.cards.size == 1) ? 'Card' : 'Cards' }
   .venue-sub-block.span5.actions-block
     %h2.block-title Actions
     .block-info
