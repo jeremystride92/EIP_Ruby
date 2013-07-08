@@ -1,4 +1,4 @@
-%h1.page-header Venue Users
+%h1.page-header Venue Staff
 
 %table.table.table-striped
   %thead
@@ -6,7 +6,9 @@
     %th Email
     %th Role
     %th
-      = link_to 'Add User', new_venue_user_path, class: 'btn pull-right' if can? :create, User.new(venue: @venue)
+      - if can? :create, User.new(venue: @venue)
+        = link_to new_venue_user_path, class: 'btn btn-large btn-success pull-right', title: 'New Staff Member' do
+          %i.icon-plus
   %tbody
     - @users.each do |user|
       %tr.user

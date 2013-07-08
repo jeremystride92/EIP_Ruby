@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_authorization_check
+  public_actions :new, :create
 
   def new
   end

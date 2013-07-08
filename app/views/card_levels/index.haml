@@ -3,15 +3,21 @@
 %ul.unstyled.card-levels-list
   - @card_levels.each do |card_level|
     %li.card-level-listing.clearfix
-      .card-preview.pull-left{ 'class' => "theme-#{card_level.theme}" }
-      .info.pull-left
+      .row
+      .span3
         %h2= card_level.name
-        %h3 Benefits
+        .card-preview.pull-left{ 'class' => "theme-#{card_level.theme}" }
+      .span4.benefits
+        %h4 Benefits
         %ul.unstyled
           - card_level.benefits.each do |benefit|
             %li= benefit.description
-      .actions.pull-left
-        =link_to 'Edit', edit_venue_card_level_path(card_level), class: 'btn btn-mini'
+      .actions.pull-right
+        =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
+          %i.icon-edit
+          Edit
 
-.actions
-  =link_to 'New Card Level', new_venue_card_level_path(), class: 'btn'
+.actions.clearfix
+  =link_to new_venue_card_level_path(), class: 'btn btn-large btn-success pull-right' do
+    %i.icon-plus
+    New Card Level

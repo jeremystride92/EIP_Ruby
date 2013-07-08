@@ -1,25 +1,26 @@
 .row-fluid
   .span3
     .card-preview{ class: "theme-#{card.card_level.theme}" }
-      .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
-      .card-level= card.card_level.name
-      .card-number
-        EIP#
-        = card.cardholder.phone_number
-  .span3
+    .card-number
+      EIP#
+      = card.cardholder.phone_number
+  .span4
+    .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
     %strong Individual Benefits
     %ul
       - card.benefits.each do |benefit|
         %li= benefit.description
-  .actions.span6
+  .actions.span5
     .row-fluid
-      = link_to venue_card_edit_benefits_path(card), class: 'btn btn-large clearfix span6' do
+      = link_to venue_card_edit_benefits_path(card), class: 'btn btn-large clearfix span9' do
         %i.icon-plus.pull-left
         .pull-left Issue Benefits
         %i.icon-caret-right.pull-right
+    %hr
     .row-fluid
       = simple_form_for card, url: venue_card_change_level_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level" } do |f|
-        = f.input :card_level_id, collection: @card_levels, label: false, wrapper_html: { class: 'span6' }, input_html: { id: "card_#{card.id}_card_level_id"}
-        = f.button :submit, value: 'Change', class: 'btn span2'
+        = f.collection_select :card_level_id, @card_levels, :id, :name, {}, class: 'span9', id: "card_#{card.id}_card_level_id"
+        = f.button :submit, value: 'Change', class: 'btn btn-large btn-primary span3'
+    %hr
     .row-fluid
-      = card_status_toggle_button card, classes: 'span4', form_class: 'change-card-status'
+      = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'

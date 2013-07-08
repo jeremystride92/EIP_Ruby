@@ -1,12 +1,12 @@
-%h1.page-header EIPid lets you create and manage  electronic VIP cards
-.row-fluid
-  .span4
-    %p
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vitae autem degendae ratio maxime quidem illis placuit quieta. Beatus autem esse in maximarum rerum timore nemo potest. Qui enim existimabit posse se miserum esse beatus non erit. Negabat igitur ullam esse artem, quae ipsa a se proficisceretur; Bonum incolumis acies: misera caecitas. An ea, quae per vinitorem antea consequebatur, per se ipsa curabit?
-  .span8
-    .row-fluid
-      = link_to signup_user_path, class: 'btn btn-large btn-primary span6 signup' do
-        Signup your venue now!
-        %i.icon-caret-right.pull-right
-    .row-fluid
-      = link_to 'Login', login_path, class: 'btn btn-large span6 login'
+.hero-unit
+  %img{src: asset_path('mainfeat.png')}
+  %h1 EIPiD lets you create and manage electronic VIP cards
+
+%p
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vitae autem degendae ratio maxime quidem illis placuit quieta. Beatus autem esse in maximarum rerum timore nemo potest. Qui enim existimabit posse se miserum esse beatus non erit. Negabat igitur ullam esse artem, quae ipsa a se proficisceretur; Bonum incolumis acies: misera caecitas. An ea, quae per vinitorem antea consequebatur, per se ipsa curabit?
+
+.row.clearfix
+  = link_to signup_user_path, class: 'btn btn-large btn-primary signup span4 offset2' do
+    Signup your venue now!
+    %i.icon-caret-right.pull-right
+  = link_to 'Login', login_path, class: 'btn btn-large login span4'

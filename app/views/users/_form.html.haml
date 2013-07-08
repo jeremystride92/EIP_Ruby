@@ -1,7 +1,9 @@
 = simple_form_for [@venue, @user] do |f|
-  = f.input :name, autofocus: true
-  = f.input :email
-  = f.input :roles, collection: User.valid_roles, as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role'
+  .form-block
+    = f.input :name, autofocus: true
+    = f.input :email
+    = f.input :roles, collection: User.valid_roles, as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role'
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary btn-large'
+    = f.button :submit, class: 'btn btn-primary btn-large', value: 'Create Staff Member'
+    = link_to 'Cancel', venue_users_path, class: 'btn btn-large pull-right'
