@@ -1,14 +1,15 @@
 = simple_form_for @cardholder, url: onboard_path do |f|
-  = f.input :phone_number, autofocus: true
-  = f.input :first_name, required: true
-  = f.input :last_name, required: true
-  .well
-    %h3 Upload your photo
-    = f.input :photo, as: :file, label: false
-    = f.hidden_field :photo_cache
-    = image_tag @cardholder.photo_path, id: 'photo-img', class: "image-preview #{@cardholder.photo_path ? '' : 'hidden'}"
-  = f.input :password, required: true
-  = f.input :password_confirmation, required: true
+  .form-block
+    = f.input :phone_number, autofocus: true
+    = f.input :first_name, required: true
+    = f.input :last_name, required: true
+    .well
+      %h3 Upload your photo
+      = f.input :photo, as: :file, label: false
+      = f.hidden_field :photo_cache
+      = image_tag @cardholder.photo_path, id: 'photo-img', class: "image-preview #{@cardholder.photo_path ? '' : 'hidden'}"
+    = f.input :password, required: true
+    = f.input :password_confirmation, required: true
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large', value: 'Finish Signup'
