@@ -8,7 +8,7 @@ class Cardholder < ActiveRecord::Base
 
   has_many :venues, through: :cards
 
-  mount_uploader :photo, ImageUploader
+  mount_uploader :photo, CardholderImageUploader
 
   validates :first_name, presence: true, unless: :pending?
   validates :last_name, presence: true, unless: :pending?

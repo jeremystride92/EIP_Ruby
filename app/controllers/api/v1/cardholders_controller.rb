@@ -1,7 +1,7 @@
 class Api::V1::CardholdersController < ApplicationController
   before_filter :authorize
 
-  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :venue, :guest_passes, { card_level: [:benefits, :venue] }] }.freeze
+  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :guest_passes, { venue: :promotions, card_level: [:benefits, { venue: :promotions }] }] }.freeze
 
   def show
     authorize! :read, @cardholder
