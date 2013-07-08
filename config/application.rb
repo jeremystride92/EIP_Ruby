@@ -85,7 +85,7 @@ module EIPiD
         asset_path.starts_with? *asset_paths
       end
     }
-    config.assets.precompile += ['jquery.js', 'underscore.js', 'cardholders.js', 'cardholders_batch_new.js', 'common.js', 'phone_format.js', 'venue_signup.js', 'promotions.js', 'request_card.js' ]
+    config.assets.precompile += ['jquery.js', 'underscore.js', 'cardholders.js', 'cardholders_batch_new.js', 'common.js', 'phone_format.js', 'venue_signup.js', 'promotions.js', 'request_card.js', 'cardholder_onboarding.js' ]
 
     # Customize generators
     config.generators do |g|
