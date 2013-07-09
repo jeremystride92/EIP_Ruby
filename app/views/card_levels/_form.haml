@@ -1,7 +1,7 @@
 = simple_form_for [:venue, card_level] do |f|
   .form-block
     = f.input :name
-    = f.input :theme, collection: CardLevel::THEMES
+    = f.input :theme, collection: CardLevel::THEMES, prompt: 'Select one', required: true, input_html: {required: true}
 
     %fieldset
       %legend Benefits
