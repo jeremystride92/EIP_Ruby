@@ -86,4 +86,24 @@ describe Venue do
       venue.default_signup_card_level.venue.should == venue
     end
   end
+
+  describe "#sender_number" do
+    before do
+      ENV['nexmo_default_sender'] = '11234567890'
+    end
+
+    subject { build :venue }
+
+    context "with nexmo_number set" do
+      before do
+        subject.nexmo_number = '10987654321'
+      end
+
+      its(:sender_number) { should == '10987654321' }
+    end
+
+    context "without nexmo_number set" do
+      its(:sender_number) { should == '11234567890' }
+    end
+  end
 end

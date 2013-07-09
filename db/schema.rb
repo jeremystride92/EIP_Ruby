@@ -101,14 +101,15 @@ ActiveRecord::Schema.define(:version => 20130710163154) do
   create_table "venues", :force => true do |t|
     t.string   "name"
     t.string   "logo"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "phone"
     t.string   "location"
     t.string   "address1"
     t.string   "address2"
     t.string   "website"
     t.string   "vanity_slug"
+    t.string   "nexmo_number"
   end
 
 end

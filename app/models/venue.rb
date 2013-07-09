@@ -43,4 +43,8 @@ class Venue < ActiveRecord::Base
   def default_signup_card_level
     card_levels.first
   end
+
+  def sender_number
+    nexmo_number || ENV['nexmo_default_sender']
+  end
 end
