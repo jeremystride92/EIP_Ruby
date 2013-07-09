@@ -83,3 +83,15 @@ $('form.approve-card').bind('ajax:error', function(xhr, data){
 
   $row.addClass('error');
 });
+
+$('form.approve-card .card_card_level_id select').change(function(e){
+  var $select = $(e.currentTarget);
+  var $form = $select.parents('form');
+  var $approveButton = $form.find('.btn-success');
+
+  if ($select.val() === '') {
+    $approveButton.attr('disabled', 'disabled');
+  } else {
+    $approveButton.removeAttr('disabled');
+  }
+});

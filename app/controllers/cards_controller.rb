@@ -135,6 +135,11 @@ class CardsController < ApplicationController
   private
 
   def approve_card
+    if params[:card][:card_level_id].empty?
+      head :unprocessable_entity
+      return
+    end
+
     if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)
       head :no_content
     else

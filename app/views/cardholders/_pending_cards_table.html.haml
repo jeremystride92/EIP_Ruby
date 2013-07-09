@@ -11,11 +11,14 @@
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
         %td.actions
-          = simple_form_for card, url: venue_card_review_request_path(card), method: :put, html: { class: 'row-fluid inline-form approve-card', id: "approve_card_#{card.id}" }, remote: true do |f|
-            = f.association :card_level, collection: @venue.card_levels, label: false, wrapper_html: { class: 'span8' }, input_html: { class: 'span11', id: "card_#{card.id}_card_level_id" }
-            = button_tag type: :submit, name: 'approve', class: 'btn-success btn-large' do
-              %i.icon-ok
-              Approve
-            = button_tag type: :submit, name: 'reject', class: 'btn-danger btn-large' do
-              %i.icon-remove
-              Reject
+          = simple_form_for card, url: venue_card_review_request_path(card), method: :put, html: { class: 'inline-form approve-card', id: "approve_card_#{card.id}" }, remote: true do |f|
+            .row-fluid
+              - card.card_level = nil
+              = f.input :card_level_id, collection: @venue.card_levels, label: false, prompt: 'Choose a Card Level', wrapper_html: { class: 'span8' }, input_html: { class: 'span12', id: "card_#{card.id}_card_level_id" }
+              .inline-form-actions.span4
+                = button_tag type: :submit, name: 'approve', disabled: true, class: 'btn-success btn' do
+                  %i.icon-ok
+                  Issue
+                = button_tag type: :submit, name: 'reject', class: 'btn-danger btn' do
+                  %i.icon-remove
+                  Reject
