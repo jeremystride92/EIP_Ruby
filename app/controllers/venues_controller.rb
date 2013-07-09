@@ -23,6 +23,7 @@ class VenuesController < ApplicationController
     if @venue.save
       redirect_to new_venue_card_level_path, notice: 'Venue created! Now set up some card levels.'
       current_user.update_attributes venue_id: @venue.id
+      AdminMailer.new_venue_email(@venue).deliver
     else
       render :new
     end
