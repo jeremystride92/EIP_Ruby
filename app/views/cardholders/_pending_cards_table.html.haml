@@ -13,7 +13,7 @@
         %td.actions
           = simple_form_for card, url: venue_card_review_request_path(card), method: :put, html: { class: 'inline-form approve-card', id: "approve_card_#{card.id}" }, remote: true do |f|
             .row-fluid
-              - card.card_level = nil
+              - card.card_level_id = nil
               = f.input :card_level_id, collection: @venue.card_levels, label: false, prompt: 'Choose a Card Level', wrapper_html: { class: 'span8' }, input_html: { class: 'span12', id: "card_#{card.id}_card_level_id" }
               .inline-form-actions.span4
                 = button_tag type: :submit, name: 'approve', disabled: true, class: 'btn-success btn' do
