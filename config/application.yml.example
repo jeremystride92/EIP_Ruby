@@ -18,6 +18,7 @@ defaults: &defaults
   SENDGRID_PASSWORD:        # Password for Sendgrid
   nexmo_key:                # Nexmo API key
   nexmo_secret:             # Nexmo API secret
+  nexmo_default_sender:     # Number to send messages from if venue doesn't have a Nexmo number
 
 development:
   <<: *defaults

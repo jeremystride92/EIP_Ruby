@@ -34,7 +34,6 @@ class Cardholder < ActiveRecord::Base
     self.password = self.password_confirmation = SecureRandom.random_bytes(16)
   end
 
-
   STATUSES.each do |status_code|
     define_method("#{status_code}?") do
       self.status == status_code
@@ -51,6 +50,14 @@ class Cardholder < ActiveRecord::Base
 
   def photo_path
     photo.cached? ? "/carrierwave/#{photo.cache_name}" : photo.url
+  end
+
+  def international_phone_number
+    "1#{phone_number}"
+  end
+
+  def send_text_message(message, sender_number)
+    $nexmo.send_message to: international_phone_number, from: sender_number, text: message
   end
 
   private
