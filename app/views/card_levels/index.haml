@@ -1,8 +1,8 @@
 %h1.page-header Card Levels
 
 %ul.unstyled.card-levels-list
-  - @card_levels.each do |card_level|
-    %li.card-level-listing.clearfix
+  - @card_levels.each_with_index do |card_level, i|
+    %li.card-level-listing.clearfix{ class: (i.even? ? 'even' : 'odd') }
       .row
       .span3
         %h2= card_level.name
