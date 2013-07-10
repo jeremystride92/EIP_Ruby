@@ -15,6 +15,8 @@ describe Venue do
   it { should validate_presence_of :phone }
   it { should validate_numericality_of :phone }
 
+  it { should validate_presence_of :time_zone }
+
   it "should validate length of phone" do
     venue = build :venue
 

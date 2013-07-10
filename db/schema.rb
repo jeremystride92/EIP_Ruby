@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710163154) do
+ActiveRecord::Schema.define(:version => 20130710163726) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20130710163154) do
     t.string   "website"
     t.string   "vanity_slug"
     t.string   "nexmo_number"
+    t.string   "time_zone"
   end
 
 end

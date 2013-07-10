@@ -51,11 +51,11 @@ class VenuesController < ApplicationController
   private
 
   def venue_params
-    params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache)
+    params.require(:venue).permit(:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache, :time_zone)
   end
 
   def venue_params_for_update
-    attributes = [:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache]
+    attributes = [:name, :phone, :location, :address1, :address2, :website, :vanity_slug, :logo, :logo_cache, :time_zone]
     attributes -= [:vanity_slug] if @venue.vanity_slug.present?
 
     params.require(:venue).permit *attributes

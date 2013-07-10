@@ -24,6 +24,8 @@ class Venue < ActiveRecord::Base
       },
     length: { maximum: 75 }
 
+    validates :time_zone, presence: true
+
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil
   end
