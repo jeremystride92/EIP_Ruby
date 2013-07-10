@@ -141,6 +141,7 @@ class CardsController < ApplicationController
     end
 
     if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)
+      SmsMailer.cardholder_new_card_sms(@card.cardholder, @venue).deliver
       head :no_content
     else
       head :unprocessable_entity

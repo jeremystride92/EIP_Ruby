@@ -170,7 +170,6 @@ describe Cardholder do
 
       it "should have card for venue" do
         cardholder.should have_card_for_venue venue
-        # cardholder.has_card_for_venue?(venue).should be_true
       end
     end
 
@@ -181,8 +180,14 @@ describe Cardholder do
 
       it "should have card for venue" do
         cardholder.should_not have_card_for_venue venue
-        # cardholder.has_card_for_venue?(venue).should be_false
       end
     end
+  end
+
+  describe "#international_phone_number" do
+    let (:cardholder) { build :cardholder }
+    subject { cardholder.international_phone_number }
+
+    it { should == "1#{cardholder.phone_number}" }
   end
 end

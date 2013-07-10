@@ -53,6 +53,16 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  # Stub out Nexmo
+  config.before(:suite) do
+    $nexmo = Object.new
+    class << $nexmo
+      def send_message options
+        OpenStruct.new ok?: true
+      end
+    end
+  end
+
   # Helpers for authentication
   config.include(AuthenticationMacros)
 

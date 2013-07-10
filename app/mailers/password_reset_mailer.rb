@@ -1,5 +1,5 @@
 class PasswordResetMailer < ActionMailer::Base
-  default from: "admin@EIPiD.com"
+  default from: ENV['site_email']
 
   def password_reset_email(user)
     @user = user

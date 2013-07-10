@@ -1,0 +1,18 @@
+= "#{ENV['site_name']} Admin,"
+
+A new Venue has been created: #{@venue.name}. Please contact the owner to set up their account, port their phone number to Nexmo, etc.
+%br/
+%br/
+= @venue.name
+%br/
+= @venue.location
+%br/
+= @venue.address1
+%br/
+- if @venue.address2.present?
+  = @venue.address2
+  %br/
+= @venue.phone
+%br/
+%br/
+Thanks!
