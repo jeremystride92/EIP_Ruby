@@ -58,10 +58,6 @@ class Cardholder < ActiveRecord::Base
     "1#{phone_number}"
   end
 
-  def send_text_message(message, sender_number)
-    $nexmo.send_message to: international_phone_number, from: sender_number, text: message
-  end
-
   private
 
   def set_default_status

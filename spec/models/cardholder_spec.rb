@@ -190,13 +190,4 @@ describe Cardholder do
 
     it { should == "1#{cardholder.phone_number}" }
   end
-
-  describe "#send_text_message" do
-    let(:cardholder) { build :cardholder }
-
-    it "should send a message via Nexmo" do
-      $nexmo.should_receive(:send_message).with(to: cardholder.international_phone_number, from: '11234567890', text: 'hi')
-      cardholder.send_text_message "hi", "11234567890"
-    end
-  end
 end
