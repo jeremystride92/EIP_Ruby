@@ -5,7 +5,7 @@
     = f.input :last_name, required: true
     .well
       %h3 Upload your photo
-      = f.input :photo, as: :file, label: false
+      = f.input :photo, as: :file, label: false, required: true, hint: 'Once set, this cannot be changed. Make sure you are clearly visible and identifiable from this photograph.'
       = f.hidden_field :photo_cache
       = image_tag @cardholder.photo_path, id: 'photo-img', class: "image-preview #{@cardholder.photo_path ? '' : 'hidden'}"
     = f.input :password, required: true
