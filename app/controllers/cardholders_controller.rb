@@ -45,9 +45,14 @@ class CardholdersController < ApplicationController
       create_cardholder_or_card attrs
     end
 
-    cardholders.each do |ch|
-      authorize! :create, ch.cards.last
-      ch.save
+    cardholders.each do |cardholder|
+      authorize! :create, cardholder.cards.last
+
+      if cardholder.persisted?
+        cardholder.save and SmsMailer.cardholder_new_card_sms(cardholder, @venue).deliver
+      else
+        cardholder.save and SmsMailer.cardholder_onboarding_sms(cardholder, @venue).deliver
+      end
     end
 
     @problems = cardholders.select &:invalid?
