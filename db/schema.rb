@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710203911) do
+ActiveRecord::Schema.define(:version => 20130710204503) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(:version => 20130710203911) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
   end
+
+  add_index "benefits", ["beneficiary_type", "beneficiary_id"], :name => "index_benefits_on_beneficiary_type_and_beneficiary_id"
+  add_index "benefits", ["beneficiary_type"], :name => "index_benefits_on_beneficiary_type"
 
   create_table "card_levels", :force => true do |t|
     t.string   "name"
