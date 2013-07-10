@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710163726) do
+ActiveRecord::Schema.define(:version => 20130710203911) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "theme"
     t.integer  "cards_count",            :default => 0
     t.integer  "daily_guest_pass_count", :default => 0
@@ -113,5 +113,7 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
     t.string   "nexmo_number"
     t.string   "time_zone"
   end
+
+  add_index "venues", ["vanity_slug"], :name => "index_venues_on_vanity_slug"
 
 end
