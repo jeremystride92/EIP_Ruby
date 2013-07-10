@@ -24,6 +24,8 @@ class Venue < ActiveRecord::Base
       },
     length: { maximum: 75 }
 
+    validates :time_zone, presence: true
+
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil
   end
@@ -46,5 +48,11 @@ class Venue < ActiveRecord::Base
 
   def sender_number
     nexmo_number || ENV['nexmo_default_sender']
+  end
+
+  def set_all_card_level_guest_passes
+    card_levels.each do |card_level|
+      card_level.set_all_card_guest_passes
+    end
   end
 end

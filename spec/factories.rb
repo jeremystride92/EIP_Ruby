@@ -44,12 +44,14 @@ FactoryGirl.define do
     address2 { rand(3).zero? ? Faker::Address.secondary_address : nil }
     website { Faker::Internet.http_url }
     vanity_slug { rand(1).zero? ? name.parameterize : nil }
+    time_zone "Mountain Time (US & Canada)"
   end
 
   factory :card_level do
     theme { CardLevel::THEMES.sample }
     sequence(:name) { |i| theme.titleize + i.to_s }
     venue
+    daily_guest_pass_count { rand(4) + 1 }
 
     factory :card_level_with_benefits do
       after :create do |card_level, evaluator|

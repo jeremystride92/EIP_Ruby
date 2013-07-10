@@ -6,6 +6,7 @@
     = f.input :address1, label: 'Address'
     = f.input :address2, label: false
     = f.input :website, placeholder: 'http://example.com'
+    = f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, prompt: "Select your time zone"
     = f.input :vanity_slug, label: 'Vanity URL', hint: 'Once chosen, this cannot be changed. This is required if you wish to allow users to request a card from your venue.', wrapper: :prepend do
       .add-on https://www.EIPiD.com/
       = f.input_field :vanity_slug, disabled: @venue.vanity_slug.present?
