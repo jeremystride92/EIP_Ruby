@@ -7,12 +7,11 @@ namespace :eipid do
     Rails.logger.info "Updating guest passes for all venues where it's currently 0#{run_time}00 hours local"
 
     Venue.includes(card_levels: [:cards]).all.each do |venue|
-      Time.use_zone(venue.time_zone) do
-        next unless Time.current.hour == run_time
-        Rails.logger.info "It's time to refresh passes at #{venue.name}."
+      zone = ActiveSupport::TimeZone[venue.time_zone]
+      next unless zone.now.hour == run_time
 
-        venue.set_all_card_level_guest_passes
-      end
+      Rails.logger.info "It's time to refresh passes at #{venue.name}."
+      venue.set_all_card_level_guest_passes
     end
   end
 end
