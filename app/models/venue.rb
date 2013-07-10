@@ -6,7 +6,7 @@ class Venue < ActiveRecord::Base
   has_many :promotions
 
   mount_uploader :logo, LogoImageUploader
-  
+
   validates :name, presence: true
   validates :phone,
     presence: true,
