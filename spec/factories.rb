@@ -6,6 +6,7 @@ FactoryGirl.define do
     name { Faker::Name.name }
     password 'secret'
     password_confirmation { |u| u.password }
+    roles { [:venue_manager] }
 
     factory :venue_owner do
       roles { [:venue_owner] }

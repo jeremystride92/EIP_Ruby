@@ -1,5 +1,5 @@
-%form#card_level_form.form-search.form-inline{action: venue_cardholders_path, method: :get}
-  = select_tag :card_level_id, options_from_collection_for_select(@card_levels, 'id', 'name', @card_level_id), prompt: 'Card Level'
+%form#card_level_form.form-search.form-inline.pull-right{action: venue_cardholders_path, method: :get}
+  = select_tag :card_level_id, options_from_collection_for_select(@card_levels, 'id', 'name', @card_level_id), prompt: 'Filter Card Level'
   .input-append
     %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Search Last Name' }
     = button_tag class: 'btn' do
