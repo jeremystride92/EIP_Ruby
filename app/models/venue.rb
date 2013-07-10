@@ -41,6 +41,6 @@ class Venue < ActiveRecord::Base
   end
 
   def default_signup_card_level
-    card_levels.where(default_signup_level: true).first
+    card_levels.first
   end
 end

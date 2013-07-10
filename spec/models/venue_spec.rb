@@ -78,12 +78,12 @@ describe Venue do
   end
 
   describe "#default_signup_card_level" do
-    it "should be the proper card_level" do
+    it "should be a card_level belonging to the venue" do
       venue = create :venue
-      default_card_level = create :card_level, venue: venue, default_signup_level: true
-      other_card_levels = create_list :card_level, 3, venue: venue, default_signup_level: false
+      default_card_level = create :card_level, venue: venue
+      other_card_levels = create_list :card_level, 3
 
-      venue.default_signup_card_level.should == default_card_level
+      venue.default_signup_card_level.venue.should == venue
     end
   end
 end
