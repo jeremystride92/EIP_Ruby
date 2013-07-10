@@ -106,4 +106,20 @@ describe Venue do
       its(:sender_number) { should == '11234567890' }
     end
   end
+
+  describe "#set_all_card_level_guest_passes" do
+    let(:venue) { create :venue }
+
+    before do
+      create_list :card_level, 2, venue: venue
+    end
+
+    it "should call set_all_card_guest_passes on each card_level" do
+      venue.card_levels.reload.each do |card_level|
+        card_level.should_receive :set_all_card_guest_passes
+      end
+
+      venue.set_all_card_level_guest_passes
+    end
+  end
 end

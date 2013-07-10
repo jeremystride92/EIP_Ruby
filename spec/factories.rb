@@ -50,6 +50,7 @@ FactoryGirl.define do
     theme { CardLevel::THEMES.sample }
     sequence(:name) { |i| theme.titleize + i.to_s }
     venue
+    daily_guest_pass_count { rand(4) + 1 }
 
     factory :card_level_with_benefits do
       after :create do |card_level, evaluator|

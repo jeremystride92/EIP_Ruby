@@ -26,10 +26,11 @@ ActiveRecord::Schema.define(:version => 20130710163154) do
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
     t.string   "theme"
-    t.integer  "cards_count", :default => 0
+    t.integer  "cards_count",            :default => 0
+    t.integer  "daily_guest_pass_count", :default => 0
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"
