@@ -5,6 +5,8 @@ class CardLevelsController < ApplicationController
   before_filter :find_venue_card_levels, only: [:index]
   before_filter :find_card_level, only: [:edit, :update]
 
+  around_filter :use_time_zone
+  
   def index
     authorize! :read, CardLevel if @card_levels.empty?
 

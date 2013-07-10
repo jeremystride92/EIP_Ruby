@@ -30,6 +30,21 @@ describe Venue do
     venue.should_not be_valid
   end
 
+  describe "validate time zone" do
+    let(:venue) { build :venue }
+    it "should allow valid time zones" do
+      ActiveSupport::TimeZone.us_zones.map(&:name).each do |zone|
+        venue.time_zone = zone
+        venue.should be_valid
+      end
+    end
+
+    it "should not allow invalid time zones" do
+      venue.time_zone = 'Not a time zone'
+      venue.should_not be_valid
+    end
+  end
+
   describe "validate format of vanity_slug" do
     let(:venue) { build :venue }
 

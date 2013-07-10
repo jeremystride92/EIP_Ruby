@@ -6,6 +6,8 @@ class CardsController < ApplicationController
   before_filter :find_venue_by_slug, only: [:request_card_form, :request_card]
   before_filter :find_venue, except: [:request_card_form, :request_card]
 
+  around_filter :use_time_zone
+
   skip_authorization_check only: [:request_card_form, :request_card]
 
   public_actions :request_card_form, :request_card

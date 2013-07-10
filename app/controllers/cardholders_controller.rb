@@ -4,6 +4,8 @@ class CardholdersController < ApplicationController
   before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard]
   before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard]
 
+  around_filter :use_time_zone
+
   skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard]
 
   public_actions :onboard, :complete_onboard
