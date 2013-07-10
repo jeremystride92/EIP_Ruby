@@ -26,6 +26,8 @@ class Cardholder < ActiveRecord::Base
     generate_token(:onboarding_token)
   end
 
+  after_create :notify_cardholder
+
   before_validation :generate_unusable_password!, unless: proc { |cardholder| cardholder.password_digest || cardholder.password }
 
   before_validation :set_default_status
@@ -70,5 +72,9 @@ class Cardholder < ActiveRecord::Base
     begin
       self[column] = SecureRandom.urlsafe_base64
     end while Cardholder.exists?(column => self[column])
+  end
+
+  def notify_cardholder
+    mail = SmsMailer.cardholder_onboarding_sms(self, venues.first).deliver if venues.any?
   end
 end

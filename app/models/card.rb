@@ -25,6 +25,7 @@ class Card < ActiveRecord::Base
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults
+  after_create :notify_cardholder
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -103,5 +104,9 @@ class Card < ActiveRecord::Base
   def set_defaults
     self.guest_count ||= 0
     self.status ||= 'active'
+  end
+
+  def notify_cardholder
+    SmsMailer.cardholder_new_card_sms(cardholder, venue).deliver if cardholder.cards.count > 1
   end
 end
