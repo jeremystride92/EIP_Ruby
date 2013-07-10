@@ -1,18 +1,28 @@
 class PromotionImageUploader < ImageUploader
   # Create different versions of your uploaded files:
   version :mobile_small do
-    process resize_to_fit: [200, 200]
+    process resize_to_fit: [300, nil]
   end
 
   version :mobile_large do
-    process resize_to_fit: [600, 300]
+    process resize_to_fit: [600, nil]
   end
 
   version :list_thumbnail do
-    process resize_to_fit: [340,340]
+    process resize_to_fit: [340, nil]
+    process crop: '340x120+0+0'
   end
 
   version :display do
-    process resize_to_fit: [800,400]
+    process resize_to_fit: [600,nil]
+  end
+
+  private
+
+  def crop(geometry)
+    manipulate! do |img|
+      img.crop(geometry)
+      img
+    end
   end
 end
