@@ -53,6 +53,8 @@ describe User do
       subject.roles = [:venue_owner, :venue_manager, :clown]
       subject.roles.to_a.should =~ [:venue_owner, :venue_manager]
     end
+
+    it { should validate_presence_of :roles }
   end
 
   describe "authentication" do

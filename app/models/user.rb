@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
                     email: true
   validates :password, length: { in: 6..255 }, allow_nil: true
   validates :name, presence: true
+  validates :roles, presence: true
 
   include RoleModel
   roles_attribute :roles_mask
