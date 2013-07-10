@@ -1,0 +1,15 @@
+= content_for :head do
+  %meta{ property: 'og:title', content: @promotion.title }
+  %meta{ property: 'og:type', content: 'event' }
+  %meta{ property: 'og:url', content: public_promotion_url(venue_slug: @venue.vanity_slug, id: @promotion.id) }
+  %meta{ property: 'og:image', content: "http:#{@promotion.image.display.url}" }
+  %meta{ property: 'event:start_time', content: (@promotion.start_date || @promotion.created_at).iso8601 }
+  - if @promotion.end_date.present?
+    %meta{ property: 'event:end_time', content: @promotion.end_date.iso8601 }
+%h1.page-header= @promotion.title
+.promotion-block
+  = image_tag @promotion.image.display.url, class: 'promotion-image'
+  .request-box
+    = link_to request_card_path(@venue.vanity_slug), class: 'btn btn-inverse btn-request-card' do
+      %i.icon-credit-card
+      Request a Card

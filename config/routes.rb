@@ -52,6 +52,8 @@ EIPiD::Application.routes.draw do
   get ':venue_slug/request_card', to: 'cards#request_card_form', as: 'request_card'
   post ':venue_slug/request_card', to: 'cards#request_card'
 
+  get ':venue_slug/promotions/:id', to: 'promotions#public_show', as: :public_promotion
+
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 
   get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard
