@@ -1,4 +1,7 @@
 EIPiD::Application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   root :to => 'pages#index'
 
   get 'login', to: 'sessions#new', as: 'login'

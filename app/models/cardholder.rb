@@ -1,5 +1,5 @@
 class Cardholder < ActiveRecord::Base
-  STATUSES = %w(pending active)
+  STATUSES = %w(pending active).freeze
 
   has_secure_password
 

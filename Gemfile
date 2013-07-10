@@ -35,11 +35,17 @@ gem 'bitly', '>= 0.9.0'
 
 gem 'redis'
 
+gem 'activeadmin', github: 'gregbell/active_admin'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'less-rails'
   gem 'twitter-bootstrap-rails'
+
+  gem 'sass-rails' # for active admin
+  gem "jquery-rails", "2.3.0"
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer'
