@@ -6,7 +6,7 @@ class Venue < ActiveRecord::Base
   has_many :promotions
 
   mount_uploader :logo, LogoImageUploader
-
+  
   validates :name, presence: true
   validates :phone,
     presence: true,
@@ -41,6 +41,6 @@ class Venue < ActiveRecord::Base
   end
 
   def default_signup_card_level
-    card_levels.where(default_signup_level: true).first
+    card_levels.first
   end
 end
