@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710204503) do
+ActiveRecord::Schema.define(:version => 20130710220502) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20130710204503) do
     t.string   "onboarding_token"
   end
 
+  add_index "cardholders", ["auth_token"], :name => "index_cardholders_on_auth_token"
   add_index "cardholders", ["phone_number"], :name => "index_cardholders_on_phone_number"
 
   create_table "cards", :force => true do |t|
@@ -101,6 +102,8 @@ ActiveRecord::Schema.define(:version => 20130710204503) do
     t.datetime "reset_token_date"
     t.string   "name"
   end
+
+  add_index "users", ["auth_token"], :name => "index_users_on_auth_token"
 
   create_table "venues", :force => true do |t|
     t.string   "name"
