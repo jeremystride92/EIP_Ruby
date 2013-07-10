@@ -44,6 +44,7 @@ FactoryGirl.define do
     address2 { rand(3).zero? ? Faker::Address.secondary_address : nil }
     website { Faker::Internet.http_url }
     vanity_slug { rand(1).zero? ? name.parameterize : nil }
+    time_zone "Mountain Time (US & Canada)"
   end
 
   factory :card_level do
