@@ -21,6 +21,8 @@
       = simple_form_for card, url: venue_card_change_level_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level" } do |f|
         = f.collection_select :card_level_id, @card_levels, :id, :name, {}, class: 'span8', id: "card_#{card.id}_card_level_id"
         = f.button :submit, value: 'Change', class: 'btn btn-large btn-primary span4'
-    %hr
-    .row-fluid
-      = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'
+%hr
+.row-fluid
+  .card-status.pull-left
+    = 'Issued, but awaiting account activation by cardholder' if card.cardholder.pending?
+  = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'
