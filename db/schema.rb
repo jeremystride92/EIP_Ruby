@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710163726) do
+ActiveRecord::Schema.define(:version => 20130710220502) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -23,11 +23,14 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "benefits", ["beneficiary_type", "beneficiary_id"], :name => "index_benefits_on_beneficiary_type_and_beneficiary_id"
+  add_index "benefits", ["beneficiary_type"], :name => "index_benefits_on_beneficiary_type"
+
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "theme"
     t.integer  "cards_count",            :default => 0
     t.integer  "daily_guest_pass_count", :default => 0
@@ -48,6 +51,7 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
     t.string   "onboarding_token"
   end
 
+  add_index "cardholders", ["auth_token"], :name => "index_cardholders_on_auth_token"
   add_index "cardholders", ["phone_number"], :name => "index_cardholders_on_phone_number"
 
   create_table "cards", :force => true do |t|
@@ -99,6 +103,8 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
     t.string   "name"
   end
 
+  add_index "users", ["auth_token"], :name => "index_users_on_auth_token"
+
   create_table "venues", :force => true do |t|
     t.string   "name"
     t.string   "logo"
@@ -113,5 +119,7 @@ ActiveRecord::Schema.define(:version => 20130710163726) do
     t.string   "nexmo_number"
     t.string   "time_zone"
   end
+
+  add_index "venues", ["vanity_slug"], :name => "index_venues_on_vanity_slug"
 
 end
