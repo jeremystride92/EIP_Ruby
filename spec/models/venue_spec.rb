@@ -59,6 +59,11 @@ describe Venue do
       venue.vanity_slug = 'a'*76
       venue.should_not be_valid
     end
+
+    it "should not allow a slug of 'venue'" do
+      venue.vanity_slug = "venue"
+      venue.should_not be_valid
+    end
   end
 
   describe "User finders" do

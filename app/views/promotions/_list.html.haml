@@ -5,7 +5,8 @@
         = image_tag promotion.image.list_thumbnail.url, class: 'media-object'
       .media-body
         .pull-left
-          %h3.media-heading= promotion.title
+          %h3.media-heading
+            =link_to promotion.title, venue_promotion_path(promotion)
           - if promotion.start_date
             .start-date
               Start Date/Time:
@@ -14,6 +15,9 @@
             .end-date
               End Date/Time
               %strong.datetime= l promotion.end_date, format: :long
+          .public-link
+            Public URL:
+            = link_to public_promotion_url(venue_slug: @venue.vanity_slug, id: promotion.id), public_promotion_url(venue_slug: @venue.vanity_slug, id: promotion.id)
         = link_to '#', class: 'btn btn-large pull-right' do
           %i.icon-share-alt
           Send Promotion

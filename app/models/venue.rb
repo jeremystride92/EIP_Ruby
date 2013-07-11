@@ -22,7 +22,8 @@ class Venue < ActiveRecord::Base
       allow_blank: true,
       message: "Use only letters, numbers, underscores and dashes. Must contain at least one letter"
       },
-    length: { maximum: 75 }
+    length: { maximum: 75 },
+    exclusion: { in: %w(venue) }
 
     validates :time_zone, presence: true
 
