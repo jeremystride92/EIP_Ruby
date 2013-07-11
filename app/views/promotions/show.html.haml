@@ -8,5 +8,8 @@
     %strong= l @promotion.end_date, format: :long
 = image_tag @promotion.image.display.url if @promotion.image
 %p.description= @promotion.description
+%p
+  Public link:
+  = link_to public_promotion_url(venue_slug: @venue.vanity_slug, id: @promotion.id), public_promotion_url(venue_slug: @venue.vanity_slug, id: @promotion.id)
 = link_to "Edit", edit_venue_promotion_path(@promotion), class: 'btn btn-primary btn-large' if can? :update, @promotion
 = link_to "Delete", venue_promotion_path(@promotion), class: 'btn btn-danger btn-large', method: 'delete', confirm: 'Do you really want to remove this promotion permanently?', remote: true if can? :destroy, @promotion
