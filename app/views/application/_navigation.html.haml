@@ -22,6 +22,11 @@
         = nav_link venue_users_path do
           %i.icon-group
           Managers
+  - if @venue.present? && current_user.nil?
+    .nav.pull-right
+      = nav_link @venue.name, (@venue.website || "#")
+      = nav_link (@venue.website || "#"), class: 'venue-logo' do
+        =image_tag @venue.logo.mobile_small.url
   %ul.nav.pull-right
     - if current_user
       = nav_link logout_path do
