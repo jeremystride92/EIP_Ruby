@@ -1,3 +1,9 @@
+class PromotionRouteConstraint
+  def matches?(request)
+    not request.params[:venue_slug] == 'venue'
+  end
+end
+
 EIPiD::Application.routes.draw do
   root :to => 'pages#index'
 
@@ -52,7 +58,7 @@ EIPiD::Application.routes.draw do
   get ':venue_slug/request_card', to: 'cards#request_card_form', as: 'request_card'
   post ':venue_slug/request_card', to: 'cards#request_card'
 
-  get ':venue_slug/promotions/:id', to: 'promotions#public_show', as: :public_promotion
+  get ':venue_slug/promotions/:id', to: 'promotions#public_show', as: :public_promotion, constraints: PromotionRouteConstraint.new
 
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 

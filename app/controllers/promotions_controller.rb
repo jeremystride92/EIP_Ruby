@@ -4,7 +4,7 @@ class PromotionsController < ApplicationController
 
   PUBLIC_ACTIONS = [:public_show]
   public_actions *PUBLIC_ACTIONS
-  skip_authorization_check *PUBLIC_ACTIONS
+  skip_authorization_check only: PUBLIC_ACTIONS
 
   def new
     @promotion = @venue.promotions.build
@@ -52,6 +52,7 @@ class PromotionsController < ApplicationController
   end
 
   private
+
   def params_for_promotion
     params.require(:promotion).permit(:title, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :image, :image_cache)
   end
