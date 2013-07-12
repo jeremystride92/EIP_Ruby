@@ -20,6 +20,9 @@ defaults: &defaults
   nexmo_secret:             # Nexmo API secret
   nexmo_default_sender:     # Number to send messages from if venue doesn't have a Nexmo number
 
+  bitly_user:               # get these from https://bitly.com/a/your_api_key
+  bitly_api_key:
+
 development:
   <<: *defaults
 
