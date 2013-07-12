@@ -24,5 +24,8 @@
 %hr
 .row-fluid
   .card-status.pull-left
-    = 'Issued, but awaiting account activation by cardholder' if card.cardholder.pending?
+    - if card.cardholder.pending?
+      Card Issue Pending
+    - else
+      Card Issue Active
   = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'
