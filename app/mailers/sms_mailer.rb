@@ -16,4 +16,9 @@ class SmsMailer < ActionMailer::Base
     mail to: ENV['site_email'] # Needed to activate message
     self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: venue.sender_number, message: render_to_string)
   end
+
+  def cardholder_promotion_message(cardholder, venue, message)
+    mail to: ENV['site_email']
+    self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: venue.sender_number, message: message)
+  end
 end

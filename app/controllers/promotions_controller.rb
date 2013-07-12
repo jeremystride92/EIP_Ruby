@@ -1,6 +1,6 @@
 class PromotionsController < ApplicationController
   before_filter :find_venue, except: :public_show
-  before_filter :find_promotions
+  before_filter :find_promotion, except: [:new, :create]
 
   PUBLIC_ACTIONS = [:public_show]
   public_actions *PUBLIC_ACTIONS
@@ -51,17 +51,43 @@ class PromotionsController < ApplicationController
     head :no_content
   end
 
+  def promote
+    authorize! :promote, @promotion
+    @promo_message = PromotionMessage.new
+  end
+
+  def send_promotion
+    authorize! :promote, @promotion
+
+    @promo_message = PromotionMessage.new *(params_for_promotion_message.values_at 'message', 'card_levels')
+    @promo_message.card_levels.reject! &:empty?
+
+    card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
+    cardholders = card_levels.map(&:cards).flatten.map(&:cardholder).uniq
+
+    binding.pry
+    cardholders.each do |cardholder|
+      SmsMailer.cardholder_promotion_message(cardholder, @venue, @promo_message.message).deliver
+    end
+
+    render :promote
+  end
+
   private
 
   def params_for_promotion
     params.require(:promotion).permit(:title, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :image, :image_cache)
   end
 
+  def params_for_promotion_message
+    params.require(:promotion_message).permit(:message, card_levels: [])
+  end
+
   def find_venue
     @venue = current_user.venue
   end
 
-  def find_promotions
-    @promotion = Promotion.find(params[:id]) if params[:id]
+  def find_promotion
+    @promotion = Promotion.find (params[:id] || params[:promotion_id])
   end
 end
