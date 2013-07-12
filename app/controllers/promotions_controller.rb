@@ -62,15 +62,16 @@ class PromotionsController < ApplicationController
     @promo_message = PromotionMessage.new *(params_for_promotion_message.values_at 'message', 'card_levels')
     @promo_message.card_levels.reject! &:empty?
 
-    card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
-    cardholders = card_levels.map(&:cards).flatten.map(&:cardholder).uniq
+    @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
+    @cardholders = @card_levels.map(&:cards).flatten.map(&:cardholder).uniq
 
-    binding.pry
-    cardholders.each do |cardholder|
-      SmsMailer.cardholder_promotion_message(cardholder, @venue, @promo_message.message).deliver
+    if @cardholders.empty?
+      render :promote, notice: "No Cards were found in those Card Levels." and return
     end
 
-    render :promote
+    @cardholders.each do |cardholder|
+      SmsMailer.cardholder_promotion_message(cardholder, @venue, @promo_message.message).deliver
+    end
   end
 
   private
