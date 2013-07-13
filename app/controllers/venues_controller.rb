@@ -3,8 +3,6 @@ class VenuesController < ApplicationController
   before_filter :find_venue, except: [:new, :create]
   before_filter :find_promotions, only: [:show]
 
-  around_filter :use_time_zone
-
   public_actions :new, :create
 
   def new

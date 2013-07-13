@@ -17,11 +17,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def use_time_zone(&block)
-    zone = @venue.try(:time_zone) || Time.zone
-    Time.use_zone(zone, &block)
-  end
-
   def current_user
     @current_user ||= User.find_by_auth_token!(cookies[:auth_token]) if cookies[:auth_token]
   end

@@ -12,11 +12,17 @@ class PromotionsController < ApplicationController
   end
 
   def create
-    @promotion = @venue.promotions.build(params_for_promotion)
+    @promotion = @venue.promotions.build params_for_promotion
+
     authorize! :create, @promotion
 
-    if @promotion.save
-      redirect_to venue_promotion_path(@promotion)
+    success = false
+    Time.use_zone @venue.time_zone do
+      success = @promotion.save
+    end
+
+    if success
+      redirect_to venue_promotion_path @promotion
     else
       render 'new'
     end
@@ -38,8 +44,13 @@ class PromotionsController < ApplicationController
   def update
     authorize! :update, @promotion
 
-    if @promotion.update_attributes(params_for_promotion)
-      redirect_to venue_promotion_path(@promotion)
+    success = false
+    Time.use_zone @venue.time_zone do
+      success = @promotion.update_attributes params_for_promotion
+    end
+
+    if success
+      redirect_to venue_promotion_path @promotion
     else
       render 'edit'
     end
