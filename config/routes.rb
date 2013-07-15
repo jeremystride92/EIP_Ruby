@@ -1,9 +1,3 @@
-class PromotionRouteConstraint
-  def matches?(request)
-    not request.params[:venue_slug] == 'venue'
-  end
-end
-
 EIPiD::Application.routes.draw do
   root :to => 'pages#index'
 
@@ -58,15 +52,19 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
-  get ':venue_slug/request_card', to: 'cards#request_card_form', as: 'request_card'
-  post ':venue_slug/request_card', to: 'cards#request_card'
-
-  get ':venue_slug/promotions/:id', to: 'promotions#public_show', as: :public_promotion, constraints: PromotionRouteConstraint.new
-
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 
   get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard
   put 'cardholders/onboard/:token', to: 'cardholders#complete_onboard'
+
+
+
+  constraints VenueSubdomainConstraint do
+    get 'request_card', to: 'cards#request_card_form', as: 'request_card'
+    post 'request_card', to: 'cards#request_card'
+
+    get 'promotions/:id', to: 'promotions#public_show', as: :public_promotion
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

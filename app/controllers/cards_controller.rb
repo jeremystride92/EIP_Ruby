@@ -196,6 +196,6 @@ class CardsController < ApplicationController
   end
 
   def find_venue_by_slug
-    @venue = Venue.find_by_vanity_slug!(params[:venue_slug])
+    @venue = Venue.find_by_vanity_slug! request.subdomain
   end
 end

@@ -27,6 +27,20 @@ module ApplicationHelper
     end
   end
 
+  # From RailsCast #221
+  def url_for(options = nil)
+    if options.kind_of?(Hash) && options.has_key?(:subdomain)
+      options[:host] = host_with_subdomain(options.delete(:subdomain))
+    end
+    super
+  end
+
+  def host_with_subdomain(subdomain)
+    subdomain ||= ''
+    subdomain += "." unless subdomain.empty?
+    [subdomain, request.domain].join
+  end
+
   # SimpleForm does not provide a helper to display base errors - those that are not associated with a specific form field.
   def display_base_errors resource
     return '' if (resource.errors.empty?) or (resource.errors[:base].empty?)
