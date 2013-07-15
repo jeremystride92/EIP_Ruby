@@ -2,6 +2,7 @@
   .form-block
     = f.input :name
     = f.input :theme, collection: CardLevel::THEMES, prompt: 'Select one', required: true, input_html: {required: true}
+    = f.input :daily_guest_pass_count
 
     %fieldset
       %legend Benefits

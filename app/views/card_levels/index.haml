@@ -10,6 +10,8 @@
       .span4.benefits
         %h4 Benefits
         %ul.unstyled
+          - unless card_level.daily_guest_pass_count.zero?
+            %li #{pluralize card_level.daily_guest_pass_count, 'daily guest pass'}
           - card_level.benefits.each do |benefit|
             %li= benefit.description
       .actions.pull-right
