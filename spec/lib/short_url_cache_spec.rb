@@ -7,7 +7,7 @@ describe ShortUrlCache do
 
   before do
     Bitly.stub(:client).and_return(client)
-    ShortUrlCache.cache={}
+    ShortUrlCache.cache = {}
   end
 
   it "should call bitly if url not cached" do
