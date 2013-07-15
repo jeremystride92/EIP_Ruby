@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   include RoleModel
   roles_attribute :roles_mask
-  roles :venue_owner, :venue_manager
+  roles :venue_owner, :venue_manager, :site_admin
 
   before_create { generate_token(:auth_token) }
 

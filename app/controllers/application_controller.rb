@@ -25,6 +25,10 @@ class ApplicationController < ActionController::Base
     raise AccessDenied unless current_user
   end
 
+  def authenticate_admin_user!
+    raise AccessDenied unless current_user && current_user.has_role?(:site_admin)
+  end
+
   def resolve_layout
     if current_user && private_action?
       'venue'
