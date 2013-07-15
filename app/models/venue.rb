@@ -25,7 +25,7 @@ class Venue < ActiveRecord::Base
     length: { maximum: 75 },
     exclusion: { in: %w(venue) }
 
-    validates :time_zone, presence: true
+    validates :time_zone, presence: true, inclusion: { in: ActiveSupport::TimeZone.zones_map(&:name), message: "Not a valid time zone" }
 
   def vanity_url
     vanity_slug ? ('https://www.EIPiD.com/' + vanity_slug) : nil

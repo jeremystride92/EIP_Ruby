@@ -11,7 +11,9 @@ class CardsController < ApplicationController
   public_actions :request_card_form, :request_card
 
   def edit_benefits
-    @card.benefits.build unless @card.benefits.present?
+    Time.use_zone @venue.time_zone do
+      @card.benefits.build unless @card.benefits.present?
+    end
 
     @card.benefits.each do |benefit|
       authorize! :manage, benefit
@@ -19,7 +21,9 @@ class CardsController < ApplicationController
   end
 
   def edit_guest_passes
-    @card.guest_passes.build unless @card.guest_passes.present?
+    Time.use_zone @venue.time_zone do
+      @card.guest_passes.build unless @card.guest_passes.present?
+    end
 
     authorize! :create, @card.guest_passes.last
   end
@@ -102,7 +106,13 @@ class CardsController < ApplicationController
   def update_benefits
     authorize! :update, @card
     authorize! :manage, Benefit
-    if @card.update_attributes params_for_card
+
+    success = false
+    Time.use_zone @venue.time_zone do
+      success = @card.update_attributes params_for_card
+    end
+
+    if success
       respond_to do |format|
         format.json
         format.html { redirect_to venue_cardholders_path }
@@ -120,11 +130,17 @@ class CardsController < ApplicationController
     authorize! :create, GuestPass
     new_pass_count = params[:guest_count].to_i
 
-    new_pass_count.times do
-      @card.guest_passes.build(params_for_guest_pass)
+
+    success = false
+    Time.use_zone @venue.time_zone do
+      new_pass_count.times do
+        @card.guest_passes.build(params_for_guest_pass)
+      end
+
+      success = @card.save
     end
 
-    if @card.save
+    if success
       redirect_to venue_cardholders_path, notice: "#{new_pass_count} passes issued."
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
@@ -159,7 +175,7 @@ class CardsController < ApplicationController
   end
 
   def params_for_card
-    params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date, :end_date, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
+    params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end
 
   def params_for_guest_pass

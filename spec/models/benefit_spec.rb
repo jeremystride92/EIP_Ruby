@@ -13,7 +13,7 @@ describe Benefit do
       end
 
       it "should clear datetime field if empty start_date_field" do
-        time = Time.now
+        time = Time.zone.now
         b = create :benefit, start_date: time, start_date_field: '', start_time_field: '11:22 PM'
         b.start_date.should be_nil
       end
@@ -27,7 +27,7 @@ describe Benefit do
       end
 
       it "should clear datetime field if empty end_date_field" do
-        time = Time.now
+        time = Time.zone.now
         b = create :benefit, end_date: time, end_date_field: '', end_time_field: '11:22 PM'
         b.end_date.should be_nil
       end

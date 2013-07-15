@@ -2,10 +2,11 @@
   .form-block
     = label_tag :guest_count, 'Party size'
     = number_field_tag :guest_count, 1, min: 1, step: 1
-    = label_tag :start_date, 'Start date'
-    %input#start_date{ name: :start_date, type: :date }
-    = label_tag :end_date, 'End date'
-    %input#end_date{ name: :end_date, type: :date }
+    - Time.use_zone @venue.time_zone do
+      = label_tag :start_date, 'Start date'
+      %input#start_date{ name: :start_date, type: :date }
+      = label_tag :end_date, 'End date'
+      %input#end_date{ name: :end_date, type: :date }
 
   .form-actions
     = submit_tag 'Issue Guest Passes', class: 'btn btn-large btn-primary'
