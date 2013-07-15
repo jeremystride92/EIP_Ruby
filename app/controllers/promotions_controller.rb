@@ -77,7 +77,7 @@ class PromotionsController < ApplicationController
     cardholders = card_levels.map(&:cards).flatten.map(&:cardholder).uniq
 
     cardholders.each do |cardholder|
-      SmsMailer.cardholder_promotion_message(cardholder, @venue, @promo_message.message).deliver
+      SmsMailer.delay.cardholder_promotion_message(cardholder, @venue, @promo_message.message)
     end
 
     render :promote
