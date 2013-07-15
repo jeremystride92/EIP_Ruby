@@ -33,6 +33,8 @@ gem 'sidekiq'
   
 gem 'bitly', '>= 0.9.0'
 
+gem 'redis'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

@@ -334,6 +334,7 @@ DEPENDENCIES
   rack-cors
   rails (= 3.2.13)
   rb-fsevent (~> 0.9.1)
+  redis
   role_model
   rspec-rails
   shoulda-matchers
