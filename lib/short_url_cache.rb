@@ -1,4 +1,4 @@
-class ShortUrl
+class ShortUrlCache
   def self.shorten(url, skip_cache: false, **options)
     @cache ||= {}
     if skip_cache

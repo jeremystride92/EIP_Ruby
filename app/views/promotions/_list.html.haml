@@ -20,7 +20,7 @@
             = link_to public_promotion_url(subdomain: @venue.vanity_slug, id: promotion.id), public_promotion_url(subdomain: @venue.vanity_slug, id: promotion.id)
             %br
             short URL:
-            =link_to bitly_url=Bitly.client.shorten(public_promotion_url(subdomain: @venue.vanity_slug, id: promotion.id)), bitly_url.to_s
+            =link_to bitly_url=ShortUrlCache.shorten(public_promotion_url(subdomain: @venue.vanity_slug, id: promotion.id)), bitly_url.to_s
         = link_to venue_promotion_promote_path(promotion), class: 'btn btn-large pull-right' do
           %i.icon-share-alt
           Send Promotion
