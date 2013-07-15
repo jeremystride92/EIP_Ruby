@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def send_activation_email
-    PasswordResetMailer.password_reset_email(self).deliver
+    PasswordResetMailer.delay.password_reset_email(self)
   end
 
   def send_password_reset_email!
@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   end
 
   def send_password_reset_email
-    PasswordResetMailer.password_reset_email(self).deliver
+    PasswordResetMailer.delay.password_reset_email(self)
   end
 
   private
