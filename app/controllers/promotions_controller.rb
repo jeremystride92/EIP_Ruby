@@ -76,7 +76,6 @@ class PromotionsController < ApplicationController
     card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
     cardholders = card_levels.map(&:cards).flatten.map(&:cardholder).uniq
 
-    binding.pry
     cardholders.each do |cardholder|
       SmsMailer.cardholder_promotion_message(cardholder, @venue, @promo_message.message).deliver
     end
