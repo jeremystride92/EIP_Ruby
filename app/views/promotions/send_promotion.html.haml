@@ -1,0 +1,8 @@
+%h1.page-header Promotion Sent!
+
+%p Your message promoting #{@promotion.title} was sent to #{pluralize @cardholders.count, 'individual'}, who hold cards from one of the following levels:
+%ul
+  - @card_levels.each do |card_level|
+    %li= card_level.name
+
+= link_to 'Return to Dashboard', venue_path, class: 'btn btn-large btn-primary'

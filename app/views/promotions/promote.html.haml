@@ -1,5 +1,8 @@
 %h1.page-header Promote
 
+- if @cardholders && @cardholders.empty?
+  %p.no-cardholders-warning
+    No Cardholders were found in the Card #{(@card_levels.count. == 1) ? 'Level' : 'Levels'} you selected.
 = simple_form_for @promo_message, url: venue_promotion_promote_path(@promotion) do |f|
   = f.label :message, required: true do
     Message
