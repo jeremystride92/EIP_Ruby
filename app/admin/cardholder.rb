@@ -1,4 +1,5 @@
 ActiveAdmin.register Cardholder do
+  controller.skip_authorization_check
   menu :priority => 2
 
   filter :venues
