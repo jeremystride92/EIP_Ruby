@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   layout :resolve_layout
   helper_method :current_user
 
-  # check_authorization :unless => :devise_controller?
+  check_authorization
 
   class AccessDenied < ::StandardError; end
 
