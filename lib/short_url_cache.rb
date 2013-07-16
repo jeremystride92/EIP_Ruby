@@ -5,9 +5,9 @@ class ShortUrlCache
 
   def shorten(url, skip_cache: false, **options)
     if skip_cache
-      Bitly.client.shorten(url, options).to_s
+      Bitly.client.shorten(url, options).short_url
     else
-      search_cache(url) || add_to_cache(url, Bitly.client.shorten(url, options))
+      search_cache(url) || add_to_cache(url, Bitly.client.shorten(url, options).short_url)
     end
   end
 
@@ -18,7 +18,7 @@ class ShortUrlCache
   end
 
   def add_to_cache(url, short_url)
-    @cache[url] = short_url.to_s
+    @cache[url] = short_url
   end
 end
 
