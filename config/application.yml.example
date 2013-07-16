@@ -21,6 +21,7 @@ defaults: &defaults
   nexmo_default_sender:     # Number to send messages from if venue doesn't have a Nexmo number
   bitly_user:               # Username for Bit.ly link shortening
   bitly_api_key:            # API key for Bit.ly account
+  REDISTOGO_URL:            # URL for redis, parsed by URI.parse
 
 development:
   <<: *defaults
