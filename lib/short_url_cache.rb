@@ -24,7 +24,7 @@ class ShortUrlCache
   end
 
   def self.add_to_cache(url, short_url)
-    @@cache[url] = short_url
+    @@cache[url] = short_url.to_s
   end
 
   class RedisHashCache
