@@ -1,6 +1,4 @@
 EIPiD::Application.routes.draw do
-  ActiveAdmin.routes(self)
-
   root :to => 'pages#index'
 
   get 'login', to: 'sessions#new', as: 'login'
@@ -53,6 +51,8 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password_form, on: :collection, via: :get, as: :reset_password
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
+
+  ActiveAdmin.routes(self)
 
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 

@@ -35,7 +35,7 @@ gem 'bitly', '>= 0.9.0'
 
 gem 'redis'
 
-gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'activeadmin'
 
 # Gems used only for assets and not required
 # in production environments by default.
