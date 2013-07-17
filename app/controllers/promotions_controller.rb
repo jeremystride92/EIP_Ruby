@@ -101,6 +101,6 @@ class PromotionsController < ApplicationController
   end
 
   def find_promotion
-    @promotion = Promotion.find (params[:id] || params[:promotion_id])
+    @promotion = @venue.promotions.find (params[:id] || params[:promotion_id])
   end
 end
