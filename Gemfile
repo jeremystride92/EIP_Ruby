@@ -30,6 +30,10 @@ gem 'cocoon'
 gem 'nexmo', '~> 1.1.0'
 
 gem 'sidekiq'
+  
+gem 'bitly', '>= 0.9.0'
+
+gem 'redis'
 
 # Gems used only for assets and not required
 # in production environments by default.

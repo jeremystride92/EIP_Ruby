@@ -36,6 +36,10 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
+    bitly (0.9.0)
+      httparty (>= 0.7.6)
+      multi_json (~> 1.3)
+      oauth2 (>= 0.5.0, < 0.9)
     builder (3.0.4)
     callsite (0.0.11)
     cancan (1.6.10)
@@ -80,6 +84,8 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    faraday (0.8.7)
+      multipart-post (~> 1.1)
     ffaker (1.16.1)
     ffi (1.8.1)
     fog (1.11.1)
@@ -115,6 +121,10 @@ GEM
       haml (>= 3.1, < 4.1)
       railties (>= 3.1, < 4.1)
     hike (1.2.3)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
+    httpauth (0.2.0)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (3.0.0)
@@ -123,6 +133,8 @@ GEM
     jquery-rails-cdn (1.0.1)
       jquery-rails
     json (1.8.0)
+    jwt (0.1.8)
+      multi_json (>= 1.5)
     launchy (2.3.0)
       addressable (~> 2.3)
     less (2.3.2)
@@ -148,12 +160,20 @@ GEM
     mini_magick (3.6.0)
       subexec (~> 0.2.1)
     multi_json (1.7.6)
+    multi_xml (0.5.4)
+    multipart-post (1.2.0)
     net-scp (1.1.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.7)
     newrelic_rpm (3.6.5.130)
     nexmo (1.1.0)
     nokogiri (1.5.9)
+    oauth2 (0.8.1)
+      faraday (~> 0.8)
+      httpauth (~> 0.1)
+      jwt (~> 0.1.4)
+      multi_json (~> 1.0)
+      rack (~> 1.2)
     pg (0.15.1)
     polyglot (0.3.3)
     pry (0.9.12.2)
@@ -282,6 +302,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   better_errors
   binding_of_caller
+  bitly (>= 0.9.0)
   cancan
   capybara
   carrierwave
@@ -313,6 +334,7 @@ DEPENDENCIES
   rack-cors
   rails (= 3.2.13)
   rb-fsevent (~> 0.9.1)
+  redis
   role_model
   rspec-rails
   shoulda-matchers
