@@ -33,6 +33,13 @@ module Expirable
       self.end_date = (@end_date_field.present? ? "#{@end_date_field} #{@end_time_field}" : nil) if @end_date_field
     end
 
+    def active_in_range?(starts, ends)
+      starts_before_end = self.start_date.nil? || self.start_date < ends
+      ends_after_start = self.end_date.nil? || self.end_date > starts
+
+      starts_before_end && ends_after_start
+    end
+
     def inactive?(now = Time.zone.now)
       future?(now) || past?(now)
     end
