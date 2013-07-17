@@ -3,7 +3,7 @@ ActiveAdmin.register Cardholder do
 
   controller do
     def permitted_params
-      params.permit(:cardholder => [:phone_number, :first_name, :last_name, :status])
+      params.permit(cardholder: [:phone_number, :first_name, :last_name, :status])
     end
   end
 

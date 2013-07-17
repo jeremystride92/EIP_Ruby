@@ -2,7 +2,7 @@ ActiveAdmin.register Venue do
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(:venue => [:phone, :name, :logo, :location, :address1, :address2, :website, :vanity_slug, :time_zone, :nexmo_number])
+      params.permit(venue: [:phone, :name, :logo, :location, :address1, :address2, :website, :vanity_slug, :time_zone, :nexmo_number])
     end
   end
   menu :priority => 1

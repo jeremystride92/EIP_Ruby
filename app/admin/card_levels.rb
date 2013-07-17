@@ -2,7 +2,7 @@ ActiveAdmin.register CardLevel do
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(:card_level => [:venue_id, :name, :theme, :daily_guest_pass_count])
+      params.permit(card_level: [:venue_id, :name, :theme, :daily_guest_pass_count])
     end
   end
 

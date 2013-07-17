@@ -4,7 +4,7 @@ ActiveAdmin.register User do
 
   controller do
     def permitted_params
-      params.permit(:user => [:name, :venue_id, :email, :password, :password_confirmation, :roles])
+      params.permit(user: [:name, :venue_id, :email, :password, :password_confirmation, :roles])
     end
   end
 

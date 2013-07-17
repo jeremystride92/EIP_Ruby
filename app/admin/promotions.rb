@@ -2,7 +2,7 @@ ActiveAdmin.register Promotion do
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(:promotion => [:title, :description, :image, :venue_id, :start_date, :end_date])
+      params.permit(promotion: [:title, :description, :image, :venue_id, :start_date, :end_date])
     end
   end
   index do

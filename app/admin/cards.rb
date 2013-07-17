@@ -2,7 +2,7 @@ ActiveAdmin.register Card do
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(:card => [:card_level_id, :cardholder_id, :issuer_id, :status])
+      params.permit(card: [:card_level_id, :cardholder_id, :issuer_id, :status])
     end
   end
 
