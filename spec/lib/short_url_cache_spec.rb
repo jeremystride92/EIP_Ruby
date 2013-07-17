@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ostruct'
 
 describe ShortUrlCache do
   let(:cache){ Hash.new }
@@ -13,14 +14,14 @@ describe ShortUrlCache do
   it "should call bitly if url not cached" do
     cache.clear
 
-    client.should_receive(:shorten).with(any_args()).and_return("http://sho.rt/1")
+    client.should_receive(:shorten).with(any_args()).and_return(OpenStruct.new(short_url: "http://sho.rt/1"))
     subject.shorten('http://shouldnotbecached.com')
   end
 
   it "should call bitly if url cached AND skip_cache is true" do
     cache['http://iamchached.com'] = "http://sho.rt/1"
 
-    client.should_receive(:shorten).with(any_args()).and_return("http://sho.rt/1")
+    client.should_receive(:shorten).with(any_args()).and_return(OpenStruct.new(short_url: "http://sho.rt/1"))
     subject.shorten('http://iamchached.com', skip_cache: true)
   end
 
