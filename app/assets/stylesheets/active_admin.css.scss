@@ -20,10 +20,22 @@
 //
 // Notice that Active Admin CSS rules are nested within a
 // 'body.active_admin' selector to prevent conflicts with
-// other pages in the app. It is best to wrap your changes in a 
+// other pages in the app. It is best to wrap your changes in a
 // namespace so they are properly recognized. You have options
 // if you e.g. want different styles for different namespaces:
 //
 // .active_admin       applies to any Active Admin namespace
 // .admin_namespace    applies to the admin namespace (eg: /admin)
 // .other_namespace    applies to a custom namespace named other (eg: /other)
+
+.thumbnail-image {
+  max-width: 177px;
+}
+.promo-grid-thumb {
+  max-width:  200px;
+  max-height: 200px;
+}
+.avatar-thumb {
+  max-width:  50px;
+  max-height: 50px;
+}

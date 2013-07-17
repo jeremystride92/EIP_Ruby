@@ -1,0 +1,6 @@
+%figure
+  = image_tag promotion.image.url, class: 'promo-grid-thumb'
+  %figcaption
+    %h3= promotion.title
+    %p= truncate(promotion.description, length: 120, seperator: ' ')
+    %em Venue: #{promotion.venue.name}

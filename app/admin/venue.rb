@@ -1,5 +1,10 @@
 ActiveAdmin.register Venue do
   controller.skip_authorization_check
+  controller do
+    def permitted_params
+      params.permit(:venue => [:phone, :name, :logo, :location, :address1, :address2, :website, :vanity_slug, :time_zone, :nexmo_number])
+    end
+  end
   menu :priority => 1
 
   filter :name
@@ -9,7 +14,6 @@ ActiveAdmin.register Venue do
   filter :address2
   filter :website
   filter :vanity_slug
-  filter :timezone
 
   index do
     selectable_column
@@ -21,6 +25,7 @@ ActiveAdmin.register Venue do
     column :phone
     column :website
     column :vanity_slug
+    column :time_zone, label_method: :to_s, value_method: :name
     actions
   end
 

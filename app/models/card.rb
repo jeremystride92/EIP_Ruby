@@ -82,6 +82,10 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def display_name
+    "#{cardholder.try(:display_name)}'s \"#{card_level.try(:name)}\" card from #{venue.try(:name)}"
+  end
+
   private
 
   def unique_card_per_cardholder_and_venue

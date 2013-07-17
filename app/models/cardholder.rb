@@ -56,6 +56,11 @@ class Cardholder < ActiveRecord::Base
     "1#{phone_number}"
   end
 
+  def display_name
+    return phone_number unless first_name.present? || last_name.present?
+    "#{first_name} #{last_name}"
+  end
+
   private
 
   def set_default_status
