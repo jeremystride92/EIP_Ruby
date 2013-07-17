@@ -1,5 +1,6 @@
 class PromotionsController < ApplicationController
   before_filter :find_venue, except: :public_show
+  before_filter :find_venue_by_vanity_slug, only: :public_show
   before_filter :find_promotion, except: [:new, :create]
 
   PUBLIC_ACTIONS = [:public_show]
@@ -33,8 +34,6 @@ class PromotionsController < ApplicationController
   end
 
   def public_show
-    @venue = Venue.find_by_vanity_slug params[:venue_slug]
-    @promotion = Promotion.find params[:id]
   end
 
   def edit
@@ -99,7 +98,11 @@ class PromotionsController < ApplicationController
     @venue = current_user.venue
   end
 
+  def find_venue_by_vanity_slug
+    @venue = Venue.find_by_vanity_slug! request.subdomain
+  end
+
   def find_promotion
-    @promotion = Promotion.find (params[:id] || params[:promotion_id])
+    @promotion = @venue.promotions.find (params[:id] || params[:promotion_id])
   end
 end
