@@ -1,9 +1,10 @@
 = simple_form_for card, url: venue_card_edit_benefits_path(card) do |f|
-  .form-block
-    = f.simple_fields_for :benefits do |bf|
-      = render 'benefit_fields', f: bf
-    .links
-      = link_to_add_association 'Add Benefit', f, :benefits, render_options: { wrapper: 'bootstrap' }
+  .row
+    .form-block.offset3.span6
+      = f.simple_fields_for :benefits do |bf|
+        = render 'benefit_fields', f: bf
+      .links
+        = link_to_add_association 'Add Benefit', f, :benefits, render_options: { wrapper: 'bootstrap' }
   .form-actions
     = f.button :submit, 'Edit Benefits', class: 'btn-large btn-primary'
     = link_to 'Cancel', venue_cardholders_path, class: 'btn btn-large pull-right'

@@ -13,7 +13,7 @@ class PromotionMessage
     date_time_attrs = (1..5).map { |n| "send_date_time(#{n}i)" }
     year, month, day, hour, minute = attributes.values_at(*date_time_attrs).map &:to_i
 
-    self.send_date_time = Time.zone.local year, month, day, hour, minute
+    self.send_date_time = Time.zone.local year, month, day, hour, minute unless [year, month, day].any? &:zero?
   end
 
   def persisted?

@@ -14,7 +14,7 @@
       - unless @venue.website.blank?
         %br/
         = @venue.website
-  .venue-phone.pull-left= @venue.phone
+  .venue-phone.pull-left= number_to_phone @venue.phone
 
   - if can? :edit, @venue
     = link_to edit_venue_path, title: 'Edit Venue information', class: 'btn pull-right' do

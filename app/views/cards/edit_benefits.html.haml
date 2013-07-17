@@ -1,8 +1,7 @@
 %header.page-header
   %h1 Edit benefits for #{@card.cardholder.phone_number}
-  %ul.nav.nav-pills
-    %li.active
-      = link_to 'Benefits', '#'
-    %li
-      = link_to 'Guest List', venue_card_edit_guest_passes_path(@card)
+.row
+  .btn-group.offset4
+    = link_to 'Benefits', '#', class: 'btn btn-large active span2'
+    = link_to 'Guest List', venue_card_edit_guest_passes_path(@card), class: 'btn btn-large span2'
 = render 'benefits_form', card: @card
