@@ -44,7 +44,6 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 
   gem 'sass-rails' # for active admin
-  gem "jquery-rails"
   gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
