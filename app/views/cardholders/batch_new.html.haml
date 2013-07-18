@@ -1,9 +1,9 @@
 %h1.page-header Issue #{@card_level.name} cards
 
 = simple_form_for :batch do |f|
-  .batch_cardholders
-    .batch_rows
-    %button.btn.btn-large.btn-success.button-add#issue_another
+  .batch-cardholders
+    .batch-rows
+    %button.btn.btn-large.btn-success.button-add#issue-another
       %i.icon-plus
   .form-actions
     = f.button :submit, value: 'Issue Cards', class: 'btn btn-primary btn-large'
