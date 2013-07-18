@@ -3,10 +3,18 @@ require 'spec_helper'
 describe CardLevel do
   it { should validate_presence_of :name }
   it { should validate_uniqueness_of(:name).scoped_to(:venue_id) }
+
   it { should validate_presence_of :theme }
-  it { should validate_presence_of :daily_guest_pass_count }
+  it { should ensure_inclusion_of(:theme).in_array(CardLevel::THEMES) }
+
   it { should validate_presence_of :venue }
-  it { should validate_numericality_of :daily_guest_pass_count }
+
+  it { should validate_presence_of :daily_guest_pass_count }
+  it { should validate_numericality_of(:daily_guest_pass_count).only_integer.is_greater_than_or_equal_to(0) }
+
+  it { should validate_presence_of :sort_position }
+  it { should validate_numericality_of(:sort_position).only_integer.is_greater_than_or_equal_to(1) }
+  it { should validate_uniqueness_of(:sort_position).scoped_to(:venue_id) }
 
   it { should belong_to :venue }
   it { should have_many :cards }
@@ -14,31 +22,10 @@ describe CardLevel do
   it { should have_and_belong_to_many :promotions }
 
   describe "Validations" do
-    let(:card_level) { create :card_level }
-
-    it "should ensure the theme is valid" do
-      card_level.theme = 'blue'
-      card_level.should_not be_valid
-
-      card_level.theme = 'black'
-      card_level.should be_valid
-    end
-
     it "should be valid when created with nested benefits" do
       benefits = attributes_for_list :benefit, 3
       nested_card_level = create :card_level, benefits_attributes: benefits
       nested_card_level.should be_valid
-    end
-
-    it "should ensure the guest pass count is a nonnegative integer" do
-      card_level.daily_guest_pass_count = -1
-      card_level.should_not be_valid
-
-      card_level.daily_guest_pass_count = 1.5
-      card_level.should_not be_valid
-
-      card_level.daily_guest_pass_count = 0
-      card_level.should be_valid
     end
   end
 

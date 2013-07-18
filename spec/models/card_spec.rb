@@ -21,24 +21,10 @@ describe Card do
     it { should validate_presence_of :guest_count }
     it { should validate_presence_of :card_level }
     it { should validate_presence_of :cardholder }
-    it { should validate_numericality_of(:guest_count).only_integer }
-
-    it 'should only allow positive integer guest_count' do
-      subject.guest_count = -3
-      subject.should_not be_valid
-    end
+    it { should validate_numericality_of(:guest_count).only_integer.is_greater_than_or_equal_to(0) }
 
     it { should validate_presence_of :status }
-
-    it 'should only allow valid card statuses' do
-      Card::STATUSES.each do |status|
-        subject.status = status
-        subject.should be_valid
-      end
-
-      subject.status = 'pretty'
-      subject.should_not be_valid
-    end
+    it { should ensure_inclusion_of(:status).in_array(Card::STATUSES) }
 
     context 'when another card for the same cardholder & venue exists' do
       let(:old_card) { create :card }

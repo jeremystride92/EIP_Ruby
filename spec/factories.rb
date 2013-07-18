@@ -58,6 +58,7 @@ FactoryGirl.define do
         FactoryGirl.create_list(:benefit, 3, beneficary: card_level)
       end
     end
+    sequence :sort_position
   end
 
   factory :card do
