@@ -18,6 +18,10 @@ class User < ActiveRecord::Base
 
   before_create { generate_token(:auth_token) }
 
+  def self.valid_venue_roles
+    valid_roles.select{ |role| role.to_s =~ /venue/i }
+  end
+
 
   def generate_unusable_password!
     self.password = self.password_confirmation = SecureRandom.random_bytes(16)

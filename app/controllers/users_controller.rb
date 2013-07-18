@@ -72,7 +72,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new params_for_user
     role = [*params[:user][:roles]].first
-    @user.roles = [role] if %w[venue_owner venue_manager].include?(role)
+    @user.roles = [role] if User.valid_venue_roles.map(&:to_s).include?(role)
     @user.venue_id = current_user.venue_id
     @user.generate_unusable_password!
 

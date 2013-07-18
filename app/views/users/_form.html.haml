@@ -2,7 +2,7 @@
   .form-block
     = f.input :name, autofocus: true
     = f.input :email
-    = f.input :roles, collection: (User.valid_roles - [:site_admin]), as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role', prompt: 'Select one', required: true, input_html: {required: true}
+    = f.input :roles, collection: User.valid_venue_roles, as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role', prompt: 'Select one', required: true, input_html: {required: true}
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large', value: 'Create Staff Member'
