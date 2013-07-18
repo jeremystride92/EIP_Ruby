@@ -69,18 +69,32 @@ class PromotionsController < ApplicationController
   def send_promotion
     authorize! :promote, @promotion
 
-    @promo_message = PromotionMessage.new *(params_for_promotion_message.values_at 'message', 'card_levels')
-    @promo_message.card_levels.reject! &:empty?
+    Time.use_zone @venue.time_zone do
+      @promo_message = PromotionMessage.new params_for_promotion_message
+    end
 
     @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
     @cardholders = @card_levels.map(&:cards).flatten.map(&:cardholder).uniq
 
     if @cardholders.empty?
-      render :promote, notice: "No Cards were found in those Card Levels." and return
+      flash[:error] = "No Cards were found in those Card Levels."
+      render :promote and return
     end
 
-    @cardholders.each do |cardholder|
-      SmsMailer.delay.cardholder_promotion_message(cardholder, @venue, @promo_message.message)
+    case params[:commit]
+    when 'Send Now'
+      @cardholders.each do |cardholder|
+        SmsMailer.delay.cardholder_promotion_message(cardholder, @venue, @promo_message.message)
+      end
+    when 'Schedule'
+      if @promo_message.send_date_time < Time.current
+        flash[:error] = "You cannot schedule a promotion for the past."
+        render :promote and return
+      end
+
+      @cardholders.each do |cardholder|
+        SmsMailer.delay_until(@promo_message.send_date_time).cardholder_promotion_message(cardholder, @venue, @promo_message.message)
+      end
     end
   end
 
@@ -91,7 +105,7 @@ class PromotionsController < ApplicationController
   end
 
   def params_for_promotion_message
-    params.require(:promotion_message).permit(:message, card_levels: [])
+    params.require(:promotion_message).permit(:message, :send_date_time, card_levels: [])
   end
 
   def find_venue
