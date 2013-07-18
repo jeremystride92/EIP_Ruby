@@ -20,6 +20,7 @@ describe Card do
 
     it { should validate_presence_of :guest_count }
     it { should validate_presence_of :card_level }
+    it { should validate_presence_of :cardholder }
     it { should validate_numericality_of(:guest_count).only_integer }
 
     it 'should only allow positive integer guest_count' do
