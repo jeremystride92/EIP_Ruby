@@ -22,6 +22,7 @@ class Card < ActiveRecord::Base
 
   validates :issuer, presence: true, unless: :pending?
   validates :card_level, presence: true
+  validates :cardholder, presence: true
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults
@@ -80,6 +81,10 @@ class Card < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def display_name
+    "#{cardholder.display_name}'s \"#{card_level.name}\" card from #{venue.name}"
   end
 
   private

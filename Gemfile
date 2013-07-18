@@ -30,16 +30,22 @@ gem 'cocoon'
 gem 'nexmo', '~> 1.1.0'
 
 gem 'sidekiq'
-  
+
 gem 'bitly', '>= 0.9.0'
 
 gem 'redis'
+
+gem 'activeadmin'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'less-rails'
   gem 'twitter-bootstrap-rails'
+
+  gem 'sass-rails' # for active admin
+  gem "jquery-rails"
+  gem 'coffee-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer'

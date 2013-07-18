@@ -11,7 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710220502) do
+ActiveRecord::Schema.define(:version => 20130716172002) do
+
+  create_table "active_admin_comments", :force => true do |t|
+    t.string   "resource_id",   :null => false
+    t.string   "resource_type", :null => false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.text     "body"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "namespace"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
+  add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
+  add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -116,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20130710220502) do
     t.string   "address2"
     t.string   "website"
     t.string   "vanity_slug"
+    t.string   "timezone"
     t.string   "nexmo_number"
     t.string   "time_zone"
   end

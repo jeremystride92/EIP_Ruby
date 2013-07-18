@@ -1,0 +1,6 @@
+%figure
+  =link_to(image_tag(venue.logo), admin_venue_path(venue))
+  %figcaption
+    %strong= link_to(venue.name, admin_venue_path(venue))
+    %br
+    = venue.location

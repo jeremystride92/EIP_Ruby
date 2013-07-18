@@ -52,6 +52,8 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
+  ActiveAdmin.routes(self)
+
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 
   get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard

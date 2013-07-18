@@ -8,6 +8,7 @@ class CardLevel < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :theme, presence: true, inclusion: THEMES
+  validates :venue, presence: true
   validates :daily_guest_pass_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
 
   def set_all_card_guest_passes

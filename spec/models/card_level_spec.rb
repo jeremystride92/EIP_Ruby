@@ -5,6 +5,7 @@ describe CardLevel do
   it { should validate_uniqueness_of(:name).scoped_to(:venue_id) }
   it { should validate_presence_of :theme }
   it { should validate_presence_of :daily_guest_pass_count }
+  it { should validate_presence_of :venue }
   it { should validate_numericality_of :daily_guest_pass_count }
 
   it { should belong_to :venue }

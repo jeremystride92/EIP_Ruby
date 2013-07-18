@@ -1,5 +1,5 @@
 class Cardholder < ActiveRecord::Base
-  STATUSES = %w(pending active)
+  STATUSES = %w(pending active).freeze
 
   has_secure_password
 
@@ -54,6 +54,11 @@ class Cardholder < ActiveRecord::Base
 
   def international_phone_number
     "1#{phone_number}"
+  end
+
+  def display_name
+    return phone_number unless first_name.present? || last_name.present?
+    "#{first_name} #{last_name}"
   end
 
   private
