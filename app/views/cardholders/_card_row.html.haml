@@ -1,6 +1,8 @@
 .row-fluid
   .span3
     .card-preview{ class: "theme-#{card.card_level.theme}" }
+      .cardholder-photo
+        = image_tag card.cardholder.photo.mobile_small, class: 'cardholder-img'
     .card-number
       EIP#
       = card.cardholder.phone_number
