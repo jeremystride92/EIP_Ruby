@@ -1,7 +1,7 @@
 = content_for :head do
   %meta{ property: 'og:title', content: @promotion.title }
   %meta{ property: 'og:type', content: 'event' }
-  %meta{ property: 'og:url', content: public_promotion_url(venue_slug: @venue.vanity_slug, id: @promotion.id) }
+  %meta{ property: 'og:url', content: public_promotion_url(subdomain: @venue.vanity_slug, id: @promotion.id) }
   %meta{ property: 'og:image', content: "http:#{@promotion.image.display.url}" }
   %meta{ property: 'event:start_time', content: (@promotion.start_date || @promotion.created_at).iso8601 }
   - if @promotion.end_date.present?

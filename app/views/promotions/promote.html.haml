@@ -7,7 +7,7 @@
   = f.label :message, required: true do
     Message
     %span.character-count
-  = f.input :message, as: :text, label: false, input_html: { maxlength: 140 }, hint: "Don't forget to include the link to the promotion: #{$short_url_cache.shorten(public_promotion_url venue_slug: @venue.vanity_slug, id: @promotion.id)}"
+  = f.input :message, as: :text, label: false, input_html: { maxlength: 140 }, hint: "Don't forget to include the link to the promotion: #{$short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id)}"
   = f.input 'card_levels', collection: @venue.card_levels, as: :check_boxes, required: false, checked: @promo_message.card_levels
   = f.submit 'Send Now', class: 'btn btn-large btn-primary'
 

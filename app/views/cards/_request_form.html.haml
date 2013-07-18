@@ -1,4 +1,4 @@
-= simple_form_for @cardholder, url: request_card_path(venue_slug: @venue.vanity_slug), method: :post do |f|
+= simple_form_for @cardholder, url: request_card_path(subdomain: @venue.vanity_slug), method: :post do |f|
   .form-block
     = f.input :phone_number, wrapper: :append do
       = f.input_field :phone_number, pattern: '\d{10}', maxlength: '', type: :tel, placeholder: '1234567890'
