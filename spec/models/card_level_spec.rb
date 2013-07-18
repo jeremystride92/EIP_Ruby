@@ -43,4 +43,54 @@ describe CardLevel do
       end
     end
   end
+
+  describe "#reorder_to" do
+    let(:venue) { create :venue }
+    let(:card_levels) { (1..5).map { |n| create :card_level, sort_position: n, venue: venue } }
+
+    context "when going nowhere" do
+      it "does nothing" do
+        card_level = card_levels[2]
+        card_level.reorder_to 3
+
+        card_levels.each &:reload
+        card_levels.map(&:sort_position).should == [1, 2, 3, 4, 5]
+      end
+    end
+
+    context "when moving down the list" do
+      context "when moving past the bottom" do
+        it "sets the order only as large as it needs to be" do
+          card_level = card_levels[1]
+          lambda { card_level.reorder_to 10}.should change{card_level.sort_position}.from(2).to(5)
+        end
+      end
+
+      it "moves other affected records up the list" do
+        card_level = card_levels[1]
+        card_level.reorder_to 4
+
+        card_levels.each &:reload
+        card_levels.map(&:sort_position).should == [1, 4, 2, 3, 5]
+      end
+    end
+
+    context "moving up the list" do
+      context "when moving past the top" do
+        it "sets the order 1" do
+          card_level = card_levels[4]
+          lambda { card_level.reorder_to -5}.should change{card_level.sort_position}.from(5).to(1)
+        end
+      end
+
+      it "moves other affected records down the list" do
+        card_level = card_levels[3]
+        card_level.reorder_to 2
+
+        card_levels.each &:reload
+        card_levels.map(&:sort_position).should == [1, 3, 4, 2, 5]
+      end
+
+    end
+  end
 end

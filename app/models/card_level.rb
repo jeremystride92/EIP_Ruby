@@ -20,6 +20,38 @@ class CardLevel < ActiveRecord::Base
     cards.update_all(guest_count: daily_guest_pass_count)
   end
 
+  def reorder_to(new_position)
+    card_levels = self.venue.card_levels.order(:sort_position)
+
+    old_position = self.sort_position
+
+    new_position = card_levels.count if new_position > card_levels.count
+    new_position = 1 if new_position < 1
+
+    transaction do
+
+      if old_position == new_position
+        return
+      elsif old_position < new_position
+        ((old_position + 1)..new_position).each do |i|
+          card_levels[i - 1].sort_position -= 1
+        end
+
+        self.update_attribute(:sort_position, 0)
+        card_levels[(old_position..(new_position - 1))].each &:save!
+      else
+        (new_position..(old_position - 1)).each do |i|
+          card_levels[i - 1].sort_position += 1
+        end
+
+        self.update_attribute(:sort_position, 0)
+        card_levels[((new_position - 1)..(old_position - 2))].reverse.each &:save!
+      end
+
+      self.update_attributes(sort_position: new_position)
+    end
+  end
+
   private
 
   def ensure_benefits_beneficiary(benefit)
