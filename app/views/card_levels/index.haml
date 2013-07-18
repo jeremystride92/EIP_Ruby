@@ -20,7 +20,7 @@
             %i.icon-edit
             Edit
         .row
-          = form_tag venue_card_level_reorder_path(card_level) do
+          = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
             = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
             = button_tag type: :submit, class: 'btn btn-large' do
               %i.icon-sort
