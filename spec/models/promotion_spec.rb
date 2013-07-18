@@ -1,14 +1,12 @@
 require 'spec_helper'
 
 describe Promotion do
-  describe "associations" do
-    it { should belong_to :venue  }
-  end
+  it { should belong_to :venue  }
 
-  describe "validations" do
-    it { should validate_presence_of :title }
-    it { should validate_presence_of :venue }
-  end
+  it { should validate_presence_of :title }
+  it { should validate_presence_of :venue }
+
+  it { should be_an Expirable }
 
   describe 'factory' do
     subject { create :promotion }

@@ -18,6 +18,10 @@
         = nav_link venue_cardholders_path do
           %i.icon-credit-card
           Cardholders
+      - if can? :read, Benefit
+        = nav_link venue_benefits_path do
+          %i.icon-star
+          Benefits
       - if can? :read, User.new(venue: current_user.venue)
         = nav_link venue_users_path do
           %i.icon-group

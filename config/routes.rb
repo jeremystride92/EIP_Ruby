@@ -41,6 +41,10 @@ EIPiD::Application.routes.draw do
       get :promote, action: 'promote'
       post :promote, action: 'send_promotion'
     end
+
+    resources :benefits, only: [:index] do
+      post '', action: :index, on: :collection
+    end
   end
 
   resource :user, only: [:signup] do
