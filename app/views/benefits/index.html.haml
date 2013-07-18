@@ -15,8 +15,7 @@
     %tbody
       %tr
         %th{rowspan: card.benefits.length}
-          = card.cardholder.first_name
-          = card.cardholder.last_name
+          = card.cardholder.display_name
         - benefit = card.benefits.first
         - if benefit.active_in_range? @start_date, @end_date
           %td= benefit.description

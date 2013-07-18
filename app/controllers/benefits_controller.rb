@@ -5,6 +5,8 @@ class BenefitsController < ApplicationController
   def index
     authorize! :read, Benefit
 
+    @cards.reject! { |card| card.benefits.empty? }
+
     tz = ActiveSupport::TimeZone[@venue.time_zone]
     @start_date = params[:start_date] ? tz.parse(params[:start_date]).beginning_of_day : tz.now.beginning_of_day
     @end_date = params[:end_date] ? tz.parse(params[:end_date]).end_of_day : tz.now.end_of_day
