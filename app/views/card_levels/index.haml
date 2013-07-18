@@ -15,9 +15,14 @@
           - card_level.benefits.each do |benefit|
             %li= benefit.description
       .actions.pull-right
-        =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
+        = link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
           %i.icon-edit
           Edit
+        = form_tag venue_card_level_reorder_path(card_level) do
+          = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
+          = button_tag type: :submit, class: 'btn btn-large' do
+            %i.icon-sort
+            Reorder
 
 .actions.clearfix
   =link_to new_venue_card_level_path(), class: 'btn btn-large btn-success pull-right' do
