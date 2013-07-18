@@ -13,8 +13,9 @@ class CardLevel < ActiveRecord::Base
   validates :daily_guest_pass_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
-    uniqueness: { scope: :venue_id },
-    presence: true
+    uniqueness: { scope: :venue_id }
+
+  before_validation :ensure_sort_position
 
   def set_all_card_guest_passes
     cards.update_all(guest_count: daily_guest_pass_count)
@@ -56,5 +57,15 @@ class CardLevel < ActiveRecord::Base
 
   def ensure_benefits_beneficiary(benefit)
     benefit.beneficiary ||= self
+  end
+
+  def ensure_sort_position
+    if sort_position.nil?
+      if venue.present?
+        self.sort_position = venue.card_levels.count + 1
+      else
+        self.sort_position = 1
+      end
+    end
   end
 end

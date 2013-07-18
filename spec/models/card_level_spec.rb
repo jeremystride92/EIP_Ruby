@@ -12,7 +12,6 @@ describe CardLevel do
   it { should validate_presence_of :daily_guest_pass_count }
   it { should validate_numericality_of(:daily_guest_pass_count).only_integer.is_greater_than_or_equal_to(0) }
 
-  it { should validate_presence_of :sort_position }
   it { should validate_numericality_of(:sort_position).only_integer.is_greater_than_or_equal_to(1) }
   it { should validate_uniqueness_of(:sort_position).scoped_to(:venue_id) }
 
@@ -26,6 +25,27 @@ describe CardLevel do
       benefits = attributes_for_list :benefit, 3
       nested_card_level = create :card_level, benefits_attributes: benefits
       nested_card_level.should be_valid
+    end
+  end
+
+  describe "default sort_position" do
+    let(:venue) { create :venue }
+    context "when the venue has no other Card Levels" do
+      subject { create :card_level, venue: venue }
+
+      its(:sort_position) { should == 1 }
+    end
+
+    context "when the venue has other Card Levels" do
+      let(:num_card_levels) { 3 }
+
+      before do
+        create_list :card_level, num_card_levels, venue: venue
+      end
+
+      subject { create :card_level, venue: venue }
+
+      its(:sort_position) { should == num_card_levels + 1 }
     end
   end
 
