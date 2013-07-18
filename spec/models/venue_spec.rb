@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Venue do
   it { should have_many :users }
-  it { should have_many :card_levels }
+  it { should have_many(:card_levels).order('sort_position ASC')}
   it { should have_many(:cards).through(:card_levels) }
   it { should have_many(:cardholders).through(:cards) }
   it { should have_many(:promotions) }
