@@ -46,6 +46,8 @@ group :assets do
   gem 'sass-rails' # for active admin
   gem 'coffee-rails'
 
+  gem 'ejs'
+
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer'
 
