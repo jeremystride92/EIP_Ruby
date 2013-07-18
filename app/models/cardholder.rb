@@ -3,7 +3,7 @@ class Cardholder < ActiveRecord::Base
 
   has_secure_password
 
-  has_many :cards, order: :status
+  has_many :cards, order: :status, before_add: :ensure_cards_cardholder
   accepts_nested_attributes_for :cards
 
   has_many :venues, through: :cards
@@ -65,6 +65,10 @@ class Cardholder < ActiveRecord::Base
 
   def set_default_status
     self.status ||= 'pending'
+  end
+
+  def ensure_cards_cardholder(card)
+    card.cardholder ||= self
   end
 
   def generate_token(column)
