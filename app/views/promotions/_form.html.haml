@@ -9,11 +9,12 @@
         = f.input :end_time_field, label: 'End time', input_html:{ type: 'time', class: 'span6' }
       = f.input :description, input_html: { class: 'span6' }
       .row
-        .well.span6
-          %h3 Upload promotion image
-          = f.input :image, as: :file, label: false, hint: 'Images will be resized down to <strong>600 pixels wide</strong>, with any height. Images closer to 600 pixels wide will look better, and images will not be scaled up.'.html_safe
-          = f.hidden_field :image_cache
-          = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
+        .span6
+          .well
+            %h3 Upload promotion image
+            = f.input :image, as: :file, label: false, hint: 'Images will be resized down to <strong>600 pixels wide</strong>, with any height. Images closer to 600 pixels wide will look better, and images will not be scaled up.'.html_safe
+            = f.hidden_field :image_cache
+            = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
 
   .form-actions
     = f.button :submit, class: 'btn-primary btn-large'
