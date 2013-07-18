@@ -1,12 +1,21 @@
 %h1.page-header Promote
 
 = simple_form_for @promo_message, url: venue_promotion_promote_path(@promotion) do |f|
-  .form-block
-    = f.label :message, required: true, input_html: { required: true } do
-      Message
-      %span.character-count
-    = f.input :message, as: :text, label: false, input_html: { maxlength: 140 }, hint: "Don't forget to include the link to the promotion: #{$short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id)}"
-    = f.input 'card_levels', collection: @venue.card_levels, as: :check_boxes, required: false, checked: @promo_message.card_levels
+  .row
+    .form-block.span6.offset3
+      %p
+        Copy and paste this link to share via social media
+        %br/
+        %span.promo-link= $short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id)
+      %p
+        OR
+        %br/
+        send to specific Card Level below
+      = f.input 'card_levels', collection: @venue.card_levels, as: :check_boxes, required: false, checked: @promo_message.card_levels
+      = f.label :message, required: true do
+        Message
+        %span.character-count
+      = f.input :message, as: :text, label: false, input_html: { maxlength: 140, class: 'span6' }, value: $short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id)
   .form-actions
     .row-fluid
       .span6

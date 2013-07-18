@@ -63,7 +63,7 @@ class PromotionsController < ApplicationController
 
   def promote
     authorize! :promote, @promotion
-    @promo_message = PromotionMessage.new
+    @promo_message = PromotionMessage.new message: $short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id), card_levels: []
   end
 
   def send_promotion

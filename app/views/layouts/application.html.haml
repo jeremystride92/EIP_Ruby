@@ -16,10 +16,8 @@
     #main{ role: 'main' }
       .container
         .content
-          .row
-            .span12
-              = bootstrap_flash
-              = content_for?(:content) ? yield(:content) : yield
+          = bootstrap_flash
+          = content_for?(:content) ? yield(:content) : yield
 
     = render 'footer'
     = render 'javascripts'

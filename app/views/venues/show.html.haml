@@ -1,28 +1,29 @@
-.row-fluid.row-section
+%h1.page-header Dashboard
+.row.row-section
   .venue-sub-block.span7
     %h2.block-title Activity
     .block-info
       - @venue.card_levels.each_slice(4) do |slice|
-        .row-fluid
+        .row
           - slice.each do |card_level|
-            .span3.card-level{ :class => "theme-#{card_level.theme}" }
+            .span1.card-level{ :class => "theme-#{card_level.theme}" }
               .gloss
               .card-count #{card_level.cards.size}
               #{card_level.name} #{(card_level.cards.size == 1) ? 'Card' : 'Cards' }
   .venue-sub-block.span5.actions-block
     %h2.block-title Actions
     .block-info
-      .row-fluid
+      .row-fluid.row-sub-section
         = link_to venue_cardholders_path, class: 'btn btn-large span12 clearfix' do
           %i.icon-credit-card.pull-left
           .pull-left Cards
           %i.icon-caret-right.pull-right
-      .row-fluid
+      .row-fluid.row-sub-section
         = link_to venue_card_levels_path, class: 'btn btn-large span12 clearfix' do
           %i.icon-plus.pull-left
           .pull-left Card Levels
           %i.icon-caret-right.pull-right
-.row-fluid.row-section
+.row.row-section
   .venue-sub-block.span12
     %h3.block-title.clearfix
       Promotions

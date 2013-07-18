@@ -1,17 +1,20 @@
 = simple_form_for [:venue, @promotion] do |f|
-  .form-block
-    = f.input :title
-    - Time.use_zone @venue.time_zone do
-      = f.input :start_date_field, label: 'Start date', input_html:{ type: 'date' }
-      = f.input :start_time_field, label: 'Start time', input_html:{ type: 'time' }
-      = f.input :end_date_field, label: 'End date', input_html:{ type: 'date' }
-      = f.input :end_time_field, label: 'End time', input_html:{ type: 'time' }
-    = f.input :description
-    .well
-      %h3 Upload promotion image
-      = f.input :image, as: :file, label: false, hint: 'Images will be resized down to <strong>600 pixels wide</strong>, with any height. Images closer to 600 pixels wide will look better, and images will not be scaled up.'.html_safe
-      = f.hidden_field :image_cache
-      = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
+  .row
+    .form-block.span6.offset3
+      = f.input :title, input_html: { class: 'span6' }
+      - Time.use_zone @venue.time_zone do
+        = f.input :start_date_field, label: 'Start date', input_html:{ type: 'date', class: 'span6' }
+        = f.input :start_time_field, label: 'Start time', input_html:{ type: 'time', class: 'span6' }
+        = f.input :end_date_field, label: 'End date', input_html:{ type: 'date', class: 'span6' }
+        = f.input :end_time_field, label: 'End time', input_html:{ type: 'time', class: 'span6' }
+      = f.input :description, input_html: { class: 'span6' }
+      .row
+        .span6
+          .well
+            %h3 Upload promotion image
+            = f.input :image, as: :file, label: false, hint: 'Images will be resized down to <strong>600 pixels wide</strong>, with any height. Images closer to 600 pixels wide will look better, and images will not be scaled up.'.html_safe
+            = f.hidden_field :image_cache
+            = image_tag @promotion.image_path, id: 'promotion-img', class: "image-preview #{@promotion.image_path ? '' : 'hidden'}"
 
   .form-actions
     = f.button :submit, class: 'btn-primary btn-large'
