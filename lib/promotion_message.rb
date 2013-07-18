@@ -1,7 +1,6 @@
 class PromotionMessage
   extend ActiveModel::Naming
   include ActiveModel::Conversion
-  include ActiveRecord::ModelSchema
 
   attr_accessor :message, :card_levels, :send_date_time
 
