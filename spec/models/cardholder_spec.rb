@@ -58,6 +58,14 @@ describe Cardholder do
         cardholder = build :cardholder, password: 'short', password_confirmation: 'long'
         cardholder.should_not be_valid
       end
+
+      it "should be valid when created with nested card" do
+        issuer = create :venue_manager
+        card_level = create :card_level, venue: issuer.venue
+        cards = attributes_for_list :card, 1, issuer_id: issuer.id, card_level_id: card_level.id
+        cardholder_with_card = create :cardholder, cards_attributes: cards
+        cardholder_with_card.should be_valid
+      end
     end
 
     context "on an existing cardholder" do
