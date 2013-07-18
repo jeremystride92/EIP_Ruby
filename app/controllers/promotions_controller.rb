@@ -81,6 +81,10 @@ class PromotionsController < ApplicationController
       render :promote and return
     end
 
+    @card_levels.each do |card_level|
+      card_level.promotions << @promotion unless card_level.promotions.include? @promotion
+    end
+
     case params[:commit]
     when 'Send Now'
       @cardholders.each do |cardholder|
