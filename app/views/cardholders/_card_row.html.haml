@@ -27,7 +27,15 @@
 .row-fluid
   .card-status.pull-left
     - if card.cardholder.pending?
-      Card Issue Pending
+      Card Issue
+      %strong Pending
     - else
-      Card Issue Active
+      Card Issue
+      %strong Active
+      %br
+      Cardholder Account Activated
+      %strong= l card.cardholder.activated_at.in_time_zone(@venue.time_zone), format: :friendly
+    %br
+    Issued on
+    %strong= l card.issued_at.in_time_zone(@venue.time_zone), format: :friendly
   = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'
