@@ -12,11 +12,11 @@
     .form-block.span6.offset3
       %fieldset
         %legend Benefits
-        = f.simple_fields_for :temp_benefits do |bf|
-          = render 'temp_benefit_fields', f: bf
+        = f.simple_fields_for :temporary_benefits do |bf|
+          = render 'temporary_benefit_fields', f: bf
 
         .links
-          = link_to_add_association 'Add Temporary Benefit', f, :temp_benefits, render_options: { wrapper: 'bootstrap' }
+          = link_to_add_association 'Add Temporary Benefit', f, :temporary_benefits, render_options: { wrapper: 'bootstrap' }
 
   .form-actions.clearfix
     = f.button :submit, class: 'btn btn-large btn-primary'

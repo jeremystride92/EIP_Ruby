@@ -16,10 +16,10 @@
             - card_level.permanent_benefits.each do |benefit|
               %li= benefit.description
         .span3.benefits
-          - if card_level.temp_benefits.any?
+          - if card_level.temporary_benefits.any?
             %h4 Temporary Benefits
             %ul.unstyled
-              - card_level.temp_benefits.select(&:active?).each do |benefit|
+              - card_level.temporary_benefits.select(&:active?).each do |benefit|
                 %li.clearfix
                   .pull-left
                     = benefit.description

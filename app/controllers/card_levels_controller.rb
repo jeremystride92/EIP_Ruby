@@ -63,7 +63,7 @@ class CardLevelsController < ApplicationController
     binding.pry
     authorize! :update, @card_level
 
-    if @card_level.update_attributes(temp_benefit_params)
+    if @card_level.update_attributes(temporary_benefit_params)
       redirect_to venue_card_levels_path, notice: 'Temporary benefits updated.'
     else
       render :issue_benefits_form
@@ -92,7 +92,7 @@ class CardLevelsController < ApplicationController
     params.require(:card_level).permit(:name, :theme, :daily_guest_pass_count, permanent_benefits_attributes: [:id, :description, :_destroy])
   end
 
-  def temp_benefit_params
-    params.require(:card_level).permit(temp_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
+  def temporary_benefit_params
+    params.require(:card_level).permit(temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
   end
 end

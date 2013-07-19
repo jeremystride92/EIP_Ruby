@@ -11,7 +11,14 @@
           = render 'permanent_benefit_fields', f: bf
 
         .links
-          = link_to_add_association 'Add Benefit', f, :permanent_benefits, render_options: { wrapper: 'bootstrap' }
+          = link_to_add_association 'Add Permanent Benefit', f, :permanent_benefits, render_options: { wrapper: 'bootstrap' }
+      %fieldset
+        %legend Temporary Benefits
+        = f.simple_fields_for :temporary_benefits do |bf|
+          = render 'temporary_benefit_fields', f: bf
+
+        .links
+          = link_to_add_association 'Add Temporary Benefit', f, :temporary_benefits, render_options: { wrapper: 'bootstrap' }
 
   .form-actions.clearfix
     = f.button :submit, class: 'btn btn-large btn-primary'
