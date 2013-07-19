@@ -14,7 +14,7 @@ class Cardholder < ActiveRecord::Base
   validates :last_name, presence: true, unless: :pending?
 
 
-  validates :password, length: { in: 6..255 }, allow_nil: true
+  validates :password, length: { is: 4 }, numericality: { only_integer: true }, allow_nil: true
   validates :phone_number,
     presence: true,
     uniqueness: true,
@@ -31,7 +31,7 @@ class Cardholder < ActiveRecord::Base
   before_validation :set_default_status
 
   def generate_unusable_password!
-    self.password = self.password_confirmation = SecureRandom.random_bytes(16)
+    self.password_digest = SecureRandom.random_bytes(16)
   end
 
   STATUSES.each do |status_code|

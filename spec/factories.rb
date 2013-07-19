@@ -24,7 +24,7 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     photo "photo.jpg"
-    password 'secret'
+    password '1234'
     password_confirmation { |u| u.password }
     status 'active'
 
