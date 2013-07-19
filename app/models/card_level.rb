@@ -61,11 +61,7 @@ class CardLevel < ActiveRecord::Base
 
   def ensure_sort_position
     if sort_position.nil?
-      if venue.present?
-        self.sort_position = venue.card_levels.count + 1
-      else
-        self.sort_position = 1
-      end
+      self.sort_position = venue.card_levels.count + 1
     end
   end
 end
