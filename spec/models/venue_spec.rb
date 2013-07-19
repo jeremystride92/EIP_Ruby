@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Venue do
   it { should have_many :users }
-  it { should have_many :card_levels }
+  it { should have_many(:card_levels).order('sort_position ASC')}
   it { should have_many(:cards).through(:card_levels) }
   it { should have_many(:cardholders).through(:cards) }
   it { should have_many(:promotions) }
@@ -14,36 +14,10 @@ describe Venue do
 
   it { should validate_presence_of :phone }
   it { should validate_numericality_of :phone }
+  it { should ensure_length_of(:phone).is_equal_to(10) }
 
   it { should validate_presence_of :time_zone }
-
-  it "should validate length of phone" do
-    venue = build :venue
-
-    venue.phone = '123456789'
-    venue.should_not be_valid
-
-    venue.phone = '1234567890'
-    venue.should be_valid
-
-    venue.phone = '12345678901'
-    venue.should_not be_valid
-  end
-
-  describe "validate time zone" do
-    let(:venue) { build :venue }
-    it "should allow valid time zones" do
-      ActiveSupport::TimeZone.us_zones.map(&:name).each do |zone|
-        venue.time_zone = zone
-        venue.should be_valid
-      end
-    end
-
-    it "should not allow invalid time zones" do
-      venue.time_zone = 'Not a time zone'
-      venue.should_not be_valid
-    end
-  end
+  it { should ensure_inclusion_of(:time_zone).in_array(ActiveSupport::TimeZone.us_zones.map(&:name)) }
 
   describe "validate format of vanity_slug" do
     let(:venue) { build :venue }
