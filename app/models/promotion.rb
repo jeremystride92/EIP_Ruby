@@ -1,6 +1,8 @@
 class Promotion < ActiveRecord::Base
   belongs_to :venue
 
+  has_and_belongs_to_many :card_levels
+
   validates :title, presence: true
   validates :venue, presence: true
 

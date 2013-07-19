@@ -11,6 +11,7 @@ describe CardLevel do
   it { should belong_to :venue }
   it { should have_many :cards }
   it { should have_many :benefits }
+  it { should have_and_belong_to_many :promotions }
 
   describe "Validations" do
     let(:card_level) { create :card_level }

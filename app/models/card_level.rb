@@ -3,6 +3,7 @@ class CardLevel < ActiveRecord::Base
   belongs_to :venue
   has_many :cards
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
+  has_and_belongs_to_many :promotions
 
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 

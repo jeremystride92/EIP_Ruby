@@ -1,7 +1,7 @@
 class Api::V1::CardholdersController < ApplicationController
   before_filter :authorize
 
-  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :guest_passes, { venue: :promotions, card_level: [:benefits, { venue: :promotions }] }] }.freeze
+  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :guest_passes, { card_level: [:benefits, :venue, :promotions ] }] }.freeze
 
   def show
     authorize! :read, @cardholder
@@ -9,7 +9,7 @@ class Api::V1::CardholdersController < ApplicationController
     @cardholder.cards.each do |card|
       card.benefits.reject! &:inactive?
       card.card_level.benefits.reject! &:inactive?
-      card.venue.promotions.reject! &:past?
+      card.card_level.promotions.reject! &:past?
     end
   end
 

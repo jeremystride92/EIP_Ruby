@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716172002) do
+ActiveRecord::Schema.define(:version => 20130718145046) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(:version => 20130716172002) do
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"
+
+  create_table "card_levels_promotions", :id => false, :force => true do |t|
+    t.integer "card_level_id", :null => false
+    t.integer "promotion_id",  :null => false
+  end
+
+  add_index "card_levels_promotions", ["card_level_id"], :name => "index_card_levels_promotions_on_card_level_id"
+  add_index "card_levels_promotions", ["promotion_id"], :name => "index_card_levels_promotions_on_promotion_id"
 
   create_table "cardholders", :force => true do |t|
     t.string   "phone_number"
