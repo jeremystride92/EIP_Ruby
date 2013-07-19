@@ -1,4 +1,5 @@
 class CardLevelsController < ApplicationController
+  include ActionView::Helpers::TextHelper
 
   before_filter :authenticate
   before_filter :find_venue
@@ -56,16 +57,29 @@ class CardLevelsController < ApplicationController
   end
 
   def issue_benefits_form
+    @promo_message = PromotionMessage.new
     authorize! :update, @card_level
   end
 
   def issue_benefits
-    binding.pry
     authorize! :update, @card_level
 
     if @card_level.update_attributes(temporary_benefit_params)
-      redirect_to venue_card_levels_path, notice: 'Temporary benefits updated.'
+      notice = 'Temporary benefits updated.'
+
+      if promo_message_params[:message].present?
+        cardholders = @card_level.cards.map(&:cardholder).uniq
+
+        cardholders.each do |cardholder|
+          SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder, @venue, promo_message_params[:message])
+        end
+
+        notice += " #{pluralize cardholders.count, 'cardholder'} notified."
+      end
+
+      redirect_to venue_card_levels_path, notice: notice
     else
+      @promo_message = PromotionMessage.new message: promo_message_params[:message], card_levels: []
       render :issue_benefits_form
     end
   end
@@ -94,5 +108,9 @@ class CardLevelsController < ApplicationController
 
   def temporary_benefit_params
     params.require(:card_level).permit(temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
+  end
+
+  def promo_message_params
+    params.require(:card_level).require(:promotion_message).permit(:message)
   end
 end
