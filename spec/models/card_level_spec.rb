@@ -110,7 +110,35 @@ describe CardLevel do
         card_levels.each &:reload
         card_levels.map(&:sort_position).should == [1, 3, 4, 2, 5]
       end
+    end
+  end
 
+  describe "correcting sort_position on destroy" do
+    let(:venue) { create :venue }
+    let(:card_levels) { (1..5).map { |n| create :card_level, sort_position: n, venue: venue } }
+
+    context "when destroying from the middle" do
+      it "should update the sort_position on remaining Card Levels" do
+        card_levels[2].destroy
+
+        venue.card_levels.reload.map(&:sort_position).should == (1..4).to_a
+      end
+    end
+
+    context "when destroying from the beginning" do
+      it "should update the sort_position on remaining Card Levels" do
+        card_levels[0].destroy
+
+        venue.card_levels.reload.map(&:sort_position).should == (1..4).to_a
+      end
+    end
+
+    context "when destroying from the end" do
+      it "should update the sort_position on remaining Card Levels" do
+        card_levels[4].destroy
+
+        venue.card_levels.reload.map(&:sort_position).should == (1..4).to_a
+      end
     end
   end
 end

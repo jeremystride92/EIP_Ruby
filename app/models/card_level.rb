@@ -17,6 +17,8 @@ class CardLevel < ActiveRecord::Base
 
   before_validation :ensure_sort_position
 
+  around_destroy :update_sort_positions
+
   def set_all_card_guest_passes
     cards.update_all(guest_count: daily_guest_pass_count)
   end
@@ -66,6 +68,18 @@ class CardLevel < ActiveRecord::Base
       else
         self.sort_position = 1
       end
+    end
+  end
+
+  def update_sort_positions
+    deleted_position = self.sort_position
+    affected_card_levels = venue.card_levels.select { |card_level| card_level.sort_position > deleted_position }
+
+    yield
+
+    affected_card_levels.each do |card_level|
+      card_level.sort_position -= 1
+      card_level.save
     end
   end
 end
