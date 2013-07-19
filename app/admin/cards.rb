@@ -4,6 +4,10 @@ ActiveAdmin.register Card do
     def permitted_params
       params.permit(card: [:card_level_id, :cardholder_id, :issuer_id, :status])
     end
+
+    def resource
+      @card = Card.find params[:id]
+    end
   end
 
   index do
@@ -26,9 +30,9 @@ ActiveAdmin.register Card do
 
   form do |f|
     f.inputs do
-      f.input :card_level, collection: card.venue.card_levels
+      f.input :card_level, collection: card.try(:venue).try(:card_levels) || CardLevel.all, group_by: :venue
       f.input :cardholder
-      f.input :issuer
+      f.input :issuer, collection: card.try(:venue).try(:users) || User.all, group_by: :venue
       f.input :status, collection: Card::STATUSES
     end
     f.actions
