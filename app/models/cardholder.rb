@@ -12,6 +12,7 @@ class Cardholder < ActiveRecord::Base
 
   validates :first_name, presence: true, unless: :pending?
   validates :last_name, presence: true, unless: :pending?
+  validates :activated_at, presence: true, unless: :pending?
 
 
   validates :password, length: { is: 4 }, numericality: { only_integer: true }, allow_nil: true
@@ -41,7 +42,7 @@ class Cardholder < ActiveRecord::Base
   end
 
   def activate!
-    update_attributes(status: 'active')
+    update_attributes(status: 'active', activated_at: Time.zone.now)
   end
 
   def has_card_for_venue?(venue)

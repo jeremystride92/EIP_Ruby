@@ -41,7 +41,7 @@ class CardholdersController < ApplicationController
 
   def batch_create
     cardholders = params[:cardholders].map do |index, ch_attr|
-      attrs = ch_attr.merge(cards_attributes: { '0' => { card_level_id: params[:card_level_id], issuer_id: current_user.id } })
+      attrs = ch_attr.merge(cards_attributes: { '0' => { card_level_id: params[:card_level_id], issuer_id: current_user.id, issued_at: Time.zone.now } })
       create_cardholder_or_card attrs
     end
 

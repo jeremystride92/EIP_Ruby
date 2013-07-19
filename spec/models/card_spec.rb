@@ -23,6 +23,25 @@ describe Card do
     it { should validate_presence_of :cardholder }
     it { should validate_numericality_of(:guest_count).only_integer.is_greater_than_or_equal_to(0) }
 
+    %w[active inactive].each do |status|
+      context "when #{status}" do
+        subject {create :card, status: status }
+
+        it { should validate_presence_of :issued_at }
+      end
+    end
+
+    context "when pending" do
+      subject {create :pending_card }
+
+      it { should_not validate_presence_of :issued_at }
+    end
+
+    it 'should only allow positive integer guest_count' do
+      subject.guest_count = -3
+      subject.should_not be_valid
+    end
+    
     it { should validate_presence_of :status }
     it { should ensure_inclusion_of(:status).in_array(Card::STATUSES) }
 
