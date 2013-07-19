@@ -10,19 +10,27 @@
               .gloss
               .card-count #{card_level.cards.size}
               #{card_level.name} #{(card_level.cards.size == 1) ? 'Card' : 'Cards' }
-  .venue-sub-block.span5.actions-block
+  .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
       .row-fluid.row-sub-section
-        = link_to venue_cardholders_path, class: 'btn btn-large span12 clearfix' do
-          %i.icon-credit-card.pull-left
-          .pull-left Cards
-          %i.icon-caret-right.pull-right
+        .btn-group.span12
+          %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+            %i.icon-star-empty.pull-left
+            .pull-left Issue Temporary Card Level Benefits
+            %span.caret.pull-right
+          %ul.dropdown-menu.pull-right
+            - @venue.card_levels.each do |card_level|
+              %li= link_to card_level.name, venue_card_level_issue_benefits_path(card_level)
       .row-fluid.row-sub-section
-        = link_to venue_card_levels_path, class: 'btn btn-large span12 clearfix' do
-          %i.icon-plus.pull-left
-          .pull-left Card Levels
-          %i.icon-caret-right.pull-right
+        .btn-group.span12
+          %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+            %i.icon-credit-card.pull-left
+            .pull-left Issue Cards
+            %span.caret.pull-right
+          %ul.dropdown-menu.pull-right
+            - @venue.card_levels.each do |card_level|
+              %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level)
 .row.row-section
   .venue-sub-block.span12
     %h3.block-title.clearfix
