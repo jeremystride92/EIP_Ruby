@@ -7,6 +7,27 @@ ActiveAdmin.register Cardholder do
     end
   end
 
+  batch_action :send_activation_messages_to do |selection|
+    Cardholder.find(selection).each do |cardholder|
+      cardholder.generate_onboarding_token
+      cardholder.save
+      SmsMailer.delay.cardholder_onboarding_sms(cardholder, nil)
+    end
+    redirect_to :back, notice: "Messages queued for sending"
+  end
+
+  member_action :send_activation_message, method: :post do
+    cardholder = Cardholder.find(params[:id])
+    cardholder.generate_onboarding_token
+    cardholder.save
+    SmsMailer.delay.cardholder_onboarding_sms(cardholder, nil)
+    redirect_to :back, notice: "Message to #{cardholder.phone_number} queued for sending"
+  end
+
+  action_item :only => :show do
+    link_to('Send Activation Message', send_activation_message_admin_cardholder_path(cardholder), method: :post)
+  end
+
   menu :priority => 2
 
   filter :venues

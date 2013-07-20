@@ -10,6 +10,23 @@ ActiveAdmin.register Card do
     end
   end
 
+  batch_action :'activate/deactivate' do |selection|
+    activated = 0
+    deactivated = 0
+    Card.find(selection).each do |card|
+      next if card.pending?
+      if card.active?
+        card.update_attributes(status: 'inactive')
+        deactivated += 1
+      else
+        card.update_attributes(status: 'active')
+        activated += 1
+      end
+    end
+    helpers = ActionController::Base.helpers
+    redirect_to :back, notice: "#{helpers.pluralize(activated, 'card')} activated, #{helpers.pluralize(deactivated, 'card')} deactivated"
+  end
+
   index do
     selectable_column
     column :card_level

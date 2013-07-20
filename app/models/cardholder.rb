@@ -35,6 +35,10 @@ class Cardholder < ActiveRecord::Base
     self.password_digest = SecureRandom.random_bytes(16)
   end
 
+  def generate_onboarding_token
+    generate_token(:onboarding_token)
+  end
+
   STATUSES.each do |status_code|
     define_method("#{status_code}?") do
       self.status == status_code

@@ -1,1 +1,1 @@
-Please go to <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %> to activate your card from <%= @venue.name %>.
+Please go to <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %> to activate your card from <%= @venue.try(:name) || 'EIPiD' %>.
