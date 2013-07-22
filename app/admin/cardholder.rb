@@ -3,7 +3,7 @@ ActiveAdmin.register Cardholder do
 
   controller do
     def permitted_params
-      params.permit(cardholder: [:phone_number, :first_name, :last_name, :status])
+      params.permit(cardholder: [:phone_number, :first_name, :last_name, :status, :photo, :photo_cache])
     end
   end
 
@@ -73,6 +73,7 @@ ActiveAdmin.register Cardholder do
       f.input :last_name
       f.input :status, collection: Cardholder::STATUSES
       f.input :photo
+      f.input :photo_cache, as: :hidden
     end
     f.actions
   end

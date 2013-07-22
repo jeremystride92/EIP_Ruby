@@ -3,7 +3,7 @@ ActiveAdmin.register Promotion do
   controller do
     def permitted_params
       # raise 'debug'
-      params.permit(promotion: [:title, :description, :image, :venue_id, :start_date, :end_date, { card_level_ids: [] }])
+      params.permit(promotion: [:title, :description, :image, :image_cache, :venue_id, :start_date, :end_date, { card_level_ids: [] }])
     end
   end
 
@@ -80,6 +80,7 @@ ActiveAdmin.register Promotion do
       f.input :title
       f.input :description
       f.input :image
+      f.input :image_cache, as: :hidden
       f.input :venue
       f.input :card_levels, collection: promotion.venue.card_levels, as: :check_boxes
       f.input :start_date
