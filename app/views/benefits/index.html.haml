@@ -4,20 +4,21 @@
   to
   = text_field_tag :end_date, @end_date.to_date, type: :date
   = submit_tag 'Filter', class: 'btn btn-large'
-%table.table.tbody-striped
-  %thead
-    %tr
-      %th Cardholder
-      %th Benefit
-      %th Start
-      %th End
-  - @cards.each do |card|
-    %tbody
+- @benefits_by_date.each do |date, cardholders|
+  %h2.date= l date, format: :friendly
+  - next unless cardholders.present?
+  %table.table.tbody-striped
+    %thead
       %tr
-        %th{rowspan: card.benefits.length}
-          = card.cardholder.display_name
-        - benefit = card.benefits.first
-        - if benefit.active_in_range? @start_date, @end_date
+        %th.span4 Cardholder
+        %th.span4 Benefit
+        %th.span2 Start
+        %th.span2 End
+    - cardholders.each do |cardholder|
+      %tbody
+        %tr
+          %th{ rowspan: cardholder[:active_benefits].length }= cardholder[:cardholder_name]
+          - benefit = cardholder[:active_benefits].first
           %td= benefit.description
           %td
             - if benefit.start_date
@@ -25,8 +26,7 @@
           %td
             - if benefit.end_date
               = l benefit.end_date.in_time_zone(@venue.time_zone), format: :friendly
-      - card.benefits[1..-1].each do |benefit|
-        - if benefit.active_in_range? @start_date, @end_date
+        - cardholder[:active_benefits][1..-1].each do |benefit|
           %tr
             %td= benefit.description
             %td
