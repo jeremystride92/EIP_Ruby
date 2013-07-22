@@ -38,4 +38,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "something.jpg" if original_filename
   # end
 
+  #fix images oriented only with EXIFF data to be physically oriented the proper way
+  process :auto_orient
+
+  def auto_orient
+    manipulate! do |image|
+      image.tap(&:auto_orient)
+    end
+  end
+
 end
