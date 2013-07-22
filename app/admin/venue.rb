@@ -9,6 +9,7 @@ ActiveAdmin.register Venue do
 
   filter :name
   filter :phone
+  filter :nexmo_number
   filter :location
   filter :address1
   filter :address2
@@ -23,6 +24,7 @@ ActiveAdmin.register Venue do
       "#{venue.address1}; #{venue.address2}"
     end
     column :phone
+    column :nexmo_number
     column :website
     column :vanity_slug
     column :time_zone, label_method: :to_s, value_method: :name
@@ -43,6 +45,7 @@ ActiveAdmin.register Venue do
       row :address1
       row :address2
       row :phone
+      row :nexmo_number
       row :website do
         link_to venue.website.to_s
       end
