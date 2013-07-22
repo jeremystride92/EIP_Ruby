@@ -103,7 +103,7 @@ class CardLevelsController < ApplicationController
   end
 
   def card_level_params
-    params.require(:card_level).permit(:name, :theme, :daily_guest_pass_count, permanent_benefits_attributes: [:id, :description, :_destroy])
+    params.require(:card_level).permit(:name, :theme, :daily_guest_pass_count, permanent_benefits_attributes: [:id, :description, :_destroy], temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
   end
 
   def temporary_benefit_params

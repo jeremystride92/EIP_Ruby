@@ -7,7 +7,12 @@
         .span3
           .info
             %h2= card_level.name
-            .card-preview{ 'class' => "theme-#{card_level.theme}" }
+            .card-preview-row
+              .card-preview{ 'class' => "theme-#{card_level.theme}" }
+              .actions.center-text
+                =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
+                  %i.icon-edit
+                  Edit
         .span3.benefits
           %h4 Permanent Benefits
           %ul.unstyled
@@ -31,16 +36,11 @@
                         Until #{ l benefit.end_date, format: :very_short }
 
         .actions.span3
-          .row
-            =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
-              %i.icon-edit
-              Edit
-          .row
-            = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
-              = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
-              = button_tag type: :submit, class: 'btn btn-large' do
-                %i.icon-sort
-                Reorder
+          = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
+            = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
+            = button_tag type: :submit, class: 'btn btn-large' do
+              %i.icon-sort
+              Reorder
 
 .actions.clearfix
   =link_to new_venue_card_level_path(), class: 'btn btn-large btn-success pull-right' do
