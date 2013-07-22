@@ -10,7 +10,7 @@ class PromotionImageUploader < ImageUploader
 
   version :list_thumbnail do
     process resize_to_fit: [340, nil]
-    process crop: '340x120+0+0'
+    process crop: '340x255+0+0'
   end
 
   version :display do
