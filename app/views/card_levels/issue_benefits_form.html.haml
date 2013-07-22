@@ -1,0 +1,33 @@
+%h1 Issue Temporary Benefits to all #{@card_level.name} Cards
+.row
+  .form-block.span6.offset3
+    %h2 Permanent benefits
+    %ul
+      %li= pluralize @card_level.daily_guest_pass_count, "daily guest pass"
+      - @card_level.benefits.select { |b| b.start_date.blank? && b.end_date.blank? }.each do |permanent_benefit|
+        %li= permanent_benefit.description
+
+    %h2 Temporary benefits
+    = simple_form_for [:venue, @card_level], url: '' do |f|
+      %fieldset
+        %legend Benefits
+        = f.simple_fields_for :temporary_benefits do |bf|
+          = render 'temporary_benefit_fields', f: bf
+
+        .links
+          = link_to_add_association 'Add Temporary Benefit', f, :temporary_benefits, render_options: { wrapper: 'bootstrap' }
+      %fieldset
+        %legend Promote Benefits
+        %p Optionally, include a text message to go out to all #{@card_level.name} Cardholders to inform them of their new benefits.
+        = f.simple_fields_for @promo_message do |bf|
+          = bf.label :message, required: false do
+            Message
+            %span.character-count
+          = bf.input :message, required: false, label: false, as: :text, input_html: { maxlength: 140, class: 'span6' }
+
+  .form-actions.clearfix
+    = f.button :submit, class: 'btn btn-large btn-primary'
+    = link_to 'Cancel', venue_card_levels_path, class: 'btn btn-large, pull-right'
+
+= content_for :javascripts do
+  = javascript_include_tag :card_level_temp_benefits

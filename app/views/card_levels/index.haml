@@ -4,27 +4,43 @@
   - @card_levels.each do |card_level|
     %li.card-level-listing.clearfix
       .row
-      .span3
-        %h2= card_level.name
-        .card-preview.pull-left{ 'class' => "theme-#{card_level.theme}" }
-      .span4.benefits
-        %h4 Benefits
-        %ul.unstyled
-          - unless card_level.daily_guest_pass_count.zero?
-            %li #{pluralize card_level.daily_guest_pass_count, 'daily guest pass'}
-          - card_level.benefits.each do |benefit|
-            %li= benefit.description
-      .actions.pull-right
-        .row
-          = link_to edit_venue_card_level_path(card_level), class: 'btn btn-large pull-right' do
-            %i.icon-edit
-            Edit
-        .row
-          = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
-            = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
-            = button_tag type: :submit, class: 'btn btn-large' do
-              %i.icon-sort
-              Reorder
+        .span3
+          .info
+            %h2= card_level.name
+            .card-preview{ 'class' => "theme-#{card_level.theme}" }
+        .span3.benefits
+          %h4 Permanent Benefits
+          %ul.unstyled
+            - unless card_level.daily_guest_pass_count.zero?
+              %li #{pluralize card_level.daily_guest_pass_count, 'daily guest pass'}
+            - card_level.permanent_benefits.each do |benefit|
+              %li= benefit.description
+        .span3.benefits
+          - if card_level.temporary_benefits.select(&:active?).any?
+            %h4 Temporary Benefits
+            %ul.unstyled
+              - card_level.temporary_benefits.select(&:active?).each do |benefit|
+                %li.clearfix
+                  .pull-left
+                    = benefit.description
+                  - if benefit.start_date.present? || benefit.end_date.present?
+                    .dates.pull-right.muted
+                      - if benefit.start_date.present?
+                        From #{ l benefit.start_date, format: :very_short }
+                      - if benefit.end_date.present?
+                        Until #{ l benefit.end_date, format: :very_short }
+
+        .actions.span3
+          .row
+            =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
+              %i.icon-edit
+              Edit
+          .row
+            = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
+              = number_field_tag :sort_position, card_level.sort_position, in: (1..@venue.card_levels.length), step: 1
+              = button_tag type: :submit, class: 'btn btn-large' do
+                %i.icon-sort
+                Reorder
 
 .actions.clearfix
   =link_to new_venue_card_level_path(), class: 'btn btn-large btn-success pull-right' do

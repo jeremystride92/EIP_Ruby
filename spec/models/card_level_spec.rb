@@ -17,8 +17,14 @@ describe CardLevel do
 
   it { should belong_to :venue }
   it { should have_many :cards }
-  it { should have_many :benefits }
   it { should have_and_belong_to_many :promotions }
+
+  it { should have_many :benefits }
+  it { should accept_nested_attributes_for :benefits }
+  it { should have_many :permanent_benefits }
+  it { should accept_nested_attributes_for :permanent_benefits }
+  it { should have_many :temporary_benefits }
+  it { should accept_nested_attributes_for :temporary_benefits }
 
   describe "Validations" do
     it "should be valid when created with nested benefits" do
@@ -140,5 +146,19 @@ describe CardLevel do
         venue.card_levels.reload.map(&:sort_position).should == (1..4).to_a
       end
     end
+  end
+
+  describe "benefit lists" do
+    let(:card_level) { create :card_level }
+    let(:permanent_benefits) { create_list :benefit, 2, beneficiary: card_level }
+    let(:temporary_benefits) { create_list :benefit, 2, beneficiary: card_level, start_date: Date.current }
+
+    subject { card_level }
+
+    its(:temporary_benefits) { should =~ temporary_benefits }
+
+    its(:permanent_benefits) { should =~ permanent_benefits }
+
+    its(:benefits) { should =~ temporary_benefits + permanent_benefits }
   end
 end

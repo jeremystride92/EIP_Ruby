@@ -6,12 +6,19 @@
       = f.input :daily_guest_pass_count, input_html: { class: 'span6' }
 
       %fieldset
-        %legend Benefits
-        = f.simple_fields_for :benefits do |bf|
-          = render 'benefit_fields', f: bf
+        %legend Permanent Benefits
+        = f.simple_fields_for :permanent_benefits do |bf|
+          = render 'permanent_benefit_fields', f: bf
 
         .links
-          = link_to_add_association 'Add Benefit', f, :benefits, :render_options => {:wrapper => 'bootstrap' }
+          = link_to_add_association 'Add Permanent Benefit', f, :permanent_benefits, render_options: { wrapper: 'bootstrap' }
+      %fieldset
+        %legend Temporary Benefits
+        = f.simple_fields_for :temporary_benefits do |bf|
+          = render 'temporary_benefit_fields', f: bf
+
+        .links
+          = link_to_add_association 'Add Temporary Benefit', f, :temporary_benefits, render_options: { wrapper: 'bootstrap' }
 
   .form-actions.clearfix
     = f.button :submit, class: 'btn btn-large btn-primary'

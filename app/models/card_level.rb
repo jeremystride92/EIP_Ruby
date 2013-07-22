@@ -3,9 +3,13 @@ class CardLevel < ActiveRecord::Base
   belongs_to :venue
   has_many :cards
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
+  has_many :temporary_benefits, as: :beneficiary, class_name: 'Benefit', conditions: '(start_date IS NOT NULL) OR (end_date IS NOT NULL)'
+  has_many :permanent_benefits, as: :beneficiary, class_name: 'Benefit', conditions: '(start_date IS NULL) AND (end_date IS NULL)'
   has_and_belongs_to_many :promotions
 
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
+  accepts_nested_attributes_for :temporary_benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
+  accepts_nested_attributes_for :permanent_benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :theme, presence: true, inclusion: THEMES

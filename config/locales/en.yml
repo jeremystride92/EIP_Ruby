@@ -5,4 +5,4 @@ en:
   time:
     formats:
       friendly: "%B %-d, %Y %l:%M %P"
-  hello: "Hello world"
+      very_short: "%-m/%-d"

@@ -20,6 +20,9 @@ EIPiD::Application.routes.draw do
 
     resources :card_levels, only: [:index, :new, :create, :edit, :update] do
       post 'reorder', to: 'card_levels#reorder'
+
+      get 'issue_benefits', to: 'card_levels#issue_benefits_form'
+      put 'issue_benefits', to: 'card_levels#issue_benefits'
     end
 
     resources :users
