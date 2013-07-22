@@ -156,7 +156,7 @@ class CardsController < ApplicationController
       return
     end
 
-    if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user)
+    if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user, issued_at: Time.zone.now)
       SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder, @venue)
       head :no_content
     else

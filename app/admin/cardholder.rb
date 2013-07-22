@@ -24,6 +24,8 @@ ActiveAdmin.register Cardholder do
     column :first_name
     column :last_name
     column :status
+    column :activated_at
+    column :created_at
     actions
   end
 
@@ -37,6 +39,7 @@ ActiveAdmin.register Cardholder do
       row :last_name
       row :status
       row :onboarding_token
+      row :activated_at
       row :created_at
       row :updated_at
     end

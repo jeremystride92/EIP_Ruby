@@ -27,11 +27,13 @@ FactoryGirl.define do
     password '1234'
     password_confirmation { |u| u.password }
     status 'active'
+    activated_at { Time.zone.now }
 
     factory :pending_cardholder do
       status 'pending'
       first_name nil
       last_name nil
+      activated_at nil
     end
   end
 
@@ -65,10 +67,16 @@ FactoryGirl.define do
     cardholder
     status 'active'
     guest_count 3
+    issued_at { Time.zone.now }
     association :issuer, factory: :venue_manager
 
     factory :inactive_card do
       status 'inactive'
+    end
+
+    factory :pending_card do
+      status 'pending'
+      issued_at nil
     end
   end
 

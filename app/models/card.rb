@@ -23,6 +23,7 @@ class Card < ActiveRecord::Base
   validates :issuer, presence: true, unless: :pending?
   validates :card_level, presence: true
   validates :cardholder, presence: true
+  validates :issued_at, presence: true, unless: :pending?
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults

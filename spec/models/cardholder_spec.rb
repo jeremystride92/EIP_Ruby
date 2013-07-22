@@ -30,6 +30,7 @@ describe Cardholder do
 
       it { should_not validate_presence_of :first_name }
       it { should_not validate_presence_of :last_name }
+      it { should_not validate_presence_of :activated_at }
     end
 
     context 'when active' do
@@ -37,6 +38,7 @@ describe Cardholder do
 
       it { should validate_presence_of :first_name }
       it { should validate_presence_of :last_name }
+      it { should validate_presence_of :activated_at }
     end
 
     context "on a new cardholder" do

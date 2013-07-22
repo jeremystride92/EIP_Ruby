@@ -19,6 +19,7 @@ ActiveAdmin.register Card do
     end
     column :status
     column :issuer
+    column :issued_at
     column :created_at
     actions
   end
