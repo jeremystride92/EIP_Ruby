@@ -32,7 +32,7 @@ class Cardholder < ActiveRecord::Base
   before_validation :set_default_status
 
   def generate_unusable_password!
-    self.password_digest = SecureRandom.random_bytes(16)
+    self.password_digest = SecureRandom.hex(16)
   end
 
   def generate_onboarding_token
