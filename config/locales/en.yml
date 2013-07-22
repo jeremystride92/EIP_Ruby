@@ -6,4 +6,3 @@ en:
     formats:
       friendly: "%B %-d, %Y %l:%M %P"
       very_short: "%-m/%-d"
-  hello: "Hello world"
