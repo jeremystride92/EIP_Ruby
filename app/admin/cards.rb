@@ -34,7 +34,12 @@ ActiveAdmin.register Card do
     column :benefits do |card|
       ul do
         card.benefits.each do |benefit|
-          li benefit.description
+          li do
+              desc = benefit.description
+              desc << " from #{l benefit.start_date, format: :friendly}" if benefit.start_date
+              desc << " until #{l benefit.end_date, format: :friendly}" if benefit.end_date
+              desc
+            end
         end
       end
     end
@@ -43,6 +48,28 @@ ActiveAdmin.register Card do
     column :issued_at
     column :created_at
     actions
+  end
+
+  show do |card|
+    attributes_table do
+      row :card_level
+      row :cardholder
+      row :benefits do
+        ul do
+          card.benefits.each do |benefit|
+            li do
+              desc = benefit.description
+              desc << " from #{l benefit.start_date, format: :friendly}" if benefit.start_date
+              desc << " until #{l benefit.end_date, format: :friendly}" if benefit.end_date
+              desc
+            end
+          end
+        end
+      end
+      row :status
+      row :issuer
+      row :created_at
+    end
   end
 
   form do |f|
