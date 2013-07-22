@@ -4,7 +4,19 @@ ActiveAdmin.register User do
 
   controller do
     def permitted_params
-      params.permit(user: [:name, :venue_id, :email, :password, :password_confirmation, :roles])
+      params.permit(user: [:name, :venue_id, :email, :roles])
+    end
+
+    def create
+    @user = build_new_resource
+    @user.generate_unusable_password!
+    create! do |success, failure|
+      success.html do
+       @user.send_activation_email
+       redirect_to admin_user_path(@user)
+     end
+      failure.html { render :edit; raise 'debug' }
+    end
     end
   end
 
@@ -31,6 +43,9 @@ ActiveAdmin.register User do
       f.input :venue, required: true, input_html: { required:true }
       f.input :email
       f.input :roles, collection: User.valid_roles, required: true, input_html: { required:true }
+      if user.new_record?
+        f.input :password, input_html: {disabled: true}, placeholder: 'Random password generated. User will be sent a password reset email.'
+      end
     end
     f.actions
   end
