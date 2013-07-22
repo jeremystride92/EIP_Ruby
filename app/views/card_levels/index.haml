@@ -28,7 +28,7 @@
                       - if benefit.start_date.present?
                         From #{ l benefit.start_date, format: :very_short }
                       - if benefit.end_date.present?
-                        To #{ l benefit.end_date, format: :very_short }
+                        Until #{ l benefit.end_date, format: :very_short }
 
         .actions.span3
           .row
