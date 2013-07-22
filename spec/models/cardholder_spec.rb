@@ -20,6 +20,9 @@ describe Cardholder do
         subject.phone_number = '12345678901'
         subject.should_not be_valid
       end
+
+      it { should validate_numericality_of(:password).only_integer }
+      it { should ensure_length_of(:password).is_equal_to(4) }
     end
 
     context 'when pending' do
@@ -37,25 +40,20 @@ describe Cardholder do
     end
 
     context "on a new cardholder" do
-      it "should generate a valid random password if one isn't given" do
+      it "should generate a valid random PIN if one isn't given" do
         cardholder = build :cardholder, password: nil, password_confirmation: nil
         cardholder.should_receive(:generate_unusable_password!).and_call_original
         cardholder.should be_valid
       end
 
-      it "should not generate password if one given" do
-        cardholder = build :cardholder, password: 'short', password_confirmation: 'short'
+      it "should not generate PIN if one given" do
+        cardholder = build :cardholder, password: '1234', password_confirmation: '1234'
         cardholder.valid? # run validation in order to trigger callbacks
-        cardholder.password.should == 'short'
-      end
-
-      it "should be not be valid with a short password" do
-        cardholder = build :cardholder, password: 'short', password_confirmation: 'short'
-        cardholder.should_not be_valid
+        cardholder.password.should == '1234'
       end
 
       it "should not be valid with a confirmation mismatch" do
-        cardholder = build :cardholder, password: 'short', password_confirmation: 'long'
+        cardholder = build :cardholder, password: '1234', password_confirmation: '5678'
         cardholder.should_not be_valid
       end
 
@@ -75,13 +73,13 @@ describe Cardholder do
         cardholder.should be_valid
       end
 
-      it "should not be valid with an empty password" do
+      it "should not be valid with an empty PIN" do
         cardholder.password = cardholder.password_confirmation = ""
         cardholder.should_not be_valid
       end
 
-      it "should be valid with a new (valid) password" do
-        cardholder.password = cardholder.password_confirmation = "new password"
+      it "should be valid with a new (valid) PIN" do
+        cardholder.password = cardholder.password_confirmation = "5678"
         cardholder.should be_valid
       end
     end
@@ -95,14 +93,14 @@ describe Cardholder do
       cardholder.auth_token.should_not be_nil
     end
 
-    it "should authenticate with correct password" do
+    it "should authenticate with correct PIN" do
       cardholder = create :cardholder
       cardholder.authenticate(cardholder.password).should_not == false
     end
 
-    it "should not authenticate with incorrect password" do
+    it "should not authenticate with incorrect PIN" do
       cardholder = create :cardholder
-      cardholder.authenticate('incorrect').should == false
+      cardholder.authenticate('0000').should == false
     end
   end
 
@@ -111,20 +109,15 @@ describe Cardholder do
 
     before {subject.generate_unusable_password!}
 
-    it "should set password" do
-      subject.password.should_not be_nil
+    it "should set password_digest" do
+      subject.password_digest.should_not be_nil
+    end
+    it "should generate a long digest" do
+      subject.password_digest.length.should be >= 16
     end
 
-    it "should set password_confirmation to match password" do
-      subject.password_confirmation.should == subject.password
-    end
-
-    it "should generate a long password" do
-      subject.password.length.should be >= 16
-    end
-
-    it "should generate a different password each time" do
-      5.times{ expect{subject.generate_unusable_password!}.to change(subject, :password) }
+    it "should generate a different digest each time" do
+      5.times{ expect{subject.generate_unusable_password!}.to change(subject, :password_digest) }
     end
   end
 
