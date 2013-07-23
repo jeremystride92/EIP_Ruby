@@ -30,7 +30,7 @@ module Expirable
     def merge_datetime_fields
       # Only set the attributes if data was passed in from the form, hence the trailing `if`s.
       self.start_date = (@start_date_field.present?  ? "#{@start_date_field} #{@start_time_field}" : nil) if @start_date_field
-      self.end_date = (@end_date_field.present? ? "#{@end_date_field} #{@end_time_field}" : nil) if @end_date_field
+      self.end_date = (@end_date_field.present? ? "#{@end_date_field} #{time_or_eod @end_time_field}" : nil) if @end_date_field
     end
 
     def active_in_range?(starts, ends)
@@ -62,6 +62,12 @@ module Expirable
 
     def temporary?
       !permanent?
+    end
+
+    private
+
+    def time_or_eod(time)
+      time.present? ? time : '23:59:59'
     end
   end
 end
