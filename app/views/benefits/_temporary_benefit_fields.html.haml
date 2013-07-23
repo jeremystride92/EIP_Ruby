@@ -1,0 +1,7 @@
+.nested-fields
+  = f.input :description, input_html: { class: 'span6' }
+  - Time.use_zone @venue.time_zone do
+    = f.input :start_date_field, required: false, as: :string, input_html: { type: :date, class: 'span6' }, label: 'Start date'
+    = f.input :start_time_field, required: false, as: :string, input_html: { type: :time, class: 'span6' }, label: 'Start time'
+    = f.input :end_date_field, required: false, as: :string, input_html: { type: :date, class: 'span6' }, label: 'End date'
+    = f.input :end_time_field, required: false, as: :string, input_html: { type: :time, class: 'span6' }, label: 'End time'

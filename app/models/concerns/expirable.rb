@@ -55,5 +55,13 @@ module Expirable
     def past?(now = Time.zone.now)
       self.end_date.present? && self.end_date < now
     end
+
+    def permanent?
+      start_date.nil? && end_date.nil?
+    end
+
+    def temporary?
+      !permanent?
+    end
   end
 end
