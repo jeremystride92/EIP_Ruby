@@ -71,6 +71,14 @@ describe Expirable do
         d.end_date.to_s(:db).should == '2011-04-01 23:22:00'
       end
 
+      it "should set datetime to end of day if no time present" do
+        d = Dummy.new
+        d.end_date_field = '2011-04-01'
+        d.end_time_field = ''
+        d.save
+        d.end_date.to_s(:db).should == '2011-04-01 23:59:59'
+      end
+
       it "should clear datetime field if empty end_date_field" do
         time = Time.zone.now
         d = Dummy.new end_date: time
