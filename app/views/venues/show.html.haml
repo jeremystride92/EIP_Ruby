@@ -2,14 +2,15 @@
 .row.row-section
   .venue-sub-block.span7
     %h2.block-title Activity
-    .block-info
+    .block-info.card-levels
       - @venue.card_levels.each_slice(4) do |slice|
         .row
           - slice.each do |card_level|
-            .span1.card-level{ :class => "theme-#{card_level.theme}" }
+            - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
+            .span1.card-level{ class: "theme-#{card_level.theme}", title: card_name, data: { toggle: 'tooltip', placement: 'bottom'  } }
               .gloss
               .card-count #{card_level.cards.size}
-              #{card_level.name} #{(card_level.cards.size == 1) ? 'Card' : 'Cards' }
+              = truncate card_name, length: 16
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
@@ -40,3 +41,6 @@
     .block-info
       .row-fluid
         .span12= render 'promotions/list', promotions: @promotions
+
+- content_for :javascripts do
+  = javascript_include_tag 'dashboard'
