@@ -1,4 +1,6 @@
 class BenefitsController < ApplicationController
+  include ActionView::Helpers::TextHelper
+
   before_filter :authenticate
   before_filter :find_venue
   before_filter :find_card_level, only: [:issue_benefit_form, :issue_benefit]
@@ -31,9 +33,10 @@ class BenefitsController < ApplicationController
 
   def issue_benefit
     @benefit = @card_level.temporary_benefits.build(benefit_params).tap &:merge_datetime_fields
+
     authorize! :create, @benefit
 
-    if @benefit.temporary? && @benefit.save
+    if @benefit.temporary? && Time.use_zone(@venue.time_zone) { @benefit.save }
       notice = 'Temporary benefits issued.'
 
       if promo_message_params[:message].present?
@@ -62,7 +65,7 @@ class BenefitsController < ApplicationController
   end
 
   def find_card_level
-    @card_level = CardLevel.where(venue: @venue).includes(:permanent_benefits, :temporary_benefits).find params[:card_level_id]
+    @card_level = CardLevel.where(venue_id: @venue.id).includes(:permanent_benefits, :temporary_benefits).find params[:card_level_id]
   end
 
   def benefit_params
