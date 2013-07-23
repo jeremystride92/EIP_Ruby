@@ -37,5 +37,5 @@
       %strong Active
       %br
       Cardholder Account Activated
-      %strong= l card.cardholder.activated_at.in_time_zone(@venue.time_zone), format: :friendly
+      %strong= l card.activated_at.in_time_zone(@venue.time_zone), format: :friendly
   = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'

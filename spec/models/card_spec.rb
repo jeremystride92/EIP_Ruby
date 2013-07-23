@@ -84,6 +84,40 @@ describe Card do
     end
   end
 
+  describe '#activated_at' do
+    context "when card issued before cardholder activated" do
+      let(:issued_time) { Time.zone.now }
+      let(:activated_time) { issued_time + 2.days }
+      let(:card) { create :card, cardholder: cardholder, issued_at: issued_time }
+      let(:cardholder) { create :cardholder, activated_at: activated_time }
+
+      subject { card.activated_at }
+
+      it { should == activated_time }
+    end
+
+    context "when card issued to cardholder with previously active account" do
+      let(:issued_time) { Time.zone.now }
+      let(:activated_time) { issued_time - 2.days }
+      let(:card) { create :card, cardholder: cardholder, issued_at: issued_time }
+      let(:cardholder) { create :cardholder, activated_at: activated_time }
+
+      subject { card.activated_at }
+
+      it { should == issued_time }
+    end
+
+    context "when card is pending" do
+      let(:activated_time) { Time.zone.now - 2.days }
+      let(:card) { create :pending_card, cardholder: cardholder}
+      let(:cardholder) { create :cardholder, activated_at: activated_time }
+
+      subject { card.activated_at }
+
+      it { should be_nil }
+    end
+  end
+
   describe '#total_guest_count' do
     let(:card) { create :card, guest_count: 1 }
 

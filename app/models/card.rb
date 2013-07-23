@@ -51,6 +51,16 @@ class Card < ActiveRecord::Base
     status == 'pending'
   end
 
+  def activated_at
+    unless pending?
+      if cardholder.activated_at > issued_at
+        cardholder.activated_at
+      else
+        issued_at
+      end
+    end
+  end
+
   def total_guest_count
     active_pass_count = guest_passes.select(&:active?).count
 
