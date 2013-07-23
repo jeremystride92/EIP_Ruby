@@ -50,7 +50,7 @@ class BenefitsController < ApplicationController
     else
       flash[:error] = "Temporary benefit must have a start or end date." if @benefit.permanent?
       @promo_message = PromotionMessage.new message: promo_message_params[:message], card_levels: []
-      render :issue_benefits_form
+      render :issue_benefit_form
     end
   end
 
@@ -62,7 +62,7 @@ class BenefitsController < ApplicationController
   end
 
   def find_card_level
-    @card_level = @venue.card_levels.find params[:card_level_id]
+    @card_level = CardLevel.where(venue: @venue).includes(:permanent_benefits, :temporary_benefits).find params[:card_level_id]
   end
 
   def benefit_params

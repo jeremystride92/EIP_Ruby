@@ -21,7 +21,7 @@
             %span.caret.pull-right
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
-              %li= link_to card_level.name, venue_card_level_issue_benefits_path(card_level)
+              %li= link_to card_level.name, venue_card_level_issue_benefit_path(card_level)
       .row-fluid.row-sub-section
         .btn-group.span12
           %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }

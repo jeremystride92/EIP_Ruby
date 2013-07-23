@@ -5,7 +5,6 @@ class CardLevelsController < ApplicationController
   before_filter :find_venue
   before_filter :find_venue_card_levels, only: [:index]
   before_filter :find_card_level, only: [:edit, :update, :reorder]
-  before_filter :find_card_level_with_benefits, only: [:issue_benefits_form, :issue_benefits]
 
   def index
     authorize! :read, CardLevel if @card_levels.empty?
@@ -68,10 +67,6 @@ class CardLevelsController < ApplicationController
 
   def find_card_level
     @card_level = CardLevel.where(venue_id: @venue).find(params[:id] || params[:card_level_id])
-  end
-
-  def find_card_level_with_benefits
-    @card_level = CardLevel.includes(:benefits).where(venue_id: @venue).find(params[:card_level_id])
   end
 
   def card_level_params
