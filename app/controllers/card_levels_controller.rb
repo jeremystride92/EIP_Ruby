@@ -1,6 +1,4 @@
 class CardLevelsController < ApplicationController
-  include ActionView::Helpers::TextHelper
-
   before_filter :authenticate
   before_filter :find_venue
   before_filter :find_venue_card_levels, only: [:index]

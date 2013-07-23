@@ -21,19 +21,19 @@
             - card_level.permanent_benefits.each do |benefit|
               %li= benefit.description
         .span3.benefits
-          - if card_level.temporary_benefits.select(&:active?).any?
+          - if card_level.temporary_benefits.reject(&:past?).any?
             %h4 Temporary Benefits
             %ul.unstyled
-              - card_level.temporary_benefits.select(&:active?).each do |benefit|
+              - card_level.temporary_benefits.reject(&:past?).each do |benefit|
                 %li.clearfix
                   .pull-left
                     = benefit.description
                   - if benefit.start_date.present? || benefit.end_date.present?
                     .dates.pull-right.muted
                       - if benefit.start_date.present?
-                        From #{ l benefit.start_date, format: :very_short }
+                        From #{ l benefit.start_date.in_time_zone, format: :very_short }
                       - if benefit.end_date.present?
-                        Until #{ l benefit.end_date, format: :very_short }
+                        Until #{ l benefit.end_date.in_time_zone, format: :very_short }
 
         .actions.span3
           = form_tag venue_card_level_reorder_path(card_level), class: 'form-inline' do
