@@ -7,10 +7,11 @@
         .row
           - slice.each do |card_level|
             - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
-            .span1.card-level{ class: "theme-#{card_level.theme}", title: card_name, data: { toggle: 'tooltip', placement: 'bottom'  } }
+            .span1.card-level{ class: "theme-#{card_level.theme}", title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  } }
               .gloss
               .card-count #{card_level.cards.size}
-              = truncate card_name, length: 16
+              .hidden-phone= truncate(card_level.name, length: 10) << " Card".pluralize(card_level.cards.size)
+              .visible-phone= truncate(card_level.name, length: 32) << " Card".pluralize(card_level.cards.size)
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
