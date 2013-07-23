@@ -53,11 +53,7 @@ class Card < ActiveRecord::Base
 
   def activated_at
     unless pending?
-      if cardholder.activated_at > issued_at
-        cardholder.activated_at
-      else
-        issued_at
-      end
+      (cardholder.activated_at > issued_at) ? cardholder.activated_at : issued_at
     end
   end
 
