@@ -131,4 +131,32 @@ describe Expirable do
       end
     end
   end
+
+  describe "#permanent?" do
+    it "should be true with no start/end date" do
+      Dummy.new.should be_permanent
+    end
+
+    it "should be false with a start date" do
+      Dummy.new(start_date: Date.today).should_not be_permanent
+    end
+
+    it "should be false with an end date" do
+      Dummy.new(end_date: Date.today).should_not be_permanent
+    end
+  end
+
+  describe "#temporary?" do
+    it "should be false with no start/end date" do
+      Dummy.new.should_not be_temporary
+    end
+
+    it "should be true with a start date" do
+      Dummy.new(start_date: Date.today).should be_temporary
+    end
+
+    it "should be true with an end date" do
+      Dummy.new(end_date: Date.today).should be_temporary
+    end
+  end
 end
