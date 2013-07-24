@@ -17,19 +17,25 @@ describe TemporaryCard do
     its(:access_token) { should_not be_nil }
   end
 
-  describe "#expired?" do
+  describe "#expired? and #active?" do
     context "on an expired record" do
       subject { create :temporary_card, expires_at: 1.day.ago }
 
       it { should be_expired }
+      it { should_not be_active }
+
       it { should_not be_expired 2.days.ago }
+      it { should be_active 2.days.ago }
     end
 
     context "on an active record" do
       subject { create :temporary_card, expires_at: 1.day.from_now }
 
       it { should_not be_expired }
+      it { should be_active }
+
       it { should be_expired 2.days.from_now }
+      it { should_not be_active 2.days.from_now }
     end
   end
 end

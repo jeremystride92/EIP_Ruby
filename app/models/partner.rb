@@ -1,7 +1,7 @@
 class Partner < ActiveRecord::Base
   belongs_to :venue
 
-  has_many :temporary_cards
+  has_many :temporary_cards, dependent: :destroy
 
   validates :name, presence: true
 

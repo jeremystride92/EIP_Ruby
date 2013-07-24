@@ -1,0 +1,7 @@
+= simple_form_for [:venue, @partner] do |f|
+  = f.input :name
+  = f.input :phone_number
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-large btn-primary'
+    = link_to 'Cancel', venue_partners_path, class: 'btn btn-large'

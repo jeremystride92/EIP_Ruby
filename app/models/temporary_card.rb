@@ -18,6 +18,10 @@ class TemporaryCard < ActiveRecord::Base
     expires_at < date
   end
 
+  def active?(date = Time.zone.now)
+    !expired? date
+  end
+
   private
 
   def generate_token(column)

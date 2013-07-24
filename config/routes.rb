@@ -54,6 +54,8 @@ EIPiD::Application.routes.draw do
     resources :benefits, only: [:index, :destroy] do
       post '', action: :index, on: :collection
     end
+
+    resources :partners, except: [:show]
   end
 
   resource :user, only: [:signup] do

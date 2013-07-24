@@ -108,6 +108,7 @@ FactoryGirl.define do
   factory :partner do
     name { Faker::Company.name }
     phone_number { Faker.numerify('#' * 10) }
+    venue
   end
 
   factory :temporary_card do

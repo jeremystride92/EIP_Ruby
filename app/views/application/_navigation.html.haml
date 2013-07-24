@@ -26,6 +26,10 @@
         = nav_link venue_users_path do
           %i.icon-group
           Access
+      - if can? :read, Partner
+        = nav_link venue_partners_path do
+          %i.icon-sitemap
+          Partners
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")
