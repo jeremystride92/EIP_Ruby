@@ -104,4 +104,18 @@ FactoryGirl.define do
       description { Faker:Lorem.paragraph }
     end
   end
+
+  factory :partner do
+    name { Faker::Company.name }
+    phone_number { Faker.numerify('#' * 10) }
+  end
+
+  factory :temporary_card do
+    phone_number { Faker.numerify('#' * 10) }
+    partner
+    association :issuer, factory: :venue_manager
+    guest_count { rand(5) }
+    access_token "AccessToken"
+    expires_at "2013-07-24 11:25:59"
+  end
 end
