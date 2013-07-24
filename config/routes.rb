@@ -30,6 +30,9 @@ EIPiD::Application.routes.draw do
     resources :cardholders, only: [:index] do
       get 'new_batch/:card_level_id', to: "cardholders#batch_new", on: :collection, as: :new_batch
       post 'new_batch/:card_level_id', to: "cardholders#batch_create", on: :collection, as: :create_batch
+
+      get 'bulk_import/:card_level_id', to: "cardholders#bulk_import_form", on: :collection, as: :bulk_import
+      post 'bulk_import/:card_level_id', to: "cardholders#bulk_import", on: :collection
     end
 
     resources :cards, only: [] do
