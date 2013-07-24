@@ -3,7 +3,7 @@ class Cardholder < ActiveRecord::Base
 
   has_secure_password
 
-  has_many :cards, order: :status, before_add: :ensure_cards_cardholder
+  has_many :cards, order: :status, before_add: :ensure_cards_cardholder, dependent: :destroy
   accepts_nested_attributes_for :cards
 
   has_many :venues, through: :cards
