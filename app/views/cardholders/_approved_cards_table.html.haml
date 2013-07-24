@@ -19,7 +19,7 @@
               %span.caret
             %ul.dropdown-menu.pull-right
               - @card_levels.each do |card_level|
-                %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level_id: card_level.id)
+                %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level_id: card_level.id)
           .btn-group
             %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
               %i.icon-list
@@ -27,7 +27,7 @@
               %span.caret
             %ul.dropdown-menu.pull-right
               - @card_levels.each do |card_level|
-                %li= link_to card_level.name, bulk_import_venue_cardholders_path(card_level_id: card_level.id)
+                %li= link_to truncate(card_level.name, length: 40), bulk_import_venue_cardholders_path(card_level_id: card_level.id)
   %tbody
     - @approved_cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }
@@ -35,7 +35,7 @@
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
         %td.card-issuer= card.issuer.name
-        %td.card-level-name= card.card_level.name
+        %td.card-level-name= truncate card.card_level.name, length: 40, separator: ' '
         %td{ colspan: 2 }
       %tr.accordion-body.hidden
         %td{ colspan: 5 }

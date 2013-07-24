@@ -1,9 +1,9 @@
 %h1.page-header Cardholders
 %ul.nav.nav-tabs
   %li.active
-    %a{data:{toggle: 'tab', target: '.tab-pane.approved-cards'}} Approved
+    %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.approved-cards'}} Approved
   %li
-    %a{data:{toggle: 'tab', target: '.tab-pane.pending-cards'}} Pending
+    %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-cards'}} Pending
 .tab-panes.tab-content
   .approved-cards.tab-pane.fade.in.active= render 'approved_cards_table'
   .pending-cards.tab-pane.fade= render 'pending_cards_table'

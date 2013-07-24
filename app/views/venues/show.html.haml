@@ -4,7 +4,7 @@
     %h2.block-title Activity
     .block-info.card-levels
       - @venue.card_levels.each_slice(4) do |slice|
-        .row
+        .row.row-sub-section
           - slice.each do |card_level|
             - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
             .span1.card-level{ class: "theme-#{card_level.theme}", title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  } }
@@ -18,21 +18,21 @@
       .row-fluid.row-sub-section
         .btn-group.span12
           %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
-            %i.icon-star-empty.pull-left
-            .pull-left Issue Temporary Card Level Benefits
+            %i.icon-star-empty
+            Issue Temporary Card Level Benefits
             %span.caret.pull-right
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
-              %li= link_to card_level.name, venue_card_level_issue_benefit_path(card_level)
+              %li= link_to truncate(card_level.name, length: 40), venue_card_level_issue_benefit_path(card_level)
       .row-fluid.row-sub-section
         .btn-group.span12
           %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
-            %i.icon-credit-card.pull-left
-            .pull-left Issue Cards
+            %i.icon-credit-card
+            Issue Cards
             %span.caret.pull-right
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
-              %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level)
+              %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level)
 .row.row-section
   .venue-sub-block.span12
     %h3.block-title.clearfix

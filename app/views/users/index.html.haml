@@ -1,19 +1,20 @@
 %h1.page-header Venue Staff
-
-%table.table.table-striped
-  %thead
-    %th Name
-    %th Email
-    %th Role
-    %th
-      - if can? :create, User.new(venue: @venue)
-        = link_to new_venue_user_path, class: 'btn btn-large btn-success pull-right', title: 'New Staff Member' do
-          %i.icon-plus
-  %tbody
-    - @users.each do |user|
-      %tr.user
-        %td.name= user.name
-        %td.email= user.email
-        %td.roles{ colspan: '2' }= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
+  
+.tab-content
+  %table.table.table-striped
+    %thead
+      %th Name
+      %th Email
+      %th Role
+      %th
+        - if can? :create, User.new(venue: @venue)
+          = link_to new_venue_user_path, class: 'btn btn-large btn-success pull-right', title: 'New Staff Member' do
+            %i.icon-plus
+    %tbody
+      - @users.each do |user|
+        %tr.user
+          %td.name= user.name
+          %td.email= user.email
+          %td.roles{ colspan: '2' }= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
 
 
