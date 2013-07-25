@@ -25,17 +25,17 @@
         = f.button :submit, value: 'Change', class: 'btn btn-large btn-primary span4'
 %hr
 .row-fluid
-  .card-status.pull-left
+  .card-status-block.pull-left
     Issued on
     %strong= l card.issued_at.in_time_zone(@venue.time_zone), format: :friendly
     %br
+    Cardholder Account
     - if card.cardholder.pending?
-      Card Issue
       %strong Pending
-    - else
-      Card Issue
-      %strong Active
-      %br
-      Cardholder Account Activated
+    -else
+      Activated
       %strong= l card.activated_at.in_time_zone(@venue.time_zone), format: :friendly
+      %br
+      Card Status:
+      %strong.card-status= card.status.titleize
   = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'

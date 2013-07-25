@@ -47,8 +47,10 @@ $('form.change-card-level').bind("ajax:error", function(xhr, data) {
 $('form.change-card-status').bind('ajax:success', function(xhr, data) {
   var $form = $(xhr.currentTarget),
       $button = $form.find('input[type="submit"]'),
-      $row = $form.parents('tr').prev('.accordion-header'),
-      otherLabels = { "Activate": "Deactivate", "Deactivate": "Activate" },
+      $row = $form.parents('tr'),
+      $rowHeader = $row.prev('.accordion-header'),
+      $cardStatus = $row.find('.card-status'),
+      otherLabels = { "Activate": "Deactivate", "Deactivate": "Activate", "Active": "Inactive", "Inactive": "Active" },
       route = $form.attr('action');
 
   if (/\/activate/.test(route)) {
@@ -59,7 +61,8 @@ $('form.change-card-status').bind('ajax:success', function(xhr, data) {
   $form.attr('action', route);
   $button.val(otherLabels[$button.val()]);
   $button.toggleClass('btn-warning btn-success');
-  $row.toggleClass('status-inactive status-active');
+  $rowHeader.toggleClass('status-inactive status-active');
+  $cardStatus.text(otherLabels[$cardStatus.text()]);
 });
 
 $('form.change-card-status').bind('ajax:error', function(xhr, data) {
