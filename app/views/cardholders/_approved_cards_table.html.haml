@@ -20,7 +20,7 @@
             %ul.dropdown-menu.pull-right
               - @card_levels.each do |card_level|
                 %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level_id: card_level.id)
-          .btn-group
+          .btn-group.hidden-phone
             %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
               %i.icon-list
               Bulk Import
