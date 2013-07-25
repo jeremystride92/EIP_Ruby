@@ -1,5 +1,5 @@
 %h1.page-header Benefits
-= form_tag '', class: 'form-inline' do
+= form_tag '', class: 'form-inline', method: :get do
   = text_field_tag :start_date, @start_date.to_date, type: :date
   to
   = text_field_tag :end_date, @end_date.to_date, type: :date

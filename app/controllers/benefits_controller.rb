@@ -61,7 +61,7 @@ class BenefitsController < ApplicationController
     @benefit = Benefit.find params[:id]
     authorize! :destroy, @benefit
     if @benefit.destroy
-       notice "Benefit deleted"
+       flash[:notice] = "Benefit deleted"
    else
       flash[:error] = "Benefit could not be deleted because of an unknown error"
     end
