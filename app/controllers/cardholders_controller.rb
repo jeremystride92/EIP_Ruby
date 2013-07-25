@@ -46,15 +46,7 @@ class CardholdersController < ApplicationController
       create_cardholder_or_card attrs
     end
 
-    cardholders.each do |cardholder|
-      authorize! :create, cardholder.cards.last
-
-      if cardholder.persisted?
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, @venue)
-      else
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, @venue)
-      end
-    end
+    save_and_send_cardholders! cardholders, @venue
 
     @problems = cardholders.select &:invalid?
 
@@ -72,21 +64,17 @@ class CardholdersController < ApplicationController
   def bulk_import
     authorize! :create, @card_level.cards.build
 
-    phone_number_string = params_for_bulk_import
-    phone_numbers = phone_number_string.split(/\s+/).reject &:blank?
+    phone_numbers = params_for_bulk_import.split(/\s+/).reject &:blank?
 
-    unless phone_numbers.all? { |phone| phone.match /\d{10}/ }
+    unless phone_numbers.all? { |phone| phone.match /\A\d{10}\Z/ }
       @phone_number_string = phone_numbers.join("\n")
       flash[:error] = "Non-phone-number found. Please check input and try again"
       render :bulk_import_form and return
     end
 
     existing_phone_numbers = @venue.cardholders.map &:phone_number
-
     old_numbers = phone_numbers & existing_phone_numbers
-
     @old_cards = @venue.cards.select { |card| old_numbers.include? card.cardholder.phone_number }
-
     new_numbers = phone_numbers - existing_phone_numbers
 
     cardholders = new_numbers.map do |phone_number|
@@ -104,15 +92,7 @@ class CardholdersController < ApplicationController
       create_cardholder_or_card attrs
     end
 
-    cardholders.each do |cardholder|
-      authorize! :create, cardholder.cards.last
-
-      if cardholder.persisted?
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, @venue)
-      else
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, @venue)
-      end
-    end
+    save_and_send_cardholders! cardholders, @venue
 
     @problems = cardholders.select &:invalid?
     @successes = cardholders - @problems
@@ -146,6 +126,18 @@ class CardholdersController < ApplicationController
   end
 
   private
+
+  def save_and_send_cardholders!(cardholders, venue)
+    cardholders.each do |cardholder|
+      authorize! :create, cardholder.cards.last
+
+      if cardholder.persisted?
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, venue)
+      else
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, venue)
+      end
+    end
+  end
 
   def create_cardholder_or_card(attributes)
     if cardholder = Cardholder.find_by_phone_number(attributes[:phone_number])

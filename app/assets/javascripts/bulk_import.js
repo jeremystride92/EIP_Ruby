@@ -19,8 +19,7 @@ function validateInput() {
   var cleanValue = dirtyValue.replace(/[^\d\s]/g, '');
   $el.val(cleanValue);
 
-  var match = cleanValue.match(/\s*\d{10}(\s+\d{10})*\s*/m);
-  var valid = match && (match[0] === cleanValue);
+  var valid = cleanValue.match(/^\s*\d{10}(\s+\d{10})*\s*$/);
 
   $('.form-actions').removeClass('hidden');
 
@@ -31,9 +30,7 @@ function validateInput() {
   }
 }
 
-$('.phone-numbers').on('keyup', validateInput);
-
-$('.phone-numbers').on('change', validateInput);
+$('.phone-numbers').on('keyup change', validateInput);
 
 $('#validate, #invalid').on('click', function(e) {
   e.preventDefault();
