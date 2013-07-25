@@ -4,6 +4,8 @@ class CardholdersController < ApplicationController
   before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard]
   before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard]
 
+  before_filter :find_card_level, only: [:batch_new, :batch_create, :bulk_import_form, :bulk_import]
+
   skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard]
 
   public_actions :onboard, :complete_onboard
@@ -35,7 +37,6 @@ class CardholdersController < ApplicationController
   end
 
   def batch_new
-    @card_level = CardLevel.find(params[:card_level_id])
     authorize! :create, @card_level.cards.build
   end
 
@@ -45,24 +46,56 @@ class CardholdersController < ApplicationController
       create_cardholder_or_card attrs
     end
 
-    cardholders.each do |cardholder|
-      authorize! :create, cardholder.cards.last
-
-      if cardholder.persisted?
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, @venue)
-      else
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, @venue)
-      end
-    end
+    save_and_send_cardholders! cardholders, @venue
 
     @problems = cardholders.select &:invalid?
 
     if @problems.empty?
       redirect_to venue_cardholders_path, notice: "#{pluralize(cardholders.count, 'card')} issued"
     else
-      @card_level = CardLevel.find params[:card_level_id]
       render 'redo_batch'
     end
+  end
+
+  def bulk_import_form
+    authorize! :create, @card_level.cards.build
+  end
+
+  def bulk_import
+    authorize! :create, @card_level.cards.build
+
+    phone_numbers = params_for_bulk_import.split(/\s+/).reject &:blank?
+
+    unless phone_numbers.all? { |phone| phone.match /\A\d{10}\Z/ }
+      @phone_number_string = phone_numbers.join("\n")
+      flash[:error] = "Non-phone-number found. Please check input and try again"
+      render :bulk_import_form and return
+    end
+
+    existing_phone_numbers = @venue.cardholders.map &:phone_number
+    old_numbers = phone_numbers & existing_phone_numbers
+    @old_cards = @venue.cards.select { |card| old_numbers.include? card.cardholder.phone_number }
+    new_numbers = phone_numbers - existing_phone_numbers
+
+    cardholders = new_numbers.map do |phone_number|
+      attrs = {
+        phone_number: phone_number,
+        cards_attributes: {
+          '0' => {
+            card_level_id: params[:card_level_id],
+            issuer_id: current_user.id,
+            issued_at: Time.zone.now
+          }
+        }
+      }
+
+      create_cardholder_or_card attrs
+    end
+
+    save_and_send_cardholders! cardholders, @venue
+
+    @problems = cardholders.select &:invalid?
+    @successes = cardholders - @problems
   end
 
   def check_for_cardholder
@@ -94,6 +127,18 @@ class CardholdersController < ApplicationController
 
   private
 
+  def save_and_send_cardholders!(cardholders, venue)
+    cardholders.each do |cardholder|
+      authorize! :create, cardholder.cards.last
+
+      if cardholder.persisted?
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, venue)
+      else
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, venue)
+      end
+    end
+  end
+
   def create_cardholder_or_card(attributes)
     if cardholder = Cardholder.find_by_phone_number(attributes[:phone_number])
       cardholder.cards.build attributes[:cards_attributes]['0']
@@ -105,7 +150,11 @@ class CardholdersController < ApplicationController
   end
 
   def find_venue
-    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
+    @venue = Venue.includes(:card_levels, :cardholders).find(current_user.venue_id)
+  end
+
+  def find_card_level
+    @card_level = @venue.card_levels.find params[:card_level_id]
   end
 
   def params_for_cardholder
@@ -114,5 +163,9 @@ class CardholdersController < ApplicationController
 
   def params_for_cardholder_activation
     params.require(:cardholder).permit(:first_name, :last_name, :phone_number, :password, :password_confirmation, :photo, :photo_cache)
+  end
+
+  def params_for_bulk_import
+    params.require(:phone_numbers)
   end
 end

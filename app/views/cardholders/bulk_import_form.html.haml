@@ -1,0 +1,29 @@
+%h1.page-header Bulk Import #{ @card_level.name } Cardholders
+
+%p Use this tool to quickly import a long list of individuals you'd like to issue #{ @card_level.name } Cards to.
+
+%p
+  Paste a list of
+  = succeed ',' do
+    %strong ten-digit phone numbers only
+  separated by spaces or returns, into the text area below. A #{ @card_level.name } Card will be issued to each, and they will recieve a text message with activation instructions.
+
+%form{ method: :post }
+  .row
+    .form-block.span6.offset3
+      %textarea.phone-numbers.span6{ placeholder: "1112223333 2223334444", name: 'phone_numbers', value: @phone_number_string }
+  .form-actions
+    .pull-left
+      = button_tag type: :button, id: :validate, class: 'btn btn-large btn-primary validate' do
+        Validate
+      = button_tag type: :submit, id: :import, class: 'btn btn-large btn-success import hidden' do
+        %i.icon-ok
+        Import
+      = button_tag type: :button, id: :invalid, class: 'btn btn-large btn-danger invalid hidden' do
+        %i.icon-remove
+        Invalid
+    .pull-right
+      = link_to 'Cancel', venue_cardholders_path, class: 'btn btn-large'
+
+= content_for :javascripts do
+  = javascript_include_tag :bulk_import

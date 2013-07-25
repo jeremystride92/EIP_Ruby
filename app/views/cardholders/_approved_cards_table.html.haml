@@ -11,13 +11,23 @@
       %th Issued by
       %th{ colspan: 2 }
       %th.btn-toolbar
-        .btn-group.pull-right
-          %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
-            Issue Cards
-            %span.caret
-          %ul.dropdown-menu
-            - @card_levels.each do |card_level|
-              %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level_id: card_level.id)
+        .pull-right
+          .btn-group
+            %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+              %i.icon-credit-card
+              Issue Cards
+              %span.caret
+            %ul.dropdown-menu.pull-right
+              - @card_levels.each do |card_level|
+                %li= link_to card_level.name, new_batch_venue_cardholders_path(card_level_id: card_level.id)
+          .btn-group
+            %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+              %i.icon-list
+              Bulk Import
+              %span.caret
+            %ul.dropdown-menu.pull-right
+              - @card_levels.each do |card_level|
+                %li= link_to card_level.name, bulk_import_venue_cardholders_path(card_level_id: card_level.id)
   %tbody
     - @approved_cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }

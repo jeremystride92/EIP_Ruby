@@ -1,0 +1,40 @@
+%h1.page-header Bulk Import #{ @card_level.name } Cardholders
+
+- if @old_cards.present?
+  %h2 Duplicate numbers removed
+  %p The following phone numbers already have cards, and were not issued duplicate cards:
+  %ul
+    - @old_cards.each do |old_card|
+      %li
+        %strong= old_card.cardholder.phone_number
+        = surround '(', ')' do
+          = old_card.card_level.name
+
+- if @problems.present?
+  %h2 Errors issuing some Cards
+  %p The following errors occured when attempting to issue cards:
+  %ul
+    - @problems.each do |problem_cardholder|
+      %li
+        = error_messages_for problem_cardholder
+
+- if @successes.present?
+  %h2 New cards issued
+  %p #{@card_level.name} Cards were successfully issued to the following phone numbers:
+  %ul
+    - @successes.each do |success_cardholder|
+      %li
+        %strong= success_cardholder.phone_number
+
+.form-actions
+  = link_to venue_cardholders_path, class: 'btn btn-large btn-primary' do
+    %i.icon-credit-card
+    Back to Cardholders
+  .btn-group
+    %a.btn.btn-large.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+      %i.icon-list
+      Import More Cards
+      %span.caret
+    %ul.dropdown-menu.pull-right
+      - @venue.card_levels.each do |card_level|
+        %li= link_to card_level.name, bulk_import_venue_cardholders_path(card_level_id: card_level.id)
