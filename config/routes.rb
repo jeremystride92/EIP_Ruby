@@ -51,7 +51,7 @@ EIPiD::Application.routes.draw do
       post :promote, action: 'send_promotion'
     end
 
-    resources :benefits, only: [:index] do
+    resources :benefits, only: [:index, :destroy] do
       post '', action: :index, on: :collection
     end
   end
