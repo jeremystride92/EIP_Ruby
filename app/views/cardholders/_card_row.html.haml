@@ -3,6 +3,7 @@
     .card-preview{ class: "theme-#{card.card_level.theme}" }
       .cardholder-photo
         = image_tag card.cardholder.photo.mobile_small, class: 'cardholder-img'
+    .card-level-name.visible-phone= card.card_level.name
     .card-number
       EIP#
       = card.cardholder.phone_number
@@ -28,6 +29,7 @@
   .card-status-block.pull-left
     Issued on
     %strong= l card.issued_at.in_time_zone(@venue.time_zone), format: :friendly
+    by #{ card.issuer.name }
     %br
     Cardholder Account
     - if card.cardholder.pending?
