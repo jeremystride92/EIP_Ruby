@@ -30,8 +30,8 @@ class CardholdersController < ApplicationController
     end
 
     if params[:filter].present?
-      search_string = "%#{params[:filter]}%"
-      @approved_cards = @approved_cards.where('cardholders.last_name LIKE ?', search_string)
+      search_string = "%#{params[:filter]}%".downcase
+      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ?', search_string)
       @filter_string = params[:filter]
     end
   end
