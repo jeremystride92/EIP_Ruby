@@ -57,6 +57,19 @@ class BenefitsController < ApplicationController
     end
   end
 
+  def destroy
+    @benefit = Benefit.find params[:id]
+    authorize! :destroy, @benefit
+
+    if @benefit.destroy
+       flash[:notice] = "Benefit deleted."
+    else
+      flash[:error] = "Benefit could not be deleted because of an unknown error."
+    end
+
+    redirect_to :back
+  end
+
   private
 
   def find_venue
