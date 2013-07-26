@@ -1,4 +1,5 @@
 ActiveAdmin.register TemporaryCard do
+  menu parent: 'EIP-X'
   controller.skip_authorization_check
   controller do
     def permitted_params
@@ -8,6 +9,23 @@ ActiveAdmin.register TemporaryCard do
     def resource
       @temporary_card = TemporaryCard.find params[:id]
     end
+  end
+
+  batch_action :resend_sms_to do |selection|
+    TemporaryCard.find(selection).each do |card|
+      SmsMailer.delay(retry: false).temp_card_sms(card, card.venue, card.partner)
+    end
+    redirect_to :back, notice: "#{selection.length} #{'message'.pluralize(selection.length)} queued for delivery"
+  end
+
+  member_action :resend_sms, method: :post do
+    card = TemporaryCard.find(params[:id])
+    SmsMailer.delay(retry: false).temp_card_sms(card, card.venue, card.partner)
+    redirect_to :back, notice: "Message to #{card.phone_number} queued for delivery"
+  end
+
+  action_item :only => :show do
+    link_to('Resend SMS', resend_sms_admin_temporary_card_path(temporary_card), method: :post)
   end
 
   filter :venue

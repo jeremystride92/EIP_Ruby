@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   controller.skip_authorization_check
-  menu priority: 1
+  menu parent: 'Venue Management', priority: 1
 
   controller do
     def permitted_params

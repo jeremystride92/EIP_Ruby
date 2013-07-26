@@ -1,4 +1,6 @@
 ActiveAdmin.register Cardholder do
+  menu parent: 'Card Management', priority: 2
+
   controller.skip_authorization_check
 
   controller do
@@ -27,8 +29,6 @@ ActiveAdmin.register Cardholder do
   action_item :only => :show do
     link_to('Send Activation Message', send_activation_message_admin_cardholder_path(cardholder), method: :post)
   end
-
-  menu :priority => 2
 
   filter :venues
   filter :status, as: :select, collection: Cardholder::STATUSES
