@@ -1,0 +1,27 @@
+#id-side.card-side
+  .card-container.theme-blue
+    %header.card-header
+      = image_tag @temporary_card.venue.logo.url, class: 'venue-logo'
+      .eipid-logo-white
+    .card-content
+      .info
+        .cardholder-info
+          .cardholder-name
+            .last= @temporary_card.partner.name
+        %ul.benefits
+          - unless @temporary_card.guest_count.zero?
+            %li.benefit.block= pluralize @temporary_card.guest_count, "Guest"
+          - @temporary_card.benefits.each do |benefit|
+            %li.benefit.block= benefit.description
+      .expiration
+        %p
+          Valid Until
+          = l @temporary_card.expires_at.to_date, format: :friendly
+    .hologram-container
+      .hologram
+    .anti-screenshot-device
+      .barber-pole
+        .inner-barber-pole
+
+= content_for :javascripts do
+  = javascript_include_tag 'temporary_card'

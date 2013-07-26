@@ -22,6 +22,10 @@ class TemporaryCard < ActiveRecord::Base
     !expired? date
   end
 
+  def international_phone_number
+    "1#{phone_number}"
+  end
+
   private
 
   def generate_token(column)

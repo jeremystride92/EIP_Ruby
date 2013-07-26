@@ -13,11 +13,11 @@
       %tr
         %th= partner.name
         %td= partner.phone_number
-        %td= partner.temporary_cards.count &:active?
+        %td= link_to partner.temporary_cards.count(&:active?), venue_partner_temporary_cards_path(partner)
         %td= partner.temporary_cards.length
         %td
-          = link_to '#', class: 'btn btn-primary' do
-            %i.icon-credit-card
+          = link_to new_batch_venue_partner_temporary_cards_path(partner), class: 'btn btn-primary' do
+            %i.icon-money
             Issue Cards
           - if can? :update, partner
             = link_to edit_venue_partner_path(partner), class: 'btn' do

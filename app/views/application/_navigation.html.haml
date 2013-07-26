@@ -10,26 +10,44 @@
         = nav_link venue_path do
           %i.icon-dashboard
           Dashboard
-      - if can? :read, CardLevel
-        = nav_link venue_card_levels_path do
-          %i.icon-tasks
-          Card Levels
-      - if can? :read, Card
-        = nav_link venue_cardholders_path do
-          %i.icon-credit-card
-          Cardholders
+      - if can?(:read, CardLevel) || can?(:read, Card)
+        %li.dropdown
+          %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
+            %i.icon-credit-card
+            Cards
+            %span.caret
+          %ul.dropdown-menu
+            - if can? :read, CardLevel
+              = nav_link venue_card_levels_path do
+                %i.icon-tasks
+                Card Levels
+            - if can? :read, Card
+              = nav_link venue_cardholders_path do
+                %i.icon-credit-card
+                Cardholders
       - if can? :read, Benefit
         = nav_link venue_benefits_path do
           %i.icon-star
           Benefits
+      - if can?(:read, Partner) || can?(:read, TemporaryCard)
+        %li.dropdown
+          %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
+            %i.icon-retweet
+            EIP-X
+            %span.caret
+          %ul.dropdown-menu
+            - if can? :read, Partner
+              = nav_link venue_partners_path do
+                %i.icon-sitemap
+                Partners
+            - if can? :read, TemporaryCard
+              = nav_link venue_temporary_cards_path do
+                %i.icon-money
+                Temporary Cards
       - if can? :read, User.new(venue: current_user.venue)
         = nav_link venue_users_path do
           %i.icon-group
           Access
-      - if can? :read, Partner
-        = nav_link venue_partners_path do
-          %i.icon-sitemap
-          Partners
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")

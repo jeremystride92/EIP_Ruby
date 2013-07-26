@@ -1,0 +1,29 @@
+%h1.page-header Issue Temporary Cards
+
+= simple_form_for :batch do |f|
+  .row
+    .form-block.span6.offset3
+      = f.input :partner, collection: @venue.partners, selected: @partner.try(&:id), input_html: { class: 'span6' }, prompt: 'Choose Partner'
+      %fieldset
+        %legend Phone Numbers
+        .batch-temporary-cards
+          .batch-rows
+          %button.btn.btn-large.btn-success.button-add
+            %i.icon-plus
+
+      %fieldset
+        %legend Benefits
+        = f.input :guest_count, as: :integer, input_html: { class: 'span6' }
+        = f.input :expires_at, label: 'Expiration', input_html: { class: 'span6', type: 'date' }
+
+        .batch-benefits
+          .batch-rows
+          %button.btn.btn-large.btn-success.button-add
+            %i.icon-plus
+
+  .form-actions
+    = f.button :submit, value: 'Issue Cards', class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', @cancel_path, class: 'btn btn-large pull-right'
+
+= content_for :javascripts do
+  = javascript_include_tag 'temporary_cards_batch_new'

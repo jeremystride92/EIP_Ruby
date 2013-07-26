@@ -19,7 +19,7 @@ describe TemporaryCard do
 
   describe "#expired? and #active?" do
     context "on an expired record" do
-      subject { create :temporary_card, expires_at: 1.day.ago }
+      subject { build :temporary_card, expires_at: 1.day.ago }
 
       it { should be_expired }
       it { should_not be_active }
@@ -29,7 +29,7 @@ describe TemporaryCard do
     end
 
     context "on an active record" do
-      subject { create :temporary_card, expires_at: 1.day.from_now }
+      subject { build :temporary_card, expires_at: 1.day.from_now }
 
       it { should_not be_expired }
       it { should be_active }
@@ -37,5 +37,11 @@ describe TemporaryCard do
       it { should be_expired 2.days.from_now }
       it { should_not be_active 2.days.from_now }
     end
+  end
+
+  describe "#international_phone_number" do
+    subject { build :temporary_card, phone_number: '2223334444' }
+
+    its(:international_phone_number) { should == '12223334444' }
   end
 end
