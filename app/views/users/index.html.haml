@@ -1,4 +1,4 @@
-%h1.page-header Venue Staff
+%h1.page-header Access
   
 .tab-content
   %table.table.table-striped
@@ -8,7 +8,7 @@
       %th Role
       %th
         - if can? :create, User.new(venue: @venue)
-          = link_to new_venue_user_path, class: 'btn btn-large btn-success pull-right', title: 'New Staff Member' do
+          = link_to new_venue_user_path, class: 'btn btn-large btn-success pull-right', title: 'Grant Access' do
             %i.icon-plus
     %tbody
       - @users.each do |user|
@@ -16,5 +16,3 @@
           %td.name= user.name
           %td.email= user.email
           %td.roles{ colspan: '2' }= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
-
-
