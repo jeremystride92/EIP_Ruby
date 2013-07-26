@@ -4,6 +4,8 @@ class Venue < ActiveRecord::Base
   has_many :cards, through: :card_levels
   has_many :cardholders, through: :cards
   has_many :promotions
+  has_many :partners
+  has_many :temporary_cards, through: :partners
 
   mount_uploader :logo, LogoImageUploader
 

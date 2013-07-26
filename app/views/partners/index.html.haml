@@ -1,0 +1,34 @@
+%h1.page-header Partners
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Phone Number
+      %th Active Cards
+      %th Lifetime Cards
+      %th Actions
+  %tbody
+    - @partners.each do |partner|
+      %tr
+        %th= partner.name
+        %td= partner.phone_number
+        %td= link_to partner.active_cards_count, venue_partner_temporary_cards_path(partner)
+        %td= partner.lifetime_cards_count
+        %td
+          = link_to new_batch_venue_partner_temporary_cards_path(partner), class: 'btn btn-primary' do
+            %i.icon-money
+            Issue Cards
+          - if can? :update, partner
+            = link_to edit_venue_partner_path(partner), class: 'btn' do
+              %i.icon-edit
+              Edit
+          - if can? :delete, partner
+            = link_to venue_partner_path(partner), method: :delete, confirm: "Are you sure? This will also delete all Temporary Cards associated to this Partner.", class: 'btn btn-danger' do
+              %i.icon-remove
+              Delete
+
+- if can? :create, Partner
+  = link_to new_venue_partner_path, class: 'btn btn-large btn-success' do
+    %i.icon-plus
+    Add Partner

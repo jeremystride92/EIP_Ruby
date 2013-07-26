@@ -25,6 +25,10 @@ class Ability
       can :manage, Benefit, beneficiary: { venue: { id: user.venue_id } }
 
       can :create, GuestPass, card: { venue: { id: user.venue_id } }
+
+      can :manage, Partner, venue_id: user.venue_id
+
+      can :manage, TemporaryCard, venue: { id: user.venue_id }
     end
 
     if user.venue_owner?

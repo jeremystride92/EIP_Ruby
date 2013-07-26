@@ -1,4 +1,6 @@
 ActiveAdmin.register CardLevel do
+  menu parent: 'Venue Management'
+  
   controller.skip_authorization_check
   controller do
     def permitted_params

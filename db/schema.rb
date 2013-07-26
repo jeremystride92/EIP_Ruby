@@ -11,9 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+ActiveRecord::Schema.define(:version => 20130724172559) do
 
-ActiveRecord::Schema.define(:version => 20130719171530) do
-  
   create_table "benefits", :force => true do |t|
     t.string   "description"
     t.datetime "start_date"
@@ -89,6 +88,16 @@ ActiveRecord::Schema.define(:version => 20130719171530) do
 
   add_index "guest_passes", ["card_id"], :name => "index_guest_passes_on_card_id"
 
+  create_table "partners", :force => true do |t|
+    t.string   "name"
+    t.string   "phone_number"
+    t.integer  "venue_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "partners", ["venue_id"], :name => "index_partners_on_venue_id"
+
   create_table "promotions", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -101,6 +110,19 @@ ActiveRecord::Schema.define(:version => 20130719171530) do
   end
 
   add_index "promotions", ["venue_id"], :name => "index_promotions_on_venue_id"
+
+  create_table "temporary_cards", :force => true do |t|
+    t.string   "phone_number"
+    t.integer  "partner_id"
+    t.integer  "issuer_id"
+    t.integer  "guest_count"
+    t.string   "access_token"
+    t.datetime "expires_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "temporary_cards", ["partner_id"], :name => "index_temporary_cards_on_partner_id"
 
   create_table "users", :force => true do |t|
     t.string   "email"

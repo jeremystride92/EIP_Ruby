@@ -1,4 +1,6 @@
 ActiveAdmin.register Card do
+  menu parent: 'Card Management'
+
   controller.skip_authorization_check
   controller do
     def permitted_params

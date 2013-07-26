@@ -5,7 +5,7 @@ ActiveAdmin.register Venue do
       params.permit(venue: [:phone, :name, :logo, :location, :address1, :address2, :website, :vanity_slug, :time_zone, :nexmo_number])
     end
   end
-  menu :priority => 1
+  menu parent: 'Venue Management', priority: 1
 
   filter :name
   filter :phone

@@ -54,6 +54,18 @@ EIPiD::Application.routes.draw do
     resources :benefits, only: [:index, :destroy] do
       post '', action: :index, on: :collection
     end
+
+    resources :partners, except: [:show] do
+      resources :temporary_cards, only: [:index] do
+        get :new_batch, action: 'batch_new', on: :collection, as: :new_batch
+        post :new_batch, action: 'batch_create', on: :collection, as: :create_batch
+      end
+    end
+
+    resources :temporary_cards, only: [:index, :destroy] do
+      get :new_batch, action: 'batch_new', on: :collection, as: :new_batch
+      post :new_batch, action: 'batch_create', on: :collection, as: :create_batch
+    end
   end
 
   resource :user, only: [:signup] do
@@ -65,7 +77,6 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
-  ActiveAdmin.routes(self)
 
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
 
@@ -77,7 +88,10 @@ EIPiD::Application.routes.draw do
     post 'request_card', to: 'cards#request_card'
 
     get 'promotions/:id', to: 'promotions#public_show', as: :public_promotion
+    get 'temporary_cards/:access_token', to: 'temporary_cards#public_show', as: :public_temporary_card
   end
+
+  ActiveAdmin.routes(self)
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

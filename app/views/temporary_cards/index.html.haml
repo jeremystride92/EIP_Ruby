@@ -1,0 +1,37 @@
+%h1.page-header Active Temporary Cards #{"for #{@partner.name}" if @partner}
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th Phone Number
+      %th Expiration Date
+      %th Benefits
+      %th Guest List
+      %th Issued By
+      - unless @partner
+        %th Partner
+      - if can? :destroy, TemporaryCard
+        %th
+  %tbody
+    - @active_cards.each do |card|
+      %tr
+        %th= card.phone_number
+        %td= l card.expires_at.in_time_zone(@venue.time_zone), format: :friendly
+        %td
+          %ul
+            - card.benefits.each do |benefit|
+              %li= benefit.description
+        %td= card.guest_count
+        %td= card.issuer.name
+        - unless @partner
+          %td= link_to card.partner.name, venue_partner_temporary_cards_path(card.partner)
+        - if can? :destroy, TemporaryCard
+          %td
+            = link_to venue_temporary_card_path(card), method: :delete, confirm: "Are you sure you want to delete this Temporary Card?", class: 'btn btn-danger' do
+              %i.icon-remove
+              Delete
+
+
+= link_to @batch_issue_path, class: 'btn btn-large btn-success' do
+  %i.icon-money
+  Issue Temporary Cards

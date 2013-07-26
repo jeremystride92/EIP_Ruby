@@ -1,0 +1,15 @@
+<fieldset class="batch-fields" data-index="<%= index %>">
+  <div class="control-group required batch_description">
+    <label class="required control-label" for="batch_<%= index %>_description">
+      <abbr title="required">*</abbr> Benefit Description
+    </label>
+    <div class="row">
+      <div class="controls span5">
+        <input class="string required span5" id="batch_<%= index %>_description" name="batch[benefits_attributes][<%= index %>][description]" required="required" type="text" />
+      </div>
+      <button class="btn btn-large btn-danger pull-right button-remove" data-index="<%= index %>">
+        <i class="icon-minus"></i>
+      </button>
+    </div>
+  </div>
+</fieldset>

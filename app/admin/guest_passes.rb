@@ -1,4 +1,6 @@
 ActiveAdmin.register GuestPass do
+  menu parent: 'Card Management'
+
   controller.skip_authorization_check
 
   index do
