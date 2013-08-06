@@ -95,7 +95,7 @@ class UsersController < ApplicationController
 
   def find_user_by_token
     @user = User.find_by_reset_token!(params[:reset_token])
-    redirect_to :token_expired if @user.reset_token_date < 1.day.ago
+    render action: :token_expired if @user.reset_token_date < 1.day.ago
   end
 
   def params_for_venue_owner

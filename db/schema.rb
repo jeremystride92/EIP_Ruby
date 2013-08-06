@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130724172559) do
+ActiveRecord::Schema.define(:version => 20130806191801) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(:version => 20130724172559) do
     t.string   "status"
     t.string   "onboarding_token"
     t.datetime "activated_at"
+    t.string   "reset_token"
+    t.datetime "reset_token_date"
   end
 
   add_index "cardholders", ["auth_token"], :name => "index_cardholders_on_auth_token"

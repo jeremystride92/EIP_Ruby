@@ -31,4 +31,15 @@ class SmsMailer < ActionMailer::Base
     mail to: ENV['site_email']
     self.message.delivery_handler = NexmoSender.new(to: card.international_phone_number, from: venue.sender_number, message: render_to_string)
   end
+
+  def pin_reset_sms(cardholder)
+    @token = cardholder.reset_token
+    @phone_number = cardholder.phone_number
+    @venue = cardholder.venues.first
+
+    @link = $short_url_cache.shorten reset_pin_cardholder_url(@token)
+
+    mail to: ENV['site_email']
+    self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
+  end
 end

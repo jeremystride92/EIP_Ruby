@@ -40,4 +40,6 @@
       %br
       Card Status:
       %strong.card-status= card.status.titleize
-  = card_status_toggle_button card, classes: 'btn-small pull-right', form_class: 'change-card-status'
+  .actions.pull-right
+    = card_status_toggle_button card, classes: 'btn-small', form_class: 'change-card-status pull-left'
+    = button_to 'Reset PIN', send_pin_reset_path(card.cardholder.phone_number), class: 'btn btn-small', remote: true, form_class: 'send-pin-reset pull-left'

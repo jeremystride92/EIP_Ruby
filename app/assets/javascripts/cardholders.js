@@ -70,9 +70,9 @@ $('form.change-card-status').bind('ajax:error', function(xhr, data) {
   $body.addClass('error');
 });
 
-// Approve Card form ///////////////////////////////////////////////////////////
+// Approve Card form //////////////////////////////////////////////////////////
 
-$('form.approve-card').bind('ajax:success', function(xhr, data){
+$('form.approve-card').bind('ajax:success', function(xhr, data) {
   var $form = $(xhr.currentTarget);
   var $row = $form.parents('.pending-card');
 
@@ -84,4 +84,11 @@ $('form.approve-card').bind('ajax:error', function(xhr, data){
   var $row = $form.parents('.pending-card');
 
   $row.addClass('error');
+});
+
+
+// Reset PIN form /////////////////////////////////////////////////////////////
+$('form.send-pin-reset').bind('ajax:success', function(xhr, data) {
+  var message = data.success ? 'Cardholder PIN reset. SMS sent.' : 'An error occured when resetting PIN. Please contact support.'
+  window.alert(message);
 });

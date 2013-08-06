@@ -193,4 +193,19 @@ describe Cardholder do
 
     it { should == "1#{cardholder.phone_number}" }
   end
+
+  describe "#generate_reset_token" do
+    let(:cardholder) { build :cardholder }
+    let(:test_time) { Time.current }
+
+    before do
+      DateTime.stub!(:current_time) { test_time }
+    end
+
+    it 'should set the reset token and date' do
+      cardholder.generate_reset_token
+      cardholder.reset_token.should be_present
+      cardholder.reset_token_date.to_s.should == test_time.to_s
+    end
+  end
 end
