@@ -148,6 +148,14 @@ class CardsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @card
+
+    @card.destroy
+
+    head :no_content
+  end
+
   private
 
   def approve_card

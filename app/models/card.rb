@@ -6,7 +6,7 @@ class Card < ActiveRecord::Base
   belongs_to :issuer, class_name: User
 
   has_one :venue, through: :card_level
-  has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
+  has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary, dependent: :destroy
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
   has_many :guest_passes

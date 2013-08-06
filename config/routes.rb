@@ -35,7 +35,7 @@ EIPiD::Application.routes.draw do
       post 'bulk_import/:card_level_id', to: "cardholders#bulk_import", on: :collection
     end
 
-    resources :cards, only: [] do
+    resources :cards, only: [:destroy] do
       get :edit_benefits, action: 'edit_benefits'
       put :edit_benefits, action: 'update_benefits'
       get :edit_guest_passes, action: 'edit_guest_passes'

@@ -43,3 +43,5 @@
   .actions.pull-right
     = card_status_toggle_button card, classes: 'btn-small', form_class: 'change-card-status pull-left'
     = button_to 'Reset PIN', send_pin_reset_path(card.cardholder.phone_number), class: 'btn btn-small', remote: true, form_class: 'send-pin-reset pull-left'
+    = button_to 'Delete', venue_card_path(card), method: :delete, confirm: 'Are you sure you want to delete this card?', remote: true, class: 'btn btn-small btn-danger', form_class: 'delete-card pull-left' if can? :destroy, card
+

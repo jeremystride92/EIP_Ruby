@@ -92,3 +92,13 @@ $('form.send-pin-reset').bind('ajax:success', function(xhr, data) {
   var message = data.success ? 'Cardholder PIN reset. SMS sent.' : 'An error occured when resetting PIN. Please contact support.'
   window.alert(message);
 });
+//
+// Reset PIN form /////////////////////////////////////////////////////////////
+$('form.delete-card').bind('ajax:success', function(xhr, data) {
+  var $form = $(xhr.currentTarget);
+  var $row = $form.parents('tr');
+  var $prev_row = $row.prev();
+
+  $row.remove();
+  $prev_row.remove();
+});
