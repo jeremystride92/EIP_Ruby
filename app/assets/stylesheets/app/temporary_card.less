@@ -61,18 +61,6 @@
       pointer-events: none;
     }
 
-    &.theme-blue {
-      color: #fff;
-
-      .card-content, > header {
-        #gradient > .vertical(#29abe2, #0071bc);
-      }
-
-      .cardholder-name {
-        color: #0071bc;
-      }
-    }
-
     &.portrait {
       top: 15px;
       right: 30px;;
@@ -260,7 +248,7 @@
       .border-radius(10px);
       background-clip: padding-box;
 
-      #gradient > .vertical(@startColor: fade(#29abe2, 90%), @endColor: fade(#0071bc, 90%));
+      #gradient > .vertical(@startColor: fade(#fff, 90%), @endColor: fade(#000, 90%));
 
       .inner-barber-pole {
         position: absolute;

@@ -1,5 +1,5 @@
 class CardLevel < ActiveRecord::Base
-  THEMES = %w(black gold platinum purple)
+  THEMES = %w(black gold platinum purple red blue green)
   belongs_to :venue
   has_many :cards
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
