@@ -14,7 +14,7 @@ class BenefitsController < ApplicationController
     @end_date = @start_date if @end_date < @start_date
 
     @benefits_by_date = {}
-    (@start_date..@end_date).each do |date|
+    (@start_date..@end_date).to_a.reverse.each do |date|
       @benefits_by_date[date] = []
       @cards.each do |card|
         active_benefits = Time.use_zone(tz) { card.benefits.select { |benefit| benefit.active_in_range? date.beginning_of_day, date.end_of_day } }
