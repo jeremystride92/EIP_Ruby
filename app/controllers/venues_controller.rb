@@ -69,6 +69,6 @@ class VenuesController < ApplicationController
   end
 
   def find_promotions
-    @promotions = @venue.promotions.order('start_date DESC')
+    @promotions = @venue.promotions.sort.reverse
   end
 end
