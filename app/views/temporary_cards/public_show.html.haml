@@ -22,6 +22,8 @@
     .anti-screenshot-device
       .barber-pole
         .inner-barber-pole
+- if @temporary_card.expired?
+  .expired-notice EXPIRED
 
 = content_for :javascripts do
   = javascript_include_tag 'temporary_card'
