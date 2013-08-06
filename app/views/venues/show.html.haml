@@ -8,10 +8,10 @@
           - slice.each do |card_level|
             - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
             .span1.card-level{ class: "theme-#{card_level.theme}", title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  } }
-              .gloss
-              .card-count #{card_level.cards.size}
-              .hidden-phone= truncate(card_level.name, length: 10) << " Card".pluralize(card_level.cards.size)
-              .visible-phone= truncate(card_level.name, length: 21) << " Card".pluralize(card_level.cards.size)
+              .card-content
+                .card-count #{card_level.cards.size}
+                .hidden-phone= truncate(card_level.name, length: 10) << " Card".pluralize(card_level.cards.size)
+                .visible-phone= truncate(card_level.name, length: 21) << " Card".pluralize(card_level.cards.size)
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info

@@ -23,44 +23,108 @@
   &.theme-purple {
     background: asset-url('card-purple.png');
   }
+
+  &.theme-red {
+    background: asset-url('card-red.png');
+  }
+
+  &.theme-blue {
+    background: asset-url('card-blue.png');
+  }
+
+  &.theme-green {
+    background: asset-url('card-green.png');
+  }
 }
 
 .card-level {
   position: relative;
   .border-radius(10px);
   overflow: hidden;
+}
 
-  .gloss {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    #gradient > .vertical(fade(#fff, 60%), fade(#000, 10%));
-  }
-
+.card-level, .card-container {
   &.theme-black {
-    background: #222;
     color: #fff;
+
+    .card-content, > header {
+      #gradient > .vertical(#404040, #040404);
+    }
+
+    .cardholder-name {
+     color: #404040;
+   }
   }
 
   &.theme-gold{
-    background: #e3b10c;
     color: #000;
+
+    .card-content, > header {
+      #gradient > .vertical(#efc002, #c59d0a);
+    }
+
+    .cardholder-name {
+      color: #c59d0a;
+    }
   }
 
   &.theme-platinum {
-    background: #999;
     color: #000;
+
+    .card-content, > header {
+      #gradient > .vertical(#e6e6e6, #9d9d9d);
+    }
+
+    .cardholder-name {
+      color: #9d9d9d;
+    }
   }
 
   &.theme-purple {
-    background: #527;
     color: #fff;
 
-    .gloss {
-      #gradient > .vertical(fade(#ab2a96, 60%), fade(#000, 10%));
+    .card-content, > header {
+      #gradient > .vertical(#9d0e93, #611e6c);
+    }
+
+    .cardholder-name {
+      color: #9d0e93;
+    }
+  }
+
+  &.theme-red {
+    color: #fff;
+
+    .card-content, > header {
+      #gradient > .vertical(#ed1c24, #c1272d);
+    }
+
+    .cardholder-name {
+      color: #c1272d;
+    }
+  }
+
+  &.theme-blue {
+    color: #fff;
+
+    .card-content, > header {
+      #gradient > .vertical(#29abe2, #0071bc);
+    }
+
+    .cardholder-name {
+      color: #0071bc;
+    }
+  }
+
+  &.theme-green {
+    color: #fff;
+
+    .card-content, > header {
+      #gradient > .vertical(#8cc63f, #39b54a);
+    }
+
+    .cardholder-name {
+      color: #39b54a;
     }
   }
 }
