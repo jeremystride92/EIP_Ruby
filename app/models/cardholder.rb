@@ -66,7 +66,24 @@ class Cardholder < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def send_pin_reset_sms!
+    generate_reset_token
+    save
+
+    send_pin_reset_sms
+  end
+
+  def generate_reset_token
+    generate_token(:reset_token)
+    self.reset_token_date = Time.current
+  end
+
   private
+
+
+  def send_pin_reset_sms
+    SmsMailer.delay(retry: false).pin_reset_sms(self)
+  end
 
   def set_default_status
     self.status ||= 'pending'

@@ -1,0 +1,8 @@
+%h1.page-header Reset PIN for #{@cardholder.phone_number}
+
+= simple_form_for @cardholder, url: reset_pin_cardholder_path(@cardholder.reset_token) do |f|
+  = f.input :password, required: true, label: '4-digit PIN', input_html: { pattern: '\d{4}' }
+  = f.input :password_confirmation, required: true, label: 'Confirm PIN', input_html: { pattern: '\d{4}' }
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary btn-large', value: 'Reset PIN'

@@ -77,8 +77,14 @@ EIPiD::Application.routes.draw do
     match 'reset_password/:reset_token', action: :reset_password, on: :collection, via: :put
   end
 
+  resource :cardholder, only: [:reset_pin] do
+    get 'reset_pin/:reset_token', action: :reset_pin_form, on: :collection, as: :reset_pin
+    put 'reset_pin/:reset_token', action: :reset_pin, on: :collection
+  end
+
 
   get 'cardholders/:phone_number', to: 'cardholders#check_for_cardholder'
+  post 'cardholders/:phone_number/reset_pin', to: 'cardholders#send_pin_reset', as: :send_pin_reset
 
   get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard
   put 'cardholders/onboard/:token', to: 'cardholders#complete_onboard'

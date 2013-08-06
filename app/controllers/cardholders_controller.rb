@@ -1,12 +1,14 @@
 class CardholdersController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard]
-  before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard]
+  before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard, :reset_pin_form, :reset_pin]
+  before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard, :reset_pin_form, :reset_pin]
 
   before_filter :find_card_level, only: [:batch_new, :batch_create, :bulk_import_form, :bulk_import]
 
-  skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard]
+  before_filter :find_cardholder_by_token, only: [:reset_pin_form, :reset_pin]
+
+  skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard, :send_pin_reset, :reset_pin_form, :reset_pin]
 
   public_actions :onboard, :complete_onboard
 
@@ -125,6 +127,30 @@ class CardholdersController < ApplicationController
     end
   end
 
+  def send_pin_reset
+    @phone_number = params[:phone_number]
+    @cardholder = Cardholder.find_by_phone_number @phone_number
+
+    @cardholder.send_pin_reset_sms! if @cardholder
+
+    render json: { success: @cardholder.present? }
+  end
+
+  def reset_pin_form
+  end
+
+  def reset_pin
+    @cardholder.assign_attributes(params_for_reset)
+
+    @cardholder.password ||= ''
+    @cardholder.reset_token = nil
+    @cardholder.reset_token_date = nil
+
+    unless @cardholder.save
+      render :reset_pin_form and return
+    end
+  end
+
   private
 
   def save_and_send_cardholders!(cardholders, venue)
@@ -157,8 +183,17 @@ class CardholdersController < ApplicationController
     @card_level = @venue.card_levels.find params[:card_level_id]
   end
 
+  def find_cardholder_by_token
+    @cardholder = Cardholder.find_by_reset_token! params[:reset_token]
+    render action: :token_expired if @cardholder.reset_token_date < 1.day.ago
+  end
+
   def params_for_cardholder
     params.require(:cardholder).permit(:first_name, :last_name, :phone_number, cards_attributes: [:card_level_id, :issuer_id])
+  end
+
+  def params_for_reset
+    params.require(:cardholder).permit(:password, :password_confirmation)
   end
 
   def params_for_cardholder_activation
