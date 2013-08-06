@@ -50,7 +50,7 @@ ActiveAdmin.register Venue do
         link_to venue.website.to_s
       end
       row :vanity_slug
-      row :timezone
+      row :time_zone
       row :card_levels do
         ul do
           venue.card_levels.each do |card_level|
