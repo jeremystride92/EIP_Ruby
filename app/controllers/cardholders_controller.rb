@@ -1,16 +1,21 @@
 class CardholdersController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :authenticate, except: [:check_for_cardholder, :onboard, :complete_onboard, :reset_pin_form, :reset_pin]
-  before_filter :find_venue, except: [:check_for_cardholder, :onboard, :complete_onboard, :reset_pin_form, :reset_pin]
+  ONBOARDING_ACTIONS = [:onboard, :complete_onboard]
+  PUBLIC_RESET_ACTIONS = [:reset_pin_form, :reset_pin]
+  before_filter :authenticate, except: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
+  before_filter :find_venue, except: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
   before_filter :find_card_level, only: [:batch_new, :batch_create, :bulk_import_form, :bulk_import]
 
   before_filter :find_cardholder_by_token, only: [:reset_pin_form, :reset_pin]
 
-  skip_authorization_check only: [:check_for_cardholder, :onboard, :complete_onboard, :send_pin_reset, :reset_pin_form, :reset_pin]
+  before_filter :clear_current_user, only: ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
-  public_actions :onboard, :complete_onboard
+  skip_authorization_check only: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
+
+
+  public_actions :onboard, :complete_onboard, :reset_pin_form, :reset_pin
 
   def index
     @card_levels = @venue.card_levels
@@ -202,5 +207,10 @@ class CardholdersController < ApplicationController
 
   def params_for_bulk_import
     params.require(:phone_numbers)
+  end
+
+  def clear_current_user
+    @current_user = nil
+    cookies.delete(:auth_token)
   end
 end
