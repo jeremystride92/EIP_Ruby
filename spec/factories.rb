@@ -109,6 +109,8 @@ FactoryGirl.define do
     name { Faker::Company.name }
     phone_number { Faker.numerify('#' * 10) }
     venue
+    default_guest_count { rand(3) }
+    default_benefits { ["Free booze", "Priority line access"] }
   end
 
   factory :temporary_card do

@@ -2,6 +2,24 @@
   = f.input :name
   = f.input :phone_number
 
+  %fieldset
+    %legend Benefits
+    = f.input :default_guest_count, label: 'Guests', input_html: { value: (@partner.default_guest_count || 0) }
+
+    .batch-benefits
+      .batch-rows
+
+      %button.btn-large.btn-success.button-add
+        %i.icon-plus
+
   .form-actions
     = f.button :submit, class: 'btn btn-large btn-primary'
     = link_to 'Cancel', venue_partners_path, class: 'btn btn-large'
+
+- if @partner.default_benefits.present?
+  - records = @partner.default_benefits.map { |benefit| { description: benefit } }.to_json
+  %div.hidden.records{ data: { records: records } }
+
+= content_for :javascripts do
+  = javascript_include_tag 'partners_new'
+
