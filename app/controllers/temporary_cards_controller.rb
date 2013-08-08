@@ -1,11 +1,11 @@
 class TemporaryCardsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :find_venue, except: [:public_show]
+  before_filter :find_venue, except: [:public_show, :expired]
   before_filter :find_temporary_card, only: [:destroy]
   before_filter :find_temporary_card_from_access_token, only: [:public_show]
 
-  skip_authorization_check only: [:public_show]
+  skip_authorization_check only: [:public_show, :expired]
 
   def index
     if params[:partner_id]
@@ -72,6 +72,11 @@ class TemporaryCardsController < ApplicationController
   end
 
   def public_show
+    redirect_to :expired_temporary_card and return if @temporary_card.expired?
+    render layout: 'temporary_card'
+  end
+
+  def expired
     render layout: 'temporary_card'
   end
 

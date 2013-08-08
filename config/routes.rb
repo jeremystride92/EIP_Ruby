@@ -94,6 +94,7 @@ EIPiD::Application.routes.draw do
     post 'request_card', to: 'cards#request_card'
 
     get 'promotions/:id', to: 'promotions#public_show', as: :public_promotion
+    get 'temporary_cards/expired', to: 'temporary_cards#expired', as: :expired_temporary_card
     get 'temporary_cards/:access_token', to: 'temporary_cards#public_show', as: :public_temporary_card
   end
 
