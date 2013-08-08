@@ -15,6 +15,7 @@ class PartnersController < ApplicationController
   def create
     @partner = Partner.new params_for_partner
     @partner.venue = @venue
+    @partner.default_benefits = params_for_default_benefits.values.map(&:values).flatten.map(&:values).flatten
 
     authorize! :create, @partner
 
@@ -31,7 +32,11 @@ class PartnersController < ApplicationController
 
   def update
     authorize! :update, @partner
-    if @partner.update_attributes params_for_partner
+
+    @partner.assign_attributes params_for_partner
+    @partner.default_benefits = params_for_default_benefits.values.map(&:values).flatten.map(&:values).flatten
+
+    if @partner.save
       redirect_to venue_partners_path, notice: "Partner updated."
     else
       render :edit
@@ -55,6 +60,10 @@ class PartnersController < ApplicationController
   end
 
   def params_for_partner
-    params.require(:partner).permit(:name, :phone_number)
+    params.require(:partner).permit(:name, :phone_number, :default_guest_count)
+  end
+
+  def params_for_default_benefits
+    params.require(:batch).permit(benefits_attributes: [:description])
   end
 end
