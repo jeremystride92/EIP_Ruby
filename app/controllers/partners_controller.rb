@@ -64,6 +64,6 @@ class PartnersController < ApplicationController
   end
 
   def params_for_default_benefits
-    params.require(:batch).permit(benefits_attributes: [:description])
+    params.permit(batch: { benefits_attributes: [:description] })
   end
 end
