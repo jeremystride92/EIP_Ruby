@@ -41,7 +41,7 @@ describe Card do
       subject.guest_count = -3
       subject.should_not be_valid
     end
-    
+
     it { should validate_presence_of :status }
     it { should ensure_inclusion_of(:status).in_array(Card::STATUSES) }
 
@@ -179,12 +179,12 @@ describe Card do
       end
 
       context "with enough daily passes" do
-        let(:card) { build :card, guest_count: 3 }
+        let(:card) { build :card, guest_count: 5 }
 
         it "should subtract the checkins from the pass count" do
           card.checkin_guests! 2
-          card.guest_count.should == 1
-          card.total_guest_count.should == 1
+          card.guest_count.should == 3
+          card.total_guest_count.should == 3
         end
       end
     end

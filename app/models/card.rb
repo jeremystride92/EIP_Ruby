@@ -69,7 +69,7 @@ class Card < ActiveRecord::Base
     end
 
     if count <= guest_count
-      new_guest_count = count < guest_count
+      new_guest_count = guest_count - count
       count = 0
     else
       new_guest_count = 0
