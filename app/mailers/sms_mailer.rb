@@ -63,13 +63,4 @@ class SmsMailer < ActionMailer::Base
     self.message.delivery_handler = NexmoSender.new(to: @cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
   end
 
-  private
-
-  def assert message = "sms message error", &block
-    raise SMSParameterException.new (message) if yield block
-  end
-
-end
-
-class SMSParameterException < StandardError
 end
