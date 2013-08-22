@@ -51,16 +51,16 @@ class SmsMailer < ActionMailer::Base
     cardholder = Cardholder.find(cardholder_id)
     raise "Cardholder not found: #{cardholder_id}" unless cardholder.present?
 
-    @token = @cardholder.reset_token
+    @token = cardholder.reset_token
     @phone_number = cardholder.phone_number
 
     raise "Venue not found for cardholder: #{cardholder_id}" unless cardholder.venues.count
-    @venue = @cardholder.venues.first
+    @venue = cardholder.venues.first
 
     @link = $short_url_cache.shorten reset_pin_cardholder_url(@token)
 
     mail to: ENV['site_email']
-    self.message.delivery_handler = NexmoSender.new(to: @cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
+    self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
   end
 
 end
