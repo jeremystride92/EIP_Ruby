@@ -163,9 +163,9 @@ class CardholdersController < ApplicationController
       authorize! :create, cardholder.cards.last
 
       if cardholder.persisted?
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder, venue)
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
       else
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, venue)
+        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
       end
     end
   end
