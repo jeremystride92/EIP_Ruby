@@ -11,7 +11,7 @@ function countCharacters($input, $label, maxCharCount) {
   });
 }
 
-function manageBatchRows(template, $container, focusField, defaultRecord) {
+function manageBatchRows(template, $container, focusField, defaultRecord, hideEmpty) {
   var fieldsTemplate = JST[template];
   var $batchArea = $container.find('.batch-rows');
 
@@ -35,20 +35,23 @@ function manageBatchRows(template, $container, focusField, defaultRecord) {
     $fieldset.remove();
   });
 
-  $(function() {
-    if ($batchArea.children().length === 0) {
-      $batchArea.append(fieldsTemplate(_.extend({ index: new Date().getTime() }, defaultRecord)));
-    }
-  });
+  if (!hideEmpty) {
+    $(function() {
+      if ($batchArea.children().length === 0) {
+        $batchArea.append(fieldsTemplate(_.extend({ index: new Date().getTime() }, defaultRecord)));
+      }
+    });
+  }
 }
 
 function populateBatchRows(template, $container, records) {
   var fieldsTemplate = JST[template];
   var $batchArea = $container.find('.batch-rows');
+  $batchArea.empty();
 
-  _.each(records, function(r) {
-    var index = new Date().getTime();
-
-    $batchArea.append(fieldsTemplate(_.extend({ index: index }, r)));
-  });
+  if (records.length) {
+    _.each(records, function(r, i) {
+      $batchArea.append(fieldsTemplate(_.extend({ index: i }, r)));
+    });
+  }
 }

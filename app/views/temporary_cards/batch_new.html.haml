@@ -25,9 +25,8 @@
     = f.button :submit, value: 'Issue Cards', class: 'btn btn-primary btn-large'
     = link_to 'Cancel', @cancel_path, class: 'btn btn-large pull-right'
 
-- unless @benefits.empty?
-  - records = @benefits.map &:to_json
-  %div.hidden.records{ data: { records: records } }
+:javascript
+  partnerBenefits = #{@benefits.to_json}
 
 = content_for :javascripts do
   = javascript_include_tag 'temporary_cards_batch_new'
