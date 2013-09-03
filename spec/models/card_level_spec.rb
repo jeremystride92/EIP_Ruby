@@ -161,4 +161,38 @@ describe CardLevel do
 
     its(:benefits) { should =~ temporary_benefits + permanent_benefits }
   end
+
+  describe "card count" do
+    let(:card_level_1) { create :card_level }
+    let(:card_level_2) { create :card_level }
+
+    let!(:card) { create :card, card_level: card_level_1 }
+
+    context "on initialization" do
+      before do
+        card_level_1.reload
+        card_level_2.reload
+      end
+
+      it "is correct" do
+        card_level_1.cards.size.should == 1
+        card_level_2.cards.size.should == 0
+      end
+    end
+
+    context "when moving a card between card levels" do
+      before do
+        card.card_level = card_level_2
+        card.save!
+
+        card_level_1.reload
+        card_level_2.reload
+      end
+
+      it "is correct after the move" do
+        card_level_1.cards.size.should == 0
+        card_level_2.cards.size.should == 1
+      end
+    end
+  end
 end

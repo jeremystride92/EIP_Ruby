@@ -1,7 +1,7 @@
 class Card < ActiveRecord::Base
   STATUSES = %w(active inactive pending)
 
-  belongs_to :card_level, counter_cache: true
+  belongs_to :card_level
   belongs_to :cardholder
   belongs_to :issuer, class_name: User
 

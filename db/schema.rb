@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807152046) do
+ActiveRecord::Schema.define(:version => 20130903204326) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(:version => 20130807152046) do
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
     t.string   "theme"
-    t.integer  "cards_count",            :default => 0
     t.integer  "daily_guest_pass_count", :default => 0
     t.integer  "sort_position"
   end
