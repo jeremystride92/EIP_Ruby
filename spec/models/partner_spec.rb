@@ -19,4 +19,14 @@ describe Partner do
       partner.default_benefits.should == []
     end
   end
+
+  describe "#active_cards_count and #lifetime_cards_count" do
+    subject { create :partner }
+
+    let!(:expired_card) { create :temporary_card, partner: subject, expires_at: 1.day.ago }
+    let!(:active_card) { create :temporary_card, partner: subject, expires_at: 1.day.from_now }
+
+    its(:active_cards_count) { should == 1 }
+    its(:lifetime_cards_count) { should == 2 }
+  end
 end

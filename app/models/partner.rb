@@ -18,7 +18,7 @@ class Partner < ActiveRecord::Base
   before_save { self.default_benefits ||= [] }
 
   def active_cards_count
-    temporary_cards.count(&:active?)
+    temporary_cards.select(&:active?).count
   end
 
   def lifetime_cards_count
