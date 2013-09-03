@@ -86,22 +86,36 @@ describe Venue do
   end
 
   describe "#sender_number" do
+    let(:default_number) { '11234567890' }
+
     before do
-      ENV['nexmo_default_sender'] = '11234567890'
+
+      ENV['nexmo_default_sender'] = default_number
     end
 
     subject { build :venue }
 
     context "with nexmo_number set" do
+      let (:specific_number) { '10987654321' }
+      
       before do
-        subject.nexmo_number = '10987654321'
+        
+        subject.nexmo_number = specific_number
       end
 
-      its(:sender_number) { should == '10987654321' }
+      its(:sender_number) { should == specific_number }
     end
 
     context "without nexmo_number set" do
-      its(:sender_number) { should == '11234567890' }
+      its(:sender_number) { should == default_number }
+    end
+
+    context "with nexmo_number set to empty string" do
+      before do
+        subject.nexmo_number = ""
+      end
+
+      its (:sender_number) { should == default_number }
     end
   end
 

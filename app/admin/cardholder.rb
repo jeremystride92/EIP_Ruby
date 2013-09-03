@@ -13,7 +13,7 @@ ActiveAdmin.register Cardholder do
     Cardholder.find(selection).each do |cardholder|
       cardholder.generate_onboarding_token
       cardholder.save
-      SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, nil)
+      SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, nil)
     end
     redirect_to :back, notice: "Messages queued for sending"
   end
@@ -22,7 +22,7 @@ ActiveAdmin.register Cardholder do
     cardholder = Cardholder.find(params[:id])
     cardholder.generate_onboarding_token
     cardholder.save
-    SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder, nil)
+    SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, nil)
     redirect_to :back, notice: "Message to #{cardholder.phone_number} queued for sending"
   end
 

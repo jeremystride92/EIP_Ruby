@@ -6,7 +6,6 @@ class NexmoSender
   end
 
   def deliver_mail(mail)
-    $nexmo.send_message! to: @to, from: @from, text: @message
     log_message = [
       "[NEXMO DELIVERY]",
       "  From: #{@from}",
@@ -14,5 +13,8 @@ class NexmoSender
       "  Text: #{@message}"
     ].join("\n")
     Rails.logger.info log_message
+
+    $nexmo.send_message! to: @to, from: @from, text: @message
+
   end
 end
