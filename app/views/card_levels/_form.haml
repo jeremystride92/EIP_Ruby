@@ -3,7 +3,7 @@
     .form-block.span6.offset3
       = f.input :name, input_html: { class: 'span6' }
       = f.input :theme, collection: CardLevel::THEMES, prompt: 'Select one', required: true, input_html: {required: true}, input_html: { class: 'span6' }, label: 'Card color'
-      = f.input :daily_guest_pass_count, input_html: { class: 'span6' }
+      = f.input :daily_guest_pass_count, input_html: { class: 'span6', min: 0 }
 
       %fieldset
         %legend Permanent Benefits

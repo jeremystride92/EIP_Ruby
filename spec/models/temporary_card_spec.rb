@@ -11,6 +11,8 @@ describe TemporaryCard do
   it { should allow_value(nil).for(:phone_number) }
   it { should ensure_length_of(:phone_number).is_equal_to(10) }
 
+  it { should validate_numericality_of(:guest_count).only_integer.is_greater_than_or_equal_to(0) }
+
   describe "newly created record" do
     subject { create :temporary_card }
 
