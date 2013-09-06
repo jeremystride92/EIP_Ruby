@@ -2,6 +2,7 @@ class TemporaryCardsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   before_filter :find_venue, except: [:public_show, :expired]
+  before_filter :find_venue_by_vanity_slug, only: [:public_show, :expired]
   before_filter :find_temporary_card, only: [:destroy]
   before_filter :find_temporary_card_from_access_token, only: [:public_show]
 
@@ -85,6 +86,10 @@ class TemporaryCardsController < ApplicationController
 
   def find_venue
     @venue = Venue.includes(partners: [:temporary_cards]).find current_user.venue_id
+  end
+
+  def find_venue_by_vanity_slug
+    @venue = Venue.find_by_vanity_slug! request.subdomain
   end
 
   def find_partner
