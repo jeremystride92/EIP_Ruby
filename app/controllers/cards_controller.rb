@@ -107,12 +107,23 @@ class CardsController < ApplicationController
     authorize! :update, @card
     authorize! :manage, Benefit
 
+    old_benefit_ids = @card.benefits.map &:id
+
     success = false
     Time.use_zone @venue.time_zone do
       success = @card.update_attributes params_for_card
     end
 
+
+
     if success
+      new_benefit_ids = @card.benefits.map &:id
+      new_benefits_count = (new_benefit_ids - old_benefit_ids).count
+
+      if new_benefits_count > 0
+        SmsMailer.delay(retry: false).cardholder_new_benefit_sms(@card.cardholder_id, @venue.id, new_benefits_count)
+      end
+
       respond_to do |format|
         format.json
         format.html { redirect_to venue_cardholders_path }
@@ -141,6 +152,7 @@ class CardsController < ApplicationController
     end
 
     if success
+      SmsMailer.delay(retry: false).cardholder_new_guest_pass_sms(@card.cardholder_id, @venue.id, new_pass_count)
       redirect_to venue_cardholders_path, notice: "#{new_pass_count} passes issued."
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
