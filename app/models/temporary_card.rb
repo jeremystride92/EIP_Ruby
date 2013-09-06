@@ -33,6 +33,12 @@ class TemporaryCard < ActiveRecord::Base
     "#{phone_number} via #{partner.name} to #{venue.name}"
   end
 
+  def generate_id_token
+    generate_token(:id_token)
+
+    self.id_token
+  end
+
   private
 
   def generate_token(column)

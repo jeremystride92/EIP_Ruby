@@ -1,12 +1,12 @@
 class TemporaryCardsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :find_venue, except: [:public_show, :expired]
-  before_filter :find_venue_by_vanity_slug, only: [:public_show, :expired]
+  before_filter :find_venue, except: [:public_show, :expired, :claimed]
+  before_filter :find_venue_by_vanity_slug, only: [:public_show, :expired, :claimed]
   before_filter :find_temporary_card, only: [:destroy]
   before_filter :find_temporary_card_from_access_token, only: [:public_show]
 
-  skip_authorization_check only: [:public_show, :expired]
+  skip_authorization_check only: [:public_show, :expired, :claimed]
 
   def index
     if params[:partner_id]
@@ -75,13 +75,25 @@ class TemporaryCardsController < ApplicationController
 
   def public_show
     redirect_to :expired_temporary_card and return if @temporary_card.expired?
+
+    if @temporary_card.id_token
+      redirect_to :claimed_temporary_card and return unless cookies[:id_token] == @temporary_card.id_token
+    else
+      cookies.permanent[:id_token] = @temporary_card.generate_id_token
+      @temporary_card.save
+    end
+
     render layout: 'temporary_card'
   end
 
   def expired
+    cookies.delete(:id_token) if cookies[:id_token]
     render layout: 'temporary_card'
   end
 
+  def claimed
+    render layout: 'temporary_card'
+  end
   private
 
   def find_venue
