@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903204326) do
+ActiveRecord::Schema.define(:version => 20130906193038) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(:version => 20130903204326) do
     t.datetime "expires_at"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.string   "id_token"
   end
 
   add_index "temporary_cards", ["partner_id"], :name => "index_temporary_cards_on_partner_id"

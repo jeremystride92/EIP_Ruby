@@ -46,4 +46,18 @@ describe TemporaryCard do
 
     its(:international_phone_number) { should == '12223334444' }
   end
+
+  describe "#generate_id_token" do
+    let(:temp_card) { build :temporary_card }
+
+    it "sets the id token" do
+      temp_card.generate_id_token
+      temp_card.id_token.should be_present
+    end
+
+    it "returns the new token" do
+      token = temp_card.generate_id_token
+      temp_card.id_token.should == token
+    end
+  end
 end
