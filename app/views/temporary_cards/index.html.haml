@@ -4,6 +4,7 @@
   %thead
     %tr
       %th Phone Number
+      %th Issue Date
       %th Expiration Date
       %th Benefits
       %th Guest List
@@ -16,6 +17,7 @@
     - @active_cards.each do |card|
       %tr
         %th= card.phone_number
+        %td= l card.created_at.in_time_zone(@venue.time_zone), format: :friendly
         %td= l card.expires_at.in_time_zone(@venue.time_zone), format: :friendly
         %td
           %ul
