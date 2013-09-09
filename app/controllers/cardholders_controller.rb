@@ -12,6 +12,8 @@ class CardholdersController < ApplicationController
 
   before_filter :clear_current_user, only: ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
+  before_filter :find_cardholder, only: [:resend_onboarding_sms]
+
   skip_authorization_check only: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
 
@@ -157,6 +159,14 @@ class CardholdersController < ApplicationController
     end
   end
 
+  def resend_onboarding_sms
+    authorize! :resend_onboarding_sms, @cardholder
+
+    SmsMailer.delay(retry: false).cardholder_onboarding_sms(@cardholder.id, @venue.id)
+
+    render json: { success: true }
+  end
+
   private
 
   def save_and_send_cardholders!(cardholders, venue)
@@ -187,6 +197,10 @@ class CardholdersController < ApplicationController
 
   def find_card_level
     @card_level = @venue.card_levels.find params[:card_level_id]
+  end
+
+  def find_cardholder
+    @cardholder = Cardholder.find params[:cardholder_id]
   end
 
   def find_cardholder_by_token
