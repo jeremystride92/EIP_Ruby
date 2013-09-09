@@ -9,6 +9,7 @@ class Ability
 
     if user.is_a? Cardholder
       can :checkin, Card, cardholder_id: user.id
+      can :reset_pin, Cardholder, id: user.id
       return # Cardholder doesn't respond to #venue_manager?, etc.
     end
 
@@ -29,6 +30,10 @@ class Ability
       can :manage, Partner, venue_id: user.venue_id
 
       can :manage, TemporaryCard, venue: { id: user.venue_id }
+
+      can :reset_pin, Cardholder do |cardholder|
+        cardholder.venue_ids.include? user.venue_id
+      end
     end
 
     if user.venue_owner?

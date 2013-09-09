@@ -135,6 +135,7 @@ class CardholdersController < ApplicationController
   def send_pin_reset
     @phone_number = params[:phone_number]
     @cardholder = Cardholder.find_by_phone_number @phone_number
+    authorize! :reset_pin, @cardholder
 
     @cardholder.send_pin_reset_sms! if @cardholder
 
