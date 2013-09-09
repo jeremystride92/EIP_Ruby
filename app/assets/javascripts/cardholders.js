@@ -92,8 +92,14 @@ $('form.send-pin-reset').bind('ajax:success', function(xhr, data) {
   var message = data.success ? 'Cardholder PIN reset. SMS sent.' : 'An error occured when resetting PIN. Please contact support.'
   window.alert(message);
 });
-//
+
 // Reset PIN form /////////////////////////////////////////////////////////////
+$('form.resend-onboarding-sms').bind('ajax:success', function(xhr, data) {
+  var message = data.success ? 'Cardholder onboarding SMS re-sent.' : 'An error occured when re-sending the onboarding SMS. Please contact support.'
+  window.alert(message);
+});
+
+// Delete card form ///////////////////////////////////////////////////////////
 $('form.delete-card').bind('ajax:success', function(xhr, data) {
   var $form = $(xhr.currentTarget);
   var $row = $form.parents('tr');

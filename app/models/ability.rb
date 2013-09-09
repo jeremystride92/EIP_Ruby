@@ -34,6 +34,10 @@ class Ability
       can :reset_pin, Cardholder do |cardholder|
         cardholder.venue_ids.include? user.venue_id
       end
+
+      can :resend_onboarding_sms, Cardholder do |cardholder|
+        cardholder.venue_ids.include? user.venue_id
+      end
     end
 
     if user.venue_owner?

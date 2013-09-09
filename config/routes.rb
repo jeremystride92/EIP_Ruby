@@ -33,6 +33,8 @@ EIPiD::Application.routes.draw do
 
       get 'bulk_import/:card_level_id', to: "cardholders#bulk_import_form", on: :collection, as: :bulk_import
       post 'bulk_import/:card_level_id', to: "cardholders#bulk_import", on: :collection
+
+      post 'resend_onboarding_sms', as: :resend_onboarding_sms
     end
 
     resources :cards, only: [:destroy] do
