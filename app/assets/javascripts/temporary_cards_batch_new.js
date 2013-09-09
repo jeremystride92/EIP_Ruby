@@ -1,7 +1,7 @@
 //= require temporary_card_batch_fields
 //= require temporary_card_batch_benefit_fields
 
-if (('#batch_partner').val()) {
+if ($('#batch_partner').val()) {
   var selectedPartnerId = $('#batch_partner').val();
   populateBatchRows('temporary_card_batch_benefit_fields', $('.batch-benefits'), partnerBenefits[selectedPartnerId]);
 } else {
