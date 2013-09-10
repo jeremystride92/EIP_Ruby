@@ -1,6 +1,8 @@
 class CardTheme < ActiveRecord::Base
   belongs_to :venue
 
+  has_many :card_levels
+
   validates :name,
     presence: true,
     uniqueness: { scope: :venue_id }

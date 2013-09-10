@@ -50,8 +50,8 @@ FactoryGirl.define do
   end
 
   factory :card_level do
-    theme { CardLevel::THEMES.sample }
-    sequence(:name) { |i| theme.titleize + i.to_s }
+    card_theme
+    name { Faker::DizzleIpsum.words(3) }
     venue
     daily_guest_pass_count { rand(4) + 1 }
 
@@ -123,8 +123,8 @@ FactoryGirl.define do
   end
 
   factory :card_theme do
-    name "MyString"
-    venue nil
+    name { Faker::DizzleIpsum.words(2) }
+    venue
     portrait_background "MyString"
     landscape_background "MyString"
   end

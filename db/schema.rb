@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910162453) do
+ActiveRecord::Schema.define(:version => 20130910223434) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130910162453) do
     t.integer  "venue_id"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
-    t.string   "theme"
     t.integer  "daily_guest_pass_count", :default => 0
     t.integer  "sort_position"
+    t.integer  "card_theme_id"
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"

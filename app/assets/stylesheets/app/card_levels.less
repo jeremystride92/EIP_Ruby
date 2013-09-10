@@ -1,132 +1,25 @@
 .card-preview {
   border-top: 25px solid fade(black, 10%);
-  width: 175px;
-  height: 114px;
+  width: (@iPhoneRetinaLandscapeWidth / 2);
+  height: (@iPhoneRetinaLandscapeHeight / 2);
+  .border-radius(2.5px);
   display: block;
   border: none;
   box-sizing: border-box;
 
+  margin-bottom: 5px;
+
   background-repeat: no-repeat;
+  background-color: #333;
 
-  &.theme-black {
-    background: asset-url('card-black.png');
-  }
-
-  &.theme-gold{
-    background: asset-url('card-gold.png');
-  }
-
-  &.theme-platinum {
-    background: asset-url('card-platinum.png');
-  }
-
-  &.theme-purple {
-    background: asset-url('card-purple.png');
-  }
-
-  &.theme-red {
-    background: asset-url('card-red.png');
-  }
-
-  &.theme-blue {
-    background: asset-url('card-blue.png');
-  }
-
-  &.theme-green {
-    background: asset-url('card-green.png');
-  }
+  background-size: cover;
+  background-position: top center;
 }
 
 .card-level {
   position: relative;
   .border-radius(10px);
   overflow: hidden;
-}
-
-.card-level, .card-container {
-  &.theme-black {
-    color: #fff;
-
-    .card-content, > header {
-      #gradient > .vertical(#404040, #040404);
-    }
-
-    .cardholder-name {
-     color: #404040;
-   }
-  }
-
-  &.theme-gold{
-    color: #000;
-
-    .card-content, > header {
-      #gradient > .vertical(#efc002, #c59d0a);
-    }
-
-    .cardholder-name {
-      color: #c59d0a;
-    }
-  }
-
-  &.theme-platinum {
-    color: #000;
-
-    .card-content, > header {
-      #gradient > .vertical(#e6e6e6, #9d9d9d);
-    }
-
-    .cardholder-name {
-      color: #9d9d9d;
-    }
-  }
-
-  &.theme-purple {
-    color: #fff;
-
-    .card-content, > header {
-      #gradient > .vertical(#9d0e93, #611e6c);
-    }
-
-    .cardholder-name {
-      color: #9d0e93;
-    }
-  }
-
-  &.theme-red {
-    color: #fff;
-
-    .card-content, > header {
-      #gradient > .vertical(#ed1c24, #c1272d);
-    }
-
-    .cardholder-name {
-      color: #c1272d;
-    }
-  }
-
-  &.theme-blue {
-    color: #fff;
-
-    .card-content, > header {
-      #gradient > .vertical(#29abe2, #0071bc);
-    }
-
-    .cardholder-name {
-      color: #0071bc;
-    }
-  }
-
-  &.theme-green {
-    color: #fff;
-
-    .card-content, > header {
-      #gradient > .vertical(#8cc63f, #39b54a);
-    }
-
-    .cardholder-name {
-      color: #39b54a;
-    }
-  }
 }
 
 .controller-card_levels {
@@ -178,7 +71,7 @@
     margin-left: 10px;
 
     .card-preview-row {
-      width: 175px;
+      width: (@iPhoneRetinaLandscapeWidth / 2);
     }
   }
 }

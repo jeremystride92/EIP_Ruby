@@ -1,22 +1,15 @@
-@iPhoneRetinaLandscapeHeight: 258px;
-@iPhoneRetinaLandscapeWidth: 450px;
-
-@iPhoneRetinaPortraitHeight: 486px;
-@iPhoneRetinaPortraitWidth: 296px;
-
-@indexScalingFactor: 4;
 
 #card_themes-index {
   .card-preview {
-    width: (@iPhoneRetinaLandscapeWidth / @indexScalingFactor);
-    height: (@iPhoneRetinaLandscapeHeight / @indexScalingFactor);
+    width: (@iPhoneRetinaLandscapeWidth / @cardPreviewScalingFactor);
+    height: (@iPhoneRetinaLandscapeHeight / @cardPreviewScalingFactor);
 
     background-size: cover;
     background-position: top center;
   }
 
   .card-preview-header {
-    width: (@iPhoneRetinaLandscapeWidth / @indexScalingFactor);
+    width: (@iPhoneRetinaLandscapeWidth / @cardPreviewScalingFactor);
   }
 
   th, td {

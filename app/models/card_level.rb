@@ -1,6 +1,7 @@
 class CardLevel < ActiveRecord::Base
-  THEMES = %w(black gold platinum purple red blue green)
   belongs_to :venue
+  belongs_to :card_theme
+
   has_many :cards
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
   has_many :temporary_benefits, as: :beneficiary, class_name: 'Benefit', before_add: :ensure_benefits_beneficiary, conditions: '(start_date IS NOT NULL) OR (end_date IS NOT NULL)'
@@ -12,7 +13,6 @@ class CardLevel < ActiveRecord::Base
   accepts_nested_attributes_for :permanent_benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
-  validates :theme, presence: true, inclusion: THEMES
   validates :venue, presence: true
   validates :daily_guest_pass_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
