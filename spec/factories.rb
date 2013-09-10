@@ -50,9 +50,9 @@ FactoryGirl.define do
   end
 
   factory :card_level do
-    card_theme
     name { Faker::DizzleIpsum.words(3) }
     venue
+    card_theme { create :card_theme, venue: venue }
     daily_guest_pass_count { rand(4) + 1 }
 
     factory :card_level_with_benefits do
