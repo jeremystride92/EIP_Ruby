@@ -52,7 +52,7 @@ class PartnersController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.includes(partners: [:temporary_cards]).find current_user.venue_id
+    @venue = Venue.includes(:card_themes, partners: [:temporary_cards]).find current_user.venue_id
   end
 
   def find_partner
@@ -60,7 +60,7 @@ class PartnersController < ApplicationController
   end
 
   def params_for_partner
-    params.require(:partner).permit(:name, :phone_number, :default_guest_count)
+    params.require(:partner).permit(:name, :phone_number, :default_guest_count, :card_theme_id)
   end
 
   def params_for_default_benefits
