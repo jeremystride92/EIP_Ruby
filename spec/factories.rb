@@ -121,4 +121,11 @@ FactoryGirl.define do
     access_token "AccessToken"
     expires_at "2013-07-24 11:25:59"
   end
+
+  factory :card_theme do
+    name "MyString"
+    venue nil
+    portrait_background "MyString"
+    landscape_background "MyString"
+  end
 end

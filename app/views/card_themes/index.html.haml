@@ -1,0 +1,23 @@
+%h1.page-header Listing card_themes
+
+%table.table.table-striped
+  %tr
+    %th Name
+    %th Portrait background
+    %th Landscape background
+    %th
+    %th
+    %th
+
+  - @card_themes.each do |card_theme|
+    %tr
+      %th= card_theme.name
+      %td= card_theme.portrait_background
+      %td= card_theme.landscape_background
+      %td= link_to 'Show', card_theme
+      %td= link_to 'Edit', edit_card_theme_path(card_theme)
+      %td= link_to 'Destroy', card_theme, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Card theme', new_card_theme_path

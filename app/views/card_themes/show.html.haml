@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @card_theme.name
+%p
+  %b Venue:
+  = @card_theme.venue
+%p
+  %b Portrait background:
+  = @card_theme.portrait_background
+%p
+  %b Landscape background:
+  = @card_theme.landscape_background
+
+= link_to 'Edit', edit_card_theme_path(@card_theme)
+\|
+= link_to 'Back', card_themes_path
