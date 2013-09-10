@@ -1,22 +1,28 @@
-= form_for @card_theme do |f|
-  - if @card_theme.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@card_theme.errors.count, "error")} prohibited this card_theme from being saved:"
-      %ul
-        - @card_theme.errors.full_messages.each do |msg|
-          %li= msg
+= simple_form_for [:venue, @card_theme] do |f|
+  .row
+    .form-block.span6.offset3
+      = f.input :name, autofocus: true, input_html: { class: 'span6' }
+      .row
+        .span6
+          .well
+            %h3 Portrait background
+            = f.input :portrait_background, as: :file, label: false
+            = f.hidden_field :portrait_background_cache
+            .upload-preview.portrait{ style: "background-image: url(#{@card_theme.portrait_background_path})" }
+            %p.muted Preview based on iPhone 5 screen dimenions
+      .row
+        .span6
+          .well
+            %h3 Landscape background
+            = f.input :landscape_background, as: :file, label: false
+            = f.hidden_field :landscape_background_cache
+            .upload-preview.landscape{ style: "background-image: url(#{@card_theme.landscape_background_path})" }
+            %p.muted Preview based on iPhone 5 screen dimenions
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :venue
-    = f.text_field :venue
-  .field
-    = f.label :portrait_background
-    = f.text_field :portrait_background
-  .field
-    = f.label :landscape_background
-    = f.text_field :landscape_background
-  .actions
-    = f.submit 'Save'
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', venue_card_themes_path, class: 'btn btn-large pull-right'
+
+= content_for :javascripts do
+  = javascript_include_tag :upload_preview
+  = javascript_include_tag :card_themes_form

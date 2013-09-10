@@ -1,7 +1,3 @@
-%h1 Editing card_theme
+%h1.page-header= @card_theme.name
 
 = render 'form'
-
-= link_to 'Show', @card_theme
-\|
-= link_to 'Back', card_themes_path

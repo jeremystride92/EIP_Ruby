@@ -1,23 +1,26 @@
-%h1.page-header Listing card_themes
+%h1.page-header Card Themes
 
 %table.table.table-striped
   %tr
+    %th.card-preview-header
     %th Name
-    %th Portrait background
-    %th Landscape background
-    %th
-    %th
     %th
 
   - @card_themes.each do |card_theme|
     %tr
+      %th
+        .card-preview{ style: "background-image: url(#{card_theme.landscape_background_path})" }
       %th= card_theme.name
-      %td= card_theme.portrait_background
-      %td= card_theme.landscape_background
-      %td= link_to 'Show', card_theme
-      %td= link_to 'Edit', edit_card_theme_path(card_theme)
-      %td= link_to 'Destroy', card_theme, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td
+        = link_to edit_venue_card_theme_path(card_theme), class: 'btn' do
+          %i.icon-edit
+          Edit
+        = link_to venue_card_theme_path(card_theme), class: 'btn btn-danger', :method => :delete, :data => { :confirm => 'Are you sure?' } do
+          %i.icon-remove
+          Delete
 
 %br
 
-= link_to 'New Card theme', new_card_theme_path
+= link_to new_venue_card_theme_path, class: 'btn btn-large btn-success' do
+  %i.icon-plus
+  Add Theme

@@ -5,7 +5,7 @@ class CardThemesController < InheritedResources::Base
   def index
     authorize! :read, CardTheme
 
-    @card_themes = @venue.card_themes
+    @card_themes = @venue.card_themes.order('name ASC')
   end
 
   def show
@@ -14,22 +14,44 @@ class CardThemesController < InheritedResources::Base
 
   def new
     authorize! :create, CardTheme
+    @card_theme = @venue.card_themes.build
   end
 
   def create
+    @card_theme = @venue.card_themes.build params_for_card_theme
     authorize! :create, @card_theme
+
+    if @card_theme.save
+      redirect_to venue_card_themes_path, notice: 'Theme successfully added.'
+    else
+      render :new
+    end
   end
 
   def edit
     authorize! :update, @card_theme
+
   end
 
   def update
     authorize! :update, @card_theme
+
+    if @card_theme.update_attributes params_for_card_theme
+      redirect_to venue_card_themes_path, notice: 'Theme updated.'
+    else
+      render :edit
+    end
   end
 
-  def delete
+  def destroy
     authorize! :delete, @card_theme
+
+    @card_theme.destroy
+
+    respond_to do |format|
+      format.json { render json: { success: true } }
+      format.html { redirect_to venue_card_themes_path, notice: 'Theme deleted.' }
+    end
   end
 
   private
@@ -40,5 +62,9 @@ class CardThemesController < InheritedResources::Base
 
   def find_venue
     @venue = current_user.venue
+  end
+
+  def params_for_card_theme
+    params.require(:card_theme).permit(:name, :portrait_background, :portrait_background_cache, :landscape_background, :landscape_background_cache)
   end
 end

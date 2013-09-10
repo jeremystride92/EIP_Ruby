@@ -1,0 +1,46 @@
+@iPhoneRetinaLandscapeHeight: 258px;
+@iPhoneRetinaLandscapeWidth: 450px;
+
+@iPhoneRetinaPortraitHeight: 486px;
+@iPhoneRetinaPortraitWidth: 296px;
+
+@indexScalingFactor: 4;
+
+#card_themes-index {
+  .card-preview {
+    width: (@iPhoneRetinaLandscapeWidth / @indexScalingFactor);
+    height: (@iPhoneRetinaLandscapeHeight / @indexScalingFactor);
+
+    background-size: cover;
+    background-position: top center;
+  }
+
+  .card-preview-header {
+    width: (@iPhoneRetinaLandscapeWidth / @indexScalingFactor);
+  }
+
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+#card_themes-edit, #card_themes-new {
+  .upload-preview {
+    background-size: cover;
+    background-position: top center;
+
+    .border-radius(5px);
+
+    margin: 0 auto;
+
+    &.portrait {
+      width: @iPhoneRetinaPortraitWidth;
+      height: @iPhoneRetinaPortraitHeight;
+    }
+
+    &.landscape {
+      width: @iPhoneRetinaLandscapeWidth;
+      height: @iPhoneRetinaLandscapeHeight;
+    }
+  }
+}
