@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910223434) do
+ActiveRecord::Schema.define(:version => 20130910232940) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20130910223434) do
     t.datetime "updated_at",          :null => false
     t.integer  "default_guest_count"
     t.text     "default_benefits"
+    t.integer  "card_theme_id"
   end
 
   add_index "partners", ["venue_id"], :name => "index_partners_on_venue_id"

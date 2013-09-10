@@ -1,5 +1,6 @@
 class Partner < ActiveRecord::Base
   belongs_to :venue
+  belongs_to :card_theme
 
   has_many :temporary_cards, dependent: :destroy
 
