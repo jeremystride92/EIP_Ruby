@@ -7,7 +7,7 @@
         .row.row-sub-section
           - slice.each do |card_level|
             - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
-            .span1.card-level{ class: "theme-#{card_level.theme}", title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  } }
+            .span1.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
               .card-content
                 .card-count #{card_level.cards.size}
                 .hidden-phone= truncate(card_level.name, length: 10) << " Card".pluralize(card_level.cards.size)
