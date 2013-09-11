@@ -1,0 +1,39 @@
+
+#card_themes-index {
+  .card-preview {
+    width: (@iPhoneRetinaLandscapeWidth / @cardPreviewScalingFactor);
+    height: (@iPhoneRetinaLandscapeHeight / @cardPreviewScalingFactor);
+
+    background-size: cover;
+    background-position: top center;
+  }
+
+  .card-preview-header {
+    width: (@iPhoneRetinaLandscapeWidth / @cardPreviewScalingFactor);
+  }
+
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+#card_themes-edit, #card_themes-new {
+  .upload-preview {
+    background-size: cover;
+    background-position: top center;
+
+    .border-radius(5px);
+
+    margin: 0 auto;
+
+    &.portrait {
+      width: @iPhoneRetinaPortraitWidth;
+      height: @iPhoneRetinaPortraitHeight;
+    }
+
+    &.landscape {
+      width: @iPhoneRetinaLandscapeWidth;
+      height: @iPhoneRetinaLandscapeHeight;
+    }
+  }
+}

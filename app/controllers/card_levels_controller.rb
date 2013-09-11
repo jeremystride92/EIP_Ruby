@@ -56,7 +56,7 @@ class CardLevelsController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.includes(:card_levels).find(current_user.venue_id)
+    @venue = Venue.includes(card_levels: [:card_theme]).find(current_user.venue_id)
   end
 
   def find_venue_card_levels
@@ -64,10 +64,10 @@ class CardLevelsController < ApplicationController
   end
 
   def find_card_level
-    @card_level = CardLevel.where(venue_id: @venue).find(params[:id] || params[:card_level_id])
+    @card_level = CardLevel.includes(:card_theme).where(venue_id: @venue).find(params[:id] || params[:card_level_id])
   end
 
   def card_level_params
-    params.require(:card_level).permit(:name, :theme, :daily_guest_pass_count, permanent_benefits_attributes: [:id, :description, :_destroy], temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
+    params.require(:card_level).permit(:name, :card_theme_id, :daily_guest_pass_count, permanent_benefits_attributes: [:id, :description, :_destroy], temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130906193038) do
+ActiveRecord::Schema.define(:version => 20130910232940) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(:version => 20130906193038) do
     t.integer  "venue_id"
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
-    t.string   "theme"
     t.integer  "daily_guest_pass_count", :default => 0
     t.integer  "sort_position"
+    t.integer  "card_theme_id"
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(:version => 20130906193038) do
 
   add_index "card_levels_promotions", ["card_level_id"], :name => "index_card_levels_promotions_on_card_level_id"
   add_index "card_levels_promotions", ["promotion_id"], :name => "index_card_levels_promotions_on_promotion_id"
+
+  create_table "card_themes", :force => true do |t|
+    t.string   "name"
+    t.integer  "venue_id"
+    t.string   "portrait_background"
+    t.string   "landscape_background"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  add_index "card_themes", ["venue_id"], :name => "index_card_themes_on_venue_id"
 
   create_table "cardholders", :force => true do |t|
     t.string   "phone_number"
@@ -97,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20130906193038) do
     t.datetime "updated_at",          :null => false
     t.integer  "default_guest_count"
     t.text     "default_benefits"
+    t.integer  "card_theme_id"
   end
 
   add_index "partners", ["venue_id"], :name => "index_partners_on_venue_id"

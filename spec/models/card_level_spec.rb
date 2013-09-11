@@ -4,9 +4,6 @@ describe CardLevel do
   it { should validate_presence_of :name }
   it { should validate_uniqueness_of(:name).scoped_to(:venue_id) }
 
-  it { should validate_presence_of :theme }
-  it { should ensure_inclusion_of(:theme).in_array(CardLevel::THEMES) }
-
   it { should validate_presence_of :venue }
 
   it { should validate_presence_of :daily_guest_pass_count }
@@ -16,6 +13,8 @@ describe CardLevel do
   it { should validate_uniqueness_of(:sort_position).scoped_to(:venue_id) }
 
   it { should belong_to :venue }
+  it { should belong_to :card_theme }
+
   it { should have_many :cards }
   it { should have_and_belong_to_many :promotions }
 

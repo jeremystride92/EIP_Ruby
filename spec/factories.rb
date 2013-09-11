@@ -50,9 +50,9 @@ FactoryGirl.define do
   end
 
   factory :card_level do
-    theme { CardLevel::THEMES.sample }
-    sequence(:name) { |i| theme.titleize + i.to_s }
+    name { Faker::DizzleIpsum.words(3) }
     venue
+    card_theme { create :card_theme, venue: venue }
     daily_guest_pass_count { rand(4) + 1 }
 
     factory :card_level_with_benefits do
@@ -109,6 +109,7 @@ FactoryGirl.define do
     name { Faker::Company.name }
     phone_number { Faker.numerify('#' * 10) }
     venue
+    card_theme { create :card_theme, venue: venue }
     default_guest_count { rand(3) }
     default_benefits { ["Free booze", "Priority line access"] }
   end
@@ -120,5 +121,12 @@ FactoryGirl.define do
     guest_count { rand(5) }
     access_token "AccessToken"
     expires_at "2013-07-24 11:25:59"
+  end
+
+  factory :card_theme do
+    name { Faker::DizzleIpsum.words(2) }
+    venue
+    portrait_background "MyString"
+    landscape_background "MyString"
   end
 end

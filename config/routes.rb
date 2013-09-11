@@ -25,6 +25,8 @@ EIPiD::Application.routes.draw do
       post 'issue_benefit', to: 'benefits#issue_benefit'
     end
 
+    resources :card_themes, except: [:show]
+
     resources :users
 
     resources :cardholders, only: [:index] do

@@ -1,5 +1,5 @@
 #id-side.card-side
-  .card-container.theme-red
+  .card-container{ style: "background-image: url(#{@temporary_card.partner.card_theme.portrait_background.url})" }
     %header.card-header
       = image_tag @temporary_card.venue.logo.url, class: 'venue-logo'
       .eipid-logo-white
@@ -21,13 +21,16 @@
           = link_to request_card_path, class: 'btn btn-inverse btn-request-card' do
             %i.icon-credit-card
               Request a Permanent Card from #{@venue.name}
-    .hologram-container
-      .hologram
     .anti-screenshot-device
       .barber-pole
         .inner-barber-pole
 - if @temporary_card.expired?
   .expired-notice EXPIRED
 
+:javascript
+  themeBackgrounds = {
+    portrait: "#{@temporary_card.partner.card_theme.portrait_background.url}",
+    landscape: "#{@temporary_card.partner.card_theme.landscape_background.url}"
+  }
 = content_for :javascripts do
   = javascript_include_tag 'temporary_card'

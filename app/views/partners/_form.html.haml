@@ -1,6 +1,7 @@
 = simple_form_for [:venue, @partner] do |f|
   = f.input :name
   = f.input :phone_number
+  = f.input :card_theme_id, collection: @venue.card_themes
 
   %fieldset
     %legend Benefits

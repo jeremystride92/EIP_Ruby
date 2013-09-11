@@ -31,6 +31,8 @@ class Ability
 
       can :manage, TemporaryCard, venue: { id: user.venue_id }
 
+      can :manage, CardTheme, venue_id: user.venue_id
+
       can :reset_pin, Cardholder do |cardholder|
         cardholder.venue_ids.include? user.venue_id
       end

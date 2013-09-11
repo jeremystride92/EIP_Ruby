@@ -8,7 +8,7 @@
           .info
             %h2= card_level.name
             .card-preview-row
-              .card-preview{ 'class' => "theme-#{card_level.theme}" }
+              .card-preview{ style: "background-image: url(#{card_level.card_theme.try(:landscape_background_path)})" }
               .actions.center-text
                 =link_to edit_venue_card_level_path(card_level), class: 'btn btn-large' do
                   %i.icon-edit

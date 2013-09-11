@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Partner do
   it { should belong_to :venue }
+  it { should belong_to :card_theme }
+
   it { should have_many :temporary_cards }
 
   it { should validate_presence_of :name }

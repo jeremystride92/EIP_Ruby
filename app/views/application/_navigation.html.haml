@@ -25,6 +25,10 @@
               = nav_link venue_cardholders_path do
                 %i.icon-user
                 Cardholders
+            - if can? :read, CardTheme
+              = nav_link venue_card_themes_path do
+                %i.icon-picture
+                Themes
       - if can? :read, Benefit
         = nav_link venue_benefits_path do
           %i.icon-star

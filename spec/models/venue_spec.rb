@@ -8,6 +8,7 @@ describe Venue do
   it { should have_many(:promotions) }
   it { should have_many(:partners) }
   it { should have_many(:temporary_cards).through(:partners) }
+  it { should have_many(:card_themes) }
 
   it { should validate_presence_of :name }
   it { should validate_presence_of :location }
@@ -97,9 +98,8 @@ describe Venue do
 
     context "with nexmo_number set" do
       let (:specific_number) { '10987654321' }
-      
+
       before do
-        
         subject.nexmo_number = specific_number
       end
 

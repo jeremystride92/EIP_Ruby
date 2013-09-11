@@ -1,16 +1,16 @@
 ActiveAdmin.register CardLevel do
   menu parent: 'Venue Management'
-  
+
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(card_level: [:venue_id, :name, :theme, :daily_guest_pass_count])
+      params.permit(card_level: [:venue_id, :name, :card_theme_id, :daily_guest_pass_count])
     end
   end
 
   filter :venue
   filter :name
-  filter :theme, as: :select, collection: CardLevel::THEMES
+  filter :card_theme_id
   filter :created_at
   filter :updated_at
 
@@ -18,7 +18,9 @@ ActiveAdmin.register CardLevel do
     selectable_column
     column :venue
     column :name
-    column :theme
+    column :card_theme do |card_level|
+      card_level.card_theme.try :name
+    end
     column :daily_guest_pass_count
     actions
   end
@@ -27,7 +29,7 @@ ActiveAdmin.register CardLevel do
     f.inputs do
       f.input :venue
       f.input :name
-      f.input :theme, collection: CardLevel::THEMES
+      f.input :card_theme, as: :select, collection: card_level.venue.card_themes
       f.input :daily_guest_pass_count
     end
     f.actions
