@@ -1,6 +1,6 @@
 .row-fluid
   .span3
-    .card-preview{ style: "background-image: url(#{card.card_level.card_theme.landscape_background_path})" }
+    .card-preview{ style: "background-image: url(#{card.card_level.card_theme.try :landscape_background_path})" }
       .cardholder-photo
         = image_tag card.cardholder.photo.mobile_small, class: 'cardholder-img'
     .card-level-name.visible-phone= card.card_level.name
