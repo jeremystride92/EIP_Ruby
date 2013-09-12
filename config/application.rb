@@ -90,23 +90,24 @@ module EIPiD
       jquery.js
       jquery-ui.js
       underscore.js
+      active_admin.css.scss
+      active_admin.js
+      bulk_import.js
+      card_level_temp_benefits.js
+      card_themes_form.js
+      cardholder_onboarding.js
       cardholders.js
       cardholders_batch_new.js
       common.js
+      dashboard.js
+      partners_new.js
       phone_format.js
-      venue_signup.js
       promotions.js
       request_card.js
-      cardholder_onboarding.js
-      active_admin.js
-      active_admin.css.scss
-      card_level_temp_benefits.js
-      dashboard.js
-      bulk_import.js
-      temporary_cards_batch_new.js
       temporary_card.js
-      partners_new.js
+      temporary_cards_batch_new.js
       upload_preview.js
+      venue_signup.js
     )
 
     # Customize generators
