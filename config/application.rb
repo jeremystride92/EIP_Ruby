@@ -106,6 +106,7 @@ module EIPiD
       temporary_cards_batch_new.js
       temporary_card.js
       partners_new.js
+      upload_preview.js
     )
 
     # Customize generators
