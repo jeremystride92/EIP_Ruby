@@ -18,7 +18,7 @@
         %td= partner.phone_number
         %td= link_to partner.active_cards_count, venue_partner_temporary_cards_path(partner)
         %td= partner.lifetime_cards_count
-        %td
+        %td.actions
           = link_to new_batch_venue_partner_temporary_cards_path(partner), class: 'btn btn-primary' do
             %i.icon-money
             Issue Cards

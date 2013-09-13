@@ -11,7 +11,7 @@
       %th
         .card-preview{ style: "background-image: url(#{card_theme.landscape_background_path})" }
       %th= card_theme.name
-      %td
+      %td.actions
         = link_to edit_venue_card_theme_path(card_theme), class: 'btn' do
           %i.icon-edit
           Edit
