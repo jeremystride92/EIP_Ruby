@@ -1,5 +1,5 @@
 #id-side.card-side
-  .card-container{ style: "background-image: url(#{@temporary_card.partner.card_theme.portrait_background.url})" }
+  .card-container.portrait{ style: "background-image: url(#{@temporary_card.partner.card_theme.portrait_background.url})" }
     %header.card-header
       = image_tag @temporary_card.venue.logo.url, class: 'venue-logo'
       .eipid-logo-white
@@ -26,11 +26,3 @@
         .inner-barber-pole
 - if @temporary_card.expired?
   .expired-notice EXPIRED
-
-:javascript
-  themeBackgrounds = {
-    portrait: "#{@temporary_card.partner.card_theme.portrait_background.url}",
-    landscape: "#{@temporary_card.partner.card_theme.landscape_background.url}"
-  }
-= content_for :javascripts do
-  = javascript_include_tag 'temporary_card'
