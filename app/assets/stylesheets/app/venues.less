@@ -45,7 +45,6 @@
 
 .card-level {
   text-align: center;
-  font-weight: bold;
   padding: 16px 32px;
   height: 76px;
   overflow: hidden;
@@ -63,13 +62,22 @@
     right: 0;
     bottom: 0;
     left: 0;
-    padding: 16px 32px;
+    padding: 16px 8px;
     line-height: 16px;
+
+    font-size: 12px;
   }
 
   .card-count {
     font-size: 36px;
+    font-weight: bold;
     line-height: 36px;
+  }
+
+  .card-level-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }
 

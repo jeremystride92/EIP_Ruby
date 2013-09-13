@@ -6,12 +6,11 @@
       - @venue.card_levels.each_slice(4) do |slice|
         .row.row-sub-section
           - slice.each do |card_level|
-            - card_name = "#{card_level.name} Card".pluralize(card_level.cards.size)
             .span1.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
               .card-content
                 .card-count #{card_level.cards.size}
-                .hidden-phone= truncate(card_level.name, length: 10) << " Card".pluralize(card_level.cards.size)
-                .visible-phone= truncate(card_level.name, length: 21) << " Card".pluralize(card_level.cards.size)
+                .card-level-name= card_level.name
+                = 'Card'.pluralize card_level.cards.count
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
