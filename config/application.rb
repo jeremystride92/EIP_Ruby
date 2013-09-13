@@ -104,7 +104,6 @@ module EIPiD
       phone_format.js
       promotions.js
       request_card.js
-      temporary_card.js
       temporary_cards_batch_new.js
       upload_preview.js
       venue_signup.js
