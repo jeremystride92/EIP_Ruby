@@ -22,7 +22,7 @@ class CardholdersController < ApplicationController
   def index
     @card_levels = @venue.card_levels
 
-    @cards = Card.for_venue(@venue.id).joins(:cardholder).order('cardholders.last_name ASC')
+    @cards = Card.for_venue(@venue.id).includes(:guest_passes).joins(:cardholder).order('cardholders.last_name ASC')
 
     authorize! :read, Card if @cards.empty?
 
