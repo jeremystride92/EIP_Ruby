@@ -1,6 +1,9 @@
 class Kiosk::CardRequestsController < ApplicationController
   before_filter :find_venue_by_slug
+  before_filter :logout_user
+
   public_actions :new, :create
+
   skip_authorization_check
 
   def new
@@ -42,4 +45,10 @@ class Kiosk::CardRequestsController < ApplicationController
   def params_for_cardholder
     params.require(:cardholder).permit(:phone_number, :first_name, :last_name)
   end
+
+  def logout_user
+    cookies.delete(:auth_token)
+    @current_user = nil
+  end
+
 end
