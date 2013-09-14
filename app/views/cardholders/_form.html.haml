@@ -10,9 +10,9 @@
             %h3 Upload your photo
             = f.input :photo, as: :file, label: false, required: !(@cardholder.photo? || @cardholder.photo.cached?), input_html: { required: !(@cardholder.photo? || @cardholder.photo.cached?) }, hint: 'Once set, this cannot be changed. Make sure you are clearly visible and identifiable from this photograph.'
             = f.hidden_field :photo_cache
-            = image_tag @cardholder.photo_path, id: 'photo-img', class: "image-preview #{@cardholder.photo_path ? '' : 'hidden'}"
+            .photo-preview{ style: "background-image: url(#{@cardholder.photo_path})" }
       = f.input :password, required: true, input_html: { class: 'span6' }, as: :integer, label: '4-digit PIN', pattern: '\d{4}'
-      = f.input :password_confirmation, required: true, input_html: { class: 'span6' }, as: :integer, label: '4-digit PIN', pattern: '\d{4}'
+      = f.input :password_confirmation, required: true, input_html: { class: 'span6' }, as: :integer, label: 'Reenter PIN', pattern: '\d{4}'
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large', value: 'Activate Card'

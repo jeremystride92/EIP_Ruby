@@ -1,1 +1,1 @@
-$('#cardholder_photo').change(function() { readImagePreview(this, $('#photo-img')); });
+$('#cardholder_photo').change(function() { readImagePreviewToBackground(this, $('.photo-preview')); });
