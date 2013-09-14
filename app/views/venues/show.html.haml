@@ -32,6 +32,15 @@
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
               %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level)
+      .row-fluid.row-sub-section
+        .btn-group.span12
+          %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
+            %i.icon-money
+            Issue Temporary Cards
+            %span.caret.pull-right
+          %ul.dropdown-menu.pull-right
+            - @venue.partners.each do |partner|
+              %li= link_to truncate(partner.name, length: 40), new_batch_venue_partner_temporary_cards_path(partner)
 .row.row-section
   .venue-sub-block.span12
     %h3.block-title.clearfix
