@@ -1,7 +1,9 @@
-%a.btn.btn-navbar{ 'data-target' => '.nav-collapse', 'data-toggle' => 'collapse' }
-  %span.icon-bar
-  %span.icon-bar
-  %span.icon-bar
+- if current_user
+  %a.btn.btn-navbar{ 'data-target' => '.nav-collapse', 'data-toggle' => 'collapse' }
+    %i.icon-
+    %span.icon-bar
+    %span.icon-bar
+    %span.icon-bar
 =link_to ENV['site_name'], root_url, class: 'brand'
 .nav-collapse.collapse
   %ul.nav
