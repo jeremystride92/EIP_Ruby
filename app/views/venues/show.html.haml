@@ -1,16 +1,29 @@
 %h1.page-header Dashboard
 .row.row-section
-  .venue-sub-block.span7
-    %h2.block-title Activity
-    .block-info.card-levels
-      - @venue.card_levels.each_slice(4) do |slice|
-        .row.row-sub-section
-          - slice.each do |card_level|
-            .span1.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
-              .card-content
-                .card-count #{card_level.cards.size}
-                .card-level-name= card_level.name
-                = 'Card'.pluralize card_level.cards.count
+  .span7
+    .venue-sub-block
+      %h2.block-title Activity
+      .block-info.card-levels
+        - @venue.card_levels.each_slice(4) do |slice|
+          .row.row-sub-section
+            - slice.each do |card_level|
+              .span1.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
+                .card-content
+                  .card-count= card_level.cards.size
+                  .card-level-name= card_level.name
+                  = 'Card'.pluralize card_level.cards.size
+    .venue-sub-block
+      %h2.block-title EIP-X Partner Activity
+      .block-info.card-levels
+        - @venue.partners.each_slice(4) do |slice|
+          .row.row-sub-section
+            - slice.each do |partner|
+              - active_card_count = partner.temporary_cards.select(&:active?).count
+              .span1.card-level{title: "#{partner.name} Card".pluralize(active_card_count), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{partner.card_theme.try :landscape_background_path})" }
+                .card-content
+                  .card-count= active_card_count
+                  .card-level-name= partner.name
+                  = 'Card'.pluralize active_card_count
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
