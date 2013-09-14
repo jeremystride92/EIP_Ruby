@@ -8,6 +8,7 @@
       %th Expiration Date
       %th Benefits
       %th Guest List
+      %th Status
       %th Issued By
       - unless @partner
         %th Partner
@@ -24,6 +25,11 @@
             - card.benefits.each do |benefit|
               %li= benefit.description
         %td= card.guest_count
+        %td
+          - if card.id_token
+            %span.label.label-inverse Unclaimed
+          - else
+            %span.label.label-success Claimed
         %td= card.issuer.name
         - unless @partner
           %td= link_to card.partner.name, venue_partner_temporary_cards_path(card.partner)
