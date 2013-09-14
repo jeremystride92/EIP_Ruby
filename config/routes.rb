@@ -93,6 +93,11 @@ EIPiD::Application.routes.draw do
   get 'cardholders/onboard/:token', to: 'cardholders#onboard', as: :onboard
   put 'cardholders/onboard/:token', to: 'cardholders#complete_onboard'
 
+  namespace :kiosk do
+    resource :card_requests, only: [:new, :create]
+  end
+
+
   constraints VenueSubdomainConstraint do
     get 'request_card', to: 'cards#request_card_form', as: 'request_card'
     post 'request_card', to: 'cards#request_card'
