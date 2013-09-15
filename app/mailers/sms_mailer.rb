@@ -68,4 +68,12 @@ class SmsMailer < ActionMailer::Base
     self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
   end
 
+  def card_request_confirmation_sms(cardholder_id, venue_id)
+    cardholder = Cardholder.find cardholder_id
+    venue = Venue.find venue_id
+    @venue_name = venue.name
+
+    mail to: ENV['site_email']
+    self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: venue.sender_number, message: render_to_string)
+  end
 end

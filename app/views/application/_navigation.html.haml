@@ -54,6 +54,15 @@
         = nav_link venue_users_path do
           %i.icon-group
           Access
+      %li.dropdown
+        %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
+          %i.icon-desktop
+          Kiosk
+          %span.caret
+        %ul.dropdown-menu
+          = nav_link new_kiosk_card_requests_url(subdomain: @venue.vanity_slug) do
+            %i.icon-credit-card
+            Request Card
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")
