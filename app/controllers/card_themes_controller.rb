@@ -1,4 +1,5 @@
 class CardThemesController < InheritedResources::Base
+  before_filter :authenticate
   before_filter :find_venue
   before_filter :find_card_theme, except: [:index, :new, :create]
 

@@ -1,12 +1,15 @@
 class TemporaryCardsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :find_venue, except: [:public_show, :expired, :claimed]
-  before_filter :find_venue_by_vanity_slug, only: [:public_show, :expired, :claimed]
+  PUBLIC_ACTIONS = [:public_show, :expired, :claimed]
+
+  before_filter :authenticate, except: PUBLIC_ACTIONS
+  before_filter :find_venue, except: PUBLIC_ACTIONS
+  before_filter :find_venue_by_vanity_slug, only: PUBLIC_ACTIONS
   before_filter :find_temporary_card, only: [:destroy]
   before_filter :find_temporary_card_from_access_token, only: [:public_show]
 
-  skip_authorization_check only: [:public_show, :expired, :claimed]
+  skip_authorization_check only: PUBLIC_ACTIONS
 
   def index
     if params[:partner_id]

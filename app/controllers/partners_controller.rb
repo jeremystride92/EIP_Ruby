@@ -1,4 +1,5 @@
 class PartnersController < ApplicationController
+  before_filter :authenticate
   before_filter :find_venue
   before_filter :find_partner, only: [:edit, :update, :destroy]
 

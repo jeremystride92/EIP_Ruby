@@ -5,6 +5,8 @@ class PromotionsController < ApplicationController
 
   PUBLIC_ACTIONS = [:public_show]
   public_actions *PUBLIC_ACTIONS
+
+  before_filter :authenticate, except: PUBLIC_ACTIONS
   skip_authorization_check only: PUBLIC_ACTIONS
 
   def new
