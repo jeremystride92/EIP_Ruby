@@ -26,10 +26,10 @@
               %li= benefit.description
         %td= card.guest_count
         %td
-          - if card.id_token
-            %span.label.label-inverse Unclaimed
-          - else
+          - if card.id_token?
             %span.label.label-success Claimed
+          - else
+            %span.label.label-inverse Unclaimed
         %td= card.issuer.name
         - unless @partner
           %td= link_to card.partner.name, venue_partner_temporary_cards_path(card.partner)
