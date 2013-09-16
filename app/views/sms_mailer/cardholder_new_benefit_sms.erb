@@ -1,2 +1,2 @@
-<%= @venue.name %> has issued you <%= pluralize(@count, 'new benefit') %>. Open your EIPiD app to check it out!
+<%= @venue.name.html_safe %> has issued you <%= pluralize(@count, 'new benefit') %>. Open your EIPiD app to check it out!
 
