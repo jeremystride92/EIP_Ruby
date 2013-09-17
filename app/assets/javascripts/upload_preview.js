@@ -1,3 +1,5 @@
+//= require binaryajax
+//= require exif
 function readImagePreview(input, $preview) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
@@ -12,12 +14,26 @@ function readImagePreview(input, $preview) {
 
 function readImagePreviewToBackground(input, $preview) {
   if (input.files && input.files[0]) {
-    var reader = new FileReader();
+    var stringReader = new FileReader();
+    var binaryReader = new FileReader();
 
-    reader.onload = function (e) {
+    stringReader.onload = function(e) {
       $preview.css('background-image', 'url(' + e.target.result + ')');
     };
 
-    reader.readAsDataURL(input.files[0]);
+    binaryReader.onloadend = function(e) {
+      var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
+
+      for (var i = 1; i <= 8; i++) {
+        $preview.removeClass('orientation-' + i);
+      }
+
+      if (exif && exif.Orientation) {
+        $preview.addClass('orientation-' + exif.Orientation);
+      }
+    };
+
+    stringReader.readAsDataURL(input.files[0]);
+    binaryReader.readAsBinaryString(input.files[0]);
   }
 };

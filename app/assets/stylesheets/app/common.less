@@ -80,3 +80,64 @@ td.actions > .btn {
     margin-left: 10px;
   }
 }
+
+// EXIF orientation classes
+// http://www.daveperrett.com/articles/2012/07/28/exif-orientation-handling-is-a-ghetto/
+// http://css-tricks.com/snippets/css/flip-an-image/
+
+.orientation-2 {
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.orientation-3 {
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.orientation-4 {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.orientation-5 {
+  -moz-transform: scaleX(-1) rotate(90deg);
+  -webkit-transform: scaleX(-1) rotate(90deg);
+  -o-transform: scaleX(-1) rotate(90deg);
+  transform: scaleX(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.orientation-6 {
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.orientation-7 {
+  -moz-transform: scaleX(-1) rotate(-90deg);
+  -webkit-transform: scaleX(-1) rotate(-90deg);
+  -o-transform: scaleX(-1) rotate(-90deg);
+  transform: scaleX(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.orientation-8 {
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
