@@ -90,6 +90,8 @@ module EIPiD
       jquery.js
       jquery-ui.js
       underscore.js
+      binaryajax.js
+      exif.js
       active_admin.css.scss
       active_admin.js
       bulk_import.js
