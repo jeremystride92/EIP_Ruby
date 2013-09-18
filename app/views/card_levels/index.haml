@@ -17,7 +17,7 @@
           %h4 Permanent Benefits
           %ul.unstyled
             - unless card_level.daily_redeemable_benefit_allotment.zero?
-              %li #{pluralize card_level.daily_redeemable_benefit_allotment, 'daily redeemable benefit'}
+              %li #{pluralize card_level.daily_redeemable_benefit_allotment, (card_level.redeemable_benefit_name || "redeemable benefits").titleize}
             - card_level.permanent_benefits.each do |benefit|
               %li= benefit.description
         .span3.benefits

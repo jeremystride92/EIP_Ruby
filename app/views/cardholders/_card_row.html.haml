@@ -13,7 +13,7 @@
     %ul
       - active_benefit_count = card.redeemable_benefits.select(&:active?).count
       - if active_benefit_count > 0
-        %li #{pluralize(active_benefit_count, 'Redeemable Benefit')} Available
+        %li #{pluralize(active_benefit_count, card.card_level.redeemable_benefit_title)} Available
       - card.benefits.each do |benefit|
         %li= benefit.description
   .actions.span5

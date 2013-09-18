@@ -62,6 +62,9 @@ class SmsMailer < ActionMailer::Base
     cardholder = Cardholder.find cardholder_id
     @venue = Venue.find venue_id
 
+    card = @venue.cards.where(cardholder_id: cardholder_id).first
+    @benefit_title = card.card_level.redeemable_benefit_title
+
     @count = count
 
     mail to: ENV['site_email']

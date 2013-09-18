@@ -1,7 +1,7 @@
 = form_tag venue_card_issue_redeemable_benefits_path(@card), method: :post do
   .row
     .form-block.span6.offset3
-      = label_tag :redeemable_benefit_allotment, 'Number of benefits', input_html: { class: 'span6' }
+      = label_tag :redeemable_benefit_allotment, "Number of #{@card.card_level.redeemable_benefit_title.pluralize}", input_html: { class: 'span6' }
       = number_field_tag :redeemable_benefit_allotment, 1, min: 1, step: 1, class: 'span6'
       - Time.use_zone @venue.time_zone do
         = label_tag :start_date, 'Start date'
