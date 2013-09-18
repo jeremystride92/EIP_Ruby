@@ -14,7 +14,7 @@
       %fieldset
         %legend Benefits
         = f.input :expires_at, label: 'Expiration', input_html: { class: 'span6', type: 'date' }
-        = f.input :redeemable_benefit_allotment, as: :integer, input_html: { class: 'span6', value: @redeemable_benefit_allotment, min: 0 }
+        = f.input :redeemable_benefit_allotment, as: :integer, input_html: { class: 'span6', value: @redeemable_benefit_allotment, min: 0 }, hint: "#{(@partner.try(&:redeemable_benefit_name) || "").titleize.pluralize}"
 
         .batch-benefits
           .batch-rows

@@ -33,7 +33,7 @@ class TemporaryCardsController < ApplicationController
     @cancel_path = @partner.present? ? venue_partner_temporary_cards_path(@partner) : venue_temporary_cards_path
 
     benefits_map = Partner.all.map do |partner|
-      [partner.id, { default_redeemable_benefit_allotment: partner.default_redeemable_benefit_allotment, benefits: partner.default_benefits.map { |benefit| { description: benefit } } }]
+      [partner.id, { default_redeemable_benefit_allotment: partner.default_redeemable_benefit_allotment, redeemable_benefit_name: (partner.redeemable_benefit_name || '').titleize.pluralize, benefits: partner.default_benefits.map { |benefit| { description: benefit } } }]
     end
     @benefits = Hash[benefits_map]
 
