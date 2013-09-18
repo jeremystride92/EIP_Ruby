@@ -221,7 +221,7 @@ describe Card do
           it "should remove the right number of RedeemableBenefits" do
             card.redeem_benefits! 2
             card.redeemable_benefit_allotment.should == 0
-            card.redeemable_benefits.count.should == 1
+            card.redeemable_benefits.where(redeemed_at: nil).count.should == 1
             card.reload.total_redeemable_benefit_allotment.should == 1
           end
         end
@@ -258,7 +258,7 @@ describe Card do
           it "should remove the right number of RedeemableBenefits" do
             card.redeem_benefits! 2
             card.redeemable_benefit_allotment.should == 0
-            card.redeemable_benefits.count.should == 2
+            card.redeemable_benefits.where(redeemed_at: nil).count.should == 2
             card.reload.total_redeemable_benefit_allotment.should == 2
           end
         end
