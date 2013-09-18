@@ -1,7 +1,7 @@
 class Api::V1::CardholdersController < ApplicationController
   before_filter :authorize
 
-  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :guest_passes, { card_level: [:benefits, :venue, :promotions ] }] }.freeze
+  EAGER_LOAD_ASSOCIATIONS = { cards: [:benefits, :redeemable_benefits, { card_level: [:benefits, :venue, :promotions ] }] }.freeze
 
   def show
     authorize! :read, @cardholder
@@ -13,17 +13,17 @@ class Api::V1::CardholdersController < ApplicationController
     end
   end
 
-  def checkin
+  def redeem
     card = Card.find params[:card_id]
-    authorize! :checkin, card
+    authorize! :redeem, card
 
-    guest_count = params[:guest_count].to_i
+    benefit_redemption_count = params[:benefit_redemption_count].to_i
 
-    if guest_count > card.total_guest_count
-      render json: {error: "This cardholder has fewer passes than guests.", count: card.reload.total_guest_count }, status: :bad_request
+    if benefit_redemption_count > card.total_redeemable_benefit_allotment
+      render json: {error: "This cardholder does not have enough benefits.", count: card.reload.total_redeemable_benefit_allotment }, status: :bad_request
     else
-      card.checkin_guests! guest_count
-      render json: { success: "Passes accepted", count: card.reload.total_guest_count }
+      card.redeem_benefits! benefit_redemption_count
+      render json: { success: "Benefits accepted", count: card.reload.total_redeemable_benefit_allotment }
     end
   end
 

@@ -7,7 +7,7 @@
       %th Issue Date
       %th Expiration Date
       %th Benefits
-      %th Guest List
+      %th Redeemable Benefits
       %th Status
       %th Issued By
       - unless @partner
@@ -24,7 +24,7 @@
           %ul
             - card.benefits.each do |benefit|
               %li= benefit.description
-        %td= card.guest_count
+        %td= card.redeemable_benefit_allotment
         %td
           - if card.id_token?
             %span.label.label-success Claimed

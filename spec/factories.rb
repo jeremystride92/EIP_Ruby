@@ -53,7 +53,7 @@ FactoryGirl.define do
     name { Faker::DizzleIpsum.words(3) }
     venue
     card_theme { create :card_theme, venue: venue }
-    daily_guest_pass_count { rand(4) + 1 }
+    daily_redeemable_benefit_allotment { rand(4) + 1 }
 
     factory :card_level_with_benefits do
       after :create do |card_level, evaluator|
@@ -66,7 +66,7 @@ FactoryGirl.define do
     card_level
     cardholder
     status 'active'
-    guest_count 3
+    redeemable_benefit_allotment 3
     issued_at { Time.zone.now }
     association :issuer, factory: :venue_manager
 
@@ -87,7 +87,7 @@ FactoryGirl.define do
     association :beneficiary, factory: :card_level
   end
 
-  factory :guest_pass do
+  factory :redeemable_benefit do
     start_date nil
     end_date nil
     card
@@ -110,7 +110,7 @@ FactoryGirl.define do
     phone_number { Faker.numerify('#' * 10) }
     venue
     card_theme { create :card_theme, venue: venue }
-    default_guest_count { rand(3) }
+    default_redeemable_benefit_allotment { rand(3) }
     default_benefits { ["Free booze", "Priority line access"] }
   end
 
@@ -118,7 +118,7 @@ FactoryGirl.define do
     phone_number { Faker.numerify('#' * 10) }
     partner
     association :issuer, factory: :venue_manager
-    guest_count { rand(5) }
+    redeemable_benefit_allotment { rand(5) }
     access_token "AccessToken"
     expires_at "2013-07-24 11:25:59"
   end

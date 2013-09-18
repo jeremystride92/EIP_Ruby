@@ -5,7 +5,7 @@
 
   %fieldset
     %legend Benefits
-    = f.input :default_guest_count, label: 'Guests', input_html: { value: (@partner.default_guest_count || 0), min: 0 }
+    = f.input :default_redeemable_benefit_allotment, label: 'Redeemable Benefits', input_html: { value: (@partner.default_redeemable_benefit_allotment || 0), min: 0 }
 
     .batch-benefits
       .batch-rows

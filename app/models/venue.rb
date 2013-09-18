@@ -54,9 +54,9 @@ class Venue < ActiveRecord::Base
     nexmo_number.blank? ? ENV['nexmo_default_sender'] : nexmo_number
   end
 
-  def set_all_card_level_guest_passes
+  def set_all_card_level_redeemable_benefit_allotments
     card_levels.each do |card_level|
-      card_level.set_all_card_guest_passes
+      card_level.set_all_card_redeemable_benefit_allotments
     end
   end
 end

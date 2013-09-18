@@ -14,7 +14,7 @@ class CardLevel < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :venue, presence: true
-  validates :daily_guest_pass_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
+  validates :daily_redeemable_benefit_allotment, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
     uniqueness: { scope: :venue_id }
@@ -23,8 +23,8 @@ class CardLevel < ActiveRecord::Base
 
   around_destroy :update_sort_positions
 
-  def set_all_card_guest_passes
-    cards.update_all(guest_count: daily_guest_pass_count)
+  def set_all_card_redeemable_benefit_allotments
+    cards.update_all(redeemable_benefit_allotment: daily_redeemable_benefit_allotment)
   end
 
   def reorder_to(new_position)

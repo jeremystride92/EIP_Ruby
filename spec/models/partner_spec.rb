@@ -12,8 +12,8 @@ describe Partner do
   it { should allow_value(nil).for(:phone_number) }
   it { should ensure_length_of(:phone_number).is_equal_to(10) }
 
-  it { should validate_presence_of :default_guest_count }
-  it { should validate_numericality_of(:default_guest_count).only_integer.is_greater_than_or_equal_to(0) }
+  it { should validate_presence_of :default_redeemable_benefit_allotment }
+  it { should validate_numericality_of(:default_redeemable_benefit_allotment).only_integer.is_greater_than_or_equal_to(0) }
 
   describe "#default_benefits" do
     it "should set to [] if not set" do

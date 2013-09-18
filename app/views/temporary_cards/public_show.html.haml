@@ -9,8 +9,8 @@
           .cardholder-name
             .last= @temporary_card.partner.name
         %ul.benefits
-          - unless @temporary_card.guest_count.zero?
-            %li.benefit.block= pluralize @temporary_card.guest_count, "Guest"
+          - unless @temporary_card.redeemable_benefit_allotment.zero?
+            %li.benefit.block= pluralize @temporary_card.redeemable_benefit_allotment, "Redeemable Benefit"
           - @temporary_card.benefits.each do |benefit|
             %li.benefit.block= benefit.description
       .expiration

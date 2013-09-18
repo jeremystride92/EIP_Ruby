@@ -20,12 +20,12 @@ class CardsController < ApplicationController
     end
   end
 
-  def edit_guest_passes
+  def edit_redeemable_benefits
     Time.use_zone @venue.time_zone do
-      @card.guest_passes.build unless @card.guest_passes.present?
+      @card.redeemable_benefits.build unless @card.redeemable_benefits.present?
     end
 
-    authorize! :create, @card.guest_passes.last
+    authorize! :create, @card.redeemable_benefits.last
   end
 
   def review_card_request
@@ -136,27 +136,27 @@ class CardsController < ApplicationController
     end
   end
 
-  def issue_guest_passes
+  def issue_redeemable_benefits
     authorize! :update, @card
-    authorize! :create, GuestPass
-    new_pass_count = params[:guest_count].to_i
+    authorize! :create, RedeemableBenefit
+    new_redeemable_benefit_count = params[:redeemable_benefit_allotment].to_i
 
 
     success = false
     Time.use_zone @venue.time_zone do
-      new_pass_count.times do
-        @card.guest_passes.build(params_for_guest_pass)
+      new_redeemable_benefit_count.times do
+        @card.redeemable_benefits.build(params_for_redeemable_benefit)
       end
 
       success = @card.save
     end
 
     if success
-      SmsMailer.delay(retry: false).cardholder_new_guest_pass_sms(@card.cardholder_id, @venue.id, new_pass_count)
-      redirect_to venue_cardholders_path, notice: "#{new_pass_count} passes issued."
+      SmsMailer.delay(retry: false).cardholder_new_redeemable_benefit_sms(@card.cardholder_id, @venue.id, new_redeemable_benefit_count)
+      redirect_to venue_cardholders_path, notice: "#{new_redeemable_benefit_count} redeemable_benefits issued."
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
-      render :edit_guest_passes
+      render :edit_redeemable_benefits
     end
   end
 
@@ -198,7 +198,7 @@ class CardsController < ApplicationController
     params.require(:card).permit(:card_level_id, benefits_attributes: [:description, :start_date_field, :end_date_field, :start_time_field, :end_time_field, :_destroy, :id])
   end
 
-  def params_for_guest_pass
+  def params_for_redeemable_benefit
     params.permit :start_date, :end_date
   end
 
@@ -208,7 +208,7 @@ class CardsController < ApplicationController
 
   def find_card
     id = params[:id] || params[:card_id]
-    @card = Card.includes(:benefits, :guest_passes).find(id)
+    @card = Card.includes(:benefits, :redeemable_benefits).find(id)
   end
 
   def find_venue

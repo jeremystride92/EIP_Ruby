@@ -4,5 +4,5 @@
   .span12.center-text
     .btn-group
       = link_to 'Benefits', '#', class: 'btn btn-large active'
-      = link_to 'Guest List', venue_card_edit_guest_passes_path(@card), class: 'btn btn-large'
+      = link_to 'Redeemable Benefits', venue_card_edit_redeemable_benefits_path(@card), class: 'btn btn-large'
 = render 'benefits_form', card: @card

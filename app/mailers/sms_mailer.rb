@@ -58,7 +58,7 @@ class SmsMailer < ActionMailer::Base
     self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: @venue.sender_number, message: render_to_string)
   end
 
-  def cardholder_new_guest_pass_sms(cardholder_id, venue_id, count)
+  def cardholder_new_redeemable_benefit_sms(cardholder_id, venue_id, count)
     cardholder = Cardholder.find cardholder_id
     @venue = Venue.find venue_id
 
