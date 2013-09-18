@@ -110,6 +110,7 @@ FactoryGirl.define do
     phone_number { Faker.numerify('#' * 10) }
     venue
     card_theme { create :card_theme, venue: venue }
+    redeemable_benefit_name { ['guest pass', 'free drink'].sample }
     default_redeemable_benefit_allotment { rand(3) }
     default_benefits { ["Free booze", "Priority line access"] }
   end

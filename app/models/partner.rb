@@ -10,6 +10,8 @@ class Partner < ActiveRecord::Base
     numericality: { only_integer: true, allow_nil: true },
     length: { is: 10, allow_nil: true }
 
+  validates :redeemable_benefit_name, presence: true
+
   validates :default_redeemable_benefit_allotment,
     presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }

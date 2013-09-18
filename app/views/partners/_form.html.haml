@@ -1,17 +1,20 @@
 = simple_form_for [:venue, @partner] do |f|
-  = f.input :name
-  = f.input :phone_number
-  = f.input :card_theme_id, collection: @venue.card_themes
+  .row
+    .form-block.offset3.span6
+      = f.input :name, input_html: { class: 'span6' }
+      = f.input :phone_number, input_html: { class: 'span6' }
+      = f.input :card_theme_id, collection: @venue.card_themes, input_html: { class: 'span6' }
 
-  %fieldset
-    %legend Benefits
-    = f.input :default_redeemable_benefit_allotment, label: 'Redeemable Benefits', input_html: { value: (@partner.default_redeemable_benefit_allotment || 0), min: 0 }
+      %fieldset
+        %legend Benefits
+        = f.input :redeemable_benefit_name, placeholder: 'E.g. guest pass, free drink', hint: 'Singular form - will automatically pluralize where appropriate', input_html: { class: 'span6' }
+        = f.input :default_redeemable_benefit_allotment, label: 'Redeemable Benefits', input_html: { class: 'span6', value: (@partner.default_redeemable_benefit_allotment || 0), min: 0 }
 
-    .batch-benefits
-      .batch-rows
+        .batch-benefits
+          .batch-rows
 
-      %button.btn-large.btn-success.button-add
-        %i.icon-plus
+          %button.btn-large.btn-success.button-add
+            %i.icon-plus
 
   .form-actions
     = f.button :submit, class: 'btn btn-large btn-primary'
