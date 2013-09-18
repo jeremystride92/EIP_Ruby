@@ -153,7 +153,7 @@ class CardsController < ApplicationController
 
     if success
       SmsMailer.delay(retry: false).cardholder_new_redeemable_benefit_sms(@card.cardholder_id, @venue.id, new_redeemable_benefit_count)
-      redirect_to venue_cardholders_path, notice: "#{new_redeemable_benefit_count} redeemable_benefits issued."
+      redirect_to venue_cardholders_path, notice: "#{new_redeemable_benefit_count} redeemable benefits issued."
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
       render :edit_redeemable_benefits
