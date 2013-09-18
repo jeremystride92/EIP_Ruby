@@ -12,7 +12,7 @@ class TemporaryCard < ActiveRecord::Base
     numericality: { only_integer: true, allow_nil: true },
     length: { is: 10, allow_nil: true }
 
-  validates :guest_count,
+  validates :redeemable_benefit_allotment,
     numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   before_create { generate_token :access_token }

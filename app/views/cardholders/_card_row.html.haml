@@ -11,9 +11,9 @@
     .card-name= "#{card.cardholder.first_name} #{card.cardholder.last_name}"
     %strong Individual Benefits
     %ul
-      - active_pass_count = card.guest_passes.select(&:active?).count
-      - if active_pass_count > 0
-        %li #{pluralize(active_pass_count, 'Guest Pass')} Available
+      - active_benefit_count = card.redeemable_benefits.select(&:active?).count
+      - if active_benefit_count > 0
+        %li #{pluralize(active_benefit_count, card.card_level.redeemable_benefit_title)} Available
       - card.benefits.each do |benefit|
         %li= benefit.description
   .actions.span5

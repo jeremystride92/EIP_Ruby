@@ -33,11 +33,11 @@ class TemporaryCardsController < ApplicationController
     @cancel_path = @partner.present? ? venue_partner_temporary_cards_path(@partner) : venue_temporary_cards_path
 
     benefits_map = Partner.all.map do |partner|
-      [partner.id, { default_guest_count: partner.default_guest_count, benefits: partner.default_benefits.map { |benefit| { description: benefit } } }]
+      [partner.id, { default_redeemable_benefit_allotment: partner.default_redeemable_benefit_allotment, redeemable_benefit_name: (partner.redeemable_benefit_name || '').titleize.pluralize, benefits: partner.default_benefits.map { |benefit| { description: benefit } } }]
     end
     @benefits = Hash[benefits_map]
 
-    @guest_count = (@partner.default_guest_count || 0) if @partner.present?
+    @redeemable_benefit_allotment = (@partner.default_redeemable_benefit_allotment || 0) if @partner.present?
   end
 
   def batch_create
@@ -124,6 +124,6 @@ class TemporaryCardsController < ApplicationController
   end
 
   def params_for_temp_card
-    params.require('batch').permit(:guest_count, :expires_at, benefits_attributes: [:description])
+    params.require('batch').permit(:redeemable_benefit_allotment, :expires_at, benefits_attributes: [:description])
   end
 end

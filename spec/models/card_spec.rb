@@ -5,12 +5,12 @@ describe Card do
   it { should belong_to :cardholder }
   it { should have_one(:venue).through(:card_level) }
   it { should have_many :benefits }
-  it { should have_many :guest_passes }
+  it { should have_many :redeemable_benefits }
 
   describe 'defaults' do
     subject { Card.new }
 
-    its(:guest_count) { should == 0 }
+    its(:redeemable_benefit_allotment) { should == 0 }
 
     its(:status) { should == 'active' }
   end
@@ -18,10 +18,10 @@ describe Card do
   describe 'Validations' do
     subject { build :card }
 
-    it { should validate_presence_of :guest_count }
+    it { should validate_presence_of :redeemable_benefit_allotment }
     it { should validate_presence_of :card_level }
     it { should validate_presence_of :cardholder }
-    it { should validate_numericality_of(:guest_count).only_integer.is_greater_than_or_equal_to(0) }
+    it { should validate_numericality_of(:redeemable_benefit_allotment).only_integer.is_greater_than_or_equal_to(0) }
 
     %w[active inactive].each do |status|
       context "when #{status}" do
@@ -37,8 +37,8 @@ describe Card do
       it { should_not validate_presence_of :issued_at }
     end
 
-    it 'should only allow positive integer guest_count' do
-      subject.guest_count = -3
+    it 'should only allow positive integer redeemable_benefit_allotment' do
+      subject.redeemable_benefit_allotment = -3
       subject.should_not be_valid
     end
 
@@ -118,166 +118,166 @@ describe Card do
     end
   end
 
-  describe '#total_guest_count' do
-    let(:card) { create :card, guest_count: 1 }
+  describe '#total_redeemable_benefit_allotment' do
+    let(:card) { create :card, redeemable_benefit_allotment: 1 }
 
-    subject { card.total_guest_count }
+    subject { card.total_redeemable_benefit_allotment }
 
-    context "with an expired pass" do
+    context "with an expired redeemable benefit" do
       before do
-        card.guest_passes.create end_date: 1.day.ago
+        card.redeemable_benefits.create end_date: 1.day.ago
       end
 
       it { should == 1 }
     end
 
-    context "with an unstarted pass" do
+    context "with an unstarted redeemable benefit" do
       before do
-        card.guest_passes.create start_date: 1.day.from_now
+        card.redeemable_benefits.create start_date: 1.day.from_now
       end
 
       it { should == 1 }
     end
 
-    context "with an active temporary pass" do
+    context "with an active temporary redeemable benefit" do
       before do
-        card.guest_passes.create start_date: 1.day.ago, end_date: 1.day.from_now
+        card.redeemable_benefits.create start_date: 1.day.ago, end_date: 1.day.from_now
       end
 
       it { should == 2 }
     end
 
-    context "with an indefinite pass" do
+    context "with an indefinite redeemable benefit" do
       before do
-        card.guest_passes.create start_date: nil, end_date: nil
+        card.redeemable_benefits.create start_date: nil, end_date: nil
       end
 
       it { should == 2 }
     end
   end
 
-  describe "#checkin_guests!" do
-    context "without any GuestPasses" do
-      context "without any daily passes" do
-        let(:card) { build :card, guest_count: 0 }
+  describe "#redeem_benefits!" do
+    context "without any RedeemableBenefits" do
+      context "without any daily redeemable benefits" do
+        let(:card) { build :card, redeemable_benefit_allotment: 0 }
 
-        it "should raise an exception and not expend passes" do
+        it "should raise an exception and not expend redeemable benefits" do
           lambda {
-            lambda { card.checkin_guests! 1 }.should raise_error 'Too many guests'
-          }.should_not change { card.guest_count }
+            lambda { card.redeem_benefits! 1 }.should raise_error 'Too few benefits'
+          }.should_not change { card.redeemable_benefit_allotment }
         end
       end
 
-      context "without enough daily passes" do
-        let(:card) { build :card, guest_count: 3 }
+      context "without enough daily redeemable benefits" do
+        let(:card) { build :card, redeemable_benefit_allotment: 3 }
 
-        it "should raise an exception and not expend passes" do
+        it "should raise an exception and not expend redeemable benefits" do
           lambda {
-            lambda { card.checkin_guests! 4 }.should raise_error 'Too many guests'
-          }.should_not change { card.guest_count }
+            lambda { card.redeem_benefits! 4 }.should raise_error 'Too few benefits'
+          }.should_not change { card.redeemable_benefit_allotment }
         end
       end
 
-      context "with enough daily passes" do
-        let(:card) { build :card, guest_count: 5 }
+      context "with enough daily redeemable benefits" do
+        let(:card) { build :card, redeemable_benefit_allotment: 5 }
 
-        it "should subtract the checkins from the pass count" do
-          card.checkin_guests! 2
-          card.guest_count.should == 3
-          card.total_guest_count.should == 3
+        it "should subtract the redemptions from the redeemable benefit count" do
+          card.redeem_benefits! 2
+          card.redeemable_benefit_allotment.should == 3
+          card.total_redeemable_benefit_allotment.should == 3
         end
       end
     end
 
-    context "with GuestPasses" do
-      context "without any daily passes" do
-        context "without enough GuestPasses" do
-          let(:card) { create :card, guest_count: 0 }
+    context "with RedeemableBenefits" do
+      context "without any daily benefits" do
+        context "without enough RedeemableBeenfits" do
+          let(:card) { create :card, redeemable_benefit_allotment: 0 }
 
           before do
             3.times do
-              card.guest_passes.create
+              card.redeemable_benefits.create
             end
           end
 
-          it "should raise an exception and not expend passes" do
+          it "should raise an exception and not expend redeemable benefits" do
             lambda {
               lambda {
-                lambda {card.checkin_guests! 4}.should raise_error "Too many guests"
-              }.should_not change { card.guest_count }
-            }.should_not change { card.guest_passes.count }
+                lambda {card.redeem_benefits! 4}.should raise_error "Too few benefits"
+              }.should_not change { card.redeemable_benefit_allotment }
+            }.should_not change { card.redeemable_benefits.count }
           end
         end
 
-        context "with enough GuestPasses" do
-          let(:card) { create :card, guest_count: 0 }
+        context "with enough RedeemableBenefits" do
+          let(:card) { create :card, redeemable_benefit_allotment: 0 }
 
           before do
             3.times do
-              card.guest_passes.create
+              card.redeemable_benefits.create
             end
           end
 
-          it "should remove the right number of GuestPasses" do
-            card.checkin_guests! 2
-            card.guest_count.should == 0
-            card.guest_passes.count.should == 1
-            card.reload.total_guest_count.should == 1
+          it "should remove the right number of RedeemableBenefits" do
+            card.redeem_benefits! 2
+            card.redeemable_benefit_allotment.should == 0
+            card.redeemable_benefits.count.should == 1
+            card.reload.total_redeemable_benefit_allotment.should == 1
           end
         end
       end
 
-      context "without enough daily passes" do
-        context "without enough GuestPasses" do
-          let(:card) { create :card, guest_count: 3 }
+      context "without enough daily redeemable benefits" do
+        context "without enough RedeemableBenefits" do
+          let(:card) { create :card, redeemable_benefit_allotment: 3 }
 
           before do
             3.times do
-              card.guest_passes.create
+              card.redeemable_benefits.create
             end
           end
 
-          it "should raise an exception and not expend passes" do
+          it "should raise an exception and not expend redeemable benefits" do
             lambda {
               lambda {
-                lambda {card.checkin_guests! 8}.should raise_error "Too many guests"
-              }.should_not change { card.guest_count }
-            }.should_not change { card.guest_passes.count }
+                lambda {card.redeem_benefits! 8}.should raise_error "Too few benefits"
+              }.should_not change { card.redeemable_benefit_allotment }
+            }.should_not change { card.redeemable_benefits.count }
           end
         end
 
-        context "with enough GuestPasses" do
-          let(:card) { create :card, guest_count: 1 }
+        context "with enough RedeemableBenefits" do
+          let(:card) { create :card, redeemable_benefit_allotment: 1 }
 
           before do
             3.times do
-              card.guest_passes.create
+              card.redeemable_benefits.create
             end
           end
 
-          it "should remove the right number of GuestPasses" do
-            card.checkin_guests! 2
-            card.guest_count.should == 0
-            card.guest_passes.count.should == 2
-            card.reload.total_guest_count.should == 2
+          it "should remove the right number of RedeemableBenefits" do
+            card.redeem_benefits! 2
+            card.redeemable_benefit_allotment.should == 0
+            card.redeemable_benefits.count.should == 2
+            card.reload.total_redeemable_benefit_allotment.should == 2
           end
         end
       end
 
-      context "with enough daily passes" do
-        let(:card) { create :card, guest_count: 3 }
+      context "with enough daily redeemable benefits" do
+        let(:card) { create :card, redeemable_benefit_allotment: 3 }
 
         before do
           3.times do
-            card.guest_passes.create
+            card.redeemable_benefits.create
           end
         end
 
-        it "should use only daily passes" do
-          card.checkin_guests! 2
-          card.guest_count.should == 1
-          card.guest_passes.count.should == 3
-          card.total_guest_count.should == 4
+        it "should use only daily redeemable benefits" do
+          card.redeem_benefits! 2
+          card.redeemable_benefit_allotment.should == 1
+          card.redeemable_benefits.count.should == 3
+          card.total_redeemable_benefit_allotment.should == 4
         end
       end
     end

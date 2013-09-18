@@ -8,7 +8,7 @@ class Ability
     can :manage, user.class, id: user.id # Handle both User and Cardholder
 
     if user.is_a? Cardholder
-      can :checkin, Card, cardholder_id: user.id
+      can :redeem, Card, cardholder_id: user.id
       can :reset_pin, Cardholder, id: user.id
       return # Cardholder doesn't respond to #venue_manager?, etc.
     end
@@ -25,7 +25,7 @@ class Ability
 
       can :manage, Benefit, beneficiary: { venue: { id: user.venue_id } }
 
-      can :create, GuestPass, card: { venue: { id: user.venue_id } }
+      can :create, RedeemableBenefit, card: { venue: { id: user.venue_id } }
 
       can :manage, Partner, venue_id: user.venue_id
 

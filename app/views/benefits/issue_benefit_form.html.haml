@@ -4,8 +4,8 @@
     .form-block.span6.offset3
       %h3 Permanent benefits
       %ul
-        - unless @card_level.daily_guest_pass_count.zero?
-          %li= pluralize @card_level.daily_guest_pass_count, "daily guest pass"
+        - unless @card_level.daily_redeemable_benefit_allotment.zero?
+          %li= pluralize @card_level.daily_redeemable_benefit_allotment, @card_level.redeemable_benefit_title
         - @card_level.benefits.select { |b| b.start_date.blank? && b.end_date.blank? }.each do |permanent_benefit|
           %li= permanent_benefit.description
 

@@ -6,6 +6,7 @@
       %th.card-preview-header
       %th Name
       %th Phone Number
+      %th Redeemable Benefit
       %th Active Cards
       %th Lifetime Cards
       %th Actions
@@ -16,6 +17,7 @@
           .card-preview{ style: "background-image: url(#{partner.card_theme.try :landscape_background_path})" }
         %th= partner.name
         %td= partner.phone_number
+        %td= partner.redeemable_benefit_name
         %td= link_to partner.active_cards_count, venue_partner_temporary_cards_path(partner)
         %td= partner.lifetime_cards_count
         %td.actions

@@ -61,7 +61,7 @@ class PartnersController < ApplicationController
   end
 
   def params_for_partner
-    params.require(:partner).permit(:name, :phone_number, :default_guest_count, :card_theme_id)
+    params.require(:partner).permit(:name, :phone_number, :redeemable_benefit_name, :default_redeemable_benefit_allotment, :card_theme_id)
   end
 
   def params_for_default_benefits

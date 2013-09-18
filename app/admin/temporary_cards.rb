@@ -3,7 +3,7 @@ ActiveAdmin.register TemporaryCard do
   controller.skip_authorization_check
   controller do
     def permitted_params
-      params.permit(temporary_card: [:phone_number, :partner_id, :issuer_id, :guest_count, :expires_at])
+      params.permit(temporary_card: [:phone_number, :partner_id, :issuer_id, :redeemable_benefit_allotment, :expires_at])
     end
 
     def resource
@@ -40,7 +40,7 @@ ActiveAdmin.register TemporaryCard do
     column :venue
     column :partner
     column :phone_number
-    column :guest_count
+    column :redeemable_benefit_allotment
     column :benefits do |temporary_card|
       ul do
         temporary_card.benefits.each do |benefit|
@@ -56,7 +56,7 @@ ActiveAdmin.register TemporaryCard do
   form do |f|
     f.inputs do
       f.input :phone_number
-      f.input :guest_count
+      f.input :redeemable_benefit_allotment
       f.input :partner, collection: temporary_card.try(:venue).try(:partners) || Partner.all, group_by: :venue
       f.input :issuer, collection: temporary_card.try(:venue).try(:users) || User.all, group_by: :venue
       f.input :expires_at
@@ -67,7 +67,7 @@ ActiveAdmin.register TemporaryCard do
   show do |temporary_card|
     attributes_table do
       row :phone_number
-      row :guest_count
+      row :redeemable_benefit_allotment
       row :benefits do
         ul do
           temporary_card.benefits.each do |benefit|

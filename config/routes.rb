@@ -9,7 +9,7 @@ EIPiD::Application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :cardholder, only: [:show] do
-        post :checkin, to: 'cardholders#checkin'
+        post :redeem, to: 'cardholders#redeem'
       end
       post 'authorize', to: 'sessions#create'
     end
@@ -42,8 +42,8 @@ EIPiD::Application.routes.draw do
     resources :cards, only: [:destroy] do
       get :edit_benefits, action: 'edit_benefits'
       put :edit_benefits, action: 'update_benefits'
-      get :edit_guest_passes, action: 'edit_guest_passes'
-      post :issue_guest_passes, action: 'issue_guest_passes'
+      get :edit_redeemable_benefits, action: 'edit_redeemable_benefits'
+      post :issue_redeemable_benefits, action: 'issue_redeemable_benefits'
       put :activate, action: 'activate_card'
       put :deactivate, action: 'deactivate_card'
       put :change_level, action: 'change_card_level'

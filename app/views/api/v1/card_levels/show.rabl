@@ -12,3 +12,10 @@ end
 node :card_theme do |card_level|
   partial 'api/v1/card_themes/show', object: card_level.card_theme
 end
+
+node :redeemable_benefit_name do |card_level|
+  {
+    singular: card_level.redeemable_benefit_title,
+    plural: card_level.redeemable_benefit_title.pluralize
+  }
+end
