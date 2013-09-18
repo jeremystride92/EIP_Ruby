@@ -14,6 +14,7 @@ class CardLevel < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :venue, presence: true
+  validates :redeemable_benefit_name, presence: true
   validates :daily_redeemable_benefit_allotment, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
@@ -57,6 +58,10 @@ class CardLevel < ActiveRecord::Base
 
       self.update_attributes(sort_position: new_position)
     end
+  end
+
+  def redeemable_benefit_title
+    (redeemable_benefit_name || 'redeemable_benefit').titleize
   end
 
   private

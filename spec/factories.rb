@@ -53,6 +53,7 @@ FactoryGirl.define do
     name { Faker::DizzleIpsum.words(3) }
     venue
     card_theme { create :card_theme, venue: venue }
+    redeemable_benefit_name { ['guest pass', 'free drink'].sample }
     daily_redeemable_benefit_allotment { rand(4) + 1 }
 
     factory :card_level_with_benefits do

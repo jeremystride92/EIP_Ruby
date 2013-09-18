@@ -6,6 +6,8 @@ describe CardLevel do
 
   it { should validate_presence_of :venue }
 
+  it { should validate_presence_of :redeemable_benefit_name }
+
   it { should validate_presence_of :daily_redeemable_benefit_allotment }
   it { should validate_numericality_of(:daily_redeemable_benefit_allotment).only_integer.is_greater_than_or_equal_to(0) }
 
@@ -192,6 +194,28 @@ describe CardLevel do
         card_level_1.cards.size.should == 0
         card_level_2.cards.size.should == 1
       end
+    end
+  end
+
+  describe "redeemable_benefit_title" do
+    let(:card_level) { build :card_level }
+
+    subject { card_level.redeemable_benefit_title }
+
+    context "with a redeemable benefit name" do
+      before do
+        card_level.redeemable_benefit_name = 'benefit name'
+      end
+
+      it { should == 'Benefit Name' }
+    end
+
+    context "without a redeemable benefit name" do
+      before do
+        card_level.redeemable_benefit_name = nil
+      end
+
+      it { should == 'Redeemable Benefit' }
     end
   end
 end
