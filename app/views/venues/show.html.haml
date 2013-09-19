@@ -14,11 +14,11 @@
                   = 'Card'.pluralize card_level.cards.size
                 .activity.row-fluid
                   .issued.span6
-                    .count= card_level.redeemable_benefits.size
                     Benefits Issued
+                    .count= card_level.redeemable_benefits.size
                   .redeemed.span6
-                    .count= card_level.redeemable_benefits.select(&:redeemed?).size
                     Redeemed
+                    .count= card_level.redeemable_benefits.select(&:redeemed?).size
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
@@ -57,11 +57,11 @@
                   Active #{'Card'.pluralize active_card_count}
                 .activity.row-fluid
                   .issued.span6
-                    .count= partner.temporary_cards.size
                     Lifetime Cards
+                    .count= partner.temporary_cards.size
                   .activated.span6
-                    .count= partner.temporary_cards.select{ |tc| tc.id_token? }.count
                     Activated
+                    .count= partner.temporary_cards.select{ |tc| tc.id_token? }.count
 
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
