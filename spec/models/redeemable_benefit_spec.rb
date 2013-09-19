@@ -28,6 +28,22 @@ describe RedeemableBenefit do
     end
   end
 
+  describe '#redeemed?' do
+    subject { build :redeemable_benefit, redeemed_at: nil }
+
+    context 'when redeemed' do
+      subject { build :redeemable_benefit, redeemed_at: 1.day.ago }
+
+      it { should be_redeemed }
+    end
+
+    context 'when not redeemed' do
+      subject { build :redeemable_benefit, redeemed_at: nil }
+
+      it { should_not be_redeemed }
+    end
+  end
+
   describe '.redeemed' do
     let!(:redeemed_benefit) { create :redeemable_benefit, redeemed_at: 1.day.ago }
     let!(:unredeemed_benefit) { create :redeemable_benefit }

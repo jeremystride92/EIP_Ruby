@@ -4,26 +4,21 @@
     .venue-sub-block
       %h2.block-title Activity
       .block-info.card-levels
-        - @venue.card_levels.each_slice(4) do |slice|
-          .row.row-sub-section
+        - @venue.card_levels.each_slice(3) do |slice|
+          .row-fluid.row-sub-section
             - slice.each do |card_level|
-              .span1.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
-                .card-content
+              .span4.card-level{title: "#{card_level.name} Card".pluralize(card_level.cards.size), data: { toggle: 'tooltip', placement: 'bottom'  } }
+                .card-content{ style: "background-image: url(#{card_level.card_theme.try :landscape_background_path})" }
                   .card-count= card_level.cards.size
                   .card-level-name= card_level.name
                   = 'Card'.pluralize card_level.cards.size
-    .venue-sub-block
-      %h2.block-title EIP-X Partner Activity
-      .block-info.card-levels
-        - @venue.partners.each_slice(4) do |slice|
-          .row.row-sub-section
-            - slice.each do |partner|
-              - active_card_count = partner.temporary_cards.select(&:active?).count
-              .span1.card-level{title: "#{partner.name} Card".pluralize(active_card_count), data: { toggle: 'tooltip', placement: 'bottom'  }, style: "background-image: url(#{partner.card_theme.try :landscape_background_path})" }
-                .card-content
-                  .card-count= active_card_count
-                  .card-level-name= partner.name
-                  = 'Card'.pluralize active_card_count
+                .activity.row-fluid
+                  .issued.span6
+                    .count= card_level.redeemable_benefits.size
+                    Benefits Issued
+                  .redeemed.span6
+                    .count= card_level.redeemable_benefits.select(&:redeemed?).size
+                    Redeemed
   .venue-sub-block.span5.actions-block.show-overflow
     %h2.block-title Actions
     .block-info
@@ -45,6 +40,32 @@
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
               %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level)
+
+.row.row-section
+  .span7
+    .venue-sub-block
+      %h2.block-title EIP-X Partner Activity
+      .block-info.card-levels
+        - @venue.partners.each_slice(3) do |slice|
+          .row-fluid.row-sub-section
+            - slice.each do |partner|
+              - active_card_count = partner.temporary_cards.select(&:active?).count
+              .span4.card-level{title: "#{partner.name} Card".pluralize(active_card_count), data: { toggle: 'tooltip', placement: 'bottom'  } }
+                .card-content{ style: "background-image: url(#{partner.card_theme.try :landscape_background_path})" }
+                  .card-count= active_card_count
+                  .card-level-name= partner.name
+                  Active #{'Card'.pluralize active_card_count}
+                .activity.row-fluid
+                  .issued.span6
+                    .count= partner.temporary_cards.size
+                    Lifetime Cards
+                  .activated.span6
+                    .count= partner.temporary_cards.select{ |tc| tc.id_token? }.count
+                    Activated
+
+  .venue-sub-block.span5.actions-block.show-overflow
+    %h2.block-title Actions
+    .block-info
       .row-fluid.row-sub-section
         .btn-group.span12
           %a.btn.btn-large.span12.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }

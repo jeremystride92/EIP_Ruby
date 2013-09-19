@@ -15,6 +15,10 @@ class RedeemableBenefit < ActiveRecord::Base
   alias_method :old_inactive?, :inactive?
 
   def inactive?(now = Time.zone.now)
-    self.redeemed_at? || old_inactive?(now)
+    self.redeemed? || old_inactive?(now)
+  end
+
+  def redeemed?
+    self.redeemed_at?
   end
 end
