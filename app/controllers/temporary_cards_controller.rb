@@ -55,7 +55,7 @@ class TemporaryCardsController < ApplicationController
     end
 
     cards.each do |card|
-      card.save and SmsMailer.delay(retry: false).temp_card_sms(card, @venue, @partner)
+      card.save and SmsMailer.delay(retry: false).temp_card_sms(card.id, @venue.id, @partner.id)
     end
 
     @problems = cards.reject &:persisted?
