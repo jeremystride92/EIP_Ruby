@@ -22,16 +22,12 @@ class CardholdersController < ApplicationController
   def index
     @card_levels = @venue.card_levels
 
-    @cards = Card.for_venue(@venue.id).includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :card_level).joins(:cardholder).order('cardholders.last_name ASC')
+    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
 
-    authorize! :read, Card if @cards.empty?
+    authorize! :read, Card
 
-    @cards.each do |card|
-      authorize! :read, card
-    end
-
-    @approved_cards = @cards.approved
-    @pending_cards = @cards.pending
+    @approved_cards = @cards.select {|card| !card.pending? }
+    @pending_cards = @cards.select &:pending?
 
     if params[:card_level_id].present?
       @approved_cards = @approved_cards.where(card_level_id: params[:card_level_id])

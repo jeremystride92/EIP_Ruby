@@ -60,7 +60,7 @@ class CardLevelsController < ApplicationController
   end
 
   def find_venue_card_levels
-    @card_levels = @venue.card_levels
+    @card_levels = @venue.card_levels.includes(:permanent_benefits, :temporary_benefits)
   end
 
   def find_card_level

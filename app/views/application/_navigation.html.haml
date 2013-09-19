@@ -7,7 +7,7 @@
 =link_to ENV['site_name'], root_url, class: 'brand'
 .nav-collapse.collapse
   %ul.nav
-    - if current_user && current_user.venue
+    - if current_user && current_user.venue_id
       - if can? :read, Venue
         = nav_link venue_path do
           %i.icon-dashboard
@@ -50,7 +50,7 @@
               = nav_link venue_temporary_cards_path do
                 %i.icon-money
                 Temporary Cards
-      - if can? :read, User.new(venue: current_user.venue)
+      - if can? :read, User
         = nav_link venue_users_path do
           %i.icon-group
           Access

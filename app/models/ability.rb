@@ -23,13 +23,13 @@ class Ability
 
       can :manage, Card, venue: { id: user.venue_id }
 
-      can :manage, Benefit, beneficiary: { venue: { id: user.venue_id } }
+      can :manage, Benefit, beneficiary: { venue: {id: user.venue_id } }
 
       can :create, RedeemableBenefit, card: { venue: { id: user.venue_id } }
 
       can :manage, Partner, venue_id: user.venue_id
 
-      can :manage, TemporaryCard, venue: { id: user.venue_id }
+      can :manage, TemporaryCard, partner: { venue_id: user.venue_id }
 
       can :manage, CardTheme, venue_id: user.venue_id
 

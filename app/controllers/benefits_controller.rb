@@ -73,7 +73,7 @@ class BenefitsController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.includes(:card_levels, cards: [:benefits, :cardholder]).find(current_user.venue_id)
+    @venue = Venue.includes(:card_levels, cards: [:cardholder, benefits: { beneficiary: :card_level }]).find(current_user.venue_id)
     @cards = @venue.cards
   end
 

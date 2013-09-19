@@ -14,9 +14,9 @@ class TemporaryCardsController < ApplicationController
   def index
     if params[:partner_id]
       find_partner
-      cards = @partner.temporary_cards
+      cards = @partner.temporary_cards.includes(:venue, :benefits, :issuer)
     else
-      cards = @venue.temporary_cards
+      cards = @venue.temporary_cards.includes(:partner, :benefits, :issuer)
     end
 
     @active_cards = cards.select &:active?
@@ -101,7 +101,7 @@ class TemporaryCardsController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.includes(partners: [:temporary_cards]).find current_user.venue_id
+    @venue = Venue.includes(:partners).find current_user.venue_id
   end
 
   def find_venue_by_vanity_slug
