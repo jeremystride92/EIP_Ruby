@@ -65,7 +65,7 @@ class VenuesController < ApplicationController
   def find_venue
     redirect_to(:new_venue, notice: "You've signed up for EIPiD, But haven't entered your venue information yet. Fill out the form below to continue.") and return if current_user.venue_id.nil?
 
-    @venue = Venue.includes(:promotions, card_levels: [:card_theme, :cards], partners: [:card_theme, :temporary_cards]).find(current_user.venue_id)
+    @venue = Venue.includes(:promotions, card_levels: [:card_theme, :cards, :redeemable_benefits], partners: [:card_theme, :temporary_cards]).find(current_user.venue_id)
   end
 
   def find_promotions

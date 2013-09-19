@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918164838) do
+ActiveRecord::Schema.define(:version => 20130918233006) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -122,8 +122,9 @@ ActiveRecord::Schema.define(:version => 20130918164838) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "card_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.datetime "redeemed_at"
   end
 
   add_index "redeemable_benefits", ["card_id"], :name => "index_guest_passes_on_card_id"

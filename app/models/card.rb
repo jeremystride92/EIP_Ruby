@@ -84,7 +84,7 @@ class Card < ActiveRecord::Base
 
       if count > 0
         active_benefits.take(count).each do |redeemable_benefit|
-          redeemable_benefit.destroy
+          redeemable_benefit.redeem!
         end
       end
     end
