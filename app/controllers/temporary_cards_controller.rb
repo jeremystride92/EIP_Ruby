@@ -81,7 +81,7 @@ class TemporaryCardsController < ApplicationController
 
     if @temporary_card.id_token
       redirect_to :claimed_temporary_card and return unless cookies[:id_token] == @temporary_card.id_token
-    else
+    elsif request.headers['HTTP_USER_AGENT'] != 'bitlybot'
       Rails.logger.debug "TEMP CARD CLAIMED BY USERAGENT #{request.headers['HTTP_USER_AGENT']}"
       cookies.permanent[:id_token] = @temporary_card.generate_id_token
       @temporary_card.save
