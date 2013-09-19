@@ -5,7 +5,7 @@ class PartnersController < ApplicationController
 
   def index
     authorize! :read, Partner
-    @partners = @venue.partners.sort_by &:name
+    @partners = @venue.partners.includes(:card_theme).sort_by &:name
   end
 
   def new
@@ -53,7 +53,7 @@ class PartnersController < ApplicationController
   private
 
   def find_venue
-    @venue = Venue.includes(:card_themes, partners: [:temporary_cards]).find current_user.venue_id
+    @venue = Venue.includes(partners: [:temporary_cards]).find current_user.venue_id
   end
 
   def find_partner
