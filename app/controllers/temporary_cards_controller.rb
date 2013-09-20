@@ -98,6 +98,7 @@ class TemporaryCardsController < ApplicationController
   def claimed
     render layout: 'temporary_card'
   end
+
   private
 
   def find_venue
@@ -117,7 +118,7 @@ class TemporaryCardsController < ApplicationController
   end
 
   def find_temporary_card_from_access_token
-    @temporary_card = TemporaryCard.find_by_access_token params[:access_token]
+    @temporary_card = TemporaryCard.find_by_access_token! params[:access_token]
   end
 
   def params_for_batch_phones
