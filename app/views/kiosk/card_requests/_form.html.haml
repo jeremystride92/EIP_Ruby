@@ -1,10 +1,15 @@
 = simple_form_for @cardholder, url: kiosk_card_requests_path do |f|
   .row
+    %div.span8.offset2
+      .hero-unit
+        %img{src: asset_path('kiosk-card-fan.png')}
+      %h2
+        Take advantage of our new digital ID cards stored right on your phone!
+
     .form-block.span6.offset3
       = f.input :phone_number, input_html: { class: 'span6'}
-      = f.input :first_name, input_html: { class: 'span6'}
-      = f.input :last_name, input_html: { class: 'span6'}
 
-  .form-actions
-    = f.submit 'Request Card', class: 'btn btn-large btn-primary'
-    = button_tag 'Cancel', class: 'btn btn-large'
+  .form-actions.center-text
+    = button_tag type: :submit, class: 'btn btn-large btn-inverse btn-request-card' do
+      %i.icon-credit-card
+      Request a Card
