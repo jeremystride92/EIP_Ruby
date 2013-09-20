@@ -21,17 +21,21 @@
         %td= link_to partner.active_cards_count, venue_partner_temporary_cards_path(partner)
         %td= partner.lifetime_cards_count
         %td.actions
-          = link_to new_batch_venue_partner_temporary_cards_path(partner), class: 'btn btn-primary' do
-            %i.icon-money
-            Issue Cards
-          - if can? :update, partner
-            = link_to edit_venue_partner_path(partner), class: 'btn' do
-              %i.icon-edit
-              Edit
-          - if can? :delete, partner
-            = link_to venue_partner_path(partner), method: :delete, confirm: "Are you sure? This will also delete all Temporary Cards associated to this Partner.", class: 'btn btn-danger' do
-              %i.icon-remove
-              Delete
+          %ul.unstyled
+            %li
+              = link_to new_batch_venue_partner_temporary_cards_path(partner), class: 'btn btn-primary' do
+                %i.icon-money
+                Issue Cards
+            - if can? :update, partner
+              %li
+                = link_to edit_venue_partner_path(partner), class: 'btn' do
+                  %i.icon-edit
+                  Edit
+            - if can? :delete, partner
+              %li
+                = link_to venue_partner_path(partner), method: :delete, confirm: "Are you sure? This will also delete all Temporary Cards associated to this Partner.", class: 'btn btn-danger' do
+                  %i.icon-remove
+                  Delete
 
 - if can? :create, Partner
   = link_to new_venue_partner_path, class: 'btn btn-large btn-success' do
