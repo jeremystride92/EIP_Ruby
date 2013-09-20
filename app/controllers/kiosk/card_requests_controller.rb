@@ -8,6 +8,7 @@ class Kiosk::CardRequestsController < ApplicationController
 
   def new
     @cardholder = Cardholder.new
+    render layout: 'kiosk'
   end
 
   def create
@@ -43,7 +44,7 @@ class Kiosk::CardRequestsController < ApplicationController
   end
 
   def params_for_cardholder
-    params.require(:cardholder).permit(:phone_number, :first_name, :last_name)
+    params.require(:cardholder).permit(:phone_number)
   end
 
   def logout_user
