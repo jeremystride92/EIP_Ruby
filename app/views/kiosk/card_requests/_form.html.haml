@@ -3,11 +3,12 @@
     %div.span8.offset2
       .hero-unit
         %img{src: asset_path('kiosk-card-fan.png')}
-      %h2
+      %h2.center-text
         Take advantage of our new digital ID cards stored right on your phone!
 
     .form-block.span6.offset3
-      = f.input :phone_number, input_html: { class: 'span6'}
+      = f.label :phone_number, 'Enter your phone number', class: 'center-text'
+      = f.input :phone_number, input_html: { class: 'span6'}, label: false
 
   .form-actions.center-text
     = button_tag type: :submit, class: 'btn btn-large btn-inverse btn-request-card' do

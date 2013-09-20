@@ -2,13 +2,11 @@
   .card-container.portrait{ style: "background-image: url(#{@temporary_card.partner.card_theme.portrait_background.url})" }
     %header.card-header
       = image_tag @temporary_card.venue.logo.url, class: 'venue-logo'
-      .eipid-logo-white
     .card-content
       .info
-        .cardholder-info
-          .cardholder-name
-            courtesy of
-            %span.last= @temporary_card.partner.name
+        .partner-info
+          .courtesy Courtesy of
+          .partner-name= @temporary_card.partner.name
         %ul.benefits
           - unless @temporary_card.redeemable_benefit_allotment.zero?
             %li.benefit.block= pluralize @temporary_card.redeemable_benefit_allotment, @temporary_card.partner.redeemable_benefit_name.titleize
