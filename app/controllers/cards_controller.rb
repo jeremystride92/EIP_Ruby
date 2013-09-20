@@ -97,6 +97,7 @@ class CardsController < ApplicationController
     authorize! :update, @card
 
     if @card.update_attributes params_for_card
+      SmsMailer.delay(retry: false).card_level_change_sms(@card.cardholder_id, @card.card_level_id, @venue.id)
       respond_to :json
     else
       head :unprocessable_entity

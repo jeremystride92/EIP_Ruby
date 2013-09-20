@@ -79,4 +79,16 @@ class SmsMailer < ActionMailer::Base
     mail to: ENV['site_email']
     self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: venue.sender_number, message: render_to_string)
   end
+
+  def card_level_change_sms(cardholder_id, new_card_level_id, venue_id)
+    cardholder = Cardholder.find cardholder_id
+    new_card_level = CardLevel.find new_card_level_id
+    venue = Venue.find venue_id
+
+    @new_card_level_name = new_card_level.name
+    @venue_name = venue.name
+
+    mail to: ENV['site_email']
+    self.message.delivery_handler = NexmoSender.new(to: cardholder.international_phone_number, from: venue.sender_number, message: render_to_string)
+  end
 end
