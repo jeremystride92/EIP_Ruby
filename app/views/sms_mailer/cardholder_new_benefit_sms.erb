@@ -1,2 +1,1 @@
-<%= @venue.name.html_safe %> has issued you <%= pluralize(@count, 'new benefit') %>. Open your EIPiD app to check it out!
-
+You have <%= @count.one? ? 'a new benefit' : 'new benefits' %> from <%= @venue.name.html_safe %>. Use the refresh button on the EIPiD app Benefits page to view.
