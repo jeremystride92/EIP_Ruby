@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918233006) do
+ActiveRecord::Schema.define(:version => 20130927214612) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -161,8 +161,8 @@ ActiveRecord::Schema.define(:version => 20130918233006) do
   create_table "venues", :force => true do |t|
     t.string   "name"
     t.string   "logo"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.string   "phone"
     t.string   "location"
     t.string   "address1"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20130918233006) do
     t.string   "vanity_slug"
     t.string   "nexmo_number"
     t.string   "time_zone"
+    t.string   "kiosk_background"
   end
 
   add_index "venues", ["vanity_slug"], :name => "index_venues_on_vanity_slug"
