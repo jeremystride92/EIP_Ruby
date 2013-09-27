@@ -24,7 +24,7 @@
         %i.icon-caret-right.pull-right
     %hr
     .row-fluid
-      = simple_form_for card, url: venue_card_change_level_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level" } do |f|
+      = simple_form_for card, url: venue_card_change_level_path(card), remote: true, html: { class: 'change-card-level', id: "edit_card_#{card.id}_card_level", 'data-type' => 'json' } do |f|
         = f.collection_select :card_level_id, @card_levels, :id, :name, {}, class: 'span8', id: "card_#{card.id}_card_level_id"
         = f.button :submit, value: 'Change', class: 'btn btn-large btn-primary span4'
 %hr

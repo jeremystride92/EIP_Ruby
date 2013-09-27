@@ -29,9 +29,7 @@ $('form.change-card-level').bind("ajax:success", function(xhr, data) {
   $header.removeClass('warning');
 
   $header.find('.card-level-name').text(data.card_level.name);
-  $body.find('.card-preview').removeClass(function(index, classes) {
-        return (classes.match(/\btheme-\S+/g) || []).join(' ');
-      }).addClass('theme-' + data.card_level.theme);
+  $body.find('.card-preview').css('background-image', 'url(' + data.card_level.card_theme.landscape_background + ')');
 });
 
 $('form.change-card-level').bind("ajax:error", function(xhr, data) {
