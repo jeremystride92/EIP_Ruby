@@ -107,6 +107,7 @@ module EIPiD
       promotions.js
       request_card.js
       temporary_cards_batch_new.js
+      temporary_card_public_show.js
       upload_preview.js
       venue_signup.js
     )
