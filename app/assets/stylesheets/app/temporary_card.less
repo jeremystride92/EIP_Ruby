@@ -55,8 +55,6 @@
   }
 
   .card-container {
-    /*margin: 0 auto;*/
-    /*max-width: @card-max-width;*/
     position: absolute;
     .border-radius(5px);
     .box-shadow(0 0 5px rgba(0, 0, 0, 0.75));
@@ -67,37 +65,34 @@
     background-size: cover;
     background-position: top center;
 
-    &.portrait {
-      top: 15px;
-      right: 30px;;
-      bottom: 15px;
-      left: 30px;
+    top: 15px;
+    right: 30px;;
+    bottom: 15px;
+    left: 30px;
 
-      .partner-info {
-        text-align: center;
+    .partner-info {
+      text-align: center;
+    }
+
+    .expiration {
+      bottom: 30px;
+      left: 15px;
+      right: 15px;
+
+      padding: 10px;
+      .border-radius(10px);
+      background-color: fade(#000, 80%);
+
+      p {
+        margin-bottom: 5px;
       }
+    }
 
-
-      .expiration {
-        bottom: 30px;
-        left: 15px;
-        right: 15px;
-
-        padding: 10px;
-        .border-radius(10px);
-        background-color: fade(#000, 80%);
-
-        p {
-          margin-bottom: 5px;
-        }
-      }
-
-      .benefits {
-        top: 80px;
-        right: 15px;
-        bottom: 120px;
-        left: 15px;
-      }
+    .benefits {
+      top: 80px;
+      right: 15px;
+      bottom: 120px;
+      left: 15px;
     }
 
     .card-header {
@@ -328,4 +323,11 @@
 
   font-size: 32px;
   line-height: 32px;
+}
+
+#landscape-notice {
+  font-size: 32px;
+  line-height: 36px;
+  color: #000;
+  text-align: center;
 }
