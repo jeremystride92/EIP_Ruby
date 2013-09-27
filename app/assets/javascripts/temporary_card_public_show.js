@@ -3,6 +3,10 @@ function isPortrait(degrees) {
 }
 
 function handleOrientation(degrees) {
+  if (_.isUndefined(degrees)) {
+    return;
+  }
+
   if (isPortrait(degrees)) {
     $('.card-container').removeClass('hidden');
     $('#landscape-notice').addClass('hidden');
