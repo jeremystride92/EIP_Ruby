@@ -16,5 +16,5 @@
   - short_url = $short_url_cache.shorten(public_promotion_url(subdomain: @venue.vanity_slug, id: @promotion.id))
   = link_to short_url, short_url
 = link_to "Edit", edit_venue_promotion_path(@promotion), class: 'btn btn-primary btn-large' if can? :update, @promotion
-= link_to "Delete", venue_promotion_path(@promotion), class: 'btn btn-danger btn-large', method: 'delete', confirm: 'Do you really want to remove this promotion permanently?', remote: true if can? :destroy, @promotion
+= link_to "Delete", venue_promotion_path(@promotion), class: 'btn btn-danger btn-large', method: 'delete', confirm: 'Do you really want to remove this promotion permanently?' if can? :destroy, @promotion
 = link_to "Cancel", venue_path, class: 'btn btn-large'

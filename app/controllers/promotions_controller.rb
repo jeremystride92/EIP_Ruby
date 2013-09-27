@@ -60,7 +60,12 @@ class PromotionsController < ApplicationController
   def destroy
     authorize! :destroy, @promotion
     @promotion.destroy
-    head :no_content
+
+    respond_to do |format|
+      format.json { head :no_content }
+      format.js { head :no_content }
+      format.html { redirect_to venue_path }
+    end
   end
 
   def promote
