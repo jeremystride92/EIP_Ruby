@@ -7,7 +7,7 @@
 
       %fieldset
         %legend Benefits
-        = f.input :redeemable_benefit_name, placeholder: 'E.g. guest pass, free drink', hint: 'Singular form - will automatically pluralize where appropriate', input_html: { class: 'span6' }
+        = f.input :redeemable_benefit_name, hint: 'Singular form - will automatically pluralize where appropriate', input_html: { class: 'span6' }
         = f.input :default_redeemable_benefit_allotment, label: 'Redeemable Benefits', input_html: { class: 'span6', value: (@partner.default_redeemable_benefit_allotment || 0), min: 0 }
 
         .batch-benefits
