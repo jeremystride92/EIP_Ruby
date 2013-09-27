@@ -48,6 +48,20 @@ class VenuesController < ApplicationController
     end
   end
 
+  def edit_kiosk
+    authorize! :update, @venue
+  end
+
+  def update_kiosk
+    authorize! :update, @venue
+
+    if @venue.update_attributes(kiosk_params_for_update)
+      redirect_to venue_path, notice: "Kiosk background updated. Refresh any devices that have the kiosk open to see the new image."
+    else
+      render :edit_kiosk
+    end
+  end
+
   private
 
   def venue_params
@@ -61,6 +75,9 @@ class VenuesController < ApplicationController
     params.require(:venue).permit *attributes
   end
 
+  def kiosk_params_for_update
+    params.require(:venue).permit(:kiosk_background, :kiosk_background_cache)
+  end
 
   def find_venue
     redirect_to(:new_venue, notice: "You've signed up for EIPiD, But haven't entered your venue information yet. Fill out the form below to continue.") and return if current_user.venue_id.nil?

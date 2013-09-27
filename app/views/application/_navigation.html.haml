@@ -63,6 +63,9 @@
           = nav_link new_kiosk_card_requests_url(subdomain: @venue.vanity_slug) do
             %i.icon-credit-card
             Request Card
+          = nav_link edit_kiosk_venue_path do
+            %i.icon-cog
+            Configure Kiosk
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")

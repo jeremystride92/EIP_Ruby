@@ -18,6 +18,9 @@ EIPiD::Application.routes.draw do
   resource :venue, only: [:new, :create, :show, :edit, :update] do
     get :signup, to: "venues#new", as: :signup, on: :collection
 
+    get :edit_kiosk, to: "venues#edit_kiosk", as: :edit_kiosk, on: :collection
+    put :edit_kiosk, to: "venues#update_kiosk"
+
     resources :card_levels, only: [:index, :new, :create, :edit, :update] do
       post 'reorder', to: 'card_levels#reorder'
 
