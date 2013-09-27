@@ -1,0 +1,16 @@
+= simple_form_for @venue, url: edit_kiosk_venue_path do |f|
+  .row
+    .form-block.span6.offset3
+      .row
+        .span6
+          .well
+            %h3 Upload background image
+            = f.input :kiosk_background, label: false, input_html: { class: 'span6' }
+            = f.hidden_field :kiosk_background_cache
+            = image_tag @venue.kiosk_background.url, id: 'kiosk-bg', class: "image-preview"
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary btn-large'
+    = link_to 'Cancel', venue_path, class: 'btn btn-large pull-right'
+
+= content_for :javascripts do
+  = javascript_include_tag :edit_kiosk

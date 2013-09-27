@@ -9,6 +9,7 @@ class Venue < ActiveRecord::Base
   has_many :card_themes
 
   mount_uploader :logo, LogoImageUploader
+  mount_uploader :kiosk_background, KioskBackgroundUploader
 
   validates :name, presence: true
   validates :phone,
