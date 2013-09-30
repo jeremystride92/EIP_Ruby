@@ -22,6 +22,7 @@ defaults: &defaults
   bitly_user:               # Username for Bit.ly link shortening
   bitly_api_key:            # API key for Bit.ly account
   REDISTOGO_URL:            # URL for redis, parsed by URI.parse
+  DB_POOL:                  # Number of allowed database connections PER THREAD. (Include both web and worker dynos, and Unicorn count, when computing this.)
 
 development:
   <<: *defaults

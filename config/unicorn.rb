@@ -18,6 +18,11 @@ after_fork do |server, worker|
     puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
   end
 
-  defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection
+  if defined?(ActiveRecord::Base)
+    # see https://devcenter.heroku.com/articles/concurrency-and-database-connections
+    config = Rails.application.config.database_configuration[Rails.env]
+    # Compute DB_POOL per environment. Production should be able to safely handle ~60-70.
+    config['pool']            = ENV['DB_POOL'] || 5
+    ActiveRecord::Base.establish_connection(config)
+  end
 end
