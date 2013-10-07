@@ -92,6 +92,7 @@ module EIPiD
       underscore.js
       binaryajax.js
       exif.js
+      edit_kiosk.js
       active_admin.css.scss
       active_admin.js
       bulk_import.js
