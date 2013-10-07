@@ -26,11 +26,11 @@ class CardholdersController < ApplicationController
 
     authorize! :read, Card
 
-    @approved_cards = @cards.select {|card| !card.pending? }
+    @approved_cards = @cards.reject &:pending?
     @pending_cards = @cards.select &:pending?
 
     if params[:card_level_id].present?
-      @approved_cards = @approved_cards.where(card_level_id: params[:card_level_id])
+      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
       @card_level_id = params[:card_level_id]
     end
 
