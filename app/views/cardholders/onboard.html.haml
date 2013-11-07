@@ -1,3 +1,9 @@
 %h1.page-header Welcome to EIPiD!
 
 = render 'form'
+
+= bootstrap_default_modal 'Reminder', id: 'photoReminder', buttons: {'Retake' => 'warning', 'Submit' => 'primary'} do
+  The photo you upload to your EIPiD card:
+  %ol
+    %li Must be a clear representation of your face and
+    %li Cannot include other faces.
