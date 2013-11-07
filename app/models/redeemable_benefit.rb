@@ -7,8 +7,20 @@ class RedeemableBenefit < ActiveRecord::Base
 
   include Expirable
 
-  def redeem!(redemption_time = Time.current)
+  DEFAULTS = {
+    source: 'card'
+  }
+
+  def initialize(*args)
+    super DEFAULTS.merge(args[0]||{})
+  end
+
+  def redeem(redemption_time = Time.current)
     self.redeemed_at = redemption_time
+  end
+
+  def redeem!(redemption_time = Time.current)
+    redeem
     save!
   end
 
