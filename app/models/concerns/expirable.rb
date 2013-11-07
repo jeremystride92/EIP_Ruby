@@ -64,10 +64,24 @@ module Expirable
       !permanent?
     end
 
+    def expired?(now = Time.zone.now)
+      past?(now)
+    end
+
+    def expire(now = Time.zone.now)
+      self.end_date = now
+    end
+
+    def expire!
+      expire
+      save!
+    end
+
     private
 
     def time_or_eod(time)
       time.present? ? time : '23:59:59'
     end
+
   end
 end
