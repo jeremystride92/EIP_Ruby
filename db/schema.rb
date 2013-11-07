@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130927214612) do
+ActiveRecord::Schema.define(:version => 20131107182357) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(:version => 20130927214612) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.datetime "redeemed_at"
+    t.string   "source"
   end
 
   add_index "redeemable_benefits", ["card_id"], :name => "index_guest_passes_on_card_id"
