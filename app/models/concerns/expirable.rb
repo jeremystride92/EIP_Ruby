@@ -74,7 +74,7 @@ module Expirable
 
     def expire!
       expire
-      save!
+      save! if persisted?
     end
 
     private

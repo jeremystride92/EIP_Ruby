@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131107182357) do
+ActiveRecord::Schema.define(:version => 20131107214915) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -80,9 +80,8 @@ ActiveRecord::Schema.define(:version => 20131107182357) do
   create_table "cards", :force => true do |t|
     t.integer  "card_level_id"
     t.integer  "cardholder_id"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.integer  "redeemable_benefit_allotment", :default => 0
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "issuer_id"
     t.string   "status"
     t.datetime "issued_at"

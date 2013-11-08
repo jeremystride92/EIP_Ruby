@@ -25,6 +25,32 @@ class CardLevel < ActiveRecord::Base
 
   around_destroy :update_sort_positions
 
+  before_save :update_card_redeemable_benefit_allotments
+
+  def benefit_change
+    daily_redeemable_benefit_allotment - daily_redeemable_benefit_allotment_was
+  end
+
+  def benefits_removed
+    benefit_change >= 0 ? 0 : -benefit_change
+  end
+
+  def benefits_added
+    benefit_change <= 0 ? 0 : benefit_change
+  end
+
+  def update_card_redeemable_benefit_allotments
+
+    if daily_redeemable_benefit_allotment_changed?
+      cards.each do |card|
+        card.redeemable_benefits.where(source: :card_level).select(&:active?).take(benefits_removed).each &:expire!
+
+        benefits_added.times { card.redeemable_benefits.create(source: :card_level) }
+      end
+    end
+
+  end
+
   def set_all_card_redeemable_benefit_allotments
     cards.update_all(redeemable_benefit_allotment: daily_redeemable_benefit_allotment)
   end

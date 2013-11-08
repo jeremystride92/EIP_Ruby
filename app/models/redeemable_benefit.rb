@@ -33,4 +33,5 @@ class RedeemableBenefit < ActiveRecord::Base
   def redeemed?
     self.redeemed_at?
   end
+
 end

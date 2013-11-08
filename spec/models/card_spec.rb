@@ -18,10 +18,8 @@ describe Card do
   describe 'Validations' do
     subject { build :card }
 
-    it { should validate_presence_of :redeemable_benefit_allotment }
     it { should validate_presence_of :card_level }
     it { should validate_presence_of :cardholder }
-    it { should validate_numericality_of(:redeemable_benefit_allotment).only_integer.is_greater_than_or_equal_to(0) }
 
     %w[active inactive].each do |status|
       context "when #{status}" do
@@ -35,11 +33,6 @@ describe Card do
       subject {create :pending_card }
 
       it { should_not validate_presence_of :issued_at }
-    end
-
-    it 'should only allow positive integer redeemable_benefit_allotment' do
-      subject.redeemable_benefit_allotment = -3
-      subject.should_not be_valid
     end
 
     it { should validate_presence_of :status }
@@ -159,7 +152,7 @@ describe Card do
   describe "#redeem_benefits!" do
     context "without any RedeemableBenefits" do
       context "without any daily redeemable benefits" do
-        let(:card) { build :card, redeemable_benefit_allotment: 0 }
+        let(:card) { create :card, redeemable_benefit_allotment: 0 }
 
         it "should raise an exception and not expend redeemable benefits" do
           lambda {
@@ -169,7 +162,7 @@ describe Card do
       end
 
       context "without enough daily redeemable benefits" do
-        let(:card) { build :card, redeemable_benefit_allotment: 3 }
+        let(:card) { create :card, redeemable_benefit_allotment: 3 }
 
         it "should raise an exception and not expend redeemable benefits" do
           lambda {
@@ -179,7 +172,7 @@ describe Card do
       end
 
       context "with enough daily redeemable benefits" do
-        let(:card) { build :card, redeemable_benefit_allotment: 5 }
+        let(:card) { create :card, redeemable_benefit_allotment: 5 }
 
         it "should subtract the redemptions from the redeemable benefit count" do
           card.redeem_benefits! 2
@@ -246,40 +239,30 @@ describe Card do
           end
         end
 
-        context "with enough RedeemableBenefits" do
-          let(:card) { create :card, redeemable_benefit_allotment: 1 }
+      end
+
+      context "with mutlitple expirable benefits" do
+        context "with non-expiriting benefits" do
+          let (:card) { create :card, redeemable_benefit_allotment: 0 }
+          let (:last_date) { 3.days.from_now }
+          let (:next_to_last_date) { 1.days.from_now }
 
           before do
-            3.times do
-              card.redeemable_benefits.create
-            end
-          end
-
-          it "should remove the right number of RedeemableBenefits" do
-            card.redeem_benefits! 2
-            card.redeemable_benefit_allotment.should == 0
-            card.redeemable_benefits.where(redeemed_at: nil).count.should == 2
-            card.reload.total_redeemable_benefit_allotment.should == 2
-          end
-        end
-      end
-
-      context "with enough daily redeemable benefits" do
-        let(:card) { create :card, redeemable_benefit_allotment: 3 }
-
-        before do
-          3.times do
+            card.redeemable_benefits.create
+            card.redeemable_benefits.create end_date: next_to_last_date
+            card.redeemable_benefits.create end_date: last_date
+            card.redeemable_benefits.create end_date: next_to_last_date
             card.redeemable_benefits.create
           end
-        end
 
-        it "should use only daily redeemable benefits" do
-          card.redeem_benefits! 2
-          card.redeemable_benefit_allotment.should == 1
-          card.redeemable_benefits.count.should == 3
-          card.total_redeemable_benefit_allotment.should == 4
+          it "should redeem the earliest to expire first" do
+            card.redeem_benefits! 1
+            card.redeemable_benefits.all.select(&:redeemed?).first.end_date.should == next_to_last_date
+          end
+
         end
       end
+
     end
   end
 end

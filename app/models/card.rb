@@ -12,14 +12,14 @@ class Card < ActiveRecord::Base
   has_many :redeemable_benefits
   accepts_nested_attributes_for :redeemable_benefits, allow_destroy: true
 
-  validates :redeemable_benefit_allotment,
-    presence: true,
-    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  attr_accessible :redeemable_benefit_allotment
 
   validates :status,
     presence: true,
     inclusion: STATUSES
-
+  validates :redeemable_benefit_allotment,
+    presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :issuer, presence: true, unless: :pending?
   validates :card_level, presence: true
   validates :cardholder, presence: true
@@ -27,6 +27,7 @@ class Card < ActiveRecord::Base
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults
+  before_create :setup_redeemable_benefits
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -57,37 +58,43 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def redeemable_benefit_allotment
+    self.redeemable_benefits.where(source: :card_level).select(&:active?).count
+  end
+
+  def redeemable_benefit_allotment= (num)
+    transaction do
+      #expire active items
+      self.redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
+
+
+      #add new active items
+      self.redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
+      self.redeemable_benefits.each &:save! if persisted?
+    end
+
+  end
+
   def total_redeemable_benefit_allotment
     active_benefits_count = redeemable_benefits.select(&:active?).count
-
-    redeemable_benefit_allotment + active_benefits_count
   end
 
   def redeem_benefits!(count)
+
+    count = [count, 0].max # => ensure count is non-negative
+
     if count > total_redeemable_benefit_allotment
       raise "Too few benefits"
     end
+    
+    active_benefits = redeemable_benefits.select(&:active?)
 
-    if count <= redeemable_benefit_allotment
-      new_redeemable_benefit_allotment = redeemable_benefit_allotment - count
-      count = 0
-    else
-      new_redeemable_benefit_allotment = 0
-      count -= redeemable_benefit_allotment
-
-      active_benefits = redeemable_benefits.select(&:active?)
-    end
-
+    active_benefits.sort_by! { |b| b.end_date.nil? ? Time.zone.at(9999999999) : b.end_date }
 
     transaction do
-      update_attributes redeemable_benefit_allotment: new_redeemable_benefit_allotment
-
-      if count > 0
-        active_benefits.take(count).each do |redeemable_benefit|
-          redeemable_benefit.redeem!
-        end
-      end
+      active_benefits.take(count).each &:redeem!
     end
+    
   end
 
   def display_name
@@ -112,8 +119,15 @@ class Card < ActiveRecord::Base
     benefit.beneficiary ||= self
   end
 
+  def redeemable_benefits_from_card_level
+    self.redeemable_benefits.where(source: :card_level).count
+  end
+
+  def setup_redeemable_benefits
+    redeemable_benefit_allotment= card_level.daily_redeemable_benefit_allotment
+  end
+
   def set_defaults
-    self.redeemable_benefit_allotment ||= 0
     self.status ||= 'active'
   end
 end
