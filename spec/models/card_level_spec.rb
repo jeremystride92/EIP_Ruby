@@ -64,7 +64,7 @@ describe CardLevel do
     end
 
     it "should set all associated Cards' redeemable_benefit_allotments to the Card Level's daily count" do
-      card_level.set_all_card_redeemable_benefit_allotments
+      card_level.reload.set_all_card_redeemable_benefit_allotments
       card_level.cards.reload.each do |card|
         card.redeemable_benefit_allotment.should == 5
       end
