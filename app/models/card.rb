@@ -127,7 +127,7 @@ class Card < ActiveRecord::Base
   end
 
   def setup_redeemable_benefits
-    redeemable_benefit_allotment= card_level.daily_redeemable_benefit_allotment
+    redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
   end
 
   def set_defaults

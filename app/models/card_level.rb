@@ -16,7 +16,7 @@ class CardLevel < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :venue, presence: true
   validates :redeemable_benefit_name, presence: true
-  validates :daily_redeemable_benefit_allotment, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
+  validates :allowed_redeemable_benefits_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
     uniqueness: { scope: :venue_id }
@@ -28,7 +28,7 @@ class CardLevel < ActiveRecord::Base
   before_save :update_card_redeemable_benefit_allotments
 
   def benefit_change
-    daily_redeemable_benefit_allotment - daily_redeemable_benefit_allotment_was
+    allowed_redeemable_benefits_count - allowed_redeemable_benefits_count_was
   end
 
   def benefits_removed
@@ -45,7 +45,7 @@ class CardLevel < ActiveRecord::Base
 
   def set_all_card_redeemable_benefit_allotments
     cards.each do |card| 
-      card.update_attributes redeemable_benefit_allotment: daily_redeemable_benefit_allotment 
+      card.update_attributes redeemable_benefit_allotment: allowed_redeemable_benefits_count 
     end
   end
 

@@ -8,8 +8,8 @@ describe CardLevel do
 
   it { should validate_presence_of :redeemable_benefit_name }
 
-  it { should validate_presence_of :daily_redeemable_benefit_allotment }
-  it { should validate_numericality_of(:daily_redeemable_benefit_allotment).only_integer.is_greater_than_or_equal_to(0) }
+  it { should validate_presence_of :allowed_redeemable_benefits_count }
+  it { should validate_numericality_of(:allowed_redeemable_benefits_count).only_integer.is_greater_than_or_equal_to(0) }
 
   it { should validate_numericality_of(:sort_position).only_integer.is_greater_than_or_equal_to(1) }
   it { should validate_uniqueness_of(:sort_position).scoped_to(:venue_id) }
@@ -57,7 +57,7 @@ describe CardLevel do
   end
 
   describe "#set_all_card_redeemable_benefit_allotments" do
-    let(:card_level) { create :card_level, daily_redeemable_benefit_allotment: 5 }
+    let(:card_level) { create :card_level, allowed_redeemable_benefits_count: 5 }
 
     before do
       create_list :card, 2, card_level: card_level

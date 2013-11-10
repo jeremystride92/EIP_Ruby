@@ -23,7 +23,7 @@ namespace :eipid do
 
       unmigrated_cards.each do |card|
 
-        level_allotment = card.card_level.daily_redeemable_benefit_allotment 
+        level_allotment = card.card_level.allowed_redeemable_benefits_count 
         card_allotment = card.redeemable_benefit_allotment
 
         used_benefits = level_allotment - card_allotment
