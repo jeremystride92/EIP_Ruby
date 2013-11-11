@@ -56,7 +56,7 @@ class Venue < ActiveRecord::Base
   end
 
   def set_all_card_level_redeemable_benefit_allotments
-    card_levels.each do |card_level|
+    card_levels.where(reload_redeemable_benefits_daily: true).each do |card_level|
       card_level.set_all_card_redeemable_benefit_allotments
     end
   end
