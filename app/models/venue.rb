@@ -55,9 +55,7 @@ class Venue < ActiveRecord::Base
     nexmo_number.blank? ? ENV['nexmo_default_sender'] : nexmo_number
   end
 
-  def set_all_card_level_redeemable_benefit_allotments
-    card_levels.where(reload_redeemable_benefits_daily: true).each do |card_level|
-      card_level.set_all_card_redeemable_benefit_allotments
-    end
+  def update_reloadable_benefits
+    card_levels.each &:selective_update_redeemable_benefit_allotments
   end
 end
