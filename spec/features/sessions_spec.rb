@@ -41,7 +41,7 @@ describe "Sessions" do
         fill_in "session_email", with: owner.email
         fill_in "Password", with: owner.password
         click_button "Log In"
-        page.should have_content "Venue Sign Up"
+        page.should have_content "Business Signup"
         page.should have_content "haven't entered your venue information yet"
       end
     end
