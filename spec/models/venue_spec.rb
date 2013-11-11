@@ -119,19 +119,24 @@ describe Venue do
     end
   end
 
-  describe "#set_all_card_level_redeemable_benefit_allotments" do
+  describe "#update_reloadable_benefits" do
     let(:venue) { create :venue }
 
-    before do
-      create_list :card_level, 2, venue: venue
-    end
+    let!(:reset_card_level) { create :card_level, venue: venue, reload_redeemable_benefits_daily: true, allowed_redeemable_benefits_count: 3 }
+    let!(:unreset_card_level) { create :card_level, venue: venue, reload_redeemable_benefits_daily: false, allowed_redeemable_benefits_count: 3 }
 
-    it "should call set_all_card_redeemable_benefit_allotments on each card_level" do
-      venue.card_levels.reload.each do |card_level|
-        card_level.should_receive :set_all_card_redeemable_benefit_allotments
-      end
+    let!(:reset_card) { create :card, redeemable_benefit_allotment: 1, card_level: reset_card_level }
+    let!(:unreset_card) { create :card, redeemable_benefit_allotment: 1, card_level: unreset_card_level }
 
-      venue.set_all_card_level_redeemable_benefit_allotments
+    it "should reset card allotment levels on each card on any card_level that is reset daily" do
+
+      venue.card_levels.reload
+
+      venue.update_reloadable_benefits
+
+      reset_card.reload.redeemable_benefit_allotment.should == 3
+      unreset_card.reload.redeemable_benefit_allotment.should == 1
+
     end
   end
 end
