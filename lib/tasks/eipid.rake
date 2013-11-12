@@ -11,7 +11,7 @@ namespace :eipid do
       next unless zone.now.hour == run_time
 
       Rails.logger.info "It's time to refresh passes at #{venue.name}."
-      venue.set_all_card_level_redeemable_benefit_allotments
+      venue.update_reloadable_benefits
     end
   end
 

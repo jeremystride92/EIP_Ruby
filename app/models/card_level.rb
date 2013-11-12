@@ -35,9 +35,11 @@ class CardLevel < ActiveRecord::Base
       cards.each { |card| card.redeemable_benefit_allotment += benefit_change }
   end
 
-  def set_all_card_redeemable_benefit_allotments
-    cards.each do |card| 
-      card.update_attributes redeemable_benefit_allotment: allowed_redeemable_benefits_count 
+  def selective_update_redeemable_benefit_allotments
+    if reload_redeemable_benefits_daily
+      cards.each do |card| 
+        card.update_attributes redeemable_benefit_allotment: allowed_redeemable_benefits_count 
+      end
     end
   end
 

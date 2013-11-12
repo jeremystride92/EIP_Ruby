@@ -68,6 +68,6 @@ class CardLevelsController < ApplicationController
   end
 
   def card_level_params
-    params.require(:card_level).permit(:name, :card_theme_id, :redeemable_benefit_name, :allowed_redeemable_benefits_count, permanent_benefits_attributes: [:id, :description, :_destroy], temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
+    params.require(:card_level).permit(:name, :card_theme_id, :redeemable_benefit_name, :allowed_redeemable_benefits_count, :reload_redeemable_benefits_daily, permanent_benefits_attributes: [:id, :description, :_destroy], temporary_benefits_attributes: [:id, :description, :start_date_field, :start_time_field, :end_date_field, :end_time_field, :_destroy])
   end
 end

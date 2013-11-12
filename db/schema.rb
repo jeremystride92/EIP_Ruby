@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131110213957) do
+ActiveRecord::Schema.define(:version => 20131111181435) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20131110213957) do
     t.integer  "sort_position"
     t.integer  "card_theme_id"
     t.string   "redeemable_benefit_name"
+    t.boolean  "reload_redeemable_benefits_daily"
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"

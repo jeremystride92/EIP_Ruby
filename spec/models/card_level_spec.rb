@@ -56,18 +56,38 @@ describe CardLevel do
     end
   end
 
-  describe "#set_all_card_redeemable_benefit_allotments" do
-    let(:card_level) { create :card_level, allowed_redeemable_benefits_count: 5 }
-
+  describe "#selective_update_redeemable_benefit_allotments" do
+    let(:card_level) { create :card_level, allowed_redeemable_benefits_count: 5, reload_redeemable_benefits_daily: false }
     before do
-      create_list :card, 2, card_level: card_level
+      create_list :card, 2, card_level: card_level, redeemable_benefit_allotment: 1
     end
 
-    it "should set all associated Cards' redeemable_benefit_allotments to the Card Level's daily count" do
-      card_level.reload.set_all_card_redeemable_benefit_allotments
-      card_level.cards.reload.each do |card|
-        card.redeemable_benefit_allotment.should == 5
+    context "when card_level's reload_redeemable_benefits_daily is false" do
+      
+      it "should not update cards" do
+        card_level.reload.selective_update_redeemable_benefit_allotments
+
+        card_level.cards.reload.each do |card|
+          card.redeemable_benefit_allotment.should_not == 5
+        end
       end
+
+    end 
+    
+    context "when card_level's reload_redeemable_benefits_daily is true" do
+
+      before do
+        card_level.reload.reload_redeemable_benefits_daily = true
+      end
+
+      it "should update cards" do 
+        card_level.selective_update_redeemable_benefit_allotments
+
+        card_level.cards.reload.each do |card|
+          card.redeemable_benefit_allotment.should == 5
+        end
+      end
+
     end
   end
 
