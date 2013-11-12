@@ -1,7 +1,7 @@
 = simple_form_for @venue, url: venue_path do |f|
   .row
     .form-block.span6.offset3
-      = f.input :name, label: 'Venue Name', autofocus: true, input_html: { class: 'span6' }
+      = f.input :name, label: 'Business Name', autofocus: true, input_html: { class: 'span6' }
       = f.input :phone, input_html: { pattern: '\d{10}' }, hint: '10-digit number, digits only', input_html: { class: 'span6' }
       = f.input :location, hint: 'i.e. The Bronx, Queens, Lodo, South Beach', input_html: { class: 'span6' }
       = f.input :address1, label: 'Address', input_html: { class: 'span6' }
@@ -21,7 +21,7 @@
             = image_tag @venue.logo_path, id: 'logo-img', class: "image-preview #{@venue.logo_path ? '' : 'hidden'}"
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary btn-large'
+    = f.button :submit, 'Create Business', class: 'btn btn-primary btn-large'
     = link_to 'Cancel', venue_path, class: 'btn btn-large pull-right'
 
 = content_for :javascripts do

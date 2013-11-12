@@ -7,7 +7,7 @@ class VenuesController < ApplicationController
 
   def new
     if current_user && current_user.venue_id
-      flash[:error] = 'There is already a venue associated to this account. To create a new venue, please use another account.'
+      flash[:error] = 'There is already a business associated to this account. To create a new business, please use another account.'
       authorize! :read, current_user.venue
       redirect_to venue_path and return
     end
@@ -21,7 +21,7 @@ class VenuesController < ApplicationController
     authorize! :create, @venue
 
     if @venue.save
-      redirect_to new_venue_card_level_path, notice: 'Venue created! Now set up some card levels.'
+      redirect_to new_venue_card_level_path, notice: 'Business created! Now set up some card levels.'
       current_user.update_attributes venue_id: @venue.id
       AdminMailer.delay(retry: false).new_venue_email(@venue)
     else
@@ -42,7 +42,7 @@ class VenuesController < ApplicationController
     authorize! :update, @venue
 
     if @venue.update_attributes(venue_params_for_update)
-      redirect_to venue_path, notice: "Venue information updated"
+      redirect_to venue_path, notice: "Business information updated"
     else
       render :edit
     end
