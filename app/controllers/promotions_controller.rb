@@ -71,6 +71,7 @@ class PromotionsController < ApplicationController
   def promote
     authorize! :promote, @promotion
     @promo_message = PromotionalMessage.new message: $short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id), card_levels: []
+    @card_levels = @venue.card_levels.map {|cl| { name: [cl.name,cl.last_promoted_date].join(' '), id: cl.id } }
   end
 
   def send_promotion
@@ -78,9 +79,10 @@ class PromotionsController < ApplicationController
 
     Time.use_zone @venue.time_zone do
       @promo_message = PromotionalMessage.new params_for_promotion_message
+      @promo_message.promotion = @promotion
+      @promo_message.card_levels = CardLevel.where(id: params_for_card_levels)
     end
-
-    @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_levels) & @venue.card_levels
+    @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_level_ids) & @venue.card_levels
     @cardholders = @card_levels.map(&:cards).flatten.map(&:cardholder).uniq
 
     if @cardholders.empty?
@@ -92,7 +94,7 @@ class PromotionsController < ApplicationController
       card_level.promotions << @promotion unless card_level.promotions.include? @promotion
     end
 
-    promo_message.save
+    @promo_message.save
 
     case params[:commit]
     when 'Send Now'
@@ -118,7 +120,11 @@ class PromotionsController < ApplicationController
   end
 
   def params_for_promotion_message
-    params.require(:promotional_message).permit(:message, :send_date_time, card_levels: [])
+    params.require(:promotional_message).permit(:message, :send_date_time)
+  end
+
+  def params_for_card_levels
+    params.require(:promotional_message).require(:card_levels)
   end
 
   def find_venue
