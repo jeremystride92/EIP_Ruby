@@ -81,6 +81,18 @@ class CardLevel < ActiveRecord::Base
     (redeemable_benefit_name || 'redeemable_benefit').titleize
   end
 
+  def last_promoted_date
+    "(Last Promoted: #{promotional_messages.last.send_date_time.strftime('%m/%d/%Y')})" if promotional_messages.count > 0
+  end
+
+  def aggregate_promotion_clicks
+    nil
+  end
+
+  def promotion_name
+    [[name, last_promoted_date, aggregate_promotion_clicks].join(" "), id]
+  end
+
   private
 
   def ensure_benefits_beneficiary(benefit)
@@ -108,4 +120,5 @@ class CardLevel < ActiveRecord::Base
       card_level.save
     end
   end
+
 end
