@@ -31,14 +31,6 @@ class CardLevel < ActiveRecord::Base
     allowed_redeemable_benefits_count - allowed_redeemable_benefits_count_was
   end
 
-  def benefits_removed
-    benefit_change >= 0 ? 0 : -benefit_change
-  end
-
-  def benefits_added
-    benefit_change <= 0 ? 0 : benefit_change
-  end
-
   def update_card_redeemable_benefit_allotments
       cards.each { |card| card.redeemable_benefit_allotment += benefit_change }
   end
