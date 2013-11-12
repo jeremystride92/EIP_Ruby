@@ -7,9 +7,9 @@ machine:
     basic_auth: 'false'
     action_mailer_host: localhost
 
-deployment:
-  staging:
-    branch: master
-    commands:
-      - git push git@heroku.com:eipid-daily.git $CIRCLE_SHA1:master
-      - heroku run rake db:migrate --app eipid-daily
+# deployment:
+#   staging:
+#     branch: master
+#     commands:
+#       - git push git@heroku.com:eipid-daily.git $CIRCLE_SHA1:master
+#       - heroku run rake db:migrate --app eipid-daily
