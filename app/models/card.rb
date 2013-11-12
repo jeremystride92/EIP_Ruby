@@ -12,8 +12,6 @@ class Card < ActiveRecord::Base
   has_many :redeemable_benefits
   accepts_nested_attributes_for :redeemable_benefits, allow_destroy: true
 
-  attr_accessible :redeemable_benefit_allotment
-
   validates :status,
     presence: true,
     inclusion: STATUSES
