@@ -167,4 +167,28 @@ describe Expirable do
       Dummy.new(end_date: Date.today).should be_temporary
     end
   end
+
+  describe "#expired?" do
+    let (:start_date) { 2.days.ago }
+    let (:end_date) { 2.days.from_now }
+
+    subject { Dummy.new start_date: start_date }
+
+    context "when no end is specified" do
+      it { should_not be_expired }
+    end
+
+    context "when an end is specified in the future" do
+      before { subject.end_date = end_date }
+
+      it { should_not be_expired }
+    end
+
+    context "when it is explicitly expired" do
+      before { subject.expire }
+
+      it { should be_expired } 
+    end
+
+  end
 end

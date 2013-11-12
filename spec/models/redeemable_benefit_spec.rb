@@ -16,7 +16,7 @@ describe RedeemableBenefit do
     end
 
     it 'should be redeemed_at redemption_time' do
-      benefit.redeemed_at.should == redemption_time
+      benefit.redeemed_at.to_i.should == redemption_time.to_i
     end
 
     it 'should not be active' do

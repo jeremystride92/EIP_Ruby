@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130927214612) do
+ActiveRecord::Schema.define(:version => 20131110213957) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -29,9 +29,9 @@ ActiveRecord::Schema.define(:version => 20130927214612) do
   create_table "card_levels", :force => true do |t|
     t.string   "name"
     t.integer  "venue_id"
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
-    t.integer  "daily_redeemable_benefit_allotment", :default => 0
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.integer  "allowed_redeemable_benefits_count", :default => 0
     t.integer  "sort_position"
     t.integer  "card_theme_id"
     t.string   "redeemable_benefit_name"
@@ -80,9 +80,8 @@ ActiveRecord::Schema.define(:version => 20130927214612) do
   create_table "cards", :force => true do |t|
     t.integer  "card_level_id"
     t.integer  "cardholder_id"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
-    t.integer  "redeemable_benefit_allotment", :default => 0
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "issuer_id"
     t.string   "status"
     t.datetime "issued_at"
@@ -125,6 +124,7 @@ ActiveRecord::Schema.define(:version => 20130927214612) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.datetime "redeemed_at"
+    t.string   "source"
   end
 
   add_index "redeemable_benefits", ["card_id"], :name => "index_guest_passes_on_card_id"

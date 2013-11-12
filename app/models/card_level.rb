@@ -16,7 +16,7 @@ class CardLevel < ActiveRecord::Base
   validates :name, presence: true, uniqueness: { scope: :venue_id }
   validates :venue, presence: true
   validates :redeemable_benefit_name, presence: true
-  validates :daily_redeemable_benefit_allotment, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
+  validates :allowed_redeemable_benefits_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
     uniqueness: { scope: :venue_id }
@@ -25,8 +25,20 @@ class CardLevel < ActiveRecord::Base
 
   around_destroy :update_sort_positions
 
+  before_save :update_card_redeemable_benefit_allotments
+
+  def benefit_change
+    allowed_redeemable_benefits_count - allowed_redeemable_benefits_count_was
+  end
+
+  def update_card_redeemable_benefit_allotments
+      cards.each { |card| card.redeemable_benefit_allotment += benefit_change }
+  end
+
   def set_all_card_redeemable_benefit_allotments
-    cards.update_all(redeemable_benefit_allotment: daily_redeemable_benefit_allotment)
+    cards.each do |card| 
+      card.update_attributes redeemable_benefit_allotment: allowed_redeemable_benefits_count 
+    end
   end
 
   def reorder_to(new_position)

@@ -4,7 +4,7 @@
       = f.input :name, input_html: { class: 'span6' }
       = f.input :card_theme_id, collection: @venue.card_themes, prompt: 'Select one', required: true, input_html: {required: true}, input_html: { class: 'span6' }
       = f.input :redeemable_benefit_name, hint: 'Singular form - will automatically pluralize where appropriate', input_html: { class: 'span6' }
-      = f.input :daily_redeemable_benefit_allotment, input_html: { class: 'span6', min: 0 }
+      = f.input :allowed_redeemable_benefits_count, input_html: { class: 'span6', min: 0 }
 
       %fieldset
         %legend Permanent Benefits
