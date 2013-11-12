@@ -112,9 +112,9 @@ ActiveRecord::Schema.define(:version => 20131112001318) do
 
   create_table "promotional_messages", :force => true do |t|
     t.text     "promotional_messages"
-    t.time     "send_date_time"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.time     "send_date_time"
   end
 
   create_table "promotions", :force => true do |t|
