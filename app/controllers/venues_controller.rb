@@ -21,7 +21,7 @@ class VenuesController < ApplicationController
     authorize! :create, @venue
 
     if @venue.save
-      redirect_to new_venue_card_level_path, notice: 'Business created! Now set up some card levels.'
+      redirect_to new_venue_card_theme_path, notice: 'Business created! Now upload your card themes!'
       current_user.update_attributes venue_id: @venue.id
       AdminMailer.delay(retry: false).new_venue_email(@venue)
     else
