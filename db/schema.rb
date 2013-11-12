@@ -111,10 +111,10 @@ ActiveRecord::Schema.define(:version => 20131112001318) do
   add_index "partners", ["venue_id"], :name => "index_partners_on_venue_id"
 
   create_table "promotional_messages", :force => true do |t|
-    t.text     "promotional_messages"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
-    t.time     "send_date_time"
+    t.text     "message"
+    t.datetime "send_date_time"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "promotions", :force => true do |t|
