@@ -1,0 +1,10 @@
+.modal.fade{"tabindex" => -1, "role" => "dialog", "aria-labelledby" => "myModalLabel", "aria-hidden" =>  true, "id" => id.present? ? "#{id.camelize}Modal" : 'DefaultModal' }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"type"=>"button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h4.modal-title{id: "#{id.present? ? id.gsub(/([-_]?modal?$)|($)/i, '').gsub('_', '-') : 'default'}-modal" }= title
+      .modal-body= body
+      .modal-footer
+        - buttons.each do | text, variant |
+          %button.btn{"type"=>"button", "data-dismiss"=>"modal", "class" => [(variant.present? ? "btn-#{variant}" : ''),"action-#{text.underscore}"] }= text
