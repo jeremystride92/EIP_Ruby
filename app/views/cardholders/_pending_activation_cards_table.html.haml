@@ -13,8 +13,12 @@
       %th Cardholder
       %th.hidden-phone Issued by
       %th.hidden-phone{ colspan: 2 }
+      %th.btn-toolbar
+        .pull-right
+          .btn-group
+            = button_to "Resend Onboarding SMS", bulk_resend_onboarding_sms_venue_cardholders_path, class: 'btn', remote: true, form_class: 'bulk-resend-onboarding-sms'
   %tbody
-    - @pending_acticvation_cards.each do |card|
+    - @pending_activation_cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }
         %td.cardholder
           %span.first_name= card.cardholder.first_name

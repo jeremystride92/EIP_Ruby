@@ -40,6 +40,7 @@ EIPiD::Application.routes.draw do
       post 'bulk_import/:card_level_id', to: "cardholders#bulk_import", on: :collection
 
       post 'resend_onboarding_sms', as: :resend_onboarding_sms
+      post 'bulk_resend_onboarding_sms', to: "cardholders#bulk_resend_onboarding_sms", on: :collection, as: :bulk_resend_onboarding_sms
     end
 
     resources :cards, only: [:destroy] do
