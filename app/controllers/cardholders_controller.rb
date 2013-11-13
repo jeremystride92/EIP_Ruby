@@ -184,8 +184,6 @@ class CardholdersController < ApplicationController
       cardholder = Cardholder.new attributes # accepts nested attributes for the new card
     end
 
-    binding.pry
-
     cardholder
   end
 
