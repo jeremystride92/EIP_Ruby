@@ -1,0 +1,25 @@
+%form#card_level_form.form-search.form-inline.clearfix{action: venue_cardholders_path, method: :get}
+  = select_tag :card_level_id, options_from_collection_for_select(@card_levels, 'id', 'name', @card_level_id), prompt: 'Filter Card Level', class: 'pull-left'
+  .input-append.pull-right
+    %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Search Last Name' }
+    = button_tag class: 'btn' do
+      %i.icon-search
+%table.table.table-pair-striped
+  %thead
+    %tr
+      %th Cardholder
+      %th.hidden-phone Issued by
+      %th.hidden-phone{ colspan: 2 }
+  %tbody
+    - @pending_acticvation_cards.each do |card|
+      %tr.accordion-header{ class: "status-#{card.status}" }
+        %td.cardholder
+          %span.first_name= card.cardholder.first_name
+          %span.last_name= card.cardholder.last_name
+          %span.phone_number= card.cardholder.phone_number unless card.cardholder.first_name.present?
+        %td.card-issuer.hidden-phone= card.issuer.name
+        %td.card-level-name.hidden-phone= truncate card.card_level.name, length: 40, separator: ' '
+        %td{ colspan: 2 }
+      %tr.accordion-body.hidden
+        %td{ colspan: 5 }
+          = render partial: 'card_row', locals: { card: card }

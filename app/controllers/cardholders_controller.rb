@@ -26,8 +26,9 @@ class CardholdersController < ApplicationController
 
     authorize! :read, Card
 
-    @approved_cards = @cards.reject &:pending?
+    @approved_cards = @cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
     @pending_cards = @cards.select &:pending?
+    @pending_acticvation_cards = @cards.reject(&:pending?).select {|c| c.cardholder.pending? }
 
     if params[:card_level_id].present?
       @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
