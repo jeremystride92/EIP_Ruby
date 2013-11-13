@@ -27,6 +27,7 @@ class Card < ActiveRecord::Base
   after_initialize :set_defaults
   before_create :setup_redeemable_benefits
 
+
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
     .where(card_levels: { venue_id: venue_id })
@@ -39,7 +40,7 @@ class Card < ActiveRecord::Base
   scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
   def active?
-    self.status == 'active'
+    status == 'active'
   end
 
   def inactive?
@@ -57,7 +58,7 @@ class Card < ActiveRecord::Base
   end
 
   def redeemable_benefit_allotment
-    self.redeemable_benefits.where(source: :card_level).select(&:active?).count
+    redeemable_benefits.where(source: :card_level).select(&:active?).count
   end
 
   def redeemable_benefit_allotment= (num)
@@ -65,19 +66,24 @@ class Card < ActiveRecord::Base
 
     transaction do
       #expire active items
-      self.redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
+      redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
 
 
       #add new active items
-      self.redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
-      self.redeemable_benefits.each &:save! if persisted?
+      redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
+      redeemable_benefits.each &:save! if persisted?
 
     end
 
   end
 
+
+  def setup_redeemable_benefits
+    self.redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
+  end
+
   def total_redeemable_benefit_allotment
-    active_benefits_count = redeemable_benefits.select(&:active?).count
+    redeemable_benefits.select(&:active?).count
   end
 
   def redeem_benefits!(count)
@@ -121,11 +127,7 @@ class Card < ActiveRecord::Base
   end
 
   def redeemable_benefits_from_card_level
-    self.redeemable_benefits.where(source: :card_level).count
-  end
-
-  def setup_redeemable_benefits
-    redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
+    redeemable_benefits.where(source: :card_level).count
   end
 
   def set_defaults
