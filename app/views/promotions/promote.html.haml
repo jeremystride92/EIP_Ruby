@@ -11,7 +11,7 @@
         OR
         %br/
         send to specific Card Level below
-      = f.input 'card_levels', collection: @venue.card_levels.map(&:promotion_name), as: :check_boxes, required: false, checked: @promo_message.card_levels
+      = f.input 'card_levels', collection: present_for_promotion(@venue.card_levels), as: :check_boxes, required: false, checked: @promo_message.card_levels
       = f.label :message, required: true do
         Message
         %span.character-count
