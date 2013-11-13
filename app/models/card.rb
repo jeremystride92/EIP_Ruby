@@ -39,7 +39,7 @@ class Card < ActiveRecord::Base
   scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
   def active?
-    self.status == 'active'
+    self.status == 'active' && self.card_level.deleted_at.nil?
   end
 
   def inactive?

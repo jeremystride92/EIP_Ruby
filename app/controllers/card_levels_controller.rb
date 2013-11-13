@@ -47,6 +47,11 @@ class CardLevelsController < ApplicationController
 
   def destroy
     authorize! :delete, @card_level
+    @card_level.transaction do
+      @card_level.update_attributes! deleted_at: Time.now
+      @card_level.cards.update_all status: :innactive
+
+    end
     render json: {success: true}
   end
 
@@ -65,7 +70,7 @@ class CardLevelsController < ApplicationController
   end
 
   def find_venue_card_levels
-    @card_levels = @venue.card_levels.includes(:permanent_benefits, :temporary_benefits)
+    @card_levels = @venue.card_levels.includes(:permanent_benefits, :temporary_benefits).where(deleted_at: nil)
   end
 
   def find_card_level

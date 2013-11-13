@@ -32,7 +32,9 @@ class CardLevel < ActiveRecord::Base
   end
 
   def update_card_redeemable_benefit_allotments
+    if benefit_change != 0
       cards.each { |card| card.redeemable_benefit_allotment += benefit_change }
+    end
   end
 
   def selective_update_redeemable_benefit_allotments

@@ -1,7 +1,7 @@
 class CardTheme < ActiveRecord::Base
   belongs_to :venue
 
-  has_many :card_levels
+  has_many :card_levels, conditions: { deleted_at: nil }
   has_many :partners
 
   validates :name,
