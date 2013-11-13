@@ -22,24 +22,27 @@ class CardholdersController < ApplicationController
   def index
     @card_levels = @venue.card_levels
 
-    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
     authorize! :read, Card
 
-    @approved_cards = @cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
-    @pending_cards = @cards.select &:pending?
-    @pending_acticvation_cards = @cards.reject(&:pending?).select {|c| c.cardholder.pending? }
-
-    if params[:card_level_id].present?
-      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
-      @card_level_id = params[:card_level_id]
-    end
+    @approved_cards = @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
 
     if params[:filter].present?
       search_string = "%#{params[:filter]}%".downcase
       @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ?', search_string)
       @filter_string = params[:filter]
     end
+    
+    if params[:card_level_id].present?
+      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
+      @card_level_id = params[:card_level_id]
+    end
+
+    @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
+    @pending_cards = @cards.select &:pending?
+    @pending_acticvation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
+
+    
+    
   end
 
   def batch_new

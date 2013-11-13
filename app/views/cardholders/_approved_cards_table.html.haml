@@ -3,7 +3,10 @@
   .input-append.pull-right
     %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Search Last Name' }
     = button_tag class: 'btn' do
-      %i.icon-search
+      -if @filter_string.nil?
+        %i.icon-search
+      -else
+        %i.icon-remove
 %table.table.table-pair-striped
   %thead
     %tr

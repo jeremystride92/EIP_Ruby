@@ -1,6 +1,73 @@
-$('#card_level_id').change(function() {
-  $('#card_level_form').submit();
+$('.search-query + .btn').on('click.clear-search', function(e){
+  $(e.currentTarget).parents('form').find('.search-query').val('');
 });
+
+$('.search-query').on('keydown', function(e){
+  $(e.currentTarget).next('.btn').off('click.clear-search').find('.icon-remove').removeClass('icon-remove').addClass('icon-search');
+});
+
+$('select#card_level_id').each(function(i,v){
+  var $select = $(v);
+
+  //Establish primative's state:
+  var placeholder_text;
+  var opt_pairs = _($select.find('option')).chain().filter(function(v,i){
+    if( $(v).val() === ''){
+      placeholder_text = $(v).text();
+      return false;
+    }
+
+    return true;
+  }).map(function(v,i){
+    return {
+      label: $(v).text(),
+      id: $(v).val()
+    };
+  }).value();
+  var selected_text = (_.findWhere(opt_pairs,{id: $select.val()}) || {}).label || "";
+
+  //create replacement elements
+  var $input = $('<input>').attr({ type: 'text', autocomplete: "off" }).attr({
+
+    placeholder: placeholder_text,
+    value: selected_text
+
+  }).addClass('filter-entry');
+
+  var $hidden = $('<input>').attr({ type: 'hidden', id: 'card_level_id', name: 'card_level_id', value: '' });
+
+  var $clear = $('<span>').addClass('add-on').addClass('icon-remove').addClass('btn').on('click', function(e){
+    $input.val('');
+    $hidden.val('');
+    $hidden.parents('form').submit();
+  });
+
+  var $container = $('<div>').addClass('pull-left').addClass('input-append');
+  $select.replaceWith($container);
+  $container.append([$input,$clear,$hidden]);
+
+  //setup strings typehaed values
+  var opt_strings = _.pluck(opt_pairs,'label');
+
+
+  //initialize typeahead
+  $input.typeahead({
+    source: opt_strings,
+    minLength: 0,
+
+    updater: function(item){
+      $.each(opt_pairs,function(i,v){
+        if (v.label === item){
+          $hidden.val(v.id||'');
+          $hidden.parents('form').submit();
+        }
+      });
+      return item;
+    }
+  });
+
+});
+
 
 $('.accordion-header').click(function(e) {
   var $header = $(e.currentTarget);
