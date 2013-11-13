@@ -2,7 +2,7 @@ class CardLevelsController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue
   before_filter :find_venue_card_levels, only: [:index]
-  before_filter :find_card_level, only: [:edit, :update, :reorder]
+  before_filter :find_card_level, only: [:edit, :update, :reorder, :destroy]
 
   def index
     authorize! :read, CardLevel if @card_levels.empty?
@@ -43,6 +43,11 @@ class CardLevelsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    authorize! :delete, @card_level
+    render json: {success: true}
   end
 
   def reorder

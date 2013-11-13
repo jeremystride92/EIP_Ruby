@@ -41,8 +41,15 @@
             = button_tag type: :submit, class: 'btn btn-large' do
               %i.icon-sort
               Reorder
+          = form_tag venue_card_level_path(card_level), remote: true, onsubmit: "return confirm('Are you sure?')", method: :delete, class: 'form-inline delete-card-level' do
+            = button_tag type: :submit, class: 'btn btn-large btn-danger' do
+              %i.icon-remove
+              Delete
 
 .actions.clearfix
   =link_to new_venue_card_level_path(), class: 'btn btn-large btn-success pull-right' do
     %i.icon-plus
     New Card Level
+
+= content_for :javascripts do
+  = javascript_include_tag :card_level
