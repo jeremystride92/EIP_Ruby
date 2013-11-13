@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111181435) do
+
+ActiveRecord::Schema.define(:version => 20131113203813) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -36,9 +37,15 @@ ActiveRecord::Schema.define(:version => 20131111181435) do
     t.integer  "card_theme_id"
     t.string   "redeemable_benefit_name"
     t.boolean  "reload_redeemable_benefits_daily"
+    t.datetime "deleted_at"
   end
 
   add_index "card_levels", ["venue_id"], :name => "index_card_levels_on_venue_id"
+
+  create_table "card_levels_promotional_messages", :force => true do |t|
+    t.integer "card_level_id"
+    t.integer "promotional_message_id"
+  end
 
   create_table "card_levels_promotions", :id => false, :force => true do |t|
     t.integer "card_level_id", :null => false
@@ -105,6 +112,14 @@ ActiveRecord::Schema.define(:version => 20131111181435) do
 
   add_index "partners", ["venue_id"], :name => "index_partners_on_venue_id"
 
+  create_table "promotional_messages", :force => true do |t|
+    t.text     "message"
+    t.datetime "send_date_time"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "promotion_id"
+  end
+
   create_table "promotions", :force => true do |t|
     t.string   "title"
     t.text     "description"
@@ -114,6 +129,7 @@ ActiveRecord::Schema.define(:version => 20131111181435) do
     t.integer  "venue_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "view_count"
   end
 
   add_index "promotions", ["venue_id"], :name => "index_promotions_on_venue_id"
