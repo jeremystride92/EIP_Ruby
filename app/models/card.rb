@@ -25,8 +25,6 @@ class Card < ActiveRecord::Base
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults
-  before_create :setup_redeemable_benefits
-
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -40,7 +38,7 @@ class Card < ActiveRecord::Base
   scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
   def active?
-    status == 'active'
+    self.status == 'active'
   end
 
   def inactive?
@@ -58,7 +56,7 @@ class Card < ActiveRecord::Base
   end
 
   def redeemable_benefit_allotment
-    redeemable_benefits.where(source: :card_level).select(&:active?).count
+    self.redeemable_benefits.where(source: :card_level).select(&:active?).count
   end
 
   def redeemable_benefit_allotment= (num)
@@ -66,24 +64,19 @@ class Card < ActiveRecord::Base
 
     transaction do
       #expire active items
-      redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
+      self.redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
 
 
       #add new active items
-      redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
-      redeemable_benefits.each &:save! if persisted?
+      self.redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
+      self.redeemable_benefits.each &:save! if persisted?
 
     end
 
   end
 
-
-  def setup_redeemable_benefits
-    self.redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
-  end
-
   def total_redeemable_benefit_allotment
-    redeemable_benefits.select(&:active?).count
+    active_benefits_count = redeemable_benefits.select(&:active?).count
   end
 
   def redeem_benefits!(count)
@@ -127,7 +120,7 @@ class Card < ActiveRecord::Base
   end
 
   def redeemable_benefits_from_card_level
-    redeemable_benefits.where(source: :card_level).count
+    self.redeemable_benefits.where(source: :card_level).count
   end
 
   def set_defaults

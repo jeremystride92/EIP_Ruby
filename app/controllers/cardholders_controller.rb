@@ -174,6 +174,10 @@ class CardholdersController < ApplicationController
       else
         cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
       end
+
+      cardholder.cards.each do |card|
+        card.update_attributes redeemable_benefit_allotment: card.card_level.allowed_redeemable_benefits_count
+      end
     end
   end
 
@@ -181,7 +185,7 @@ class CardholdersController < ApplicationController
     if cardholder = Cardholder.find_by_phone_number(attributes[:phone_number])
       cardholder.cards.build attributes[:cards_attributes]['0']
     else
-      cardholder = Cardholder.new attributes # accepts nested attributes for the new card
+      cardholder = Cardholder.new attributes # accepts nested attributes for the new card      
     end
 
     cardholder
