@@ -16,23 +16,9 @@
       %th.btn-toolbar
         .pull-right
           .btn-group
-            %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
-              %i.icon-credit-card
-              Issue Cards
-              %span.caret
-            %ul.dropdown-menu.pull-right
-              - @card_levels.each do |card_level|
-                %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level_id: card_level.id)
-          .btn-group.hidden-phone
-            %a.btn.dropdown-toggle{ 'data-toggle' => 'dropdown', 'href' => '#' }
-              %i.icon-list
-              Bulk Import
-              %span.caret
-            %ul.dropdown-menu.pull-right
-              - @card_levels.each do |card_level|
-                %li= link_to truncate(card_level.name, length: 40), bulk_import_venue_cardholders_path(card_level_id: card_level.id)
+            = button_to "Resend Onboarding SMS", bulk_resend_onboarding_sms_venue_cardholders_path, class: 'btn', remote: true, form_class: 'bulk-resend-onboarding-sms'
   %tbody
-    - @approved_cards.each do |card|
+    - @pending_activation_cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }
         %td.cardholder
           %span.first_name= card.cardholder.first_name

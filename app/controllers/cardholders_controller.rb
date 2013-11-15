@@ -22,23 +22,24 @@ class CardholdersController < ApplicationController
   def index
     @card_levels = @venue.card_levels
 
-    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
     authorize! :read, Card
 
-    @approved_cards = @cards.reject &:pending?
-    @pending_cards = @cards.select &:pending?
-
-    if params[:card_level_id].present?
-      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
-      @card_level_id = params[:card_level_id]
-    end
+    @approved_cards = @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
 
     if params[:filter].present?
       search_string = "%#{params[:filter]}%".downcase
       @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ?', search_string)
       @filter_string = params[:filter]
     end
+    
+    if params[:card_level_id].present?
+      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
+      @card_level_id = params[:card_level_id]
+    end
+
+    @pending_cards = @cards.select &:pending?
+    @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
+    @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
   end
 
   def batch_new
@@ -156,14 +157,25 @@ class CardholdersController < ApplicationController
   end
 
   def resend_onboarding_sms
-    authorize! :resend_onboarding_sms, @cardholder
+    send_onboarding_sms @cardholder, @venue
+    render json: { success: true }
+  end
 
-    SmsMailer.delay(retry: false).cardholder_onboarding_sms(@cardholder.id, @venue.id)
+  def bulk_resend_onboarding_sms
+
+    cardholders = @venue.cardholders.joins(cards: [:card_level]).where(status: 'pending').where(cards: {status: 'active'})
+    cardholders.each { |cardholder| send_onboarding_sms cardholder, @venue}
 
     render json: { success: true }
   end
 
   private
+
+  def send_onboarding_sms cardholder, venue
+    authorize! :resend_onboarding_sms, cardholder
+    SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+  end
+
 
   def save_and_send_cardholders!(cardholders, venue)
     cardholders.each do |cardholder|

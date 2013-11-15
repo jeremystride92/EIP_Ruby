@@ -3,10 +3,13 @@
   %li.active
     %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.approved-cards'}} Approved
   %li
-    %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-cards'}} Pending
+    %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-activation-cards'}} Pending Activation
+  %li
+    %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-requests-cards'}} Pending Requests
 .tab-panes.tab-content
   .approved-cards.tab-pane.fade.in.active= render 'approved_cards_table'
-  .pending-cards.tab-pane.fade= render 'pending_cards_table'
+  .pending-activation-cards.tab-pane.fade= render 'pending_activation_cards_table'
+  .pending-requests-cards.tab-pane.fade= render 'pending_requests_cards_table'
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders
