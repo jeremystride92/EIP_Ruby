@@ -16,7 +16,6 @@ class CardholdersController < ApplicationController
 
   skip_authorization_check only: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
-
   public_actions :onboard, :complete_onboard, :reset_pin_form, :reset_pin
 
   def index
@@ -185,7 +184,7 @@ class CardholdersController < ApplicationController
     if cardholder = Cardholder.find_by_phone_number(attributes[:phone_number])
       cardholder.cards.build attributes[:cards_attributes]['0']
     else
-      cardholder = Cardholder.new attributes # accepts nested attributes for the new card      
+      cardholder = Cardholder.new attributes # accepts nested attributes for the new card
     end
 
     cardholder
