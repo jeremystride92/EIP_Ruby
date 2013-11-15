@@ -6,6 +6,10 @@
   - if @promotion.end_date
     Until
     %strong= l @promotion.end_date.in_time_zone(@venue.time_zone), format: :friendly
+  - if @promotion.last_promoted_date
+    %br
+    Last Promoted
+    %strong= l @promotion.last_promoted_date.in_time_zone(@venue.time_zone), format: :friendly
 = image_tag @promotion.image.display.url if @promotion.image
 %p.description= @promotion.description
 %p

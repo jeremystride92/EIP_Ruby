@@ -39,4 +39,18 @@ module ApplicationHelper
     HTML
     html.html_safe
   end
+
+  def last_promoted_date (card_level)
+    "(Last Promoted: #{card_level.promotional_messages.last.send_date_time.strftime('%m/%d/%Y')})" if card_level.promotional_messages.count > 0
+  end
+
+  def promotion_name (card_level)
+    [[name, last_promoted_date(card_level), aggregate_promotion_clicks].join(" "), id]
+  end
+
+  def present_for_promotion(card_levels)
+    card_levels.map do |card_level|
+      promotion_name(card_level)
+    end
+  end
 end

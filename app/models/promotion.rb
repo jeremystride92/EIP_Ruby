@@ -2,6 +2,7 @@ class Promotion < ActiveRecord::Base
   belongs_to :venue
 
   has_and_belongs_to_many :card_levels
+  has_many :promotional_messages, order: :send_date_time
 
   validates :title, presence: true
   validates :venue, presence: true
@@ -19,6 +20,10 @@ class Promotion < ActiveRecord::Base
     end_comparison = compare_end_dates(other)
 
     end_comparison.zero? ? compare_start_dates(other) : end_comparison
+  end
+
+  def last_promoted_date
+    promotional_messages.last.send_date_time if promotional_messages.count > 0
   end
 
   private
