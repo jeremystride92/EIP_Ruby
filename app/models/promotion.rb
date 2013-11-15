@@ -1,7 +1,7 @@
 class Promotion < ActiveRecord::Base
   belongs_to :venue
 
-  has_and_belongs_to_many :card_levels
+  has_and_belongs_to_many :card_levels, conditions: { deleted_at: nil }
   has_many :promotional_messages, order: :send_date_time
 
   validates :title, presence: true

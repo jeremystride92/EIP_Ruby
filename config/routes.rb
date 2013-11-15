@@ -21,7 +21,7 @@ EIPiD::Application.routes.draw do
     get :edit_kiosk, to: "venues#edit_kiosk", as: :edit_kiosk, on: :collection
     put :edit_kiosk, to: "venues#update_kiosk"
 
-    resources :card_levels, only: [:index, :new, :create, :edit, :update] do
+    resources :card_levels, only: [:index, :new, :create, :edit, :update, :destroy] do
       post 'reorder', to: 'card_levels#reorder'
 
       get 'issue_benefit', to: 'benefits#issue_benefit_form'

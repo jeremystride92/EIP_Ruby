@@ -2,7 +2,7 @@ class CardLevelsController < ApplicationController
   before_filter :authenticate
   before_filter :find_venue
   before_filter :find_venue_card_levels, only: [:index]
-  before_filter :find_card_level, only: [:edit, :update, :reorder]
+  before_filter :find_card_level, only: [:edit, :update, :reorder, :destroy]
 
   def index
     authorize! :read, CardLevel if @card_levels.empty?
@@ -45,6 +45,16 @@ class CardLevelsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :delete, @card_level
+    @card_level.transaction do
+      @card_level.update_attributes! deleted_at: Time.now
+      @card_level.cards.update_all status: :inactive
+
+    end
+    render json: {success: true}
+  end
+
   def reorder
     authorize! :update, @card_level
 
@@ -60,7 +70,7 @@ class CardLevelsController < ApplicationController
   end
 
   def find_venue_card_levels
-    @card_levels = @venue.card_levels.includes(:permanent_benefits, :temporary_benefits)
+    @card_levels = @venue.card_levels.includes(:permanent_benefits, :temporary_benefits).where(deleted_at: nil)
   end
 
   def find_card_level
