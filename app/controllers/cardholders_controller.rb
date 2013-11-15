@@ -40,8 +40,6 @@ class CardholdersController < ApplicationController
     @pending_cards = @cards.select &:pending?
     @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
     @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
-
-    binding.pry
   end
 
   def batch_new
