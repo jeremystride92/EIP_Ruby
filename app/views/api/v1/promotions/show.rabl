@@ -2,6 +2,9 @@ object :@promotion
 
 attributes :title, :description, :start_date, :end_date
 attribute active?: :active
+node :short_url do |promotion|
+  $short_url_cache.shorten(public_promotion_url(subdomain: promotion.venue.vanity_slug, id: promotion.id))
+end
 
 node :images do |promotion|
   {
