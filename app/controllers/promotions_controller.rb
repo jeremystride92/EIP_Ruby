@@ -72,7 +72,6 @@ class PromotionsController < ApplicationController
   def promote
     authorize! :promote, @promotion
     @promo_message = PromotionalMessage.new message: $short_url_cache.shorten(public_promotion_url subdomain: @venue.vanity_slug, id: @promotion.id), card_levels: []
-    @card_levels = @venue.card_levels.map {|cl| { name: [cl.name,cl.last_promoted_date].join(' '), id: cl.id } }
   end
 
   def send_promotion
@@ -84,7 +83,8 @@ class PromotionsController < ApplicationController
       @promo_message.card_levels = CardLevel.where(id: params_for_card_levels)
     end
     @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_level_ids) & @venue.card_levels
-    @cardholders = @card_levels.map(&:cards).flatten.map(&:cardholder).uniq
+    @cards = @card_levels.flat_map(&:cards).select(&:active?)
+    @cardholders = @cards.map(&:cardholder).uniq.select(&:active?)
 
     if @cardholders.empty?
       flash[:error] = "No Cards were found in those Card Levels."
