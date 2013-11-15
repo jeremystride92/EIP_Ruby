@@ -36,6 +36,7 @@ class PromotionsController < ApplicationController
   end
 
   def public_show
+    @promotion.increment!(:view_count)
   end
 
   def edit
