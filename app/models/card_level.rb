@@ -7,6 +7,8 @@ class CardLevel < ActiveRecord::Base
   has_many :temporary_benefits, as: :beneficiary, class_name: 'Benefit', before_add: :ensure_benefits_beneficiary, conditions: '(start_date IS NOT NULL) OR (end_date IS NOT NULL)'
   has_many :permanent_benefits, as: :beneficiary, class_name: 'Benefit', before_add: :ensure_benefits_beneficiary, conditions: '(start_date IS NULL) AND (end_date IS NULL)'
   has_many :redeemable_benefits, through: :cards
+  has_many :card_levels_promotional_messages
+  has_many :promotional_messages, through: :card_levels_promotional_messages, order: :send_date_time
   has_and_belongs_to_many :promotions
 
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
@@ -108,4 +110,5 @@ class CardLevel < ActiveRecord::Base
       card_level.save
     end
   end
+
 end

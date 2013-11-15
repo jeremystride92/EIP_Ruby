@@ -11,7 +11,7 @@
         OR
         %br/
         send to specific Card Level below
-      = f.input 'card_levels', collection: @venue.card_levels, as: :check_boxes, required: false, checked: @promo_message.card_levels
+      = f.input 'card_levels', collection: present_for_promotion(@venue.card_levels), as: :check_boxes, required: false, checked: @promo_message.card_levels
       = f.label :message, required: true do
         Message
         %span.character-count
@@ -23,7 +23,11 @@
       .span6
         - Time.use_zone @venue.time_zone do
           = f.input :send_date_time, as: :datetime, order: [:day, :month, :year], start_year: Time.current.year, end_year: (Time.current.year + 1), with_css_classes: true, selected: @promo_message.send_date_time, label: false, wrapper_html: { class: 'pull-left' }
+          
         = f.submit 'Schedule', class: 'btn btn-large btn-success pull-right'
+        - if @promotion.last_promoted_date
+          .pull-left
+            = "Last Promoted #{l @promotion.last_promoted_date, format: :friendly}"
 
 = content_for :javascripts do
   = javascript_include_tag :promotions
