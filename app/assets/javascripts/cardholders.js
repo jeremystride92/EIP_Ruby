@@ -1,3 +1,5 @@
+//= require select_replacement
+
 $('.search-query + .btn').on('click.clear-search', function(e){
   $(e.currentTarget).parents('form').find('.search-query').val('');
 });
@@ -6,67 +8,71 @@ $('.search-query').on('keydown', function(e){
   $(e.currentTarget).next('.btn').off('click.clear-search').find('.icon-remove').removeClass('icon-remove').addClass('icon-search');
 });
 
-$('select#card_level_id').each(function(i,v){
-  var $select = $(v);
 
-  //Establish primative's state:
-  var placeholder_text;
-  var opt_pairs = _($select.find('option')).chain().filter(function(v,i){
-    if( $(v).val() === ''){
-      placeholder_text = $(v).text();
-      return false;
-    }
+$(function(){
+  $('select#card_level_id').each(function(i,v){
+    var $select = $(v);
 
-    return true;
-  }).map(function(v,i){
-    return {
-      label: $(v).text(),
-      id: $(v).val()
-    };
-  }).value();
-  var selected_text = (_.findWhere(opt_pairs,{id: $select.val()}) || {}).label || "";
+    //Establish primative's state:
+    var placeholder_text;
+    var opt_pairs = _($select.find('option')).chain().filter(function(v,i){
+      if( $(v).val() === ''){
+        placeholder_text = $(v).text();
+        return false;
+      }
 
-  //create replacement elements
-  var $input = $('<input>').attr({ type: 'text', autocomplete: "off" }).attr({
+      return true;
+    }).map(function(v,i){
+      return {
+        label: $(v).text(),
+        id: $(v).val()
+      };
+    }).value();
+    var selected_text = (_.findWhere(opt_pairs,{id: $select.val()}) || {}).label || "";
 
-    placeholder: placeholder_text,
-    value: selected_text
+    var typeahead_template = JST['select_replacement'];
+    var $container = $(typeahead_template({
+      placeholder: placeholder_text,
+      selected_text: selected_text
+    }));
 
-  }).addClass('filter-entry');
+    //create replacement elements
+    var $input = $container.find('.filter-entry');
+    var $hidden = $container.find('input[type=hidden]');
 
-  var $hidden = $('<input>').attr({ type: 'hidden', id: 'card_level_id', name: 'card_level_id', value: '' });
+    var $clear = $container.find('.clear-button');
 
-  var $clear = $('<span>').addClass('add-on').addClass('icon-remove').addClass('btn').on('click', function(e){
-    $input.val('');
-    $hidden.val('');
-    $hidden.parents('form').submit();
+    
+    $select.replaceWith($container);
+
+    $clear.on('click', function(e){
+      $input.val('');
+      $hidden.val('');
+      $hidden.parents('form').submit();
+    });
+
+    //setup strings typehaed values
+    var opt_strings = _.pluck(opt_pairs,'label');
+
+    //initialize typeahead
+    $input.typeahead({
+      source: opt_strings,
+      minLength: 0,
+
+      updater: function(item){
+        $.each(opt_pairs,function(i,v){
+          if (v.label === item){
+            $hidden.val(v.id||'');
+            $hidden.parents('form').submit();
+          }
+        });
+        return item;
+      }
+    });
+
   });
-
-  var $container = $('<div>').addClass('pull-left').addClass('input-append');
-  $select.replaceWith($container);
-  $container.append([$input,$clear,$hidden]);
-
-  //setup strings typehaed values
-  var opt_strings = _.pluck(opt_pairs,'label');
-
-
-  //initialize typeahead
-  $input.typeahead({
-    source: opt_strings,
-    minLength: 0,
-
-    updater: function(item){
-      $.each(opt_pairs,function(i,v){
-        if (v.label === item){
-          $hidden.val(v.id||'');
-          $hidden.parents('form').submit();
-        }
-      });
-      return item;
-    }
-  });
-
 });
+
 
 
 $('.accordion-header').click(function(e) {
