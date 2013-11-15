@@ -96,7 +96,10 @@ class CardsController < ApplicationController
   def change_card_level
     authorize! :update, @card
 
+    card_level = CardLevel.find(params_for_card[:card_level_id])
+
     if @card.update_attributes params_for_card
+      @card.redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
       SmsMailer.delay(retry: false).card_level_change_sms(@card.cardholder_id, @card.card_level_id, @venue.id)
       respond_to :json
     else
@@ -177,8 +180,11 @@ class CardsController < ApplicationController
       return
     end
 
-    if @card.update_attributes(status: 'active', card_level_id: params[:card][:card_level_id], issuer: current_user, issued_at: Time.zone.now)
+    card_level = CardLevel.find(params[:card][:card_level_id])
+
+    if @card.update_attributes(status: 'active', card_level: card_level, redeemable_benefit_allotment: card_level.allowed_redeemable_benefits_count, issuer: current_user, issued_at: Time.zone.now)
       SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder.id, @venue.id)
+
       head :no_content
     else
       head :unprocessable_entity

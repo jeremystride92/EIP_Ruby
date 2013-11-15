@@ -25,7 +25,6 @@ class Card < ActiveRecord::Base
   validate :unique_card_per_cardholder_and_venue
 
   after_initialize :set_defaults
-  before_create :setup_redeemable_benefits
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -122,10 +121,6 @@ class Card < ActiveRecord::Base
 
   def redeemable_benefits_from_card_level
     self.redeemable_benefits.where(source: :card_level).count
-  end
-
-  def setup_redeemable_benefits
-    redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
   end
 
   def set_defaults

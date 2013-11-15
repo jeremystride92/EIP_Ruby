@@ -16,7 +16,6 @@ class CardholdersController < ApplicationController
 
   skip_authorization_check only: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
-
   public_actions :onboard, :complete_onboard, :reset_pin_form, :reset_pin
 
   def index
@@ -185,6 +184,10 @@ class CardholdersController < ApplicationController
         cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
       else
         cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+      end
+
+      cardholder.cards.each do |card|
+        card.update_attributes redeemable_benefit_allotment: card.card_level.allowed_redeemable_benefits_count
       end
     end
   end
