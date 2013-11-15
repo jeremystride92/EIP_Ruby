@@ -45,7 +45,7 @@ module ApplicationHelper
   end
 
   def promotion_name (card_level)
-    [[name, last_promoted_date(card_level), aggregate_promotion_clicks].join(" "), id]
+    [[card_level.name, last_promoted_date(card_level)].join(" "), card_level.id]
   end
 
   def present_for_promotion(card_levels)
