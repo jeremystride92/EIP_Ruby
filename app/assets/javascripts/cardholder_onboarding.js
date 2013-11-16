@@ -1,15 +1,35 @@
+function confirmRetake(e){
+  var $this = $(e.currentTarget);
+
+  if ($this.is('[class*=retake]')){
+    $(self).click();
+  } else {
+    var $elements = $(self).parents('form').find('input,textarea,button,select').not('[type="hidden"]')
+    $elements.get($elements.index(self) + 1).focus();
+  }
+}
+
 $('#cardholder_photo').change(function() {
   var self = this;
   readImagePreviewToBackground(this, $('.photo-preview'));
 
-  $('#PhotoReminderModal').modal().one('click','.btn',function(e){
-    var $this = $(e.currentTarget);
+  $('#PhotoReminderModal').modal().one('click','.btn',confirmRetake);
+});
 
-    if ($this.is('[class*=retake]')){
-      $(self).click();
-    } else {
-      var $elements = $(self).parents('form').find('input,textarea,button,select').not('[type="hidden"]')
-      $elements.get($elements.index(self) + 1).focus();
+$('.simple_form.edit_cardholder').on('submit',function(e){
+  var continue = true;
+  
+  $('#cardholder_photo[required]').each(function(v){
+    
+    if ($(v).val() === ""){
+      $('#PhotoValidationModal').modal().one(confirmRetake);
+      continue = false;
     }
   });
-});
+
+  if (! continue) {
+    return false;
+  }
+  
+})
+
