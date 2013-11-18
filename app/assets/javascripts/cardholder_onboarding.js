@@ -17,17 +17,17 @@ $('#cardholder_photo').change(function() {
 });
 
 $('.simple_form.edit_cardholder').on('submit',function(e){
-  var continue = true;
+  var complete_submit = true;
   
   $('#cardholder_photo[required]').each(function(v){
     
-    if ($(v).val() === ""){
+    if (! $(v).val()){
       $('#PhotoValidationModal').modal().one(confirmRetake);
-      continue = false;
+      complete_submit = false;
     }
   });
-
-  if (! continue) {
+  
+  if (! complete_submit) {
     return false;
   }
   

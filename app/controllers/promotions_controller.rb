@@ -84,7 +84,7 @@ class PromotionsController < ApplicationController
     end
     @card_levels = CardLevel.includes(cards: [:cardholder]).find(@promo_message.card_level_ids) & @venue.card_levels
     @cards = @card_levels.flat_map(&:cards).select(&:active?)
-    @cardholders = @cards.map(&:cardholder).uniq.select(&:active?)
+    @cardholders = @cards.map(&:cardholder).uniq.select(&:present?).select(&:active?)
 
     if @cardholders.empty?
       flash[:error] = "No Cards were found in those Card Levels."

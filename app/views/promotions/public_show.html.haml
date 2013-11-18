@@ -12,8 +12,7 @@
   %p.description= @promotion.description
   .request-box
     = link_to request_card_path, class: 'btn btn-inverse btn-request-card' do
-      %i.icon-credit-card
       Don't have a 
       %i #{@promotion.venue.name}
-      card? request one here.
+      card? Request one here.
 
