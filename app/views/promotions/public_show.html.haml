@@ -11,7 +11,7 @@
   = image_tag @promotion.image.display.url, class: 'promotion-image'
   %p.description= @promotion.description
   .request-box
-    = link_to request_card_path(from: :promotion), class: 'btn btn-inverse btn-request-card' do
+    = link_to request_card_path(from: @promotion.class.name, from_id: @promotion.id), class: 'btn btn-inverse btn-request-card' do
       Don't have a 
       %i #{@promotion.venue.name}
       card? Request one here.

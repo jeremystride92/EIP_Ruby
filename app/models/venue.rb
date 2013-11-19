@@ -8,6 +8,8 @@ class Venue < ActiveRecord::Base
   has_many :temporary_cards, through: :partners
   has_many :card_themes
 
+  has_many :kiosk_conversions, class_name: "Cardholder", as: :sourceable
+
   mount_uploader :logo, LogoImageUploader
   mount_uploader :kiosk_background, KioskBackgroundUploader
 

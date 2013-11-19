@@ -17,7 +17,7 @@
           Valid Until
           = l @temporary_card.expires_at.to_date, format: :friendly
         .request-box
-          = link_to request_card_path, class: 'btn btn-inverse btn-request-card' do
+          = link_to request_card_path(from: @temporary_card.class.name, from_id: @temporary_card.id), class: 'btn btn-inverse btn-request-card' do
             %i.icon-credit-card
               Request a VIP Card from #{@venue.name}
     .anti-screenshot-device
