@@ -61,7 +61,9 @@ class CardsController < ApplicationController
         render 'request_card_form'
       end
     else
+
       @cardholder= Cardholder.new(params_for_card_request)
+      binding.pry
       if @cardholder.save
         @cardholder.cards << @card
         @cardholder.save
@@ -210,7 +212,7 @@ class CardsController < ApplicationController
   end
 
   def params_for_card_request
-    params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name)
+    params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name, :source)
   end
 
   def find_card
