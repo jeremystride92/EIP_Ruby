@@ -1,9 +1,9 @@
-.container
+#temporary_cards-claimed.container
   .expiration-warning
     .expired-card
     .notice This card has already been claimed.
     .eipid-logo
   .request-box
-    = link_to request_card_path(from: TemporaryCard.name, from_id: 0), class: 'btn btn-inverse btn-request-card' do
+    = link_to request_card_path(from: @temporary_card.class.name, from_id: @temporary_card.id), class: 'btn btn-inverse btn-request-card' do
       %i.icon-credit-card
         Request a Permanent Card from #{@venue.name}
