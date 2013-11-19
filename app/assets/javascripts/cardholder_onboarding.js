@@ -19,7 +19,7 @@ $('#cardholder_photo').change(function() {
 $('.simple_form.edit_cardholder').on('submit',function(e){
   var complete_submit = true;
   
-  $('#cardholder_photo[required]').each(function(v){
+  $('#cardholder_photo[required]').each(function(i,v){
     
     if (! $(v).val()){
       $('#PhotoValidationModal').modal().one(confirmRetake);
