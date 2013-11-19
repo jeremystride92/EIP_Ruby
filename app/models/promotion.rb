@@ -26,6 +26,16 @@ class Promotion < ActiveRecord::Base
     promotional_messages.last.send_date_time if promotional_messages.count > 0
   end
 
+  def last_promoted_dates
+    @dates ||= [];
+    if @dates.count != promotional_messages.count
+      @dates = promotional_messages.map do |pm|
+        pm.send_date_time 
+      end
+    end
+    @dates.uniq
+  end
+
   private
 
   def compare_end_dates(other)
