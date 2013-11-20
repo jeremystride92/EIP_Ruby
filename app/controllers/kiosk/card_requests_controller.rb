@@ -27,6 +27,9 @@ class Kiosk::CardRequestsController < ApplicationController
       @cardholder = Cardholder.new params_for_cardholder
       @cardholder.cards << card
 
+      @cardholder.sourceable_type = "Venue"
+      @cardholder.sourceable_id = @venue.id
+
       if !@cardholder.save
         render 'new' and return
       else

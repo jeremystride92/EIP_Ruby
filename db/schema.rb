@@ -10,7 +10,8 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended to check this file into your version control system.
-ActiveRecord::Schema.define(:version => 20131113203813) do
+
+ActiveRecord::Schema.define(:version => 20131119191620) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -78,6 +79,8 @@ ActiveRecord::Schema.define(:version => 20131113203813) do
     t.datetime "activated_at"
     t.string   "reset_token"
     t.datetime "reset_token_date"
+    t.string   "sourceable_type"
+    t.integer  "sourceable_id"
   end
 
   add_index "cardholders", ["auth_token"], :name => "index_cardholders_on_auth_token"

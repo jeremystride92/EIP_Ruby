@@ -8,6 +8,8 @@ class Cardholder < ActiveRecord::Base
 
   has_many :venues, through: :cards
 
+  belongs_to :sourceable, polymorphic: true
+
   mount_uploader :photo, CardholderImageUploader
 
   validates :first_name, presence: true, unless: :pending?
