@@ -76,6 +76,13 @@ EIPiD::Application.routes.draw do
     end
   end
 
+  resource :partner, only: [:show] do
+    resources :temporary_cards, only: [:index, :destroy] do
+      get :new_batch, action: 'batch_new', on: :collection, as: :new_batch
+      post :new_batch, action: 'batch_create', on: :collection, as: :create_batch
+    end
+  end
+
   resource :user, only: [:signup] do
     get :signup
     post :signup, action: :complete_signup

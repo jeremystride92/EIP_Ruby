@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   belongs_to :venue
+  belongs_to :partner
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
@@ -14,7 +15,7 @@ class User < ActiveRecord::Base
 
   include RoleModel
   roles_attribute :roles_mask
-  roles :venue_owner, :venue_manager, :site_admin
+  roles :venue_owner, :venue_manager, :site_admin, :partner
 
   before_create { generate_token(:auth_token) }
 

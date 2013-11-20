@@ -1,7 +1,8 @@
 class PartnersController < ApplicationController
   before_filter :authenticate
-  before_filter :find_venue
+  before_filter :find_venue, except: [:show]
   before_filter :find_partner, only: [:edit, :update, :destroy]
+  before_filter :find_current_partner, only: [:show]
 
   def index
     authorize! :read, Partner
@@ -31,6 +32,10 @@ class PartnersController < ApplicationController
     authorize! :update, @partner
   end
 
+  def show
+    authorize! :read, @partner
+  end
+
   def update
     authorize! :update, @partner
 
@@ -58,6 +63,10 @@ class PartnersController < ApplicationController
 
   def find_partner
     @partner = @venue.partners.find params[:id]
+  end
+
+  def find_current_partner
+    @partner = Partner.includes(:temporary_cards).find current_user.partner_id
   end
 
   def params_for_partner

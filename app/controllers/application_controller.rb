@@ -7,13 +7,13 @@ class ApplicationController < ActionController::Base
 
   class AccessDenied < ::StandardError; end
 
-  rescue_from AccessDenied do |exception|
-    render file: 'public/404', formats: [:html], layout: false, status: 404 and return
-  end
+  # rescue_from AccessDenied do |exception|
+  #   render file: 'public/404', formats: [:html], layout: false, status: 404 and return
+  # end
 
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render file: 'public/404', formats: [:html], layout: false, status: 404 and return
-  end
+  # rescue_from ActiveRecord::RecordNotFound do |exception|
+  #   render file: 'public/404', formats: [:html], layout: false, status: 404 and return
+  # end
 
   private
 
