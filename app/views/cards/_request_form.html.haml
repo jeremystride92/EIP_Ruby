@@ -6,9 +6,7 @@
     %p.instructions
   .detail-fields{class: @incorrect_password || @validation_errors ? '' : 'hide' }
     .form-block
-      = f.input :password, required: true
       .new-cardholder-fields{class: @validation_errors ? '' : 'hide' }
-        = f.input :password_confirmation, label: 'Confirm Password', as: :password
         = f.input :first_name
         = f.input :last_name
     .form-actions

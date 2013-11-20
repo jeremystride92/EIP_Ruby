@@ -47,18 +47,11 @@ class CardsController < ApplicationController
   def request_card
     @card = @venue.default_signup_card_level.cards.build(status: 'pending')
     if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
-      if @cardholder.authenticate params[:cardholder][:password]
-        if @cardholder.has_card_for_venue?(@venue)
-          render 'card_exists'
-        else
-          @cardholder.cards << @card
-          @cardholder.save
-        end
+      if @cardholder.has_card_for_venue?(@venue)
+        render 'card_exists'
       else
-        @cardholder = Cardholder.new(params_for_card_request) # recreate cardholder so that no information leaks to the form
-        @cardholder.errors.add :password, 'Incorrect Password'
-        @incorrect_password = true
-        render 'request_card_form'
+        @cardholder.cards << @card
+        @cardholder.save
       end
     else
 
@@ -211,7 +204,11 @@ class CardsController < ApplicationController
   end
 
   def params_for_card_request
+<<<<<<< HEAD
     params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name, :sourceable_type, :sourceable_id)
+=======
+    params.require(:cardholder).permit(:phone_number, :first_name, :last_name)
+>>>>>>> Removed pin verification for Cardholders
   end
 
   def find_card

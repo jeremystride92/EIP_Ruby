@@ -10,10 +10,7 @@ $('#lookup').click(function(e){
   var $detailFields = $form.find('.detail-fields');
 
   var handleSuccess = function(data, status, xhr){
-    $phoneNumber.removeClass('processing');
-    $hintBlock.text('Welcome back! Please enter your 4-digit PIN.');
-    $signupFields.hide();
-    $detailFields.slideDown();
+    $('.request-card form')[0].submit()
   };
 
   var handleFailure = function(status){
