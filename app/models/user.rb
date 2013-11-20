@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
   end
 
   def send_activation_email
-    PasswordResetMailer.delay(retry: false).password_reset_email(self.id)
+    BusinessOnboardMailer.delay(retry: false).onboard_email(self.id)
   end
 
   def send_password_reset_email!
