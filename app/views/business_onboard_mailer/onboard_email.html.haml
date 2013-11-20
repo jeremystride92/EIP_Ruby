@@ -3,18 +3,9 @@
 %html
   %head
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8'}/
-    %title #{ENV['site_name']} Password Reset
-
-%h1 Please reset your #{ENV['site_name']} password!
-
-%p
-  #{link_to 'Click here to reset your password', reset_password_user_url(@user.reset_token)} in the #{ENV['site_name']} system.
-  - if @venue.nil?
-    If you believe this email was sent to you in error, please contact #{ENV['site_name']} ATTN: #{ENV['site_email']}
-  - else
-    If you believe this email was sent to you in error, please contact the manager for #{@venue.name}.
+    %title #{ENV['site_name']} Admin Access
 
 %p Thanks!
 
 
-You have been granted #{@user.roles.map(&:humanize).join(', ')} Access to the #{@user.venue.name} #{ENV['site_name']} Membership card system. After creating your password, log in at #{ENV['action_mailer_host']} using this email address and your new password to view the Admin tools.
+You have been granted #{@user.roles.map {|role| role.to_s.titleize}.join(', ')} Access to the #{@user.venue.name} #{ENV['site_name']} Membership card system. #{link_to 'Click here to reset your password', reset_password_user_url(@user.reset_token)} in the #{ENV['site_name']} system. Afterward, log in at #{ENV['action_mailer_host']} using this email address and your new password to view the Admin tools.
