@@ -12,7 +12,7 @@ class TemporaryCardsController < ApplicationController
   skip_authorization_check only: PUBLIC_ACTIONS
 
   def index
-    if params[:partner_id] || current_user.partner_id.present?
+    if params[:partner_id]
       find_partner
       cards = @partner.temporary_cards.includes(:venue, :benefits, :issuer)
     else
@@ -28,7 +28,8 @@ class TemporaryCardsController < ApplicationController
 
 
   def batch_new
-    @partner = params[:partner_id] ? find_partner : nil
+    @partner_locked = current_user.partner.present? && current_user.is_exactly?(:partner)
+    @partner = @partner_locked ? current_user.partner : params[:partner_id] ? find_partner : nil
     authorize! :create, (@partner ? @partner.temporary_cards.build: TemporaryCard)
     @cancel_path = @partner.present? ? venue_partner_temporary_cards_path(@partner) : venue_temporary_cards_path
 
@@ -110,11 +111,11 @@ class TemporaryCardsController < ApplicationController
   end
 
   def find_partner
-    @partner ||= current_user.partner || @venue.partners.find params[:partner_id]
+    @partner = @venue.partners.find params[:partner_id]
   end
 
   def find_temporary_card
-    @temporary_card = (@venue || @partner).temporary_cards.find params[:id]
+    @temporary_card = @venue.temporary_cards.find params[:id]
   end
 
   def find_temporary_card_from_access_token

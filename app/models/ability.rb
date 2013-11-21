@@ -53,7 +53,7 @@ class Ability
 
     if user.has_role?(:partner)
       can :read, Partner, id: user.partner_id 
-      can :manage, TemporaryCard, partner_id: user.partner_id 
+      can :create, TemporaryCard, partner_id: user.partner_id 
     end
 
     if user.has_role?(:site_admin)

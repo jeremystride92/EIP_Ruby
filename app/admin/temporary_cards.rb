@@ -58,7 +58,7 @@ ActiveAdmin.register TemporaryCard do
       f.input :phone_number
       f.input :redeemable_benefit_allotment
       f.input :partner, collection: temporary_card.try(:venue).try(:partners) || Partner.all, group_by: :venue
-      f.input :issuer, collection: temporary_card.try(:venue).try(:users) || User.all
+      f.input :issuer, collection: temporary_card.try(:venue).try(:users) || User.all, group_by: :venue
       f.input :expires_at
     end
     f.actions
