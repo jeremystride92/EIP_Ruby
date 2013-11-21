@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   validates :name, presence: true
   validates :roles, presence: true
 
+  validate :valid_partner
+
   include RoleModel
   roles_attribute :roles_mask
   roles :venue_owner, :venue_manager, :site_admin, :partner
@@ -49,6 +51,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def valid_partner
+    errors.add_to_base(:partner_id, "Parner Must be selected is user-role is partner") if self.has_role?(:partner) && self.partner_id.nil?
+  end
 
   def generate_token(column)
     begin
