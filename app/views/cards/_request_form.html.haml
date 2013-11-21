@@ -13,3 +13,6 @@
         = f.input :last_name
     .form-actions
       = f.button :submit, value: 'Request Card', class: 'btn-primary btn-large'
+  - if params[:from].present? && params[:from_id].present?
+    = f.hidden_field :sourceable_type, value: params[:from]
+    = f.hidden_field :sourceable_id, value: params[:from_id]

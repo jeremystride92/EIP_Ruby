@@ -1,0 +1,11 @@
+!!!html
+
+%html
+  %head
+    %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=UTF-8'}/
+    %title #{ENV['site_name']} Admin Access
+
+%p Thanks!
+
+
+You have been granted #{@user.roles.map {|role| role.to_s.titleize}.join(', ')} Access to the #{@user.venue.name} #{ENV['site_name']} Membership card system. #{link_to 'Click here to reset your password', reset_password_user_url(@user.reset_token)} in the #{ENV['site_name']} system. Afterward, log in at #{ENV['action_mailer_host']} using this email address and your new password to view the Admin tools.

@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20131119213358) do
   create_table "card_levels_promotional_messages", :force => true do |t|
     t.integer "card_level_id"
     t.integer "promotional_message_id"
-  end
+  ends
 
   create_table "card_levels_promotions", :id => false, :force => true do |t|
     t.integer "card_level_id", :null => false

@@ -1,7 +1,7 @@
 class TemporaryCardsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  PUBLIC_ACTIONS = [:public_show, :expired, :claimed]
+  PUBLIC_ACTIONS = [:public_show]
 
   before_filter :authenticate, except: PUBLIC_ACTIONS
   before_filter :find_venue, except: PUBLIC_ACTIONS
@@ -78,25 +78,19 @@ class TemporaryCardsController < ApplicationController
   end
 
   def public_show
-    redirect_to :expired_temporary_card and return if @temporary_card.expired?
+    if @temporary_card.expired?
+      cookies.delete(:id_token) if cookies[:id_token]
+      render layout: 'temporary_card', action: :expired and return
+    end
 
     if @temporary_card.id_token
-      redirect_to :claimed_temporary_card and return unless cookies[:id_token] == @temporary_card.id_token
+      render layout: 'temporary_card', action: :claimed and return unless cookies[:id_token] == @temporary_card.id_token
     elsif request.headers['HTTP_USER_AGENT'] != 'bitlybot'
       Rails.logger.debug "TEMP CARD CLAIMED BY USERAGENT #{request.headers['HTTP_USER_AGENT']}"
       cookies.permanent[:id_token] = @temporary_card.generate_id_token
       @temporary_card.save
     end
 
-    render layout: 'temporary_card'
-  end
-
-  def expired
-    cookies.delete(:id_token) if cookies[:id_token]
-    render layout: 'temporary_card'
-  end
-
-  def claimed
     render layout: 'temporary_card'
   end
 
