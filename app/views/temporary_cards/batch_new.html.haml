@@ -4,7 +4,7 @@
   .row
     .form-block.span6.offset3
       - if @partner_locked
-        = f.label @partner.name
+        %h3= @partner.name
       - else
         = f.input :partner, collection: @venue.partners, selected: @partner.try(&:id), input_html: { class: 'span6' }, prompt: 'Choose Partner'
       %fieldset
@@ -14,16 +14,16 @@
           %button.btn.btn-large.btn-success.button-add
             %i.icon-plus
 
-      - if !@partner_locked
         %fieldset
           %legend Benefits
           = f.input :expires_at, label: 'Expiration', input_html: { class: 'span6', type: 'date' }
-          = f.input :redeemable_benefit_allotment, as: :integer, input_html: { class: 'span6', value: @redeemable_benefit_allotment, min: 0 }, hint: "#{(@partner.try(&:redeemable_benefit_name) || "").titleize.pluralize}"
+          - if !@partner_locked
+            = f.input :redeemable_benefit_allotment, as: :integer, input_html: { class: 'span6', value: @redeemable_benefit_allotment, min: 0 }, hint: "#{(@partner.try(&:redeemable_benefit_name) || "").titleize.pluralize}"
 
-          .batch-benefits
-            .batch-rows
-            %button.btn.btn-large.btn-success.button-add
-              %i.icon-plus
+            .batch-benefits
+              .batch-rows
+              %button.btn.btn-large.btn-success.button-add
+                %i.icon-plus
 
   .form-actions
     = f.button :submit, value: 'Issue Cards', class: 'btn btn-primary btn-large'

@@ -4,7 +4,7 @@
       = f.input :name, autofocus: true, input_html: { class: 'span6' }
       = f.input :email, input_html: { class: 'span6' }
       = f.input :roles, collection: User.valid_roles, as: :select, label_method: ->(role_sym) { role_sym.to_s.humanize }, label: 'Role', prompt: 'Select one', required: true, input_html: { required: true, class: 'span6' }
-      = f.input :partner, required: :true, collection: @user.venue.partners, as: :select, prompt: 'Partner Users must be assigned a partner', wrapper_html: { class: "hidden" }, input_html: { required: false }
+      = f.input :partner_id, required: :true, collection: @user.venue.partners, as: :select, prompt: 'Partner Users must be assigned a partner', wrapper_html: { class: "hidden" }, input_html: { required: false }
 
   .form-actions
     = f.button :submit, class: 'btn btn-primary btn-large', value: 'Grant Access'
