@@ -80,6 +80,15 @@ class Cardholder < ActiveRecord::Base
     self.reset_token_date = Time.current
   end
 
+  def source_name
+    source = sourceable_type.constantize.find(sourceable_id)
+    source.name if source.respond_to? :name
+  end
+
+  def source_type
+    sourceable_type.gsub("Venue","Kiosk")
+  end
+
   private
 
 

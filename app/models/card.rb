@@ -100,6 +100,8 @@ class Card < ActiveRecord::Base
     "#{cardholder.display_name}'s \"#{card_level.name}\" card from #{venue.name}"
   end
 
+  delegate :source_name, :source_type , to: :cardholder
+
   private
 
   def unique_card_per_cardholder_and_venue
