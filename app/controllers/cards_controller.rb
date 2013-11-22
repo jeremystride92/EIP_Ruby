@@ -47,7 +47,7 @@ class CardsController < ApplicationController
   def request_card
     @card = @venue.default_signup_card_level.cards.build(status: 'pending')
     if @cardholder = Cardholder.find_by_phone_number(params[:cardholder][:phone_number])
-      if ENV['require_pin'] != 'required' || @cardholder.authenticate(params[:cardholder][:password])
+      if pin_required? || @cardholder.authenticate(params[:cardholder][:password])
         if @cardholder.has_card_for_venue?(@venue)
           render 'card_exists'
         else
@@ -211,7 +211,7 @@ class CardsController < ApplicationController
   end
 
   def params_for_card_request
-    params.require(:cardholder).permit(:phone_number, :first_name, :last_name)
+    params.require(:cardholder).permit(:phone_number, :password, :password_confirmation, :first_name, :last_name, :sourceable_type, :sourceable_id)
   end
 
   def find_card

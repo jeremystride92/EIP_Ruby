@@ -1,4 +1,7 @@
 module ApplicationHelper
+
+  include Environment
+
   def body_tag_id
     format "%s-%s", controller.controller_path.parameterize, controller.action_name
   end
@@ -59,4 +62,5 @@ module ApplicationHelper
       promotion_name(card_level)
     end
   end
+
 end

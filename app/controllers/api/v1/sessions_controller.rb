@@ -7,7 +7,7 @@ class Api::V1::SessionsController < ApplicationController
       head :unauthorized
     elsif cardholder.pending?
       render json: { auth_token: nil, onboarding: onboard_url(cardholder.onboarding_token) }
-    elsif ENV['require_pin'] == 'required' 
+    elsif pin_required?
       if cardholder.authenticate(params[:password])
         render json: { auth_token: cardholder.auth_token }
       else 
@@ -19,7 +19,7 @@ class Api::V1::SessionsController < ApplicationController
   end
 
   def requires_pin_authentication
-    render json: { require_pin: ENV['require_pin'] == "required" }
+    render json: { require_pin: pin_required? }
   end
 
 end

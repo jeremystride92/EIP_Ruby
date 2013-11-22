@@ -11,7 +11,7 @@ $('#lookup').click(function(e){
 
   var handleSuccess = function(data, status, xhr){
     if ($('meta[name=require-pin]').attr('content') == 'true'){
-      honeNumber.removeClass('processing');
+      $phoneNumber.removeClass('processing');
       $hintBlock.text('Welcome back! Please enter your 4-digit PIN.');
       $signupFields.hide();
       $detailFields.slideDown();
