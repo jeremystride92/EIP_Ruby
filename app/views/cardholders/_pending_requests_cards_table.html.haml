@@ -13,7 +13,7 @@
           %span.last_name= card.cardholder.last_name
         %td
           %span.source
-            = card.source_type.titleize
+            = card.source_type.try(:titleize)
             - if card.source_name.present?
               %i (#{card.source_name})
         %td.actions

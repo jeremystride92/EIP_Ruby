@@ -81,12 +81,14 @@ class Cardholder < ActiveRecord::Base
   end
 
   def source_name
-    source = sourceable_type.constantize.find(sourceable_id)
-    source.try(:name)
+    if (sourceable_type.present?)
+      source = sourceable_type.constantize.find(sourceable_id)
+      source.try(:name)
+    end
   end
 
   def source_type
-    sourceable_type.gsub("Venue","Kiosk")
+    sourceable_type.try(:gsub,"Venue","Kiosk")
   end
 
   private
