@@ -103,7 +103,7 @@ class UsersController < ApplicationController
   end
 
   def params_for_user
-    params.require(:user).permit(:name, :email)
+    params.require(:user).permit(:name, :email, :partner_id)
   end
 
   def params_for_reset

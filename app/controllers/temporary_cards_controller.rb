@@ -28,7 +28,13 @@ class TemporaryCardsController < ApplicationController
 
 
   def batch_new
-    @partner = params[:partner_id] ? find_partner : nil
+    @partner_locked = current_user.is_partner_account?
+    if @partner_locked
+      @partner = current_user.partner 
+    else
+      @partner = find_partner
+    end
+
     authorize! :create, (@partner ? @partner.temporary_cards.build: TemporaryCard)
     @cancel_path = @partner.present? ? venue_partner_temporary_cards_path(@partner) : venue_temporary_cards_path
 
@@ -43,14 +49,18 @@ class TemporaryCardsController < ApplicationController
   def batch_create
     phone_numbers = params_for_batch_phones[:phones].values.map(&:values).flatten
 
-    @partner = @venue.partners.find params[:batch][:partner]
+    @partner = current_user.get_partner { @venue.partners.find params[:batch][:partner] }
+    
     authorize! :create, @partner.temporary_cards.build
 
     cards = []
     Time.use_zone @venue.time_zone do
       cards = phone_numbers.map do |phone_number|
         card = @partner.temporary_cards.build params_for_temp_card.merge(phone_number: phone_number, issuer: current_user)
-        card.tap { |card| card.expires_at = card.expires_at.end_of_day }
+        card.redeemable_benefit_allotment ||= @partner.default_redeemable_benefit_allotment
+        card.tap do |card|
+          card.expires_at = card.expires_at.end_of_day 
+        end
       end
     end
 
@@ -104,7 +114,7 @@ class TemporaryCardsController < ApplicationController
   end
 
   def find_partner
-    @partner = @venue.partners.find params[:partner_id]
+    @partner = @venue.partners.find params[:partner_id] if params[:partner_id].present? 
   end
 
   def find_temporary_card

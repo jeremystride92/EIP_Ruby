@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131119191620) do
+ActiveRecord::Schema.define(:version => 20131119213358) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(:version => 20131119191620) do
     t.string   "reset_token"
     t.datetime "reset_token_date"
     t.string   "name"
+    t.integer  "partner_id"
   end
 
   add_index "users", ["auth_token"], :name => "index_users_on_auth_token"

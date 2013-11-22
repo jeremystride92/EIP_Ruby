@@ -10,11 +10,12 @@
       %strong= problem_card.phone_number
       %ul.errors
         - problem_card.errors.messages.each do |field, messages_for_field|
-          %li.error= problem_card.errors.full_message field, message
+          - messages_for_field.each do |message|
+            %li.error= problem_card.errors.full_message field, message
 
-= link_to new_batch_venue_partner_temporary_cards(@partner), class: 'btn btn-large btn-primary' do
+= link_to new_batch_venue_partner_temporary_cards_path(@partner), class: 'btn btn-large btn-primary' do
   %i.icon-money
   Issue more Temporary Cards
 
-= link_to venue_partner_temporary_cards(@partner), class: 'btn btn-large' do
+= link_to venue_partner_temporary_cards_path(@partner), class: 'btn btn-large' do
   Return to #{@partner.name} Temporary Card List

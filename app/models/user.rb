@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_secure_password
 
   belongs_to :venue
+  belongs_to :partner
 
   validates :email, presence: true,
                     uniqueness: { case_sensitive: false },
@@ -11,10 +12,11 @@ class User < ActiveRecord::Base
   validates :password, length: { in: 6..255 }, allow_nil: true
   validates :name, presence: true
   validates :roles, presence: true
+  validates :partner, presence: true, if: -> { has_role?(:venue_partner) }
 
   include RoleModel
   roles_attribute :roles_mask
-  roles :venue_owner, :venue_manager, :site_admin
+  roles :venue_owner, :venue_manager, :site_admin, :venue_partner
 
   before_create { generate_token(:auth_token) }
 
@@ -47,6 +49,18 @@ class User < ActiveRecord::Base
     PasswordResetMailer.delay(retry: false).password_reset_email(self.id)
   end
 
+  def is_partner_account?
+    partner.present? && is_exactly?(:venue_partner)
+  end
+
+  def get_partner
+    if is_partner_account?
+      partner
+    elsif block_given?
+      yield
+    end
+  end
+
   private
 
   def generate_token(column)
@@ -54,4 +68,5 @@ class User < ActiveRecord::Base
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
   end
+
 end
