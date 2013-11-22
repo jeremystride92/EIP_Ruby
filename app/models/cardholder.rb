@@ -82,7 +82,7 @@ class Cardholder < ActiveRecord::Base
 
   def source_name
     source = sourceable_type.constantize.find(sourceable_id)
-    source.name if source.respond_to? :name
+    source.try(:name)
   end
 
   def source_type

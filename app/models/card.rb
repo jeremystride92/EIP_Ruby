@@ -37,6 +37,8 @@ class Card < ActiveRecord::Base
   scope :pending, where(status: 'pending')
   scope :approved, where(Card.arel_table[:status].not_eq('pending'))
 
+  delegate :source_name, :source_type , to: :cardholder
+
   def active?
     self.status == 'active' && self.card_level.deleted_at.nil?
   end
@@ -99,8 +101,6 @@ class Card < ActiveRecord::Base
   def display_name
     "#{cardholder.display_name}'s \"#{card_level.name}\" card from #{venue.name}"
   end
-
-  delegate :source_name, :source_type , to: :cardholder
 
   private
 
