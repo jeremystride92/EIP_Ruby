@@ -40,8 +40,14 @@ module ApplicationHelper
     html.html_safe
   end
 
+  def promotion_dates (card_level)
+    card_level.promotional_messages.map do |pm|
+      I18n.l pm.send_date_time.to_date, format: :short
+    end
+  end
+
   def last_promoted_date (card_level)
-    "(Last Promoted: #{card_level.promotional_messages.last.send_date_time.strftime('%m/%d/%Y')})" if card_level.promotional_messages.count > 0
+    "(Promoted On: #{promotion_dates(card_level).uniq.join(', ') })" if card_level.promotional_messages.count > 0
   end
 
   def promotion_name (card_level)

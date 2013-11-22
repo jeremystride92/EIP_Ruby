@@ -9,3 +9,4 @@ en:
   date:
     formats:
       friendly: "%B %-d"
+      short: "%m/%d/%Y"

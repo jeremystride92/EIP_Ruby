@@ -6,10 +6,16 @@
   - if @promotion.end_date
     Until
     %strong= l @promotion.end_date.in_time_zone(@venue.time_zone), format: :friendly
-  - if @promotion.last_promoted_date
+  - if @promotion.last_promoted_date.present?
     %br
-    Last Promoted
-    %strong= l @promotion.last_promoted_date.in_time_zone(@venue.time_zone), format: :friendly
+    Promoted On
+    - if @promotion.last_promoted_dates.count <= 1
+      =l @promotion.last_promoted_date.in_time_zone(@venue.time_zone), format: :friendly
+    - else 
+      %ul
+        - @promotion.last_promoted_dates.each do |lpdate|
+          %li
+            %strong= l lpdate.in_time_zone(@venue.time_zone), format: :friendly
 = image_tag @promotion.image.display.url if @promotion.image
 %p.description= @promotion.description
 %p
