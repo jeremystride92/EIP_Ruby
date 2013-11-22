@@ -8,9 +8,10 @@
         .span6
           .well
             %h3 Upload your photo
-            = f.input :photo, as: :file, label: false, required: !(@cardholder.photo? || @cardholder.photo.cached?), input_html: { required: !(@cardholder.photo? || @cardholder.photo.cached?) }, hint: 'Once set, this cannot be changed. Make sure you are clearly visible and identifiable from this photograph.'
+            = f.input :photo, as: :file, label: false, required: !(@cardholder.photo? || @cardholder.photo.cached?), input_html: { required: !(@cardholder.photo? || @cardholder.photo.cached?) }, hint: 'If you are choosing an existing photo, Your photo will appear as it does in your camera roll preview.'
             = f.hidden_field :photo_cache
-            .photo-preview{ style: "background-image: url(#{@cardholder.photo_path})" }
+            .proportional-wrapper
+              .photo-preview{ style: "background-image: url(#{@cardholder.photo_path})" }
       = f.input :password, required: true, input_html: { class: 'span6' }, as: :tel, label: '4-digit PIN', pattern: '\d{4}'
       = f.input :password_confirmation, required: true, input_html: { class: 'span6' }, as: :tel, label: 'Reenter PIN', pattern: '\d{4}'
 
