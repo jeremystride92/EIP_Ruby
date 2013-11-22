@@ -9,7 +9,7 @@
   - if @promotion.last_promoted_date.present?
     %br
     Promoted On
-    - if @promotion.last_promoted_dates.count == 1
+    - if @promotion.last_promoted_dates.count <= 1
       =l @promotion.last_promoted_date.in_time_zone(@venue.time_zone), format: :friendly
     - else 
       %ul

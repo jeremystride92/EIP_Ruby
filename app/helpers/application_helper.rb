@@ -42,7 +42,7 @@ module ApplicationHelper
 
   def promotion_dates (card_level)
     card_level.promotional_messages.map do |pm|
-      pm.send_date_time.strftime('%m/%d/%Y')
+      I18n.l pm.send_date_time.to_date, format: :short
     end
   end
 
