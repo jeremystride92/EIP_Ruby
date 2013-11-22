@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   check_authorization
 
+  include Environment
+
   class AccessDenied < ::StandardError; end
 
   rescue_from AccessDenied do |exception|

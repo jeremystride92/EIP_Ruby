@@ -12,6 +12,7 @@ EIPiD::Application.routes.draw do
         post :redeem, to: 'cardholders#redeem'
       end
       post 'authorize', to: 'sessions#create'
+      get 'require_pin', to: 'sessions#requires_pin_authentication'
     end
   end
 

@@ -3,16 +3,23 @@ class Api::V1::SessionsController < ApplicationController
 
   def create
     cardholder = Cardholder.find_by_phone_number(params[:phone_number])
-    if cardholder
-      if cardholder.pending?
-        render json: { auth_token: nil, onboarding: onboard_url(cardholder.onboarding_token) }
-      elsif cardholder.authenticate(params[:password])
+    if cardholder.nil?
+      head :unauthorized
+    elsif cardholder.pending?
+      render json: { auth_token: nil, onboarding: onboard_url(cardholder.onboarding_token) }
+    elsif pin_required?
+      if cardholder.authenticate(params[:password])
         render json: { auth_token: cardholder.auth_token }
       else 
         head :unauthorized
       end
     else
-      head :unauthorized
+      render json: { auth_token: cardholder.auth_token }
     end
   end
+
+  def requires_pin_authentication
+    render json: { require_pin: pin_required? }
+  end
+
 end
