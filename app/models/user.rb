@@ -49,6 +49,18 @@ class User < ActiveRecord::Base
     PasswordResetMailer.delay(retry: false).password_reset_email(self.id)
   end
 
+  def is_partner_account?
+    partner.present? && is_exactly?(:venue_partner)
+  end
+
+  def get_partner
+    if is_partner_account?
+      partner
+    elsif block_given?
+      yield
+    end
+  end
+
   private
 
   def generate_token(column)
@@ -56,4 +68,5 @@ class User < ActiveRecord::Base
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
   end
+
 end

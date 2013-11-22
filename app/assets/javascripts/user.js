@@ -5,9 +5,9 @@ $("[name='user[roles]']").on('change', function(e){
 
   if($this.val() === "venue_partner"){
     partner_control_group.removeClass('hidden');
-    // partner.attr('required','required');
+    partner.attr('required','required');
   } else {
     partner_control_group.addClass('hidden');
-    // partner.attr('required',null);
+    partner.attr('required',null);
   }
 });
