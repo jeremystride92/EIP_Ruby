@@ -15,9 +15,9 @@ $('#lookup').click(function(e){
       $hintBlock.text('Welcome back! Please enter your 4-digit PIN.');
       $signupFields.hide();
       $detailFields.slideDown();
+    } else {
+      $('.request-card form')[0].submit();
     }
-
-    $('.request-card form')[0].submit();
   };
 
   var handleFailure = function(status){
