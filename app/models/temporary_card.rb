@@ -41,6 +41,8 @@ class TemporaryCard < ActiveRecord::Base
     self.id_token
   end
 
+  delegate :name, to: :partner
+
   private
 
   def generate_token(column)

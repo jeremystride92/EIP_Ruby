@@ -32,6 +32,10 @@ class Promotion < ActiveRecord::Base
     @dates ||= promotional_messages.map(&:send_date_time).uniq
   end
 
+  def name
+    title
+  end
+
   private
 
   def compare_end_dates(other)

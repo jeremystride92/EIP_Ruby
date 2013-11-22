@@ -2,6 +2,7 @@
   %thead
     %th Phone Number
     %th Name
+    %th Source
     %th Actions
   %tbody
     - @pending_cards.each do |card|
@@ -10,6 +11,11 @@
         %td
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
+        %td
+          %span.source
+            = card.source_type.titleize
+            - if card.source_name.present?
+              %i (#{card.source_name})
         %td.actions
           = simple_form_for card, url: venue_card_review_request_path(card), method: :put, html: { class: 'inline-form approve-card', id: "approve_card_#{card.id}" }, remote: true do |f|
             .row-fluid
