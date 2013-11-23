@@ -35,7 +35,7 @@
         = nav_link venue_benefits_path do
           %i.icon-star
           Benefits
-      - if can?(:read, Partner) || can?(:read, TemporaryCard)
+      - if ( can?(:read, Partner) || can?(:read, TemporaryCard)) && ! current_user.is_partner_account?
         %li.dropdown
           %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
             %i.icon-retweet
@@ -54,7 +54,7 @@
         = nav_link venue_users_path do
           %i.icon-group
           Access
-      - if @venue.present?
+      - if @venue.present? && ! current_user.is_partner_account?
         %li.dropdown
           %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
             %i.icon-desktop
