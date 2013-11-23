@@ -26,7 +26,7 @@ class BenefitsController < ApplicationController
   end
 
   def issue_benefit_form
-    @promo_message = PromotionMessage.new
+    @promo_message = PromotionalMessage.new
     @benefit = @card_level.temporary_benefits.build
     authorize! :create, @benefit
   end
