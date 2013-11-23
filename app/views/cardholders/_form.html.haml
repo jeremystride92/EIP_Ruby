@@ -8,7 +8,7 @@
         .span6
           .well
             %h3 Upload your photo
-            = f.input :photo, as: :file, label: false, required: !(@cardholder.photo? || @cardholder.photo.cached?), input_html: { required: !(@cardholder.photo? || @cardholder.photo.cached?) }, hint: 'Once set, this cannot be changed. Make sure you are clearly visible and identifiable from this photograph.'
+            = f.input :photo, as: :file, label: false, required: !(@cardholder.photo? || @cardholder.photo.cached?), input_html: { required: !(@cardholder.photo? || @cardholder.photo.cached?) }, hint: 'Please make sure that you are clearly identifiable in your photo. If you are choosing an Existing Photo, your image will appear as it does in your Camera Roll preview'
             = f.hidden_field :photo_cache
             .proportional-wrapper
               .photo-preview{ style: "background-image: url(#{@cardholder.photo_path})" }
