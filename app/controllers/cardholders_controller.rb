@@ -170,7 +170,7 @@ class CardholdersController < ApplicationController
     cardholders = @venue.cardholders.where(status: 'pending')
     cardholders.each { |cardholder| send_onboarding_sms cardholder, @venue}
 
-
+    authorize! :resend_onboarding_sms, Cardholder
     render json: { success: true }
   end
 

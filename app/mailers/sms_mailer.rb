@@ -4,6 +4,7 @@ class SmsMailer < ActionMailer::Base
   default from: ENV['site_email']
 
   def cardholder_onboarding_sms(cardholder_id, venue_id)
+    binding.pry
     @cardholder = Cardholder.find(cardholder_id)
     @venue = Venue.find(venue_id)
 

@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'spork'
+
+require 'sidekiq'
+require 'sidekiq/testing'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -122,4 +125,20 @@ RSpec.configure do |config|
 
   # Enable fancy FactoryGirl invocation syntax
   config.include FactoryGirl::Syntax::Methods
+
+  #configure sidekiq
+  config.before(:each) do
+    # Clears out the jobs for tests using the fake testing
+    Sidekiq::Worker.clear_all
+
+    if example.metadata[:sidekiq] == :fake
+      Sidekiq::Testing.fake!
+    elsif example.metadata[:sidekiq] == :inline
+      Sidekiq::Testing.inline!
+    elsif example.metadata[:type] == :acceptance
+      Sidekiq::Testing.inline!
+    else
+      Sidekiq::Testing.fake!
+    end
+  end
 end
