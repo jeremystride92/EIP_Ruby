@@ -117,3 +117,9 @@ $('form.delete-card').bind('ajax:success', function(xhr, data) {
   $row.remove();
   $prev_row.remove();
 });
+ // Bulk Resent form /////////////////////////////////////////////////////////
+ $(function(){
+  $('body').on('ajax:success', '.bulk-resend-onboarding-sms', function(e){
+    alert('Onboarding SMS Sent');
+  });
+});
