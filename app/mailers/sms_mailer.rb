@@ -1,3 +1,5 @@
+require 'nexmo_sender'
+
 class SmsMailer < ActionMailer::Base
   default from: ENV['site_email']
 

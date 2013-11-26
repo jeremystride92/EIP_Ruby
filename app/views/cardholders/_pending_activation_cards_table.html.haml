@@ -16,7 +16,7 @@
       %th.btn-toolbar
         .pull-right
           .btn-group
-            = button_to "Resend Onboarding SMS", bulk_resend_onboarding_sms_venue_cardholders_path, class: 'btn', remote: true, form_class: 'bulk-resend-onboarding-sms'
+            = button_to "Resend Onboarding SMS", bulk_resend_onboarding_sms_venue_cardholders_path, method: :post, class: 'btn', remote: true, form_class: 'bulk-resend-onboarding-sms'
   %tbody
     - @pending_activation_cards.each do |card|
       %tr.accordion-header{ class: "status-#{card.status}" }

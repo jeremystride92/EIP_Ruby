@@ -184,7 +184,12 @@ class CardsController < ApplicationController
     card_level = CardLevel.find(params[:card][:card_level_id])
 
     if @card.update_attributes(status: 'active', card_level: card_level, redeemable_benefit_allotment: card_level.allowed_redeemable_benefits_count, issuer: current_user, issued_at: Time.zone.now)
-      SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder.id, @venue.id)
+      binding.pry
+      if @card.cardholder.pending?
+        SmsMailer.delay(retry: false).cardholder_onboarding_sms(@card.cardholder.id, @venue.id)
+      else  
+        SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder.id, @venue.id)
+      end
 
       head :no_content
     else

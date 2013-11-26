@@ -46,6 +46,12 @@ class CardholdersController < ApplicationController
   end
 
   def batch_create
+    if params[:cardholders].nil?
+      flash[:error] = "No Cardholders Specified"
+      authorize! :create, @card_level.cards.build 
+      render :batch_new and return
+    end
+
     cardholders = params[:cardholders].map do |index, ch_attr|
       attrs = ch_attr.merge(cards_attributes: { '0' => { card_level_id: params[:card_level_id], issuer_id: current_user.id, issued_at: Time.zone.now } })
       create_cardholder_or_card attrs
@@ -161,9 +167,9 @@ class CardholdersController < ApplicationController
   end
 
   def bulk_resend_onboarding_sms
-
-    cardholders = @venue.cardholders.joins(cards: [:card_level]).where(status: 'pending').where(cards: {status: 'active'})
+    cardholders = @venue.cardholders.where(status: 'pending')
     cardholders.each { |cardholder| send_onboarding_sms cardholder, @venue}
+
 
     render json: { success: true }
   end
