@@ -1,1 +1,5 @@
+<% if (@venue.try(:name) || 'EIPiD').length < 18 %>
 <%= (@venue.try(:name) || 'EIPiD').html_safe %> has issued you a FREE exclusive membership card. To create your personal card click here: <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %>
+<% else %>
+Press here: <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %> to activate your FREE, exclusive membership card from <%= (@venue.try(:name) || 'EIPiD').html_safe %>
+<% end %>
