@@ -82,7 +82,7 @@ class Cardholder < ActiveRecord::Base
 
   def source_name
     if (sourceable_type.present?)
-      source = sourceable_type.constantize.find(sourceable_id)
+      source = sourceable_type.constantize.find(sourceable_id) if(sourceable_id)
       source.try(:name)
     end
   end
