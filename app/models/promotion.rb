@@ -4,7 +4,7 @@ class Promotion < ActiveRecord::Base
   has_and_belongs_to_many :card_levels, conditions: { deleted_at: nil }
   has_many :promotional_messages, order: :send_date_time
 
-  has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable
+  has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 
   validates :title, presence: true
   validates :venue, presence: true

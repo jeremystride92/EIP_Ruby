@@ -60,7 +60,7 @@ class PromotionsController < ApplicationController
 
   def destroy
     authorize! :destroy, @promotion
-    @promotion.destroy
+    @promotion.expire!
 
     respond_to do |format|
       format.json { head :no_content }

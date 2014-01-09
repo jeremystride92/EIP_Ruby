@@ -6,7 +6,7 @@ class TemporaryCard < ActiveRecord::Base
   has_many :benefits, as: :beneficiary, before_add: :ensure_benefits_beneficiary
   accepts_nested_attributes_for :benefits, allow_destroy: true, reject_if: proc { |attrs| attrs[:description].blank? }
 
-  has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable
+  has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 
   validates :expires_at, presence: true
 
