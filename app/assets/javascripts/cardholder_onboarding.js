@@ -37,7 +37,10 @@ $('.simple_form.edit_cardholder').on('submit',function(e){
   
 });
 
-$('input[type=file]').addClass('hidden').before('<a class="file_wrapper btn">Upload Photo</a><span class="file_wrapper_file_name"></span>');
+if(! /Android\ 2/.test(navigator.userAgent)){
+  var $upload_button = $('<a class="file_wrapper btn">Upload Photo</a><span class="file_wrapper_file_name"></span>');
+  $('input[type=file]').addClass('hidden').before($upload_button);
+}
 
 $('body').on('click','.file_wrapper',function(e){
   $(e.currentTarget).parent().find('input[type=file]')[0].click();
