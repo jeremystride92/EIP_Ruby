@@ -63,4 +63,9 @@ module ApplicationHelper
     end
   end
 
+  def tab_class_match active_tab, this_tab_key, this_is_default_tab = false # => {class: match(@active, 'active_cards', true)}
+    'active' if this_is_default_tab && active_tab.nil? || active_tab == this_tab_key
+  end
+  
+
 end
