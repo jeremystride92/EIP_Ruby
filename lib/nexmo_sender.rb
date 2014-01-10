@@ -1,4 +1,9 @@
 class NexmoSender
+  def client
+    # reconnect for every to prevent stale SSL issues.
+    Nexmo::Client.new(ENV['nexmo_key'], ENV['nexmo_secret'])
+  end
+
   def initialize(from: ENV['nexmo_default_sender'], to: '', message: '')
     @to = to
     @from = from
@@ -14,7 +19,6 @@ class NexmoSender
     ].join("\n")
     Rails.logger.info log_message
 
-    $nexmo.send_message! to: @to, from: @from, text: @message
-
+    client.send_message! to: @to, from: @from, text: @message
   end
 end

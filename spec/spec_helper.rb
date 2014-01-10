@@ -106,12 +106,15 @@ RSpec.configure do |config|
   end
 
   # Stub out Nexmo
-  config.before(:suite) do
-    $nexmo = Object.new
-    class << $nexmo
-      def send_message options
-        OpenStruct.new ok?: true
+  config.before(:each) do
+    NexmoSender.any_instance.stub(:client) do
+      $nexmo = Object.new
+      class << $nexmo
+        def send_message options
+          OpenStruct.new ok?: true
+        end
       end
+      $nexmo
     end
   end
 
