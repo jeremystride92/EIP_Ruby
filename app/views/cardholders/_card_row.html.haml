@@ -32,7 +32,8 @@
   .card-status-block.pull-left
     Issued on
     %strong= l card.issued_at.in_time_zone(@venue.time_zone), format: :friendly
-    by #{ card.issuer.name }
+    - if (card.issuer)
+      by #{ card.issuer.name }
     %br
     Cardholder Account
     - if card.cardholder.pending?

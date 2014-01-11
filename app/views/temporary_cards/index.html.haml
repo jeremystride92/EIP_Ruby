@@ -30,7 +30,9 @@
             %span.label.label-success Claimed
           - else
             %span.label.label-inverse Unclaimed
-        %td= card.issuer.name
+        %td
+          -if card.issuer
+            = card.issuer.name
         - unless @partner
           %td= link_to card.partner.name, venue_partner_temporary_cards_path(card.partner)
         - if can? :destroy, TemporaryCard

@@ -13,7 +13,8 @@
     %tr
       %th Cardholder
       %th.hidden-phone Issued by
-      %th.hidden-phone{ colspan: 2 }
+      %th.hidden-phone Card Level
+      %th.hidden-phone
       %th.btn-toolbar
         .pull-right
           .btn-group
@@ -39,7 +40,9 @@
           %span.first_name= card.cardholder.first_name
           %span.last_name= card.cardholder.last_name
           %span.phone_number= card.cardholder.phone_number unless card.cardholder.first_name.present?
-        %td.card-issuer.hidden-phone= card.issuer.name
+        %td.card-issuer.hidden-phone
+          - if card.issuer
+            = card.issuer.name
         %td.card-level-name.hidden-phone= truncate card.card_level.name, length: 40, separator: ' '
         %td{ colspan: 2 }
       %tr.accordion-body.hidden
