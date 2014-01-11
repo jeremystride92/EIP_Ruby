@@ -1,5 +1,13 @@
 //= require select_replacement
 
+//Cardholder tab watcher
+$(document).on('shown', 'a[data-toggle="tab"]',function (e) {
+  var tabname = $(e.currentTarget).data('tabname');
+
+  $('input[name=active_tab]').val(tabname);
+});
+
+//search
 $('.search-query + .btn').on('click.clear-search', function(e){
   $(e.currentTarget).parents('form').find('.search-query').val('');
 });
@@ -10,8 +18,8 @@ $('.search-query').on('keydown', function(e){
 
 
 $('body').on('change','select#card_level_id',function(e){
-  $(e.currentTarget).parents('form').submit()
-})
+  $(e.currentTarget).parents('form').submit();
+});
 
 $('.accordion-header').click(function(e) {
   var $header = $(e.currentTarget);

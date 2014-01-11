@@ -36,6 +36,8 @@ class CardholdersController < ApplicationController
       @card_level_id = params[:card_level_id]
     end
 
+    @active = params[:active_tab] if params[:active_tab].present?
+
     @pending_cards = @cards.select &:pending?
     @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
     @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
