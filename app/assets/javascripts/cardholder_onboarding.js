@@ -7,7 +7,7 @@ $('#cardholder_photo').change(function(e) {
     if ($this.is('[class*=retake]')){
       $(self).click();
     } else {
-      var $elements = $(self).parents('form').find('input,textarea,button,select').not('[type="hidden"]')
+      var $elements = $(self).parents('form').find('input,textarea,button,select').not('[type="hidden"]');
       $elements.get($elements.index(self) + 1).focus();
     }
   }
