@@ -47,7 +47,16 @@ class CardThemesController < InheritedResources::Base
   def destroy
     authorize! :delete, @card_theme
 
-    @card_theme.destroy
+    if @card_theme.card_levels.count
+      respond_to do |format|
+        format.json { render :json => { :error => "unable to delete while still assigned to card_levels, please remove/reassign and retry" }, :status => 422 }
+        format.html do
+          redirect_to venue_card_levels_path, notice: "unable to delete.  Please assign all Card Levels from Theme \"" + @card_theme.name + "\""
+        end
+      end and return
+    else 
+      @card_theme.destroy
+    end
 
     respond_to do |format|
       format.json { render json: { success: true } }
