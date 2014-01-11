@@ -4,7 +4,7 @@
   - @problems.each do |cardholder|
     %li
       .phone= cardholder.phone_number
-      .name= cardholder.first_name + ' ' + cardholder.last_name
+      .name= "#{cardholder.first_name} #{cardholder.last_name}"
       %ul.errors
         - cardholder.errors.messages.each do |field, messages_for_field|
           - messages_for_field.each do |message|
