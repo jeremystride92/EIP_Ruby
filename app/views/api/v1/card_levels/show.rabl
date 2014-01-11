@@ -9,8 +9,10 @@ child :promotions do
   extends 'api/v1/promotions/show'
 end
 
-node :card_theme do |card_level|
-  partial 'api/v1/card_themes/show', object: card_level.card_theme
+if card_level.card_theme.present? 
+  node :card_theme do |card_level|
+    partial 'api/v1/card_themes/show', object: card_level.card_theme
+  end
 end
 
 node :redeemable_benefit_name do |card_level|
