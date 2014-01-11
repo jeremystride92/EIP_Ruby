@@ -1,6 +1,6 @@
 #temporary_cards-public_show-template
   #id-side.card-side
-    .card-container{ style: "background-image: url(#{@temporary_card.partner.card_theme.portrait_background.url})" }
+    .card-container{ style: "background-image: url(#{@temporary_card.partner.card_theme.try(:portrait_background).try(:url)})" }
       %header.card-header
         = image_tag @temporary_card.venue.logo.url, class: 'venue-logo'
       .card-content
