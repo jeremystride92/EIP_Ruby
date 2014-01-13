@@ -55,7 +55,7 @@ EIPiD::Application.routes.draw do
       put :review_request, action: 'review_card_request'
     end
 
-    resources :promotions, except: [:index] do
+    resources :promotions do
       get :promote, action: 'promote'
       post :promote, action: 'send_promotion'
     end

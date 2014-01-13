@@ -77,10 +77,14 @@
               %li= link_to truncate(partner.name, length: 40), new_batch_venue_partner_temporary_cards_path(partner)
 .row.row-section
   .venue-sub-block.span12
-    %h3.block-title.clearfix
-      Promotions
-      = link_to new_venue_promotion_path, title: "New Promotion", class: 'btn btn-large btn-success pull-right' do
-        %i.icon-plus
+    %h3.block-title.clearfix.btn-toolbar
+      .pull-left Active and Upcoming Promotions
+      .pull-right
+        = link_to venue_promotions_path, title: "List All Promotions", class: 'btn btn-large' do
+          %i.icon-list
+          List All
+        = link_to new_venue_promotion_path, title: "New Promotion", class: 'btn btn-large btn-success' do
+          %i.icon-plus
     .block-info
       .row-fluid
         .span12= render 'promotions/list', promotions: @promotions

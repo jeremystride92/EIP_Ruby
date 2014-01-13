@@ -1,7 +1,8 @@
 class PromotionsController < ApplicationController
   before_filter :find_venue, except: :public_show
   before_filter :find_venue_by_vanity_slug, only: :public_show
-  before_filter :find_promotion, except: [:new, :create]
+  before_filter :find_promotion, except: [:new, :create, :index]
+  before_filter :find_all_promotions, only: :index
 
   PUBLIC_ACTIONS = [:public_show]
   public_actions *PUBLIC_ACTIONS
@@ -114,6 +115,10 @@ class PromotionsController < ApplicationController
     end
   end
 
+  def index
+    authorize! :read, Promotion
+  end
+
   private
 
   def params_for_promotion
@@ -138,5 +143,9 @@ class PromotionsController < ApplicationController
 
   def find_promotion
     @promotion = @venue.promotions.find (params[:id] || params[:promotion_id])
+  end
+
+  def find_all_promotions
+    @promotions = @venue.promotions
   end
 end

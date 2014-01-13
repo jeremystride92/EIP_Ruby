@@ -25,6 +25,13 @@ module Expirable
         send("#{terminus}_date_will_change!") unless send("#{terminus}_date_changed?")
         instance_variable_set("@#{terminus}_time_field", value)
       end
+
+    end
+
+    if respond_to? :scope
+      scope :expired, -> { where("end_date < ?", Time.now) }
+      scope :unexpired, -> { where("end_date >= ?", Time.now) }
+      scope :active, -> { where("start_date <= ? AND end_date >= ?", Time.now, Time.now) }
     end
 
     def merge_datetime_fields
