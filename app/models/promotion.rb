@@ -11,10 +11,6 @@ class Promotion < ActiveRecord::Base
 
   mount_uploader :image, PromotionImageUploader
 
-  scope :expired, where("end_date < ?", Time.now)
-  scope :unexpired, where("end_date >= ?", Time.now)
-  scope :active, where("start_date <= ? AND end_date >= ?", Time.now, Time.now)
-
   include Expirable
   include Comparable
 
