@@ -22,12 +22,12 @@ ActiveAdmin.register CardLevel do
       card_level.card_theme.try :name
     end
     column :redeemable_benefit_name
-    column :daily_redeemable_benefit_allotment
+    column :allowed_redeemable_benefits_count
     actions
   end
 
   form do |f|
-    f.inputs do
+    f.inputs do 
       f.input :venue
       f.input :name
       f.input :card_theme, as: :select, collection: card_level.venue.card_themes
