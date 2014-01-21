@@ -24,6 +24,7 @@ class CardLevelsController < ApplicationController
     @card_level = @venue.card_levels.build card_level_params
     authorize! :create, @card_level
 
+    binding.pry
     if @card_level.save
       redirect_to venue_card_levels_path, notice: 'Card level created.'
     else
@@ -48,9 +49,10 @@ class CardLevelsController < ApplicationController
   def destroy
     authorize! :delete, @card_level
     @card_level.transaction do
-      @card_level.update_attributes! deleted_at: Time.now
-      @card_level.cards.update_all status: :inactive
-
+      @card_level.update_sort_positions do
+        @card_level.update_attributes! deleted_at: Time.now
+        @card_level.cards.update_all status: :inactive
+      end
     end
     render json: {success: true}
   end

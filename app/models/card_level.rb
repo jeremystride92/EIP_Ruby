@@ -21,7 +21,7 @@ class CardLevel < ActiveRecord::Base
   validates :allowed_redeemable_benefits_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
-    uniqueness: { scope: :venue_id }
+    uniqueness: { scope: [ :venue_id, :deleted_at ], message: "sort position must be unique" }
 
   before_validation :ensure_sort_position
 
@@ -83,22 +83,6 @@ class CardLevel < ActiveRecord::Base
     (redeemable_benefit_name || 'redeemable_benefit').titleize
   end
 
-  private
-
-  def ensure_benefits_beneficiary(benefit)
-    benefit.beneficiary ||= self
-  end
-
-  def ensure_sort_position
-    if sort_position.nil?
-      if venue.present?
-        self.sort_position = venue.card_levels.count + 1
-      else
-        self.sort_position = 1
-      end
-    end
-  end
-
   def update_sort_positions
     deleted_position = self.sort_position
     affected_card_levels = venue.card_levels.select { |card_level| card_level.sort_position > deleted_position }
@@ -108,6 +92,22 @@ class CardLevel < ActiveRecord::Base
     affected_card_levels.each do |card_level|
       card_level.sort_position -= 1
       card_level.save
+    end
+  end
+
+  private
+
+  def ensure_benefits_beneficiary(benefit)
+    benefit.beneficiary ||= self
+  end
+
+  def ensure_sort_position
+    if sort_position.nil?
+      if venue.present?
+        self.sort_position = venue.card_levels.map(&:sort_position).max + 1
+      else
+        self.sort_position = 1
+      end
     end
   end
 
