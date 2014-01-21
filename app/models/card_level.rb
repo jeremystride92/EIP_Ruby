@@ -61,18 +61,30 @@ class CardLevel < ActiveRecord::Base
         return
       elsif old_position < new_position
         ((old_position + 1)..new_position).each do |i|
-          card_levels[i - 1].sort_position -= 1
+          if card_levels[i - 1].present?
+            card_levels[i - 1].sort_position -= 1
+          end
         end
 
         self.update_attribute(:sort_position, 0)
         card_levels[(old_position..(new_position - 1))].each &:save!
       else
         (new_position..(old_position - 1)).each do |i|
-          card_levels[i - 1].sort_position += 1
+          if card_levels[i -1].present?
+            card_levels[i - 1].sort_position += 1
+          end
         end
 
         self.update_attribute(:sort_position, 0)
         card_levels[((new_position - 1)..(old_position - 2))].reverse.each &:save!
+
+        if card_levels.map(&:sort_position).max > card_levels.count
+          pos = 1
+          card_levels.reload.each do |cl|
+            cl.update_attributes sort_position: pos
+            pos += 1
+          end
+        end
       end
 
       self.update_attributes(sort_position: new_position)
