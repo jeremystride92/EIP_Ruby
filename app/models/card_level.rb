@@ -21,7 +21,7 @@ class CardLevel < ActiveRecord::Base
   validates :allowed_redeemable_benefits_count, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, presence: true
   validates :sort_position,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 },
-    uniqueness: { scope: :venue_id }
+    uniqueness: { scope: [ :venue_id, :deleted_at ]}
 
   before_validation :ensure_sort_position
 
@@ -48,55 +48,23 @@ class CardLevel < ActiveRecord::Base
   end
 
   def reorder_to(new_position)
-    card_levels = self.venue.card_levels.order(:sort_position)
-
-    old_position = self.sort_position
-
-    new_position = card_levels.count if new_position > card_levels.count
-    new_position = 1 if new_position < 1
 
     transaction do
+      levels = venue.card_levels.where("id != ?", id).to_a
 
-      if old_position == new_position
-        return
-      elsif old_position < new_position
-        ((old_position + 1)..new_position).each do |i|
-          card_levels[i - 1].sort_position -= 1
-        end
-
-        self.update_attribute(:sort_position, 0)
-        card_levels[(old_position..(new_position - 1))].each &:save!
-      else
-        (new_position..(old_position - 1)).each do |i|
-          card_levels[i - 1].sort_position += 1
-        end
-
-        self.update_attribute(:sort_position, 0)
-        card_levels[((new_position - 1)..(old_position - 2))].reverse.each &:save!
+      new_position = 1 if new_position < 1;
+      new_position = levels.count + 1 if new_position > levels.count + 1
+      
+      levels.insert(new_position - 1, self)
+      levels.each_with_index do |level, index|
+        level.update_attribute :sort_position, index + 1 
       end
-
-      self.update_attributes(sort_position: new_position)
     end
+
   end
 
   def redeemable_benefit_title
     (redeemable_benefit_name || 'redeemable_benefit').titleize
-  end
-
-  private
-
-  def ensure_benefits_beneficiary(benefit)
-    benefit.beneficiary ||= self
-  end
-
-  def ensure_sort_position
-    if sort_position.nil?
-      if venue.present?
-        self.sort_position = venue.card_levels.count + 1
-      else
-        self.sort_position = 1
-      end
-    end
   end
 
   def update_sort_positions
@@ -108,6 +76,22 @@ class CardLevel < ActiveRecord::Base
     affected_card_levels.each do |card_level|
       card_level.sort_position -= 1
       card_level.save
+    end
+  end
+
+  private
+
+  def ensure_benefits_beneficiary(benefit)
+    benefit.beneficiary ||= self
+  end
+
+  def ensure_sort_position
+    if sort_position.nil?
+      if venue.present?
+        self.sort_position = (venue.card_levels.pluck(:sort_position).max || 0) + 1
+      else
+        self.sort_position = 1
+      end
     end
   end
 

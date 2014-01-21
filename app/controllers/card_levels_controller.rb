@@ -48,9 +48,10 @@ class CardLevelsController < ApplicationController
   def destroy
     authorize! :delete, @card_level
     @card_level.transaction do
-      @card_level.update_attributes! deleted_at: Time.now
-      @card_level.cards.update_all status: :inactive
-
+      @card_level.update_sort_positions do
+        @card_level.update_attributes! deleted_at: Time.now
+        @card_level.cards.update_all status: :inactive
+      end
     end
     render json: {success: true}
   end

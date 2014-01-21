@@ -138,6 +138,49 @@ describe CardLevel do
         card_levels.map(&:sort_position).should == [1, 3, 4, 2, 5]
       end
     end
+
+    context "when a card_level is missing" do
+      context "at the end" do
+        it "resets the order of cardlevels" do
+          card_level = card_levels[2]
+          modified_card_level = card_levels[4].update_attribute :sort_position, card_levels.count + 4
+          card_level.reorder_to 3
+
+          card_levels.each &:reload
+          card_levels.map(&:sort_position).should == [1,2,3,4,5]
+        end
+      end
+
+      context "at the beginning" do
+        it "resets the order of the card_levels" do
+          card_levels.reverse.each do |cl|
+            cl.sort_position += 1
+            cl.save
+          end
+
+          card_level = card_levels[2]
+          card_level.reorder_to 3
+
+          card_levels.each &:reload
+          card_levels.map(&:sort_position).should == [1,2,3,4,5]
+        end
+      end
+
+      context "in the middle" do
+        it "resets the order of the card_levels" do
+          card_levels.reverse.each do |cl|
+            cl.sort_position += 1 if cl.sort_position > 3
+            cl.save
+          end
+
+          card_level = card_levels[2]
+          card_level.reorder_to 3
+
+          card_levels.each &:reload
+          card_levels.map(&:sort_position).should == [1,2,3,4,5]
+        end
+      end
+    end
   end
 
   describe "correcting sort_position on destroy" do
