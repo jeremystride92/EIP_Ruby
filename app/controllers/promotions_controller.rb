@@ -146,6 +146,6 @@ class PromotionsController < ApplicationController
   end
 
   def find_all_promotions
-    @promotions = @venue.promotions
+    @promotions = @venue.promotions.sort.reverse
   end
 end
