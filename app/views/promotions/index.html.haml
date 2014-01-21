@@ -1,1 +1,10 @@
+.row
+  .pull-right
+    %h3.clearfix.btn-toolbar
+      = link_to venue_path, title: "Venue Dashboard", class: 'btn btn-large' do
+        %i.icon-dashboard
+        Venue Dashboard
+      = link_to new_venue_promotion_path, title: "New Promotion", class: 'btn btn-large btn-success' do
+        %i.icon-plus
+        Add New
 = render 'list', promotions: @promotions
