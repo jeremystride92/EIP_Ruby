@@ -53,7 +53,7 @@ class PromotionsController < ApplicationController
     end
 
     if success
-      redirect_to venue_promotion_path @promotion
+      redirect_to venue_promotions_path
     else
       render 'edit'
     end
