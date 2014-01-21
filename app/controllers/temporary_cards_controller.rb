@@ -59,7 +59,7 @@ class TemporaryCardsController < ApplicationController
         card = @partner.temporary_cards.build params_for_temp_card.merge(phone_number: phone_number, issuer: current_user)
         card.redeemable_benefit_allotment ||= @partner.default_redeemable_benefit_allotment
         card.tap do |card|
-          card.expires_at = card.expires_at.end_of_day 
+          card.expires_at = card.expires_at.try(:end_of_day)
         end
       end
     end
