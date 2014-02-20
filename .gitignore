@@ -17,3 +17,6 @@
 # Ignore files containing credentials and other sensitive information
 config/database.yml
 config/application.yml
+
+# Ignore RubyMine files
+.idea/*
