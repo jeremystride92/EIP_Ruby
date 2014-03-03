@@ -47,8 +47,8 @@ class Cardholder < ActiveRecord::Base
     end
   end
 
-  def activate!
-    update_attributes(status: 'active', activated_at: Time.zone.now)
+  def activate!(additional_params = {})
+    update_attributes({status: 'active', activated_at: Time.zone.now, onboarding_token: nil}.merge(additional_params))
   end
 
   def has_card_for_venue?(venue)

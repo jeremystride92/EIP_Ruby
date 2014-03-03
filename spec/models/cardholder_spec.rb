@@ -161,6 +161,19 @@ describe Cardholder do
         cardholder.activate!
         cardholder.should be_active
       end
+
+      it "clears the onboarding token" do
+        cardholder.activate!
+        cardholder.onboarding_token.should be_blank
+      end
+
+      context "with additional params provided" do
+        it "updates the additional params" do
+          cardholder.activate! first_name: "Bob"
+          cardholder.should be_active
+          cardholder.first_name.should == "Bob"
+        end
+      end
     end
   end
 

@@ -15,6 +15,9 @@ Response: `{ auth_token: '789zyx' }`
 
 Returns a 401 error if the user is unauthorized.
 
+If the user is pending, the response will be
+`{ auth_token: "", onboarding: "/path/to/onboard?onboarding_token=abc123", onboarding_token: "abc123" }`
+
 ### GET /api/v1/require_pin.json
 Tells you whether or not the server requires passwords for authentication.
 
@@ -108,3 +111,13 @@ Response:
                 }
             ]
         }
+
+### POST /api/v1/cardholder/complete_onboard.json
+Before you call this, you must attempt to authorize with a phone number. If the cardholder is pending,
+you will receive the onboarding token, which you can pass to this method.
+
+Fill in the empty fields on the cardholder profile and activate the cardholder's account
+
+Request: `{ onboarding_token: "abc123", first_name: "Bob", last_name: "Smith" }`
+
+Response: `{ success: "Cardholder updated" }`

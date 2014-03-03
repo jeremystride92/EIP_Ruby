@@ -6,7 +6,7 @@ class Api::V1::SessionsController < ApplicationController
     if cardholder.nil?
       head :unauthorized
     elsif cardholder.pending?
-      render json: { auth_token: nil, onboarding: onboard_url(cardholder.onboarding_token) }
+      render json: { auth_token: nil, onboarding: onboard_url(cardholder.onboarding_token), onboarding_token: cardholder.onboarding_token }
     elsif pin_required?
       if cardholder.authenticate(params[:password])
         render json: { auth_token: cardholder.auth_token }

@@ -130,10 +130,7 @@ class CardholdersController < ApplicationController
 
     render :not_found and return unless @cardholder.present?
 
-    if @cardholder.update_attributes params_for_cardholder_activation
-      @cardholder.update_attributes onboarding_token: nil
-      @cardholder.activate!
-    else
+    unless @cardholder.activate! params_for_cardholder_activation
       render :onboard
     end
   end

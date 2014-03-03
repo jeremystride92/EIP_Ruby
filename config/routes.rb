@@ -10,6 +10,7 @@ EIPiD::Application.routes.draw do
     namespace :v1 do
       resource :cardholder, only: [:show] do
         post :redeem, to: 'cardholders#redeem'
+        post :complete_onboard, to: 'cardholders#complete_onboard'
       end
       post 'authorize', to: 'sessions#create'
       get 'require_pin', to: 'sessions#requires_pin_authentication'
