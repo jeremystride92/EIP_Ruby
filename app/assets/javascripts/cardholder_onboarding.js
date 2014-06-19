@@ -33,6 +33,8 @@ $('.simple_form.edit_cardholder').on('submit',function(e){
   
   if (! complete_submit) {
     return false;
+  } else {
+    $('.spinner').show('slow');
   }
   
 });

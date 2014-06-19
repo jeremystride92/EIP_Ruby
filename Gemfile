@@ -65,9 +65,6 @@ group :production, :staging do
 end
 
 group :development, :test do
-  # gem 'debugger'
-  # gem 'pry-rails'
-  # gem 'pry-debugger'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'ffaker'

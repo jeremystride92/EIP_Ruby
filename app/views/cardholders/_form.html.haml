@@ -17,6 +17,7 @@
             = f.input :password_confirmation, required: true, input_html: { class: 'span6' }, as: :tel, label: 'Reenter PIN', pattern: '\d{4}'
 
   .form-actions
+    .spinner{ style: "float: left; width: 30px; height: 42px; display: none; background: url(#{asset_path 'ajax-loader.gif'}) center no-repeat" }
     = f.button :submit, class: 'btn btn-primary btn-large', value: 'Activate Card'
 
 = content_for :javascripts do
