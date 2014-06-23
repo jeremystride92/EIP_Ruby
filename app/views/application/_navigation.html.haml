@@ -67,6 +67,16 @@
             = nav_link edit_kiosk_venue_path do
               %i.icon-cog
               Configure Kiosk
+      - if @venue.present?
+        %li.dropdown
+          %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' }
+            %i.icon-wrench
+            Configuration
+            %span.caret
+          %ul.dropdown-menu
+            = nav_link edit_venue_onboarding_message_url do
+              %i.icon-plane
+              Edit Onboarding Message
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")

@@ -7,6 +7,7 @@ class Venue < ActiveRecord::Base
   has_many :partners
   has_many :temporary_cards, through: :partners
   has_many :card_themes
+  has_one :onboarding_message
 
   has_many :kiosk_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 

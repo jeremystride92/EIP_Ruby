@@ -335,6 +335,8 @@ GEM
     thor (0.18.1)
     tilt (1.4.1)
     timers (1.1.0)
+    tinymce-rails (4.1.0)
+      railties (>= 3.1.1)
     treetop (1.4.14)
       polyglot
       polyglot (>= 0.3.1)
@@ -411,6 +413,7 @@ DEPENDENCIES
   strong_parameters
   therubyracer
   thin
+  tinymce-rails
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
   unicorn

@@ -76,6 +76,8 @@ EIPiD::Application.routes.draw do
       get :new_batch, action: 'batch_new', on: :collection, as: :new_batch
       post :new_batch, action: 'batch_create', on: :collection, as: :create_batch
     end
+
+    resource :onboarding_message, only: [:edit, :update, :destroy]
   end
 
   resource :partner, only: [:show] do

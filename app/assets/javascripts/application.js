@@ -17,3 +17,4 @@
 //= require phone_format
 //= require upload_preview
 //= require cocoon
+//= require tinymce

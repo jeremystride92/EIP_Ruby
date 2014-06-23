@@ -1,0 +1,13 @@
+= simple_form_for [:venue, @onboarding_message], url: venue_onboarding_message_path, method: :put do |f|
+  .row
+    .form-block.offset3.span6
+      = f.label :custom_text
+      = f.text_area :custom_text, class: 'tinymce', style: 'width: 100%; height: 500px;'
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-large btn-primary'
+    = link_to 'Cancel', venue_path, class: 'btn btn-large'
+
+= if @onboarding_message.persisted?
+  .form-actions
+    = button_to 'Delete Onboarding message', venue_onboarding_message_path, method: :delete, confirm: 'Are you sure?', class: 'btn btn-large btn-danger pull-right'
