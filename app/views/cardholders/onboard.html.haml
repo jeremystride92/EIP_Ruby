@@ -1,4 +1,6 @@
-%h1.page-header Welcome to EIPiD!
+%h1.page-header
+  Welcome to
+  = @venue.try(:name) || 'EIPiD!'
 
 = render 'form'
 
