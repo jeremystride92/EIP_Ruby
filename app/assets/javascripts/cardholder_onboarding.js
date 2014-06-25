@@ -18,6 +18,7 @@ $('#cardholder_photo').change(function(e) {
   $(e.currentTarget).parent().find('.file_wrapper_file_name').text(" (Uploaded File: " + _.first(files).name + ")");
 
   $('#PhotoReminderModal').modal().one('click','.btn',confirmRetake);
+  $('[name="commit"]').get(0).scrollIntoView();
 });
 
 $('.simple_form.edit_cardholder').on('submit',function(e){
