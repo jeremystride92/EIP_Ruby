@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140622220906) do
+ActiveRecord::Schema.define(:version => 20140627035917) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -100,6 +100,13 @@ ActiveRecord::Schema.define(:version => 20140622220906) do
   add_index "cards", ["cardholder_id"], :name => "index_cards_on_cardholder_id"
 
   create_table "onboarding_messages", :force => true do |t|
+    t.integer  "venue_id"
+    t.text     "custom_text"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "onboarding_text_messages", :force => true do |t|
     t.integer  "venue_id"
     t.text     "custom_text"
     t.datetime "created_at",  :null => false
