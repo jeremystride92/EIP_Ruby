@@ -124,16 +124,24 @@ class CardholdersController < ApplicationController
     if @cardholder.present?
       @venue = @cardholder.cards.first.try(:venue)
     else
-      render :not_found
+      render :not_found and return
     end
   end
 
   def complete_onboard
     @cardholder = Cardholder.find_by_onboarding_token params[:token]
 
-    render :not_found and return unless @cardholder.present?
+    if @cardholder.present?
+      @venue = @cardholder.cards.first.try(:venue)
+    else
+      render :not_found and return
+    end
 
-    unless @cardholder.activate! params_for_cardholder_activation
+    if @cardholder.activate! params_for_cardholder_activation
+      if @venue.onboarding_message.present?
+        render 'cardholders/custom_onboard' and return
+      end
+    else
       render :onboard
     end
   end
