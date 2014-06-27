@@ -1,6 +1,8 @@
 = simple_form_for [:venue, @onboarding_text_message], url: venue_onboarding_text_message_path, method: :put do |f|
   .row
     .form-block.offset3.span6
+      %p Your message will have the onboarding link automatically appended. For example:
+      %p "Thanks for signing up! http://bit.ly/abc123"
       = f.label :custom_text
       = f.text_area :custom_text, style: 'width: 100%; height: 200px;'
 
