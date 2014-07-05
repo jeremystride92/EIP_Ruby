@@ -9,6 +9,7 @@ class Venue < ActiveRecord::Base
   has_many :card_themes
   has_one :onboarding_message
   has_one :onboarding_text_message
+  has_one :textus_credential
 
   has_many :kiosk_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 

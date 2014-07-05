@@ -26,6 +26,8 @@ class Card < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  after_create :save_to_textus
+
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
     .where(card_levels: { venue_id: venue_id })
@@ -87,7 +89,7 @@ class Card < ActiveRecord::Base
     if count > total_redeemable_benefit_allotment
       raise "Too few benefits"
     end
-    
+
     active_benefits = redeemable_benefits.select(&:active?)
 
     active_benefits.sort_by! { |b| b.end_date.nil? ? Time.zone.at(9999999999) : b.end_date }
@@ -95,7 +97,7 @@ class Card < ActiveRecord::Base
     transaction do
       active_benefits.take(count).each &:redeem!
     end
-    
+
   end
 
   def display_name
@@ -126,5 +128,22 @@ class Card < ActiveRecord::Base
 
   def set_defaults
     self.status ||= 'active'
+  end
+
+  def save_to_textus
+    if venue.textus_credential.present?
+      HTTParty.post('http://app.textus.biz/api/contacts.json',
+                    query: {
+                        phone: cardholder.phone_number,
+                        first_name: cardholder.first_name,
+                        last_name: cardholder.last_name,
+                        business_name: card_level.name
+                    },
+                    basic_auth: {
+                        username: venue.textus_credential.username,
+                        password: venue.textus_credential.api_key
+                    }
+      )
+    end
   end
 end

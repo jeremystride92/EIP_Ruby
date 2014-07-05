@@ -37,6 +37,8 @@ class Ability
 
       can :manage, OnboardingTextMessage, venue_id: user.venue_id
 
+      can :manage, TextusCredential, venue_id: user.venue_id
+
       can :reset_pin, Cardholder do |cardholder|
         cardholder.venue_ids.include? user.venue_id
       end

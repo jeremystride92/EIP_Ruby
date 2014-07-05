@@ -388,6 +388,7 @@ DEPENDENCIES
   guard-spork
   haml
   haml-rails
+  httparty
   jquery-rails-cdn
   launchy
   less-rails

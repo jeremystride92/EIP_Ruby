@@ -1,0 +1,14 @@
+= simple_form_for [:venue, @textus_credential], url: venue_textus_credential_path, method: :put do |f|
+  .row
+    .form-block.offset3.span6
+      %p By entering your Textus.biz credentials below, all future users' contact information will be saved to your Textus.biz account.
+      = f.input :username
+      = f.input :api_key
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-large btn-primary'
+    = link_to 'Cancel', venue_path, class: 'btn btn-large'
+
+- if @textus_credential.persisted?
+  .form-actions
+    = button_to 'Delete Textus.biz Credentials', venue_textus_credential_path, method: :delete, confirm: 'Are you sure?', class: 'btn btn-large btn-danger pull-right'

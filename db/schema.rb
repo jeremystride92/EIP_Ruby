@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140627035917) do
+ActiveRecord::Schema.define(:version => 20140705203655) do
 
   create_table "benefits", :force => true do |t|
     t.string   "description"
@@ -174,6 +174,14 @@ ActiveRecord::Schema.define(:version => 20140627035917) do
   end
 
   add_index "temporary_cards", ["partner_id"], :name => "index_temporary_cards_on_partner_id"
+
+  create_table "textus_credentials", :force => true do |t|
+    t.integer  "venue_id"
+    t.string   "username"
+    t.string   "api_key"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"

@@ -15,7 +15,7 @@ class OnboardingMessagesController < ApplicationController
     authorize! :update, @onboarding_message
 
     if @onboarding_message.save
-      redirect_to venue_path  , notice: "Custom onboarding message set."
+      redirect_to venue_path  , notice: 'Custom onboarding message set.'
     else
       render :edit
     end
@@ -29,7 +29,7 @@ class OnboardingMessagesController < ApplicationController
       @onboarding_message.destroy
     end
 
-    redirect_to venue_path, notice: "Custom onboarding message deleted. Users will now see the default onboarding message."
+    redirect_to venue_path, notice: 'Custom onboarding message deleted. Users will now see the default onboarding message.'
   end
 
   private

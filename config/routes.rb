@@ -79,6 +79,7 @@ EIPiD::Application.routes.draw do
 
     resource :onboarding_message, only: [:edit, :update, :destroy]
     resource :onboarding_text_message, only: [:edit, :update, :destroy]
+    resource :textus_credential, only: [:edit, :update, :destroy]
   end
 
   resource :partner, only: [:show] do

@@ -80,6 +80,9 @@
             = nav_link edit_venue_onboarding_text_message_url do
               %i.icon-mobile-phone
               Edit Onboarding Text Message
+            = nav_link edit_venue_textus_credential_url do
+              %i.icon-cloud-upload
+              Edit TextUs.biz Integration
   - if @venue.present? && current_user.nil?
     .nav.pull-right
       = nav_link @venue.name, (@venue.website || "#")
