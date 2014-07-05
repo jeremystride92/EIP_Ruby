@@ -1,3 +1,12 @@
+%form#card_level_form.form-search.form-inline.clearfix{action: venue_cardholders_path, method: :get}
+  .input-append.pull-right
+    %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Last Name or Phone #' }
+    = button_tag class: 'btn' do
+      -if @filter_string.nil?
+        %i.icon-search
+      -else
+        %i.icon-remove
+  %input{type: 'hidden',name: 'active_tab',value: @active}
 %table.table.table-striped.pending-cards
   %thead
     %th Phone Number
