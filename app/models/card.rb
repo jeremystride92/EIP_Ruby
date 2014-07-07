@@ -27,6 +27,7 @@ class Card < ActiveRecord::Base
   after_initialize :set_defaults
 
   after_create :save_to_textus
+  after_create :send_email_notification, if: :pending?
 
   scope :for_venue, lambda { |venue_id|
     joins(:card_level)
@@ -144,6 +145,12 @@ class Card < ActiveRecord::Base
                         password: venue.textus_credential.api_key
                     }
       )
+    end
+  end
+
+  def send_email_notification
+    (venue.owners + venue.managers).each do |venue_admin|
+      PendingCardMailer.pending_card_email(self.id, venue_admin.id)
     end
   end
 end
