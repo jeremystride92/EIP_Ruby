@@ -150,7 +150,7 @@ class Card < ActiveRecord::Base
 
   def send_email_notification
     (venue.owners + venue.managers).each do |venue_admin|
-      PendingCardMailer.pending_card_email(self.id, venue_admin.id)
+      PendingCardMailer.delay(retry: false).pending_card_email(self.id, venue_admin.id)
     end
   end
 end
