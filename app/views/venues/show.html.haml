@@ -40,6 +40,11 @@
           %ul.dropdown-menu.pull-right
             - @venue.card_levels.each do |card_level|
               %li= link_to truncate(card_level.name, length: 40), new_batch_venue_cardholders_path(card_level)
+      .row-fluid.row-sub-section
+        .btn-group.span12
+          = link_to(venue_cardholders_path(active_tab: 'pending_request_cards'), class: 'btn btn-large span12', style: 'text-align: left;') do
+            %i.icon-credit-card
+            Go To Pending Requests
 
 .row.row-section
   .span7
