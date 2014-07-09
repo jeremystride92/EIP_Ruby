@@ -87,6 +87,23 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = @venue.users.find(params[:id])
+
+    authorize! :update, @user
+  end
+
+  def update
+    @user = @venue.users.find(params[:id])
+    authorize! :update, @user
+
+    if @user.update_attributes update_params_for_user
+      redirect_to venue_users_path, notice: 'User updated'
+    else
+      render :edit
+    end
+  end
+
   def destroy
     @user = @venue.users.find(params[:id])
 
@@ -113,6 +130,10 @@ class UsersController < ApplicationController
 
   def params_for_user
     params.require(:user).permit(:name, :email, :partner_id)
+  end
+
+  def update_params_for_user
+    params.require(:user).permit(:name, :email, :roles, :partner_id)
   end
 
   def params_for_reset

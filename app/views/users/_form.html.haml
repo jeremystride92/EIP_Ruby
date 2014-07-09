@@ -7,7 +7,7 @@
       = f.input :partner_id, required: :true, collection: @user.venue.partners, as: :select, prompt: 'Partner Users must be assigned a partner', wrapper_html: { class: "hidden" }, input_html: { required: false }
 
   .form-actions
-    = f.button :submit, class: 'btn btn-primary btn-large', value: 'Grant Access'
+    = f.button :submit, class: 'btn btn-primary btn-large', value: 'Submit'
     = link_to 'Cancel', venue_users_path, class: 'btn btn-large pull-right'
 
 = content_for :javascripts do

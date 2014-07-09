@@ -20,3 +20,5 @@
             - if !user.venue_owner?
               = link_to venue_user_path(user), method: :delete, confirm: 'Are you sure?', class: 'btn btn-large btn-danger pull-right', title: 'Revoke Access' do
                 %i.icon-minus
+              = link_to edit_venue_user_path(user), class: 'btn btn-large pull-right', title: 'Edit User' do
+                %i.icon-pencil
