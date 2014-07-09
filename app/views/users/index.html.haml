@@ -15,4 +15,8 @@
         %tr.user
           %td.name= user.name
           %td.email= user.email
-          %td.roles{ colspan: '2' }= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
+          %td.roles= user.roles.to_a.map{|role| role.to_s.titleize}.join ', '
+          %td
+            - if !user.venue_owner?
+              = link_to venue_user_path(user), method: :delete, confirm: 'Are you sure?', class: 'btn btn-large btn-danger pull-right', title: 'Revoke Access' do
+                %i.icon-minus

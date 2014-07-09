@@ -87,6 +87,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def destroy
+    @user = @venue.users.find(params[:id])
+
+    authorize! :delete, @user
+    @user.destroy
+
+    redirect_to venue_users_path, notice: 'User deleted'
+  end
+
   private
 
   def find_venue
