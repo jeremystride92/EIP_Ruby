@@ -5,6 +5,8 @@
     %span.icon-bar
     %span.icon-bar
 =link_to ENV['site_name'], root_url, class: 'brand' if !@cardholder
+- if action_name == 'complete_onboard'
+  .header-card
 .nav-collapse.collapse
   %ul.nav
     - if current_user && current_user.venue_id
