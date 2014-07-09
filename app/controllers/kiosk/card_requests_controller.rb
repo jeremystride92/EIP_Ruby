@@ -47,7 +47,7 @@ class Kiosk::CardRequestsController < ApplicationController
   end
 
   def params_for_cardholder
-    params.require(:cardholder).permit(:phone_number)
+    params.require(:cardholder).permit(:phone_number, :first_name, :last_name)
   end
 
   def logout_user

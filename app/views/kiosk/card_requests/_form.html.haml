@@ -6,7 +6,11 @@
         Take advantage of our new digital ID cards stored right on your phone!
 
     .form-block.span6.offset3
-      = f.label :phone_number, 'Enter your phone number', class: 'center-text'
+      = f.label :first_name, 'First name', class: 'center-text'
+      = f.input :first_name, input_html: { class: 'span6'}, label: false
+      = f.label :last_name, 'Last name', class: 'center-text'
+      = f.input :last_name, input_html: { class: 'span6'}, label: false
+      = f.label :phone_number, 'Phone number', class: 'center-text'
       = f.input :phone_number, input_html: { class: 'span6'}, label: false
 
   .form-actions.center-text

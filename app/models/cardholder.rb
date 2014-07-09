@@ -12,9 +12,9 @@ class Cardholder < ActiveRecord::Base
 
   mount_uploader :photo, CardholderImageUploader
 
-  validates :first_name, presence: true, unless: :pending?
-  validates :last_name, presence: true, unless: :pending?
-  validates :activated_at, presence: true, unless: :pending?
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :activated_at, presence: true
 
 
   validates :password, length: { is: 4 }, numericality: { only_integer: true }, allow_nil: true
