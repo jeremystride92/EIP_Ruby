@@ -24,7 +24,7 @@ describe Kiosk::CardRequestsController do
 
   describe "POST 'create'" do
     it "returns http redirect" do
-      post 'create', cardholder: { phone_number: '1234567890' }
+      post 'create', cardholder: { phone_number: '1234567890', first_name: 'Bob', last_name: 'Smith' }
       response.should be_redirect
     end
   end

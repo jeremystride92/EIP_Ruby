@@ -14,7 +14,7 @@ class Cardholder < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :activated_at, presence: true
+  validates :activated_at, presence: true, unless: :pending?
 
 
   validates :password, length: { is: 4 }, numericality: { only_integer: true }, allow_nil: true

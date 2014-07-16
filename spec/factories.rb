@@ -31,8 +31,6 @@ FactoryGirl.define do
 
     factory :pending_cardholder do
       status 'pending'
-      first_name nil
-      last_name nil
       activated_at nil
     end
   end

@@ -28,8 +28,8 @@ describe Cardholder do
     context 'when pending' do
       subject { build :pending_cardholder }
 
-      it { should_not validate_presence_of :first_name }
-      it { should_not validate_presence_of :last_name }
+      it { should validate_presence_of :first_name }
+      it { should validate_presence_of :last_name }
       it { should_not validate_presence_of :activated_at }
     end
 
@@ -141,11 +141,6 @@ describe Cardholder do
 
   describe "#activate!" do
     let(:cardholder) { create :pending_cardholder }
-
-    it "does not work if names are not set" do
-      cardholder.activate!.should be_false
-      cardholder.reload.should be_pending
-    end
 
     context "when both names are set" do
       before do
