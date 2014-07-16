@@ -8,7 +8,7 @@
 %h1 You have a new pending card request!
 
 %p
-  #{@cardholder.display_name} has requested a card with phone number #{@cardholder.phone_number}.
+  A user has requested a card with phone number #{@phone_number}.
 
 %p
   To approve or reject this user, visit the #{link_to 'pending requests section of the cardholders page', venue_cardholders_url(active_tab: 'pending_request_cards', subdomain: 'app') }.

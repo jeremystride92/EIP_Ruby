@@ -3,6 +3,7 @@ class Card < ActiveRecord::Base
 
   belongs_to :card_level
   belongs_to :cardholder
+  delegate :phone_number, to: :cardholder
   belongs_to :issuer, class_name: User
 
   has_one :venue, through: :card_level
@@ -150,7 +151,7 @@ class Card < ActiveRecord::Base
 
   def send_email_notification
     (venue.owners + venue.managers).each do |venue_admin|
-      PendingCardMailer.delay(retry: false).pending_card_email(self.id, venue_admin.id)
+      PendingCardMailer.delay(retry: false).pending_card_email(self.class.to_s, self.id, venue_admin.id)
     end
   end
 end

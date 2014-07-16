@@ -8,6 +8,8 @@ class TemporaryCard < ActiveRecord::Base
 
   has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 
+  after_create :send_email_notification
+
   validates :expires_at, presence: true
 
   validates :phone_number,
@@ -53,5 +55,11 @@ class TemporaryCard < ActiveRecord::Base
 
   def ensure_benefits_beneficiary(benefit)
     benefit.beneficiary ||= self
+  end
+
+  def send_email_notification
+    (venue.owners + venue.managers).each do |venue_admin|
+      PendingCardMailer.delay(retry: false).pending_card_email(self.class.to_s, self.id, venue_admin.id)
+    end
   end
 end
