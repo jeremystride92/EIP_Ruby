@@ -35,7 +35,7 @@ Response: `{ success: 'Benefits accepted', count: 40 }`
 (Count is `total_redeemable_benefit_allotment` remaining after the benefits have been redeemed)
 
 ### GET /api/v1/cardholder.json
-Shows a cardholder with nested photo and cards. Requires an auth token in the header: `{ authorization: 'myToken' }`
+Shows a cardholder with nested photo and cards. Requires an auth token in the header: `Authorization: 'Token token="myToken"'`
 
 Response:
 
