@@ -118,6 +118,6 @@ you will receive the onboarding token, which you can pass to this method.
 
 Fill in the empty fields on the cardholder profile and activate the cardholder's account
 
-Request: `{ onboarding_token: "abc123", first_name: "Bob", last_name: "Smith" }`
+Request: `{ cardholder: { onboarding_token: "abc123", first_name: "Bob", last_name: "Smith", photo: <data>, photo_cache: <data> }  }`
 
 Response: `{ success: "Cardholder updated" }`
