@@ -16,7 +16,7 @@ Response: `{ auth_token: '789zyx' }`
 Returns a 401 error if the user is unauthorized.
 
 If the user is pending, the response will be
-`{ auth_token: "", onboarding: "/path/to/onboard?onboarding_token=abc123", onboarding_token: "abc123" }`
+`{ auth_token: "", onboarding: "/path/to/onboard?onboarding_token=abc123", onboarding_token: "abc123", first_name: "Bob", last_name: "Jim" }`
 
 ### GET /api/v1/require_pin.json
 Tells you whether or not the server requires passwords for authentication.
