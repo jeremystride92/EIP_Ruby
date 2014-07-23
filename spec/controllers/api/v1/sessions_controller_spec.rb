@@ -8,7 +8,20 @@ describe Api::V1::SessionsController do
       response.body.should =~ /#{cardholder.auth_token}/
     end
 
-    context "When pin is not required" do
+    context "when the cardholder is pending" do
+      it "returns the onboarding information" do
+        cardholder = create :pending_cardholder
+        post :create, { phone_number: cardholder.phone_number }
+        body = JSON.parse(response.body)
+        body["first_name"].should == cardholder.first_name
+        body["last_name"].should == cardholder.last_name
+        body["onboarding_token"].should == cardholder.onboarding_token
+        body["onboarding"].should be_present
+        body["auth_token"].should be_blank
+      end
+    end
+
+    context "when pin is not required" do
       before do
         ENV['require_pin'] = 'not required'
       end
