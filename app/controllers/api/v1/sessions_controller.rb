@@ -19,6 +19,12 @@ class Api::V1::SessionsController < ApplicationController
       else 
         head :unauthorized
       end
+    elsif params[:venue_id].present?
+      if cardholder.cards.map(&:venue).map(&:id).include? params[:venue_id].to_i
+        render json: { auth_token: cardholder.auth_token }
+      else
+        head :unauthorized
+      end
     else
       render json: { auth_token: cardholder.auth_token }
     end
