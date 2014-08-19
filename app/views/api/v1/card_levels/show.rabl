@@ -18,6 +18,6 @@ end
 node :redeemable_benefit_name do |card_level|
   {
     singular: card_level.redeemable_benefit_title,
-    plural: card_level.redeemable_benefit_title.pluralize
+    plural: card_level.redeemable_benefit_title
   }
 end
