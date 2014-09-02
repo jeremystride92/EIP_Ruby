@@ -43,7 +43,7 @@ describe Card do
       let(:new_card_level) { create :card_level, venue: old_card.venue }
       subject { build :card, cardholder: old_card.cardholder, card_level: new_card_level }
 
-      it { should_not be_valid }
+      pending { should_not be_valid }
     end
 
     describe "pending cards" do

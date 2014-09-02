@@ -65,7 +65,7 @@ class CardholdersController < ApplicationController
     @problems = cardholders.select &:invalid?
 
     if @problems.empty?
-      redirect_to venue_cardholders_path, notice: "#{pluralize(cardholders.count, 'card')} issued"
+      redirect_to venue_path, notice: "#{pluralize(cardholders.count, 'card')} issued"
     else
       render 'redo_batch'
     end
