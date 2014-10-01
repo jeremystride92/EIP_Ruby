@@ -1,5 +1,5 @@
-%h1.page-header Request Sent to #{@venue.name}
+%h1.page-header Card Request Sent to #{@venue.name}
 %p.message
-  You've successfully requested an EIPiD card. Once approved, we will send you a text message with information on how to download the EIPiD App and login!
+  Well Done! You've successfully requested a #{@venue.name} Membership Card.  Once your card is activated we will send you a text message with a link to download the card onto your device.
 %p.card_info
-  EIPiD##{@cardholder.phone_number}
+  Card Number: #{@cardholder.phone_number}
