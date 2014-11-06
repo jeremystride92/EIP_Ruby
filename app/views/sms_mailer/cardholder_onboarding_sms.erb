@@ -1,5 +1,5 @@
 <% if @venue.onboarding_text_message.present? %>
-<%= @venue.onboarding_text_message.custom_text %> <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %>
+<%= @venue.onboarding_text_message.custom_text %>
 <% elsif (@venue.try(:name) || 'EIPiD').length < 9  || (@venue.try(:name) || 'EIPid').length > 45 %>
 <%= (@venue.try(:name) || 'EIPiD').html_safe %> has issued you an exclusive membership card. To create your personal card click here: <%= $short_url_cache.shorten(onboard_url(@cardholder.onboarding_token), skip_cache: true) %>
 <% else %>
