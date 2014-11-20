@@ -33,6 +33,8 @@ class Api::V1::CardholdersController < ApplicationController
     cardholder = Cardholder.find_by_onboarding_token cardholder_onboarding_params[:onboarding_token]
     if cardholder.activate! cardholder_onboarding_params
       render json: {success: "Cardholder updated"}, status: :ok
+    else
+      render json: {error: cardholder.errors.full_messages.join(", ")}, status: :bad_request
     end
   end
 
