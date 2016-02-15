@@ -8,7 +8,7 @@ class TemporaryCard < ActiveRecord::Base
 
   has_many :cardholder_conversions, class_name: "Cardholder", as: :sourceable, dependent: :nullify
 
-  after_create :send_email_notification
+  #after_create :send_email_notification
 
   validates :expires_at, presence: true
 
