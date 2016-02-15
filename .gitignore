@@ -20,3 +20,5 @@ config/application.yml
 
 # Ignore RubyMine files
 .idea/*
+
+.rvmrc
