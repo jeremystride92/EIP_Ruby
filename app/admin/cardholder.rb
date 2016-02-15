@@ -18,6 +18,7 @@ ActiveAdmin.register Cardholder do
     redirect_to :back, notice: "Messages queued for sending"
   end
 
+=begin
   member_action :send_activation_message, method: :post do
     cardholder = Cardholder.find(params[:id])
     cardholder.generate_onboarding_token
@@ -29,6 +30,7 @@ ActiveAdmin.register Cardholder do
   action_item :only => :show do
     link_to('Send Activation Message', send_activation_message_admin_cardholder_path(cardholder), method: :post)
   end
+=end
 
   filter :venues
   filter :status, as: :select, collection: Cardholder::STATUSES
