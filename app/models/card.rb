@@ -103,7 +103,7 @@ class Card < ActiveRecord::Base
   end
 
   def display_name
-    "#{cardholder.display_name}'s \"#{card_level.name}\" card from #{venue.name}"
+    "#{cardholder.present? ? cardholder.display_name : "Removed Cardholder"}'s \"#{card_level.present? ? card_level.name : "Removed Card Level"}\" card from #{venue.present? ? venue.name : "Removed Venue"}"
   end
 
   private
