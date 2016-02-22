@@ -45,6 +45,8 @@ gem 'airbrake'
 
 gem 'tinymce-rails'
 
+gem 'rails_12factor', group: :production
+
 gem 'httparty'
 
 # Gems used only for assets and not required
@@ -60,6 +62,7 @@ group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer'
+  #gem 'therubyracer', '0.12.1'
 
   gem 'uglifier', '>= 1.0.3'
 end
