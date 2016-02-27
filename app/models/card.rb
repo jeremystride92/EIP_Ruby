@@ -1,3 +1,5 @@
+require 'base64'
+
 class Card < ActiveRecord::Base
   STATUSES = %w(active inactive pending)
 
@@ -134,18 +136,18 @@ class Card < ActiveRecord::Base
 
   def save_to_textus
     if venue.textus_credential.present?
-      HTTParty.post('http://app.textus.biz/api/contacts.json',
-                    query: {
-                        phone: cardholder.phone_number,
-                        first_name: cardholder.first_name,
-                        last_name: cardholder.last_name,
-                        business_name: card_level.name
-                    },
-                    basic_auth: {
-                        username: venue.textus_credential.username,
-                        password: venue.textus_credential.api_key
-                    }
-      )
+      HTTParty.post('https://app.textus.com:443/api/contacts', body: {
+        phone: cardholder.phone_number,
+        first_name: cardholder.first_name,
+        last_name: cardholder.last_name,
+        business_name: card_level.name
+      }.to_json,
+      headers: {"Content-Type" => "application/json", "Authorization" => Base64.encode64("#{venue.textus_credential.username}:#{venue.textus_credential.api_key}"), "Accept" => "application/vnd.textus-v2"},
+      basic_auth: {
+        username: venue.textus_credential.username,
+        password: venue.textus_credential.api_key
+      }
+                   )
     end
   end
 
