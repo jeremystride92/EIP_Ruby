@@ -1,4 +1,4 @@
-%form#card_level_form.form-search.form-inline.clearfix{action: venue_cardholders_path, method: :get}
+%form#pending_requests_cards_form.form-search.form-inline.clearfix{action: pending_requests_cards_venue_cardholders_path, method: :get}
   .input-append.pull-right
     %input#filter.search-query{ type: :text, name: :filter, value: @filter_string, placeholder: 'Last Name or Phone #' }
     = button_tag class: 'btn' do

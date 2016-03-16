@@ -35,6 +35,10 @@ EIPiD::Application.routes.draw do
     resources :users
 
     resources :cardholders, only: [:index] do
+      get 'approved_cards', to: "cardholders#approved_cards", on: :collection
+      get 'pending_requests_cards', to: "cardholders#pending_requests_cards", on: :collection
+      get 'pending_activation_cards', to: "cardholders#pending_activation_cards", on: :collection
+
       get 'new_batch/:card_level_id', to: "cardholders#batch_new", on: :collection, as: :new_batch
       post 'new_batch/:card_level_id', to: "cardholders#batch_create", on: :collection, as: :create_batch
 

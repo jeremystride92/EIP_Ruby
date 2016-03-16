@@ -23,27 +23,76 @@ class CardholdersController < ApplicationController
 
     authorize! :read, Card
 
-    @approved_cards = @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
 
     if params[:filter].present?
       search_string = "%#{params[:filter]}%".downcase
-      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
       @cards = @cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
       @filter_string = params[:filter]
     end
     
-    if params[:card_level_id].present?
-      @approved_cards = @approved_cards.select { |card| card.card_level_id == params[:card_level_id].to_i }
-      @card_level_id = params[:card_level_id]
-    end
-
-    @active = params[:active_tab] if params[:active_tab].present?
+    #@active = params[:active_tab] if params[:active_tab].present?
 
     @pending_cards = @cards.select &:pending?
-    @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
-    @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
   end
 
+  def approved_cards
+    @card_levels = @venue.card_levels
+    authorize! :read, Card
+    @approved_cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+
+    if params["filter"].present?
+      search_string = "%#{params['filter']}%".downcase
+      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
+      @filter_string = params["filter"]
+    end
+
+    if params["card_level_id"].present?
+      @approved_cards = @approved_cards.select { |card| card.card_level_id == params["card_level_id"].to_i }
+      @card_level_id = params["card_level_id"]
+    end
+
+    @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
+
+    render partial: "cardholders/approved_cards_table", layout: false
+  end
+  
+  def pending_requests_cards
+    @card_levels = @venue.card_levels
+    authorize! :read, Card
+    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+
+    if params["filter"].present?
+      search_string = "%#{params['filter']}%".downcase
+      @cards = @cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
+      @filter_string = params['filter']
+    end
+    @pending_cards = @cards.select &:pending?
+
+    render partial: "cardholders/pending_requests_cards_table", layout: false
+  end
+
+  def pending_activation_cards
+    @card_levels = @venue.card_levels
+    authorize! :read, Card
+    @approved_cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+
+    if params["filter"].present?
+      search_string = "%#{params['filter']}%".downcase
+      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
+      @filter_string = params["filter"]
+    end
+
+    if params["card_level_id"].present?
+      @approved_cards = @approved_cards.select { |card| card.card_level_id == params["card_level_id"].to_i }
+      @card_level_id = params["card_level_id"]
+    end
+
+    @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
+
+    render partial: "cardholders/pending_activation_cards_table", layout: false
+  end
+  
   def batch_new
     authorize! :create, @card_level.cards.build
   end

@@ -21,4 +21,7 @@ config/application.yml
 # Ignore RubyMine files
 .idea/*
 
+# OS X nonsense
+.DS_Store
+
 .rvmrc
