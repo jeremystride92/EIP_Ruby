@@ -1,80 +1,74 @@
 //= require select_replacement
 
-var pending_requests_cards_form = function(){
+var form_submitted = function(e) {
   $("#ajax_loader").removeClass("hide");
-
+  $(".nav-tabs li").addClass("disabled");
+  $(".nav-tabs li a").removeAttr("data-toggle");
+  
   $.ajax({
     method: "GET",
-    url: $(this).attr("action") + "?filter=" + $("form#pending_requests_cards_form .search-query").val()
+    url: $(e.currentTarget).attr("action") + "?filter=" + $(e.currentTarget).find(".search-query").val() + "&card_level_id=" + $(e.currentTarget).find("#card_level_id").val()
   }).done(function(data, textStatus, jqXHR) {
-    $(".tab-panes .pending-requests-cards").html(data); 
+    $(".tab-pane.active").html(data); 
     $("#ajax_loader").addClass("hide");
-    $("#pending_requests_cards_form").submit(pending_requests_cards_form);
+    $(".nav-tabs li a").attr("data-toggle", "tab");
+    $(".nav-tabs li").removeClass("disabled");
+    window["bind_" + $(".nav-tabs li.active a").data('tabname') + "_view"]();
   }); 
-  
-  $(".tab-panes .pending-requests-cards").empty(); 
+
+  $(".tab-pane.active").empty(); 
   return false;
 };
 
-var approved_cards_form = function(){
+//Cardholder tab watcher
+$(document).on('shown', 'a[data-toggle="tab"]',function (e) {
+  var tabname = $(e.currentTarget).data('tabname');
+  var tabname_dashed = tabname.replace(/_/gi, "-");
   $("#ajax_loader").removeClass("hide");
+  $(".tab-panes ." + tabname_dashed).empty(); 
+  $(".nav-tabs li").addClass("disabled");
+  $(".nav-tabs li a").removeAttr("data-toggle");
 
   $.ajax({
     method: "GET",
-    url: $(this).attr("action") + 
-      "?filter=" + $("form#approved_cards_form .search-query").val() + 
-      "&card_level_id=" + $("form#approved_cards_form #card_level_id").val()
+    url: "/venue/cardholders/" + tabname
   }).done(function(data, textStatus, jqXHR) {
-    $(".tab-panes .approved-cards").html(data); 
-    $("#ajax_loader").addClass("hide");
-    $("#approved_cards_form").submit(approved_cards_form);
-  }); 
-  
-  $(".tab-panes .approved-cards").empty(); 
-  return false;
-};
+    // update tab pane
+    $(".tab-panes ." + tabname_dashed).html(data); 
 
-var pending_activation_cards_form = function() {
-  $("#ajax_loader").removeClass("hide");
+    // bind tab pane view 
+    window["bind_" + tabname + "_view"]();
 
-  $.ajax({
-    method: "GET",
-    url: $(this).attr("action") + 
-      "?filter=" + $("form#pending_activation_cards_form .search-query").val() + 
-      "&card_level_id=" + $("form#pending_activation_cards_form #card_level_id").val()
-  }).done(function(data, textStatus, jqXHR) {
-    $(".tab-panes .pending-activation-cards").html(data); 
     $("#ajax_loader").addClass("hide");
-    $("#pending_activation_cards_form").submit(pending_activation_cards_form);
+    $(".nav-tabs li a").attr("data-toggle", "tab");
+    $(".nav-tabs li").removeClass("disabled");
   }); 
-  
-  $(".tab-panes .pending-activation-cards").empty(); 
-  return false;
-};
+});
 
 var bind_pending_requests_cards_view = function() {
-  $("#pending_requests_cards_form").submit(pending_requests_cards_form);
+  $("#pending_requests_cards_form").submit(form_submitted);
   bind_filter();
 };
 
 var bind_approved_cards_view = function() {
-  $("#approved_cards_form").submit(approved_cards_form);
+  $("#approved_cards_form").submit(form_submitted);
   bind_filter();
   bind_card_level_select();
   bind_accordion_header();
 };
 
 var bind_pending_activation_cards_view = function() {
-  $("#pending_activation_cards_form").submit(pending_activation_cards_form);
+  $("#pending_activation_cards_form").submit(form_submitted);
   bind_filter();
   bind_card_level_select();
   bind_accordion_header();
 };
 
 var bind_filter = function() {
-  //search
   $('.search-query + .btn').on('click.clear-search', function(e){
-    $(e.currentTarget).parents('form').find('.search-query').val('');
+    if($(e.currentTarget).find("i").hasClass("icon-remove")) {
+      $(e.currentTarget).parents('form').find('.search-query').val('');
+    }
   });
 
   $('.search-query').on('keydown', function(e){
@@ -83,7 +77,7 @@ var bind_filter = function() {
 };
 
 var bind_card_level_select = function() {
-  $('body').on('change','select#card_level_id',function(e){
+  $('select#card_level_id').change(function(e){
     $(e.currentTarget).parents('form').submit();
   });
 };
@@ -100,27 +94,6 @@ var bind_accordion_header = function() {
 };
 
 bind_pending_requests_cards_view();
-
-//Cardholder tab watcher
-$(document).on('shown', 'a[data-toggle="tab"]',function (e) {
-  var tabname = $(e.currentTarget).data('tabname');
-  $('input[name=active_tab]').val(tabname);
-  $("#ajax_loader").removeClass("hide");
-  $(".tab-panes ." + tabname.replace(/_/gi, "-")).empty(); 
-
-  $.ajax({
-    method: "GET",
-    url: "/venue/cardholders/" + tabname
-  }).done(function(data, textStatus, jqXHR) {
-    // update tab pane
-    $(".tab-panes ." + tabname.replace(/_/gi, "-")).html(data); 
-
-    // bind tab pane view 
-    window["bind_" + tabname + "_view"]();
-
-    $("#ajax_loader").addClass("hide");
-  }); 
-});
 
 
 // Card-level change form /////////////////////////////////////////////////////

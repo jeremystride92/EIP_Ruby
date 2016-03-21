@@ -1,17 +1,17 @@
 %h1.page-header Cardholders
 %ul.nav.nav-tabs{data: {tabs: 'tabs'}}
-  %li{class: tab_class_match(@active, 'pending_requests_cards', true)}
+  %li{class: "active"}
     %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-requests-cards', tabname: 'pending_requests_cards'}} Pending Requests
-  %li{class: tab_class_match(@active, 'approved_cards') }
+  %li
     %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.approved-cards', tabname: 'approved_cards'}} Approved
-  %li{class: tab_class_match(@active, 'pending_activation_cards')}
+  %li
     %a{ href: '#', data:{toggle: 'tab', target: '.tab-pane.pending-activation-cards', tabname: 'pending_activation_cards'}} Pending Activation
   %li
     =image_tag "ajax-loader.gif", class: "hide", id: "ajax_loader"
 .tab-panes.tab-content
-  .pending-requests-cards.tab-pane.fade.in{class: tab_class_match(@active, 'pending_requests_cards', true)}= render 'pending_requests_cards_table'
-  .approved-cards.tab-pane.fade.in{class: tab_class_match(@active, 'approved_cards')}
-  .pending-activation-cards.tab-pane.fade.in{class: tab_class_match(@active, 'pending_activation_cards')}
+  .pending-requests-cards.tab-pane.fade.in.active= render 'pending_requests_cards_table'
+  .approved-cards.tab-pane.fade.in
+  .pending-activation-cards.tab-pane.fade.in
 
 = content_for :javascripts do
   = javascript_include_tag :cardholders

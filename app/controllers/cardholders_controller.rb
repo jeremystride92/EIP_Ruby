@@ -31,8 +31,6 @@ class CardholdersController < ApplicationController
       @filter_string = params[:filter]
     end
     
-    #@active = params[:active_tab] if params[:active_tab].present?
-
     @pending_cards = @cards.select &:pending?
   end
 
