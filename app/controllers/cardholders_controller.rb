@@ -14,80 +14,32 @@ class CardholdersController < ApplicationController
 
   before_filter :find_cardholder, only: [:resend_onboarding_sms]
 
+  before_filter :get_card_levels, only: [:approved_cards, :pending_requests_cards, :pending_activation_cards]
+
   skip_authorization_check only: [:check_for_cardholder] + ONBOARDING_ACTIONS + PUBLIC_RESET_ACTIONS
 
   public_actions :onboard, :complete_onboard, :reset_pin_form, :reset_pin
 
   def index
-    @card_levels = @venue.card_levels
-
     authorize! :read, Card
-
-    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
-    if params[:filter].present?
-      search_string = "%#{params[:filter]}%".downcase
-      @cards = @cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
-      @filter_string = params[:filter]
-    end
-    
-    @pending_cards = @cards.select &:pending?
+    @pending_cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC').select &:pending?
   end
 
   def approved_cards
-    @card_levels = @venue.card_levels
     authorize! :read, Card
-    @approved_cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
-    if params["filter"].present?
-      search_string = "%#{params['filter']}%".downcase
-      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
-      @filter_string = params["filter"]
-    end
-
-    if params["card_level_id"].present?
-      @approved_cards = @approved_cards.select { |card| card.card_level_id == params["card_level_id"].to_i }
-      @card_level_id = params["card_level_id"]
-    end
-
-    @approved_cards = @approved_cards.reject(&:pending?).reject {|c| c.cardholder.pending? }
-
+    @approved_cards = find_card_holders().reject(&:pending?).reject {|c| c.cardholder.pending? }
     render partial: "cardholders/approved_cards_table", layout: false
   end
   
   def pending_requests_cards
-    @card_levels = @venue.card_levels
     authorize! :read, Card
-    @cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
-    if params["filter"].present?
-      search_string = "%#{params['filter']}%".downcase
-      @cards = @cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
-      @filter_string = params['filter']
-    end
-    @pending_cards = @cards.select &:pending?
-
+    @pending_cards = find_card_holders().select &:pending? 
     render partial: "cardholders/pending_requests_cards_table", layout: false
   end
 
   def pending_activation_cards
-    @card_levels = @venue.card_levels
     authorize! :read, Card
-    @approved_cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
-
-    if params["filter"].present?
-      search_string = "%#{params['filter']}%".downcase
-      @approved_cards = @approved_cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
-      @filter_string = params["filter"]
-    end
-
-    if params["card_level_id"].present?
-      @approved_cards = @approved_cards.select { |card| card.card_level_id == params["card_level_id"].to_i }
-      @card_level_id = params["card_level_id"]
-    end
-
-    @pending_activation_cards = @approved_cards.reject(&:pending?).select {|c| c.cardholder.pending? }
-
+    @pending_activation_cards = find_card_holders().reject(&:pending?).select {|c| c.cardholder.pending? }
     render partial: "cardholders/pending_activation_cards_table", layout: false
   end
   
@@ -264,6 +216,27 @@ class CardholdersController < ApplicationController
     end
 
     cardholder
+  end
+
+  def find_card_holders
+    cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+
+    if params["filter"].present?
+      search_string = "%#{params['filter']}%".downcase
+      cards = cards.where('lower(cardholders.last_name) LIKE ? OR cardholders.phone_number LIKE ?', search_string, search_string)
+      @filter_string = params["filter"]
+    end
+
+    if params["card_level_id"].present?
+      cards = cards.select { |card| card.card_level_id == params["card_level_id"].to_i }
+      @card_level_id = params["card_level_id"]
+    end
+
+    cards
+  end
+
+  def get_card_levels
+    @card_levels = @venue.card_levels
   end
 
   def find_venue
