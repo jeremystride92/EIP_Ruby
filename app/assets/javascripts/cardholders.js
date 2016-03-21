@@ -1,48 +1,37 @@
 //= require select_replacement
 
-var form_submitted = function(e) {
+var load_cardholders = function(url, tabname) {
   $("#ajax_loader").removeClass("hide");
   $(".nav-tabs li").addClass("disabled");
+  $(".nav-tabs li a").blur();
   $(".nav-tabs li a").removeAttr("data-toggle");
   
   $.ajax({
     method: "GET",
-    url: $(e.currentTarget).attr("action") + "?filter=" + $(e.currentTarget).find(".search-query").val() + "&card_level_id=" + $(e.currentTarget).find("#card_level_id").val()
+    url: url 
   }).done(function(data, textStatus, jqXHR) {
     $(".tab-pane.active").html(data); 
     $("#ajax_loader").addClass("hide");
     $(".nav-tabs li a").attr("data-toggle", "tab");
     $(".nav-tabs li").removeClass("disabled");
-    window["bind_" + $(".nav-tabs li.active a").data('tabname') + "_view"]();
+    window["bind_" + tabname + "_view"]();
   }); 
 
   $(".tab-pane.active").empty(); 
+};
+
+var form_submitted = function(e) {
+  var url = $(e.currentTarget).attr("action") + "?filter=" + $(e.currentTarget).find(".search-query").val() + "&card_level_id=" + $(e.currentTarget).find("#card_level_id").val();
+
+  load_cardholders(url, $(".nav-tabs li.active a").data('tabname'));
   return false;
 };
 
 //Cardholder tab watcher
 $(document).on('shown', 'a[data-toggle="tab"]',function (e) {
   var tabname = $(e.currentTarget).data('tabname');
-  var tabname_dashed = tabname.replace(/_/gi, "-");
-  $("#ajax_loader").removeClass("hide");
-  $(".tab-panes ." + tabname_dashed).empty(); 
-  $(".nav-tabs li").addClass("disabled");
-  $(".nav-tabs li a").removeAttr("data-toggle");
-
-  $.ajax({
-    method: "GET",
-    url: "/venue/cardholders/" + tabname
-  }).done(function(data, textStatus, jqXHR) {
-    // update tab pane
-    $(".tab-panes ." + tabname_dashed).html(data); 
-
-    // bind tab pane view 
-    window["bind_" + tabname + "_view"]();
-
-    $("#ajax_loader").addClass("hide");
-    $(".nav-tabs li a").attr("data-toggle", "tab");
-    $(".nav-tabs li").removeClass("disabled");
-  }); 
+  var url = "/venue/cardholders/" + tabname;
+  load_cardholders(url, tabname);
 });
 
 var bind_pending_requests_cards_view = function() {
