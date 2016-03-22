@@ -21,7 +21,12 @@ var load_cardholders = function(url, tabname) {
 };
 
 var form_submitted = function(e) {
-  var url = $(e.currentTarget).attr("action") + "?filter=" + $(e.currentTarget).find(".search-query").val() + "&card_level_id=" + $(e.currentTarget).find("#card_level_id").val();
+
+  var url = $(e.currentTarget).attr("action") + "?filter=" + $(e.currentTarget).find(".search-query").val();
+ 
+  if($(e.currentTarget).find("#card_level_id").val() != undefined) {
+    url = url + "&card_level_id=" + $(e.currentTarget).find("#card_level_id").val();
+  }
 
   load_cardholders(url, $(".nav-tabs li.active a").data('tabname'));
   return false;
