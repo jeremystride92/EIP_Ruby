@@ -41,6 +41,19 @@ $(document).on('shown', 'a[data-toggle="tab"]',function (e) {
 
 var bind_pending_requests_cards_view = function() {
   $("#pending_requests_cards_form").submit(form_submitted);
+
+  $('form.approve-card').bind('ajax:success', function(xhr, data) {
+    var $form = $(xhr.currentTarget);
+    var $row = $form.parents('.pending-card');
+    $row.removeClass('error').addClass('success').fadeOut();
+  });
+
+  $('form.approve-card').bind('ajax:error', function(xhr, data){
+    var $form = $(xhr.currentTarget);
+    var $row = $form.parents('.pending-card');
+    $row.addClass('error');
+  });
+
   bind_filter();
 };
 
@@ -48,14 +61,14 @@ var bind_approved_cards_view = function() {
   $("#approved_cards_form").submit(form_submitted);
   bind_filter();
   bind_card_level_select();
-  bind_accordion_header();
+  bind_card_holder_subforms();
 };
 
 var bind_pending_activation_cards_view = function() {
   $("#pending_activation_cards_form").submit(form_submitted);
   bind_filter();
   bind_card_level_select();
-  bind_accordion_header();
+  bind_card_holder_subforms();
 };
 
 var bind_filter = function() {
@@ -75,8 +88,8 @@ var bind_card_level_select = function() {
     $(e.currentTarget).parents('form').submit();
   });
 };
-  
-var bind_accordion_header = function() {
+
+var bind_card_holder_subforms = function() {
   $('.accordion-header').click(function(e) {
     var $header = $(e.currentTarget);
     $header.toggleClass('info');
@@ -85,109 +98,90 @@ var bind_accordion_header = function() {
     $body.siblings('.accordion-body').addClass('hidden');
     $body.toggleClass('hidden').removeClass('success');
   });
+
+  // Change card level form /////////////////////////////////////////////////////////
+  $('form.change-card-level select').change(function(e) {
+    var $body = $(e.currentTarget).parents('.accordion-body');
+    var $header = $body.prev('.accordion-header');
+
+    $body.addClass('warning');
+    $header.addClass('warning');
+  });
+
+  $('form.change-card-level').bind("ajax:success", function(xhr, data) {
+    var $body = $(xhr.currentTarget).parents('.accordion-body');
+    var $header = $body.prev('.accordion-header');
+
+    $body.removeClass('warning').addClass('success');
+    $header.removeClass('warning');
+
+    $header.find('.card-level-name').text(data.card_level.name);
+    $body.find('.card-preview').css('background-image', 'url(' + data.card_level.card_theme.landscape_background + ')');
+  });
+
+  $('form.change-card-level').bind("ajax:error", function(xhr, data) {
+    var $body = $(xhr.currentTarget).parents('.accordion-body');
+    var $header = $body.prev('.accordion-header');
+
+    $body.removeClass('warning').addClass('error');
+  });
+
+  // Status change form /////////////////////////////////////////////////////////
+  $('form.change-card-status').bind('ajax:success', function(xhr, data) {
+    var $form = $(xhr.currentTarget),
+      $button = $form.find('input[type="submit"]'),
+        $row = $form.parents('tr'),
+          $rowHeader = $row.prev('.accordion-header'),
+            $cardStatus = $row.find('.card-status'),
+              otherLabels = { "Activate": "Deactivate", "Deactivate": "Activate", "Active": "Inactive", "Inactive": "Active" },
+                route = $form.attr('action');
+
+                if (/\/activate/.test(route)) {
+                  route = route.replace(/\/activate/, '/deactivate');
+                } else {
+                  route = route.replace(/\/deactivate/, '/activate');
+                }
+                $form.attr('action', route);
+                $button.val(otherLabels[$button.val()]);
+                $button.toggleClass('btn-warning btn-success');
+                $rowHeader.toggleClass('status-inactive status-active');
+                $cardStatus.text(otherLabels[$cardStatus.text()]);
+  });
+
+  $('form.change-card-status').bind('ajax:error', function(xhr, data) {
+    var $body = $(xhr.currentTarget).parents('tr');
+    $body.addClass('error');
+  });
+  
+  // Reset PIN form /////////////////////////////////////////////////////////////
+  $('form.send-pin-reset').bind('ajax:success', function(xhr, data) {
+    var message = data.success ? 'Cardholder PIN reset. SMS sent.' : 'An error occured when resetting PIN. Please contact support.'
+    window.alert(message);
+  });
+
+  // Resend Onboarding SMS form /////////////////////////////////////////////////////////////
+  $('form.resend-onboarding-sms').bind('ajax:success', function(xhr, data) {
+    var message = data.success ? 'Cardholder onboarding SMS re-sent.' : 'An error occured when re-sending the onboarding SMS. Please contact support.'
+    window.alert(message);
+  });
+
+  // Delete card form ///////////////////////////////////////////////////////////
+  $('form.delete-card').bind('ajax:success', function(xhr, data) {
+    var $form = $(xhr.currentTarget);
+    var $row = $form.parents('tr');
+    var $prev_row = $row.prev();
+
+    $row.remove();
+    $prev_row.remove();
+  });
+
+  // Bulk Resent form /////////////////////////////////////////////////////////
+  $(function(){
+    $('body').on('ajax:success', '.bulk-resend-onboarding-sms', function(e){
+      alert('Onboarding SMS Sent');
+    });
+  });
+
 };
 
 bind_pending_requests_cards_view();
-
-
-// Card-level change form /////////////////////////////////////////////////////
-
-$('form.change-card-level select').change(function(e) {
-  var $body = $(e.currentTarget).parents('.accordion-body');
-  var $header = $body.prev('.accordion-header');
-
-  $body.addClass('warning');
-  $header.addClass('warning');
-});
-
-$('form.change-card-level').bind("ajax:success", function(xhr, data) {
-  var $body = $(xhr.currentTarget).parents('.accordion-body');
-  var $header = $body.prev('.accordion-header');
-
-  $body.removeClass('warning').addClass('success');
-  $header.removeClass('warning');
-
-  $header.find('.card-level-name').text(data.card_level.name);
-  $body.find('.card-preview').css('background-image', 'url(' + data.card_level.card_theme.landscape_background + ')');
-});
-
-$('form.change-card-level').bind("ajax:error", function(xhr, data) {
-  var $body = $(xhr.currentTarget).parents('.accordion-body');
-  var $header = $body.prev('.accordion-header');
-
-  $body.removeClass('warning').addClass('error');
-});
-
-
-// Status change form /////////////////////////////////////////////////////////
-
-$('form.change-card-status').bind('ajax:success', function(xhr, data) {
-  var $form = $(xhr.currentTarget),
-    $button = $form.find('input[type="submit"]'),
-      $row = $form.parents('tr'),
-        $rowHeader = $row.prev('.accordion-header'),
-          $cardStatus = $row.find('.card-status'),
-            otherLabels = { "Activate": "Deactivate", "Deactivate": "Activate", "Active": "Inactive", "Inactive": "Active" },
-              route = $form.attr('action');
-
-              if (/\/activate/.test(route)) {
-                route = route.replace(/\/activate/, '/deactivate');
-              } else {
-                route = route.replace(/\/deactivate/, '/activate');
-              }
-              $form.attr('action', route);
-              $button.val(otherLabels[$button.val()]);
-              $button.toggleClass('btn-warning btn-success');
-              $rowHeader.toggleClass('status-inactive status-active');
-              $cardStatus.text(otherLabels[$cardStatus.text()]);
-});
-
-$('form.change-card-status').bind('ajax:error', function(xhr, data) {
-  var $body = $(xhr.currentTarget).parents('tr');
-  $body.addClass('error');
-});
-
-// Approve Card form //////////////////////////////////////////////////////////
-
-$('form.approve-card').bind('ajax:success', function(xhr, data) {
-  var $form = $(xhr.currentTarget);
-  var $row = $form.parents('.pending-card');
-
-  $row.removeClass('error').addClass('success').fadeOut();
-});
-
-$('form.approve-card').bind('ajax:error', function(xhr, data){
-  var $form = $(xhr.currentTarget);
-  var $row = $form.parents('.pending-card');
-
-  $row.addClass('error');
-});
-
-
-// Reset PIN form /////////////////////////////////////////////////////////////
-$('form.send-pin-reset').bind('ajax:success', function(xhr, data) {
-  var message = data.success ? 'Cardholder PIN reset. SMS sent.' : 'An error occured when resetting PIN. Please contact support.'
-  window.alert(message);
-});
-
-// Reset PIN form /////////////////////////////////////////////////////////////
-$('form.resend-onboarding-sms').bind('ajax:success', function(xhr, data) {
-  var message = data.success ? 'Cardholder onboarding SMS re-sent.' : 'An error occured when re-sending the onboarding SMS. Please contact support.'
-  window.alert(message);
-});
-
-// Delete card form ///////////////////////////////////////////////////////////
-$('form.delete-card').bind('ajax:success', function(xhr, data) {
-  var $form = $(xhr.currentTarget);
-  var $row = $form.parents('tr');
-  var $prev_row = $row.prev();
-
-  $row.remove();
-  $prev_row.remove();
-});
-// Bulk Resent form /////////////////////////////////////////////////////////
-$(function(){
-  $('body').on('ajax:success', '.bulk-resend-onboarding-sms', function(e){
-    alert('Onboarding SMS Sent');
-  });
-});
