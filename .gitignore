@@ -22,3 +22,4 @@ config/application.yml
 .idea/*
 
 .rvmrc
+.DS_Store
