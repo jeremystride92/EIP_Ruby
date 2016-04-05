@@ -25,3 +25,4 @@ config/application.yml
 .DS_Store
 
 .rvmrc
+.DS_Store
