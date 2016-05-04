@@ -22,24 +22,24 @@ class CardholdersController < ApplicationController
 
   def index
     authorize! :read, Card
-    @pending_cards = find_cardholders().select(&:pending?)
+    @pending_cards = find_cardholders('cardholders.created_at DESC').select(&:pending?)
   end
 
   def approved_cards
     authorize! :read, Card
-    @approved_cards = find_cardholders().reject(&:pending?).reject {|c| c.cardholder.pending? }
+    @approved_cards = find_cardholders('cardholders.last_name ASC').reject(&:pending?).reject {|c| c.cardholder.pending? }
     render partial: "cardholders/approved_cards_table", layout: false
   end
   
   def pending_requests_cards
     authorize! :read, Card
-    @pending_cards = find_cardholders().select(&:pending?)
+    @pending_cards = find_cardholders('cardholders.created_at DESC').select(&:pending?)
     render partial: "cardholders/pending_requests_cards_table", layout: false
   end
 
   def pending_activation_cards
     authorize! :read, Card
-    @pending_activation_cards = find_cardholders().reject(&:pending?).select {|c| c.cardholder.pending? }
+    @pending_activation_cards = find_cardholders('cardholders.last_name ASC').reject(&:pending?).select {|c| c.cardholder.pending? }
     render partial: "cardholders/pending_activation_cards_table", layout: false
   end
   
@@ -218,8 +218,8 @@ class CardholdersController < ApplicationController
     cardholder
   end
 
-  def find_cardholders
-    cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order('cardholders.last_name ASC')
+  def find_cardholders(sort)
+    cards = @venue.cards.includes(:benefits, :redeemable_benefits, :cardholder, :issuer, :venue, card_level: [:card_theme]).joins(:cardholder).order(sort)
 
     if params["filter"].present?
       search_string = "%#{params['filter']}%".downcase
