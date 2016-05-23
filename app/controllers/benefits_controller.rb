@@ -86,6 +86,6 @@ class BenefitsController < ApplicationController
   end
 
   def promo_message_params
-    params.require(:benefit).require(:promotion_message).permit(:message)
+    params.require(:benefit).permit(:promotion_message).permit(:message)
   end
 end
