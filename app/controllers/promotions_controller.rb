@@ -101,7 +101,9 @@ class PromotionsController < ApplicationController
     case params[:commit]
     when 'Send Now'
       @cardholders.each do |cardholder|
-        SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        # PK Edits
+        # SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        SmsMailer.cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
       end
     when 'Schedule'
       if @promo_message.send_date_time < Time.current

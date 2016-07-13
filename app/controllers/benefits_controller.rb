@@ -43,7 +43,9 @@ class BenefitsController < ApplicationController
         cardholders = @card_level.cards.map(&:cardholder).uniq
 
         cardholders.each do |cardholder|
-          SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
+          # PK edit
+          # SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
+          SmsMailer.cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
         end
 
         notice += " #{pluralize cardholders.count, 'cardholder'} notified."

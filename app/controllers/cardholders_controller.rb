@@ -188,7 +188,9 @@ class CardholdersController < ApplicationController
 
   def send_onboarding_sms cardholder, venue
     authorize! :resend_onboarding_sms, cardholder
-    SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+    # PK Edits
+    # SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+    SmsMailer.cardholder_onboarding_sms(cardholder.id, venue.id)
 
   end
 
@@ -198,9 +200,13 @@ class CardholdersController < ApplicationController
       authorize! :create, cardholder.cards.last
 
       if cardholder.persisted?
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
+        # PK Edits
+        # cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
+        cardholder.save and SmsMailer.cardholder_new_card_sms(cardholder.id, venue.id)
       else
-        cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+        # PK Edits
+        # cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+        cardholder.save and SmsMailer.cardholder_onboarding_sms(cardholder.id, venue.id)
       end
 
       cardholder.cards.each do |card|

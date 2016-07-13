@@ -59,7 +59,9 @@ class TemporaryCard < ActiveRecord::Base
 
   def send_email_notification
     (venue.owners + venue.managers).each do |venue_admin|
-      PendingCardMailer.delay(retry: false).pending_card_email(self.class.to_s, self.id, venue_admin.id)
+      # PK Edits
+      # PendingCardMailer.delay(retry: false).pending_card_email(self.class.to_s, self.id, venue_admin.id)
+      PendingCardMailer.pending_card_email(self.class.to_s, self.id, venue_admin.id)
     end
   end
 end

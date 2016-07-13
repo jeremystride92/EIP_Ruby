@@ -22,7 +22,9 @@ class Kiosk::CardRequestsController < ApplicationController
     elsif @cardholder
       @cardholder.cards << card
       @cardholder.save
-      SmsMailer.delay(retry: false).card_request_confirmation_sms(@cardholder.id, @venue.id)
+      # PK Edits
+      # SmsMailer.delay(retry: false).card_request_confirmation_sms(@cardholder.id, @venue.id)
+      SmsMailer.card_request_confirmation_sms(@cardholder.id, @venue.id)
     else
       @cardholder = Cardholder.new params_for_cardholder
       @cardholder.cards << card
@@ -33,7 +35,9 @@ class Kiosk::CardRequestsController < ApplicationController
       if !@cardholder.save
         render 'new' and return
       else
-        SmsMailer.delay(retry: false).card_request_confirmation_sms(@cardholder.id, @venue.id)
+        # PK Edits
+        # SmsMailer.delay(retry: false).card_request_confirmation_sms(@cardholder.id, @venue.id)
+        SmsMailer.card_request_confirmation_sms(@cardholder.id, @venue.id)
       end
     end
 

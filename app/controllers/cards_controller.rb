@@ -101,7 +101,9 @@ class CardsController < ApplicationController
 
     if @card.update_attributes params_for_card
       @card.redeemable_benefit_allotment= card_level.allowed_redeemable_benefits_count
-      SmsMailer.delay(retry: false).card_level_change_sms(@card.cardholder_id, @card.card_level_id, @venue.id)
+      # PK Edits
+      # SmsMailer.delay(retry: false).card_level_change_sms(@card.cardholder_id, @card.card_level_id, @venue.id)
+      SmsMailer.card_level_change_sms(@card.cardholder_id, @card.card_level_id, @venue.id)
       respond_to :json
     else
       head :unprocessable_entity
@@ -126,7 +128,9 @@ class CardsController < ApplicationController
       new_benefits_count = (new_benefit_ids - old_benefit_ids).count
 
       if new_benefits_count > 0
-        SmsMailer.delay(retry: false).cardholder_new_benefit_sms(@card.cardholder_id, @venue.id, new_benefits_count)
+        # PK Edits
+        # SmsMailer.delay(retry: false).cardholder_new_benefit_sms(@card.cardholder_id, @venue.id, new_benefits_count)
+        SmsMailer.cardholder_new_benefit_sms(@card.cardholder_id, @venue.id, new_benefits_count)
       end
 
       respond_to do |format|
@@ -157,7 +161,9 @@ class CardsController < ApplicationController
     end
 
     if success
-      SmsMailer.delay(retry: false).cardholder_new_redeemable_benefit_sms(@card.cardholder_id, @venue.id, new_redeemable_benefit_count)
+      # PK Edits
+      # SmsMailer.delay(retry: false).cardholder_new_redeemable_benefit_sms(@card.cardholder_id, @venue.id, new_redeemable_benefit_count)
+      SmsMailer.cardholder_new_redeemable_benefit_sms(@card.cardholder_id, @venue.id, new_redeemable_benefit_count)
       redirect_to venue_cardholders_path, notice: "#{new_redeemable_benefit_count} redeemable benefits issued."
     else
       flash.now[:error] = 'An unknown error occurred. Please try again later.'
@@ -185,9 +191,13 @@ class CardsController < ApplicationController
 
     if @card.update_attributes(status: 'active', card_level: card_level, redeemable_benefit_allotment: card_level.allowed_redeemable_benefits_count, issuer: current_user, issued_at: Time.zone.now)
       if @card.cardholder.pending?
-        SmsMailer.delay(retry: false).cardholder_onboarding_sms(@card.cardholder.id, @venue.id)
-      else  
-        SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder.id, @venue.id)
+        # PK Edits
+        # SmsMailer.delay(retry: false).cardholder_onboarding_sms(@card.cardholder.id, @venue.id)
+        SmsMailer.cardholder_onboarding_sms(@card.cardholder.id, @venue.id)
+      else
+        # PK Edits
+        # SmsMailer.delay(retry: false).cardholder_new_card_sms(@card.cardholder.id, @venue.id)
+        SmsMailer.cardholder_new_card_sms(@card.cardholder.id, @venue.id)
       end
 
       head :no_content

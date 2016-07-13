@@ -13,7 +13,10 @@ ActiveAdmin.register Cardholder do
     Cardholder.find(selection).each do |cardholder|
       cardholder.generate_onboarding_token
       cardholder.save
-      SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, nil)
+
+      # PK Edit
+      # SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, nil)
+      SmsMailer.cardholder_onboarding_sms(cardholder.id, nil)
     end
     redirect_to :back, notice: "Messages queued for sending"
   end
