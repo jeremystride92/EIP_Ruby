@@ -24,8 +24,8 @@ class VenuesController < ApplicationController
       redirect_to new_venue_card_theme_path, notice: 'Business created! Now upload your card themes!'
       current_user.update_attributes venue_id: @venue.id
       # PK Edits
-      # AdminMailer.delay(retry: false).new_venue_email(@venue)
-      AdminMailer.new_venue_email(@venue)
+      AdminMailer.delay(retry: false).new_venue_email(@venue)
+      # AdminMailer.new_venue_email(@venue)
     else
       render :new
     end
