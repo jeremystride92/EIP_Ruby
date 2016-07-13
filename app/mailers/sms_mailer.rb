@@ -9,6 +9,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email'] # Needed to activate message (see https://github.com/rails/rails/pull/8048)
     self.message.delivery_handler = TextusSender.new(receiver: @cardholder.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def cardholder_new_card_sms(cardholder_id, venue_id)
@@ -17,6 +21,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email'] # Needed to activate message
     self.message.delivery_handler = TextusSender.new(receiver: @cardholder.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def cardholder_promotion_message(cardholder_id, venue_id, message)
@@ -26,17 +34,24 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: @venue.textus_credential, message: message)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def temp_card_sms(temp_card_id, venue_id, partner_id)
+
     @card = TemporaryCard.find(temp_card_id)
     @venue = Venue.find(venue_id)
     @partner = Partner.find(partner_id)
 
-    @link = $short_url_cache.shorten public_temporary_card_url(@card.access_token, subdomain: @venue.vanity_slug), skip_cache: true
-
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: @card.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def pin_reset_sms(cardholder_id)
@@ -48,6 +63,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def cardholder_new_benefit_sms(cardholder_id, venue_id, count)
@@ -58,6 +77,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def cardholder_new_redeemable_benefit_sms(cardholder_id, venue_id, count)
@@ -71,6 +94,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def card_request_confirmation_sms(cardholder_id, venue_id)
@@ -80,6 +107,10 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 
   def card_level_change_sms(cardholder_id, new_card_level_id, venue_id)
@@ -92,5 +123,9 @@ class SmsMailer < ActionMailer::Base
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: cardholder.international_phone_number, credentials: venue.textus_credential, message: render_to_string)
+
+    # PK addition. This function was supposed to be called on its own before.
+    self.message.delivery_handler.deliver_mail
+
   end
 end

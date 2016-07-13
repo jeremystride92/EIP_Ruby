@@ -26,3 +26,5 @@ config/application.yml
 
 .rvmrc
 .DS_Store
+
+.ftpconfig

@@ -14,7 +14,21 @@ EIPiD::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true #PkEMC was false
+
+
+  # PkEMC Addition
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { :host => "eipid.dev" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => '56914f13b8d9a0',
+    :password => '3c1fc7b37c2a11',
+    :address => 'mailtrap.io',
+    :domain => 'mailtrap.io',
+    :port => '2525',
+    :authentication => :cram_md5
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

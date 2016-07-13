@@ -28,9 +28,10 @@ class TemporaryCardsController < ApplicationController
 
 
   def batch_new
+
     @partner_locked = current_user.is_partner_account?
     if @partner_locked
-      @partner = current_user.partner 
+      @partner = current_user.partner
     else
       @partner = find_partner
     end
@@ -50,7 +51,7 @@ class TemporaryCardsController < ApplicationController
     phone_numbers = params_for_batch_phones[:phones].values.map(&:values).flatten
 
     @partner = current_user.get_partner { @venue.partners.find params[:batch][:partner] }
-    
+
     authorize! :create, @partner.temporary_cards.build
 
     cards = []
@@ -65,7 +66,11 @@ class TemporaryCardsController < ApplicationController
     end
 
     cards.each do |card|
-      card.save and SmsMailer.delay(retry: false).temp_card_sms(card.id, @venue.id, @partner.id)
+
+      # PK edits
+      card.save and SmsMailer.temp_card_sms(card.id, @venue.id, @partner.id)
+      #card.save and SmsMailer.delay(retry: false).temp_card_sms(card.id, @venue.id, @partner.id)
+
     end
 
     @problems = cards.reject &:persisted?
@@ -114,7 +119,7 @@ class TemporaryCardsController < ApplicationController
   end
 
   def find_partner
-    @partner = @venue.partners.find params[:partner_id] if params[:partner_id].present? 
+    @partner = @venue.partners.find params[:partner_id] if params[:partner_id].present?
   end
 
   def find_temporary_card

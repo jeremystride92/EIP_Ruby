@@ -30,7 +30,7 @@ class CardholdersController < ApplicationController
     @approved_cards = find_cardholders('cardholders.last_name ASC').reject(&:pending?).reject {|c| c.cardholder.pending? }
     render partial: "cardholders/approved_cards_table", layout: false
   end
-  
+
   def pending_requests_cards
     authorize! :read, Card
     @pending_cards = find_cardholders('cardholders.created_at DESC').select(&:pending?)
@@ -42,7 +42,7 @@ class CardholdersController < ApplicationController
     @pending_activation_cards = find_cardholders('cardholders.last_name ASC').reject(&:pending?).select {|c| c.cardholder.pending? }
     render partial: "cardholders/pending_activation_cards_table", layout: false
   end
-  
+
   def batch_new
     authorize! :create, @card_level.cards.build
   end
@@ -50,7 +50,7 @@ class CardholdersController < ApplicationController
   def batch_create
     if params[:cardholders].nil?
       flash[:error] = "No Cardholders Specified"
-      authorize! :create, @card_level.cards.build 
+      authorize! :create, @card_level.cards.build
       render :batch_new and return
     end
 
@@ -189,6 +189,7 @@ class CardholdersController < ApplicationController
   def send_onboarding_sms cardholder, venue
     authorize! :resend_onboarding_sms, cardholder
     SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+
   end
 
 
