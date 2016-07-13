@@ -41,10 +41,11 @@ class SmsMailer < ActionMailer::Base
   end
 
   def temp_card_sms(temp_card_id, venue_id, partner_id)
-
     @card = TemporaryCard.find(temp_card_id)
     @venue = Venue.find(venue_id)
     @partner = Partner.find(partner_id)
+
+    @link = $short_url_cache.shorten public_temporary_card_url(@card.access_token, subdomain: @venue.vanity_slug), skip_cache: true
 
     mail to: ENV['site_email']
     self.message.delivery_handler = TextusSender.new(receiver: @card.international_phone_number, credentials: @venue.textus_credential, message: render_to_string)
