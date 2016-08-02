@@ -5,9 +5,9 @@ class ShortUrlCache
 
   def shorten(url, skip_cache: false, **options)
     if skip_cache
-      Bitly.client.shorten(url, options).short_url
+      Googl.shorten_url(url)
     else
-      search_cache(url) || add_to_cache(url, Bitly.client.shorten(url, options).short_url)
+      search_cache(url) || add_to_cache(url, Googl.shorten_url(url))
     end
   end
 
