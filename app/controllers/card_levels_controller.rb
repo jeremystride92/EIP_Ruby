@@ -12,7 +12,6 @@ class CardLevelsController < ApplicationController
     end
   end
 
-
   def new
     @card_level = @venue.card_levels.build
     authorize! :create, @card_level
