@@ -191,9 +191,7 @@ class CardholdersController < ApplicationController
     # PK Edits
     # SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
     SmsMailer.cardholder_onboarding_sms(cardholder.id, venue.id)
-
   end
-
 
   def save_and_send_cardholders!(cardholders, venue)
     cardholders.each do |cardholder|

@@ -35,7 +35,34 @@ class CardLevel < ActiveRecord::Base
 
   def update_card_redeemable_benefit_allotments
     if benefit_change != 0
-      cards.each { |card| card.redeemable_benefit_allotment += benefit_change }
+      transaction do
+        card_bene_allotments = cards.collect{|c| {card_id: c.id, allotment: c.redeemable_benefit_allotment}} 
+
+        #expire active items
+        self.redeemable_benefits.where("source='card_level' AND 
+                                      (start_date IS NULL OR start_date <= ?) AND 
+                                      (end_date IS NULL OR end_date >= ?)", Time.zone.now(), Time.zone.now())
+          .update_all(end_date: Time.zone.now())
+
+        #add new active items (in batches)
+        rbenes = []
+        batch_size = 1000
+        cards.each do | card |
+          if card.persisted?
+            old_allotment = card_bene_allotments.select{|allot| allot[:card_id] == card.id}.first[:allotment]
+            num = [old_allotment + benefit_change, 0].max
+            num.times do |x|
+              rbenes << RedeemableBenefit.new(source: :card_level, card: card)
+            end
+
+            if rbenes.size >= batch_size
+              RedeemableBenefit.import rbenes 
+              rbenes = []
+            end
+          end
+        end
+        RedeemableBenefit.import rbenes 
+      end
     end
   end
 
@@ -54,7 +81,7 @@ class CardLevel < ActiveRecord::Base
 
       new_position = 1 if new_position < 1;
       new_position = levels.count + 1 if new_position > levels.count + 1
-      
+
       levels.insert(new_position - 1, self)
       levels.each_with_index do |level, index|
         level.update_attribute :sort_position, index + 1 
