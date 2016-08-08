@@ -36,9 +36,7 @@ class User < ActiveRecord::Base
   end
 
   def send_activation_email
-    # PK Edits
     BusinessOnboardMailer.delay(retry: false).onboard_email(self.id)
-    # BusinessOnboardMailer.onboard_email(self.id)
   end
 
   def send_password_reset_email!
@@ -48,9 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def send_password_reset_email
-    # PK Edits
     PasswordResetMailer.delay(retry: false).password_reset_email(self.id)
-    # PasswordResetMailer.password_reset_email(self.id)
   end
 
   def is_partner_account?

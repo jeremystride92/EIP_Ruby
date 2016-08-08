@@ -172,13 +172,13 @@ class CardholdersController < ApplicationController
   end
 
   def resend_onboarding_sms
-    send_onboarding_sms @cardholder, @venue
+    send_onboarding_sms [@cardholder], @venue
     render json: { success: true }
   end
 
   def bulk_resend_onboarding_sms
     cardholders = @venue.cardholders.where(status: 'pending')
-    cardholders.each { |cardholder| send_onboarding_sms cardholder, @venue}
+    send_onboarding_sms cardholders, @venue
 
     authorize! :resend_onboarding_sms, Cardholder
     render json: { success: true }
@@ -186,32 +186,32 @@ class CardholdersController < ApplicationController
 
   private
 
-  def send_onboarding_sms cardholder, venue
-    authorize! :resend_onboarding_sms, cardholder
-    # PK Edits
-    # SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
-    SmsMailer.cardholder_onboarding_sms(cardholder.id, venue.id)
-
+  def send_onboarding_sms cardholders, venue
+    time = Time.zone.now
+    cardholders.each do |cardholder|
+      authorize! :resend_onboarding_sms, cardholder
+      SmsMailer.delay_until(time, retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
+      time += (Constants::TextUsMsgDelay).seconds
+    end 
   end
 
 
   def save_and_send_cardholders!(cardholders, venue)
+    time = Time.zone.now
     cardholders.each do |cardholder|
       authorize! :create, cardholder.cards.last
 
       if cardholder.persisted?
-        # PK Edits
-        # cardholder.save and SmsMailer.delay(retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
-        cardholder.save and SmsMailer.cardholder_new_card_sms(cardholder.id, venue.id)
+        cardholder.save and SmsMailer.delay_until(time, retry: false).cardholder_new_card_sms(cardholder.id, venue.id)
       else
-        # PK Edits
-        # cardholder.save and SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
-        cardholder.save and SmsMailer.cardholder_onboarding_sms(cardholder.id, venue.id)
+        cardholder.save and SmsMailer.delay_until(time, retry: false).cardholder_onboarding_sms(cardholder.id, venue.id)
       end
 
       cardholder.cards.each do |card|
         card.update_attributes redeemable_benefit_allotment: card.card_level.allowed_redeemable_benefits_count
       end
+
+      time += (Constants::TextUsMsgDelay).seconds
     end
   end
 

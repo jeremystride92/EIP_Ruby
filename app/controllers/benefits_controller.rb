@@ -42,10 +42,10 @@ class BenefitsController < ApplicationController
       if promo_message_params[:message].present?
         cardholders = @card_level.cards.map(&:cardholder).uniq
 
+        time = Time.zone.now
         cardholders.each do |cardholder|
-          # PK edit
-          # SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
-          SmsMailer.cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
+          SmsMailer.delay_until(time, retry: false).cardholder_promotion_message(cardholder.id, @venue.id, promo_message_params[:message])
+          time += (Constants::TextUsMsgDelay).seconds
         end
 
         notice += " #{pluralize cardholders.count, 'cardholder'} notified."

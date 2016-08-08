@@ -12,7 +12,7 @@ class TextusSender
     @encCreds = Base64.encode64("#{@credentials.username}:#{@credentials.api_key}")
   end
 
-  def deliver_mail(mail: nil)
+  def deliver_mail(mail)
 
     # HTTParty.post("https://app.textus.com:443/api/messages",
     # body: {

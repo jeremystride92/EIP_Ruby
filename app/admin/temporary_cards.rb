@@ -12,21 +12,17 @@ ActiveAdmin.register TemporaryCard do
   end
 
   batch_action :resend_sms_to do |selection|
+    time = Time.zone.now
     TemporaryCard.find(selection).each do |card|
-      # PK Edit
-      # SmsMailer.delay(retry: false).temp_card_sms(card.id, card.venue.id, card.partner.id)
-      SmsMailer.temp_card_sms(card.id, card.venue.id, card.partner.id)
+      SmsMailer.delay_until(time, retry: false).temp_card_sms(card.id, card.venue.id, card.partner.id)
+      time += (Constants::TextUsMsgDelay).seconds
     end
     redirect_to :back, notice: "#{selection.length} #{'message'.pluralize(selection.length)} queued for delivery"
   end
 
   member_action :resend_sms, method: :post do
     card = TemporaryCard.find(params[:id])
-
-    # PK Edit
-    # SmsMailer.delay(retry: false).temp_card_sms(card.id, card.venue.id, card.partner.id)
-    SmsMailer.temp_card_sms(card.id, card.venue.id, card.partner.id)
-    
+    SmsMailer.delay(retry: false).temp_card_sms(card.id, card.venue.id, card.partner.id)
     redirect_to :back, notice: "Message to #{card.phone_number} queued for delivery"
   end
 

@@ -100,10 +100,10 @@ class PromotionsController < ApplicationController
 
     case params[:commit]
     when 'Send Now'
+      time = Time.zone.now
       @cardholders.each do |cardholder|
-        # PK Edits
-        # SmsMailer.delay(retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
-        SmsMailer.cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        SmsMailer.delay_until(time, retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        time += (Constants::TextUsMsgDelay).seconds
       end
     when 'Schedule'
       if @promo_message.send_date_time < Time.current
@@ -111,8 +111,10 @@ class PromotionsController < ApplicationController
         render :promote and return
       end
 
+      time = @promo_message.send_date_time
       @cardholders.each do |cardholder|
-        SmsMailer.delay_until(@promo_message.send_date_time, retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        SmsMailer.delay_until(time, retry: false).cardholder_promotion_message(cardholder.id, @venue.id, @promo_message.message)
+        time += (Constants::TextUsMsgDelay).seconds
       end
     end
   end

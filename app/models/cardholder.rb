@@ -95,9 +95,7 @@ class Cardholder < ActiveRecord::Base
 
 
   def send_pin_reset_sms
-    # PK Edits
-    # SmsMailer.delay(retry: false).pin_reset_sms(self.id)
-    SmsMailer.pin_reset_sms(self.id)
+    SmsMailer.delay(retry: false).pin_reset_sms(self.id)
   end
 
   def set_default_status

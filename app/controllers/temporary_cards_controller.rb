@@ -65,12 +65,10 @@ class TemporaryCardsController < ApplicationController
       end
     end
 
+    time = Time.zone.now
     cards.each do |card|
-
-      # PK edits
-      card.save and SmsMailer.temp_card_sms(card.id, @venue.id, @partner.id)
-      #card.save and SmsMailer.delay(retry: false).temp_card_sms(card.id, @venue.id, @partner.id)
-
+      card.save and SmsMailer.delay_until(time, retry: false).temp_card_sms(card.id, @venue.id, @partner.id)
+      time += (Constants::TextUsMsgDelay).seconds
     end
 
     @problems = cards.reject &:persisted?

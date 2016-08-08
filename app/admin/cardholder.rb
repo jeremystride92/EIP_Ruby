@@ -10,13 +10,13 @@ ActiveAdmin.register Cardholder do
   end
 
   batch_action :send_activation_messages_to do |selection|
+    time = Time.zone.now
     Cardholder.find(selection).each do |cardholder|
       cardholder.generate_onboarding_token
       cardholder.save
 
-      # PK Edit
-      # SmsMailer.delay(retry: false).cardholder_onboarding_sms(cardholder.id, nil)
-      SmsMailer.cardholder_onboarding_sms(cardholder.id, nil)
+      SmsMailer.delay_until(time, retry: false).cardholder_onboarding_sms(cardholder.id, nil)
+      time += (Constants::TextUsMsgDelay).seconds
     end
     redirect_to :back, notice: "Messages queued for sending"
   end
