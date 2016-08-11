@@ -19,6 +19,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'rabl-rails'
 
 gem 'rails_autolink'
+gem 'activerecord-import', '~> 0.3.1'
 
 gem 'carrierwave'
 gem 'mini_magick'

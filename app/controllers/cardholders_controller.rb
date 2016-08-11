@@ -195,7 +195,6 @@ class CardholdersController < ApplicationController
     end 
   end
 
-
   def save_and_send_cardholders!(cardholders, venue)
     time = Time.zone.now
     cardholders.each do |cardholder|

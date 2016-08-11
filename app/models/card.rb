@@ -68,18 +68,15 @@ class Card < ActiveRecord::Base
   end
 
   def redeemable_benefit_allotment= (num)
-
     transaction do
       #expire active items
       self.redeemable_benefits.where(source: :card_level).select(&:active?).each(&:expire!)
 
-      num = [num, 0].max
       #add new active items
+      num = [num, 0].max
       self.redeemable_benefits.build ([{ source: :card_level, card: self }] * num)
       self.redeemable_benefits.each &:save! if persisted?
-
     end
-
   end
 
   def total_redeemable_benefit_allotment
